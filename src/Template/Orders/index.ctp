@@ -31,8 +31,8 @@
 						$class2="btn btn-xs blue";
 					}
 					 ?> 
-						<?php echo $this->Html->link('Pending',['controller'=>'Orders','action' => 'index?status=process'],['escape'=>false,'class'=>$class1]); ?>
-						<?php echo $this->Html->link('All',['controller'=>'Orders','action' => 'index'],['escape'=>false,'class'=>$class2]); ?>&nbsp;
+						<!-- <?php echo $this->Html->link('Pending',['controller'=>'Orders','action' => 'index?status=process'],['escape'=>false,'class'=>$class1]); ?> -->
+						<!-- <?php echo $this->Html->link('All',['controller'=>'Orders','action' => 'index'],['escape'=>false,'class'=>$class2]); ?>&nbsp; -->
 				
 				</div>
 			<div class="portlet-body">
@@ -139,6 +139,8 @@
 						 
 						$current_date=date('d-m-Y');
 						$status=$order->status;
+						$order_id=$order->id;
+
 						?>
 						<tr <?php if(($status=='In Process') || ($status=='In process')){ ?>style="background-color:#ffe4e4; "<?php } ?> >
 							<td><?= ++$page_no ?></td>
@@ -166,18 +168,28 @@
 							<td><?= h($status) ?></td>
 							
 							<td class="actions">
-							<?php  if(($status=='In Process') ){ ?>
-							   <!--a class="btn blue btn-xs get_orders" order_id="<?php //echo $order->id; ?>" ><i class="fa fa-shopping-cart"></i> Deliver</a-->
-							   <a class="btn blue btn-xs dlvr" order_id="<?php echo $order->id; ?>" > <i class="fa fa-shopping-cart"></i> Placed</a>
+							<?php  if($status=='In Process'){ ?>
+							   <?php echo $this->Html->link('Placed',['controller'=>'Orders','action' => 'placed',$order_id],['escape'=>false,'class'=>'btn blue btn-xs']); ?>
 							   <a class="btn red btn-xs cncl" order_id="<?php echo $order->id; ?>" > <i class="fa fa-remove"></i> Cancel</a>
 							   
 							<?php } ?> 
-							<?php  if(($status=='cancel') || ($status=='Cancel') || ($status=='Delivered')){ 
-							       if(( $order_date == $current_date ) || ($order_date == $prev_date  )){
-							?>
-								<a class="btn green btn-xs undo" order_id="<?php echo $order->id; ?>" ><i class="fa fa-undo"></i> Mark as <b>In Process</b></a>
-								
-							<?php } }?>
+							<?php  if($status=='Packed'){ ?>
+							   <?php echo $this->Html->link('Packed',['controller'=>'Orders','action' => 'packed',$order_id],['escape'=>false,'class'=>'btn blue btn-xs']); ?>
+							   <a class="btn red btn-xs cncl" order_id="<?php echo $order->id; ?>" > <i class="fa fa-remove"></i> Cancel</a>
+							   
+							<?php } ?> 
+							<?php  if($status=='Dispatch'){ ?>
+							   <?php echo $this->Html->link('Dispatch',['controller'=>'Orders','action' => 'dispatch',$order_id],['escape'=>false,'class'=>'btn blue btn-xs']); ?>
+							   <a class="btn red btn-xs cncl" order_id="<?php echo $order->id; ?>" > <i class="fa fa-remove"></i> Cancel</a>
+							   
+							<?php } ?> 
+							<?php  if($status=='Delivered'){ ?>
+							   <?php echo $this->Html->link('Delivered',['controller'=>'Orders','action' => 'placed',$order_id],['escape'=>false,'class'=>'btn blue btn-xs']); ?>
+							   <a class="btn red btn-xs cncl" order_id="<?php echo $order->id; ?>" > <i class="fa fa-remove"></i> Cancel</a>
+							   
+							<?php } ?> 
+							
+							
 							</td>
 							<?php  if(($status=='In Process') || ($status=='In process')){ 
 							if(( $order_date == $current_date ) || ($order_date == $prev_date  )){?>

@@ -1,128 +1,106 @@
-<?php $this->set('title', 'FAQ'); ?>
-<div class="page-content-wrap">
-            
-    <div class="row">
-        <div class="col-md-4">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">ADD FAQ</h3>
-                </div>
-                <?= $this->Form->create($faq,['id'=>"jvalidate"]) ?>
-                <div class="panel-body">
-                    <div class="form-group">
-                        <label>Question</label>
-                        <?= $this->Form->control('question',['class'=>'form-control','placeholder'=>'Question ','label'=>false]) ?>
-                        <span class="help-block"></span>
-                    </div>
-                    <div class="form-group">
-                        <label>Answer</label>
-                        <?= $this->Form->control('answer',['class'=>'form-control','placeholder'=>'Answer ','label'=>false]) ?>
-                        <span class="help-block"></span>
-                    </div>
-                    
-                </div>      
-               <div class="panel-footer">
-                 <center>
-                        <?= $this->Form->button(__('Submit'),['class'=>'btn btn-success']) ?>
-                 </center>
-               </div>   
-               <?= $this->Form->end() ?>
-            </div>
-        </div>
+<style>
+.table>thead>tr>th{
+    font-size:12px !important;
+}
+</style>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="font-purple-intense"></i>
+                    <span class="caption-subject font-purple-intense ">
+                        <i class="fa fa-plus"></i> Temporary Orders
+                    </span>
+                    <?php
+                    echo $this->Html->link('Print',array(),['escape'=>false,'class'=>'btn  blue hidden-print fa fa-print','onclick'=>'javascript:window.print();','style'=>'margin-left : 800px;']);
     
-        <div class="col-md-8">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">LIST FAQ</h3>
-                <div class="pull-right">
-                    <!-- <div class="pull-left">
-                        <?= $this->Form->create('Search',['type'=>'GET']) ?>
-                        <?= $this->Html->link(__('<span class="fa fa-plus"></span> Add New'), ['action' => 'add'],['style'=>'margin-top:-30px !important;','class'=>'btn btn-success','escape'=>false]) ?>
-                        <div class="form-group" style="display:inline-table">
-                            <div class="input-group">
-                                <div class="input-group-addon">
-                                    <span class="fa fa-search"></span>
-                                </div>
-                                <?= $this->Form->control('search',['class'=>'form-control','placeholder'=>'Search...','label'=>false]) ?>
-                                <div class="input-group-btn">
-                                    <?= $this->Form->button(__('Search'),['class'=>'btn btn-primary']) ?>
-                                </div>
-                            </div>
-                        </div>
-                        <?= $this->Form->end() ?>
-                    </div>  -->
-                </div>   
+                    ?>
+                </div>
+               
             </div>
+            <div class="portlet-body">
+        <?php 
+            foreach ($temps as $temp) {
+               
+                ?>
+
+        <table width="100%" style="margin-top: 20px;">    
+            
+            <tbody>
+                <tr style="background-color:#fff; color:#000;">
+                    <td align="left" colspan="5">
+                        <b>
+                            Order No.: <?= $temp->order->order_no ?>
+                        </b>
+                    </td>
+                </tr>
+            </table>
+            <table width="100%">
+                <thead>
+                <tr style="background-color:#F98630; color:#fff;">
+                    <th style="text-align:right;">#</th>
+                    <th style="text-align:left;">Item Name</th>
+                    <th style="text-align:left;">Variation</th>
+                    <th style="text-align:center;">QTY</th>
+                </tr>
+                </thead>
                 
-            <div class="panel-body">
-                <?php $page_no=$this->Paginator->current('delivery_charges'); $page_no=($page_no-1)*20; ?>
-                <div class="table-responsive">
-                        <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th><?= ('SN.') ?></th>
-                                        <th><?= ('Question') ?></th>
-                                        <th><?= ('Answer') ?></th>
-                                        <th scope="col" class="actions"><?= __('Actions') ?></th>
-                                    </tr>
-                                </thead>
-                           <tbody>                                            
-                                <?php 
-                                $i = $paginate_limit*($this->Paginator->counter('{{page}}')-1);
-                                foreach ($faqs as $faq_data): ?>
-                                <tr>
-                                    <td><?= $this->Number->format(++$i) ?></td>
-                                    <td><?= h($faq_data->question) ?></td>
-                                    <td><?= h($faq_data->answer) ?></td>
-                                    <td class="actions">
-                                    
-                                        <?php
-                                            $faq_data_id = $faq_data->id;
-                                        ?>
-                                        
-                                        <?= $this->Html->link(__('<span class="fa fa-pencil"></span>'), ['action' => 'index', $faq_data_id],['class'=>'btn btn-primary  btn-condensed btn-sm','escape'=>false]) ?>
-                                        <?= $this->Form->postLink('<span class="fa fa-trash"></span>', ['action' => 'delete', $faq_data_id], ['class'=>'btn btn-danger btn-condensed btn-sm red','confirm' => __('Are you sure you want to delete?'),'escape'=>false]) ?>
-                                    </td>
-                                </tr>
-                                <?php endforeach; ?>
-                           </tbody>
-                    </table>
-                </div>       
-            </div>      
-               <div class="panel-footer">
-                        <div class="paginator pull-right">
-                                <ul class="pagination">
-                                <?= $this->Paginator->first(__('First')) ?>
-                                <?= $this->Paginator->prev(__('Previous')) ?>
-                                <?= $this->Paginator->numbers() ?>
-                                <?= $this->Paginator->next(__('Next')) ?>
-                                <?= $this->Paginator->last(__('Last')) ?>
-                                </ul>
-                                <p><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></p>
-                        </div>
-               </div>              
+                <?php
+                foreach($temp->order->order_details as $order_detail ){ 
+                    @$i++;
+                    $show_variation=$order_detail->item_variation->quantity_variation.' '.$order_detail->item_variation->unit->shortname;
+                    $quantity=$order_detail->quantity;
+                    $actual_quantity=$order_detail->actual_quantity;
+                    $minimum_quantity_factor=$order_detail->item->minimum_quantity_factor;
+                    $unit_name=$order_detail->item_variation->unit->unit_name;
+                    $image=$order_detail->item->image;
+                    $item_name=$order_detail->item->name;
+                    $sales_rate=$order_detail->rate;
+                    $alias_name=$order_detail->item->alias_name;
+                    $show_quantity=$quantity;
+                    if(!empty($actual_quantity)){
+                    $show_actual_quantity=$actual_quantity;
+                    }
+                    else{
+                    $show_actual_quantity='-';
+                    }
+                    $amount=$order_detail->amount;
+                    @$total_rate+=$amount;
+                    if(!empty($alias_name)){
+                        $show_item=$item_name.' ('.$alias_name.')';
+                    }else{
+                        $show_item=$item_name;
+                    } ?>
+                <tr style="background-color:#fff;">
+                    <td align="right"><?= $i ?></td>
+                    <td style="text-align:left;"><?= h($show_item) ?></td>
+                    <td style="text-align:left;"><?= h($show_variation) ?></td>
+                    <td style="text-align:center;"><?= h($show_quantity) ?></td>
+                </tr>
+                <?php } ?>
+            </tbody>
+            
+        </table>
+    <?php } ?>
             </div>
         </div>
     </div>
 </div>
-
-<?= $this->Html->script('plugins/bootstrap/bootstrap-select.js',['block'=>'jsSelect']) ?>
-<?= $this->Html->script('plugins/jquery-validation/jquery.validate.js',['block'=>'jsValidate']) ?>
-<?php
-   $js='var jvalidate = $("#jvalidate").validate({
-        ignore: [],
-        rules: {                                            
-                question: {
-                        required: true,
-                },
-                answer: {
-                        required: true,
-                },
-                // city_id: {
-                //         required: true,
-                // },
-            }                                        
-        });';  
-echo $this->Html->scriptBlock($js, array('block' => 'scriptBottom'));       
-?>
- 
+<?php echo $this->Html->script('/assets/global/plugins/jquery.min.js'); ?>
+<script>
+var $rows = $('#main_tble tbody tr');
+    $('#search3').on('keyup',function() {
+        var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+        var v = $(this).val();
+        if(v){ 
+            $rows.show().filter(function() {
+                var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+    
+                return !~text.indexOf(val);
+            }).hide();
+        }else{
+            $rows.show();
+        }
+    });
+</script>
