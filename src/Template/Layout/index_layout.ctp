@@ -137,7 +137,7 @@
 				<!-- BEGIN LOGO -->
 				<div class="page-logo" style="padding-top:2px;padding-bottom:2px; width: auto;">
 					<!-- <?php echo $this->Html->image('/img/jainthela.png', ['height' => '40px']); ?> -->
-					<span><?php echo $this->Html->image('/img/login_logo.png', ['height' => '40px']); ?></span>
+					<span><?php echo $this->Html->image('/img/208.png', ['height' => '40px']); ?></span>
 				</div>
 				<!-- End LOGO -->
 				<div class="hor-menu hidden-sm hidden-xs">
@@ -344,7 +344,7 @@
 								</ul>
 							</li>
 							<li>
-								<?php echo $this->Html->link('<i class="fa fa-reorder"></i> <span>Manage Orders</span>',array('controller'=>'Orders','action'=>'index?status=process'),['escape'=>false]); ?>
+								<?php echo $this->Html->link('<i class="fa fa-reorder"></i> <span>Manage Orders</span>',array('controller'=>'Orders','action'=>'index'),['escape'=>false]); ?>
 							</li>
 							<li>
 								<?php echo $this->Html->link('<i class="fa fa-reorder"></i> <span>Order List</span>',array('controller'=>'Orders','action'=>'orderList?status=process'),['escape'=>false]); ?>

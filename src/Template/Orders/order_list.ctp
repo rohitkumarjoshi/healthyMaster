@@ -20,7 +20,7 @@
 					<span class="caption-subject font-purple-intense ">
 						<i class="fa fa-book"></i> Order</span>
 				</div>
-				<div class="actions">
+				<!-- <div class="actions">
 					<?php if($status=='process'){
 						$class1="btn btn-xs blue";
 						$class2="btn btn-default";
@@ -34,7 +34,7 @@
 
 					<?php echo $this->Html->link('Dispatch',['controller'=>'Orders','action' => 'orderList?status=dispatch'],['escape'=>false,'class'=>$class1]); ?>
 					<?php echo $this->Html->link('Delivered',['controller'=>'Orders','action' => 'orderList?status=delivered'],['escape'=>false,'class'=>$class1]); ?>
-				</div>
+				</div> -->
 			<?= $this->Form->create($order,['id'=>'form_sample_3']) ?>
 			<?php $page_no=$this->Paginator->current('Orders'); $page_no=($page_no-1)*20; ?>
 				<table class="table table-condensed table-hover table-bordered" id="main_tble">
@@ -51,7 +51,6 @@
 							<th scope="col">Delivery Date</th>
 							
 							<th scope="col">Status</th>
-							<th scope="col">Edit</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -108,17 +107,7 @@
 							<td><?= h($status) ?></td>
 							
 							
-							<?php  if(($status=='In Process') || ($status=='In process')){ 
-							if(( $order_date == $current_date ) || ($order_date == $prev_date  )){?>
-								<td>
-									<?= $this->Html->link(__('Edit'), ['action' => 'edit', $order->id]) ?>
-								
-								</td>
-							<?php 	}else{ ?>
-								<td></td>
-							<?php }}else {?>
-								<td></td>
-							 <?php } ?>
+							
 							
 						</tr>
 						<?php endforeach; ?>
