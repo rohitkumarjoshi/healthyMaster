@@ -23,7 +23,7 @@
             foreach ($temps as $temp) {
                
                 ?>
-    <div style="border: solid 1px #e5e5e5;margin-top: 20px;">
+    <div style="border: solid 1px #e5e5e5;margin-top: 20px;padding: 15px;">
         <table width="100%">    
             
             <tbody>
