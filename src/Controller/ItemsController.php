@@ -223,9 +223,19 @@ class ItemsController extends AppController
 			// }
 			if ($this->Items->save($item)) {
 				if(!empty($file_name)){
-					if (in_array($ext, $arr_ext)) {
-					move_uploaded_file($file['tmp_name'], WWW_ROOT . 'img/item_images/'.$img_name);
-					}   
+					 if (in_array($ext, $arr_ext)) {
+                         $destination_url = WWW_ROOT . 'img/temp/'.$img_name;
+                        if($ext=='png'){
+                        $image = imagecreatefrompng($file['tmp_name']);
+                        }else{
+                        $image = imagecreatefromjpeg($file['tmp_name']);
+                        }
+                        imagejpeg($image, $destination_url, 10);
+                        $keyname1 = 'item_images/'.$img_name;
+                        $this->AwsFile->putObjectFile($keyname1,$destination_url,$file['type']);
+            
+                    //move_uploaded_file($file['tmp_name'], WWW_ROOT . 'img/item_images/'.$img_name);
+                  } 
 				}
                 $this->Flash->success(__('The item has been saved.'));	
                 return $this->redirect(['action' => 'index']);
