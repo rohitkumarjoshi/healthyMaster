@@ -1172,10 +1172,11 @@ class OrdersController extends AppController
 
        // $promoCodes = $this->Orders->PromoCodes->find('list');
 	   if($order_type == 'Bulkorder'){
-		   $item_fetchs = $this->Orders->Items->find()->where(['Items.freeze'=>0,'is_combo'=>'no','is_virtual'=>'no']);
+		   $item_fetchs = $this->Orders->Items->find()->where(['Items.freeze'=>0,'is_combo'=>'no','is_virtual'=>'no'])->contain(['GstFigures']);
 	   }else{
-		$item_fetchs = $this->Orders->Items->find()->where(['Items.freeze'=>0, 'Items.ready_to_sale' => 'Yes']);
+		$item_fetchs = $this->Orders->Items->find()->where(['Items.freeze'=>0, 'Items.ready_to_sale' => 'Yes'])->contain(['GstFigures']);
 	   }
+	  // pr($item_fetchs->toArray()); exit;
 		foreach($item_fetchs as $item_fetch){
 			$item_name=$item_fetch->name;
 			$alias_name=$item_fetch->alias_name;
@@ -1187,10 +1188,10 @@ class OrdersController extends AppController
 			$minimum_quantity_purchase=$item_fetch->minimum_quantity_purchase;
 			$is_combo=$item_fetch->is_combo;
 			
-			$items[]= ['value'=>$item_fetch->id,'text'=>$item_name." (".$alias_name.")", 'print_quantity'=>$print_quantity, 'rates'=>$rates,'sales_rate' =>$sales_rates,'minimum_quantity_factor'=>$minimum_quantity_factor, 'unit_name'=>$unit_name, 'minimum_quantity_purchase'=>$minimum_quantity_purchase,'is_combo' => $is_combo];
+			$items[]= ['value'=>$item_fetch->id,'text'=>$item_name." (".$alias_name.")", 'print_quantity'=>$print_quantity, 'rates'=>$rates,'sales_rate' =>$sales_rates,'minimum_quantity_factor'=>$minimum_quantity_factor, 'unit_name'=>$unit_name, 'minimum_quantity_purchase'=>$minimum_quantity_purchase,'is_combo' => $is_combo,'gst_figure_id'=>@$item_fetch->gst_figure_id,'gst_name'=>@$item_fetch->gst_figure->name,'tax_percentage'=>@$item_fetch->gst_figure->tax_percentage];
 		}
 		$this->loadModel('BulkBookingLeads');
-		
+		//pr($items); exit;
         $bulk_Details = $this->BulkBookingLeads->find()->where(['id' => $bulkorder_id])->toArray();
 		$warehouses = $this->Orders->Warehouses->find('list')->where(['jain_thela_admin_id' => $jain_thela_admin_id]);
 		$item = $this->Orders->items->find('list')->where(['Items.freeze'=>0]);

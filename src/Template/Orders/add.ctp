@@ -109,6 +109,7 @@ background-color: #fff;}
 									<td width="30%">
 										<label>item<label>
 									</td>
+									
 									<td width="20%">
 										<label>Variation<label>
 									</td>
@@ -119,7 +120,13 @@ background-color: #fff;}
 										<label>Rate<label>
 									</td>
 									<td width="20%">
-										<label>Amount<label>
+										<label>Taxable amount<label>
+									</td>
+									<td width="20%">
+										<label>Gst Amount<label>
+									</td>
+									<td width="20%">
+										<label>Net Amount<label>
 									</td>
 									<td>Delete</td>
 								</tr>
@@ -252,7 +259,7 @@ $(document).ready(function() {
 	});
 
 	$(document).on('change','.item-id',function(){
-		//alert();
+		var raw_attr_name = $('option', this).attr('print_quantity');
         var input=$(this).val();
         var master = $(this); 
         master.closest('tr').find("td:nth-child(3) .varition option").remove();
@@ -808,6 +815,13 @@ function selectAutoCompleted1(value) {
 						<?php echo $this->Form->input('amount', ['label' => false,'class' => 'form-control input-sm number cal_amount show_amount','placeholder'=>'Amount','readonly','value'=>0]); ?>	
 						<?php echo $this->Form->input('is_combo', ['label' => false,'class' => 'form-control input-sm is_combo','type'=>'hidden']); ?>
 					</td>	
+					<td>
+						<?php echo $this->Form->input('gst_amount', ['label' => false,'class' => 'form-control input-sm number cal_amount gst_amount']); ?>	
+						<?php echo $this->Form->input('gst_figure_id', ['label' => false,'class' => 'form-control input-sm gst_figure_id','type'=>'hidden']); ?>
+					</td>
+					<td>
+						<?php echo $this->Form->input('net_amount', ['label' => false,'class' => 'form-control input-sm number cal_amount net_amount']); ?>	
+					</td>
                     <td>
 						<a class="btn btn-default delete-tr input-sm" href="#" role="button" ><i class="fa fa-times"></i></a>
 					</td>
