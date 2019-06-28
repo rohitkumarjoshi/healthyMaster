@@ -40,14 +40,35 @@ background-color: #fff;}
 						
 						 <div class="suggesstion-box"></div>
 					</div>
-					<div class="col-md-3">
-						<!-- <label class=" control-label">Warehouse <span class="required" aria-required="true">*</span></label> -->
+					
+						
 						<?php echo $this->Form->control('warehouse_id',['options' => $warehouses,'class'=>'form-control input-sm','id'=>'customer_id','label'=>false,'type'=>'hidden']); ?>
-					</div>
+					
 					
 					<div class="col-md-3">
 						<label class="control-label">Order Date <span class="required" aria-require>*</span></label>
 						<?php echo $this->Form->control('order_date1',['placeholder'=>'dd-mm-yyyy','class'=>'form-control input-sm date-picker','data-date-format'=>'dd-mm-yyyy','label'=>false,'type'=>'text','value'=>date('d-m-Y')]); ?>
+					</div>
+					
+					<div class="col-md-2">
+						<label class="control-label">Delivery Date<span class="required" aria-require>*</span></label>
+						<?php echo $this->Form->control('delivery_date',['placeholder'=>'dd-mm-yyyy','class'=>'form-control input-sm date-picker','data-date-format'=>'dd-mm-yyyy','label'=>false,'type'=>'text','value'=>date('d-m-Y')]); ?>
+					</div>
+					<div class="col-md-2">
+						<label class="control-label">Delivery Time <span class="required" aria-require>*</span></label>			
+						<?php
+						foreach($deliverytime_fetchs as $deliverytime_fetch){
+							$time_id=$deliverytime_fetch->id;
+							$time_from=$deliverytime_fetch->time_from;
+							$time_to=$deliverytime_fetch->time_to;
+							$delivery_time[]= ['value'=>$time_id,'text'=>$time_from. " - " .$time_to];?>
+
+					<?php } ?>
+										
+						<?= $this->Form->input('delivery_time_id', ['empty'=>'--Select time--','class'=>'form-control input-sm select2me','id'=>'delivery_id','label'=>false,'options'=>$delivery_time]) ?>
+					</div>
+					<div class="col-md-1">
+						<?= $this->Form->input('delivery_time', ['class'=>'form-control','label'=>false,'type'=>'hidden','id'=>'del_time']) ?>
 					</div>
 					
 				<!--<?php if(!empty($bulkorder_id)){ ?>
@@ -93,6 +114,10 @@ background-color: #fff;}
 							<a href="#" role="button" class="pull-right select_address" >
 							Select Address </a>
 				</div>
+					
+				</div>
+				
+				<div class="row">
 					
 				</div>
 				
@@ -186,28 +211,7 @@ background-color: #fff;}
 						<?php } ?>
 					</div>
 				</div>
-				<div class="row">
-					<div class="col-md-2">
-						<label class="control-label">Delivery Date<span class="required" aria-require>*</span></label>
-						<?php echo $this->Form->control('delivery_date',['placeholder'=>'dd-mm-yyyy','class'=>'form-control input-sm date-picker','data-date-format'=>'dd-mm-yyyy','label'=>false,'type'=>'text','value'=>date('d-m-Y')]); ?>
-					</div>
-					<div class="col-md-2">
-						<label class="control-label">Delivery Time <span class="required" aria-require>*</span></label>			
-						<?php
-						foreach($deliverytime_fetchs as $deliverytime_fetch){
-							$time_id=$deliverytime_fetch->id;
-							$time_from=$deliverytime_fetch->time_from;
-							$time_to=$deliverytime_fetch->time_to;
-							$delivery_time[]= ['value'=>$time_id,'text'=>$time_from. " - " .$time_to];?>
-
-					<?php } ?>
-										
-						<?= $this->Form->input('delivery_time_id', ['empty'=>'--Select time--','class'=>'form-control input-sm select2me','id'=>'delivery_id','label'=>false,'options'=>$delivery_time]) ?>
-					</div>
-					<div class="col-md-1">
-						<?= $this->Form->input('delivery_time', ['class'=>'form-control','label'=>false,'type'=>'hidden','id'=>'del_time']) ?>
-					</div>
-				</div>
+				
 				 
 				<br/>
 				<center>
@@ -256,6 +260,7 @@ $(document).ready(function() {
                 }
             });
             }
+			calculate_total();
 	});
 
 	$(document).on('change','.item-id',function(){
@@ -429,7 +434,11 @@ $(document).ready(function() {
 		var total=0; var gst=0; var gst_total=0;
 		$("#main_table tbody#main_tbody tr.main_tr").each(function(){ 
 		var tax_percentage=$(this).find('.item-id option:selected').attr('tax_percentage');
-		
+			if($.isNumeric(tax_percentage)){
+				
+			}else{
+				tax_percentage=0;
+			}
 		var obj=$(this).closest('tr');
 		var qty=obj.find('td:nth-child(4) input').val();
 
