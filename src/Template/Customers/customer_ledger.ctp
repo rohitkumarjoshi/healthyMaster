@@ -5,12 +5,12 @@
 				<div class="caption">
 					<i class="font-purple-intense"></i>
 					<span class="caption-subject font-purple-intense ">
-						Customer Detail
+						CUSTOMER DETAIL
 					</span>
 				</div>
 			</div>
 			<div class="portlet-body">
-				<div class="row">
+				<div class="row" style="overflow-y: scroll;height: 170px;">
 					<h3><?= ucfirst($customers->name) ?></h3>
 					<div class="col-md-8">
 						<label class=" control-label">Mobile : <?= $customers->mobile?></label>
@@ -35,7 +35,7 @@
 			<div class="portlet-title">
 				<div class="caption">
 					<i class=" fa fa-gift"></i>
-					<span class="caption-subject">Order Detail</span>
+					<span class="caption-subject">ORDER DETAIL</span>
 				</div>
 			</div>
 			<div class="portlet-body">
@@ -50,6 +50,7 @@
 								<th>Date</th>
 								<th>Total</th>
 								<th>Status</th>
+								<th>Payment Mode</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -82,6 +83,9 @@
 									<td>
 										<?= h(@$Order->status) ?>
 									</td>
+									<td>
+										<?= h(@$Order->online_payment_status) ?>
+									</td>
 								</tr>
 							<?php } ?>														 
 						</tbody>
@@ -90,17 +94,17 @@
 			</div>
 		</div>
 	</div>
-	<div class="col-md-8">
+	<div class="col-md-4">
 		<div class="portlet light bordered">
 			<div class="portlet-title">
 				<div class="caption">
 					<i class=" fa fa-gift"></i>
-					<span class="caption-subject">Cart/Wishlist</span>
+					<span class="caption-subject">CART</span>
 				</div>
 			</div>
 			<div class="portlet-body">
 				<div style="overflow-y: scroll;height: 170px;">
-					<div class="col-md-5">
+					<div class="col-md-4">
 						<table class="table table-condensed  table-bordered" id="main_tble" >
 							<thead>
 								<tr><h4 align="left">Cart</h4></tr>
@@ -112,31 +116,45 @@
 								</tr>
 							</thead>
 							<tbody>
-								<?php
-								foreach($carts as $cart){
-								@$t++;
-									?>
-									<tr>
-										<td>
-											<?= h(@$cart->item->name) ?>
-										</td>
-										<td>
-											<?= h(@$cart->item_variation->quantity_variation) .' '.$cart->item_variation->unit->shortname?>
-										</td>
-										</td>
-										<td>
-											<?= h(@$cart->quantity) ?>
-										</td>
-										
-										<td>
-											<?= h(@$cart->amount) ?>
-										</td>
-									</tr>
-								<?php } ?>														 
+									<?php
+									foreach($carts as $cart){
+									@$t++;
+										?>
+										<tr>
+											<td>
+												<?= h(@$cart->item->name) ?>
+											</td>
+											<td>
+												<?= h(@$cart->item_variation->quantity_variation) .' '.$cart->item_variation->unit->shortname?>
+											</td>
+											</td>
+											<td>
+												<?= h(@$cart->quantity) ?>
+											</td>
+											
+											<td>
+												<?= h(@$cart->amount) ?>
+											</td>
+										</tr>
+									<?php } ?>														 
 							</tbody>
 						</table>
 					</div>
-					<div class="col-md-3" style="margin-left: 170px;">
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-4">
+		<div class="portlet light bordered">
+			<div class="portlet-title">
+				<div class="caption">
+					<i class=" fa fa-gift"></i>
+					<span class="caption-subject">WISHLIST</span>
+				</div>
+			</div>
+			<div class="portlet-body">
+				<div style="overflow-y: scroll;height: 170px;">
+					<div class="col-md-4">
 						<table class="table table-condensed  table-bordered" id="main_tble" >
 							<thead>
 								<tr><h4 align="left">Wishlist</h4></tr>
@@ -169,12 +187,12 @@
 			</div>
 		</div>
 	</div>
-	<div class="col-md-4 col-sm-4">
+	<div class="col-md-4">
 		<div class="portlet light bordered">
 			<div class="portlet-title">
 				<div class="caption">
 					<i class=" fa fa-gift"></i>
-					<span class="caption-subject">Reedeem Points</span>
+					<span class="caption-subject">REEDEM POINTS</span>
 				</div>
 			</div>
 			<div class="portlet-body">

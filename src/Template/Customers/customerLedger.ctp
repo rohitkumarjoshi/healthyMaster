@@ -1,9 +1,9 @@
+
 <div class="row">
 	<div class="col-md-5 col-sm-5">
 		<div class="portlet light bordered">
 			<div class="portlet-title">
-				<div class="caption">
-					<i class="font-purple-intense"></i>
+				<div class="caption"><i class=" fa fa-gift"></i>
 					<span class="caption-subject font-purple-intense ">
 						Customer Detail
 					</span>
@@ -35,7 +35,7 @@
 			<div class="portlet-title">
 				<div class="caption">
 					<i class=" fa fa-gift"></i>
-					<span class="caption-subject">Order Detail</span>
+					<span class="caption-subject" style="font-weight: 600!important;">Order Detail</span>
 				</div>
 			</div>
 			<div class="portlet-body">
@@ -49,6 +49,7 @@
 								<th>Point</th>
 								<th>Date</th>
 								<th>Total</th>
+								<th>Payment Mode</th>
 								<th>Status</th>
 							</tr>
 						</thead>
@@ -78,7 +79,9 @@
 									<td>
 										<?= h(@$Order->total_amount) ?>
 									</td>
-									
+									<td>
+										<?= h(@$Order->online_payment_status) ?>
+									</td>
 									<td>
 										<?= h(@$Order->status) ?>
 									</td>
@@ -95,46 +98,52 @@
 			<div class="portlet-title">
 				<div class="caption">
 					<i class=" fa fa-gift"></i>
-					<span class="caption-subject">Cart</span>
+					<span class="caption-subject">Carts</span>
 				</div>
 			</div>
 			<div class="portlet-body">
 				<div style="overflow-y: scroll;height: 170px;">
 					<div class="col-md-4">
-						<table class="table table-condensed  table-bordered" id="main_tble" >
-							<thead>
-								<tr><h4 align="left">Cart</h4></tr>
-								<tr>
-									<th>Item</th>
-									<th width="10%">Variation</th>
-									<th>quantity</th>
-									<th>Amount</th>
-								</tr>
-							</thead>
-							<tbody>
-									<?php
-									foreach($carts as $cart){
-									@$t++;
-										?>
-										<tr>
-											<td>
-												<?= h(@$cart->item->name) ?>
-											</td>
-											<td>
-												<?= h(@$cart->item_variation->quantity_variation) .' '.$cart->item_variation->unit->shortname?>
-											</td>
-											</td>
-											<td>
-												<?= h(@$cart->quantity) ?>
-											</td>
-											
-											<td>
-												<?= h(@$cart->amount) ?>
-											</td>
-										</tr>
-									<?php } ?>														 
-							</tbody>
-						</table>
+						<?php if($carts!=null)
+						{?>
+							<table class="table table-condensed  table-bordered" id="main_tble" >
+								<thead>
+									<tr>
+										<th>Item</th>
+										<th width="10%">Variation</th>
+										<th>quantity</th>
+										<th>Amount</th>
+									</tr>
+								</thead>
+								<tbody>
+										<?php
+										foreach($carts as $cart){
+										@$t++;
+											?>
+											<tr>
+												<td>
+													<?= h(@$cart->item->name) ?>
+												</td>
+												<td>
+													<?= h(@$cart->item_variation->quantity_variation) .' '.$cart->item_variation->unit->shortname?>
+												</td>
+												</td>
+												<td>
+													<?= h(@$cart->quantity) ?>
+												</td>
+												
+												<td>
+													<?= h(@$cart->amount) ?>
+												</td>
+											</tr>
+										<?php } ?>														 
+								</tbody>
+							</table>
+						<?php } 
+						else{	
+						?>
+						<h5>No Data!</h5>
+					<?php } ?>
 					</div>
 				</div>
 			</div>
@@ -153,7 +162,6 @@
 					<div class="col-md-4">
 						<table class="table table-condensed  table-bordered" id="main_tble" >
 							<thead>
-								<tr><h4 align="left">Wishlist</h4></tr>
 								<tr>
 									<th>Item</th>
 									<th>Variation</th>

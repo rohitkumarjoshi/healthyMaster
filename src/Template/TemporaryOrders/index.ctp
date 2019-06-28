@@ -31,6 +31,11 @@
                     <td align="left" colspan="5">
                         <b>
                             Order No.: <?= $temp->order->order_no ?>
+                            <span class="pull-right"><?php
+                                foreach ($count as $cnt) {
+                                    echo $cnt->total;
+                                }
+                            ?></span>
                         </b>
                     </td>
                 </tr>
@@ -72,10 +77,10 @@
                         $show_item=$item_name;
                     } ?>
                 <tr style="background-color:#fff;">
-                    <td style="text-align:center;"><?= $i ?></td>
-                    <td style="text-align:center;"><?= h($show_item) ?></td>
-                    <td style="text-align:center;"><?= h($show_variation) ?></td>
-                    <td style="text-align:center;"><?= h($show_quantity) ?></td>
+                    <td style="padding: :4px;"><?= $i ?></td>
+                    <td style="padding: :4px;"><?= h($show_item) ?></td>
+                    <td style="padding: :4px;"><?= h($show_variation) ?></td>
+                    <td style="padding: :4px;"><?= h($show_quantity) ?></td>
                 </tr>
                 <?php } ?>
                 </tbody>

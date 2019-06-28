@@ -4,6 +4,7 @@
 	<!--<![endif]-->
 	<!-- BEGIN HEAD -->
 	<head>
+		<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,600i,700,700i,800,800i&display=swap" rel="stylesheet">
 		<meta charset="utf-8"/>
 		<?php echo $this->Html->meta(
 				'favicon.png',
@@ -144,7 +145,7 @@
 					<ul class="nav navbar-nav " style="margin-left:100px;">
 						<!-- DOC: Remove data-hover="dropdown" and data-close-others="true" attributes below to disable the horizontal opening on mouse hover -->
 						
-						<li class="classic-menu-dropdown" >
+						<!-- <li class="classic-menu-dropdown" >
 							<a data-toggle="dropdown" href="javascript:;" aria-expanded="false">
 								Masters & Setup <i class="fa fa-angle-down"></i>
 							</a>
@@ -175,83 +176,8 @@
 								</li>
 								
 							</ul>
-						</li>
-						<li class="classic-menu-dropdown" >
-							<a data-toggle="dropdown" href="javascript:;" aria-expanded="false">
-							Reports <i class="fa fa-angle-down"></i>
-							</a>
-							<ul class="dropdown-menu" >
-								<li>
-									<?php echo $this->Html->link('<i class="fa  fa-file"></i> Stock Report','/itemLedgers/report_show',['escape'=>false]) ?>
-								</li>
-								<li>
-									<?php echo $this->Html->link('<i class="fa  fa-file"></i> Top Selling Item Report','/ItemCategories/top_selling',['escape'=>false]) ?>
-								</li>
-								<li>
-									<?php echo $this->Html->link('<i class="fa  fa-file"></i> WishList Report','/Wishlists/wishlist_report',['escape'=>false]) ?>
-								</li>
-								<li>
-									<?php echo $this->Html->link('<i class="fa  fa-file"></i> Cart Report','/Carts/cart_report',['escape'=>false]) ?>
-								</li>
-								<li>
-									<?php echo $this->Html->link('<i class="fa  fa-file"></i> Points Report','/JainCashPoints/point_report',['escape'=>false]) ?>
-								</li>
-								<li>
-									<?php echo $this->Html->link('<i class="fa  fa-file"></i> Promo Code Report','/PromoCodes/promo_code_report',['escape'=>false]) ?>
-								</li>
-								<li>
-									<?php echo $this->Html->link('<i class="fa  fa-file"></i>Used Promo Code','/Orders/used_promo_code_report',['escape'=>false]) ?>
-								</li>
-								<!-- <li>
-									<?php echo $this->Html->link('<i class="fa fa-database"></i> Product Report','/itemLedgers/driver_report',['escape'=>false]) ?>
-								</li> -->
-								<!-- <li>
-									<?php echo $this->Html->link('<i class="fa fa-bar-chart-o"></i> Cash Back Details','/CashBacks/Index',['escape'=>false]) ?>
-								</li> -->
-								<?php if($login_user_id==3){ ?>
-								<li>
-									<?php echo $this->Html->link('<i class="fa fa-trophy"></i> Cash Back Winner','/CashBacks/CashBackWinner',['escape'=>false]) ?>
-								</li>
-								<?php } ?>
-								<!--<li>
-									<?php 
-									$t_date = date('d-m-Y');
-									echo $this->Html->link('<i class="fa fa-book"></i> Invoice Report','/WalkinSales/invoiceReports?warehouse=&drivers=&From='.$t_date.'&To='.$t_date,['escape'=>false]) ?>
-								</li>
-								<li>
-									<?php echo $this->Html->link('<i class="fa fa-life-ring"></i> Issue Return Report','/ItemLedgers/itemIssueReport',['escape'=>false]) ?>
-								</li>
-								
-								<li>
-									<?php echo $this->Html->link('<i class="fa fa-puzzle-piece"></i> Account Statement','/Ledgers/AccountStatements',['escape'=>false]) ?>
-								</li>
-								-->
-								<li>
-									<?php echo $this->Html->link('<i class="fa fa-tag"></i> Item Wise Sales Report','/itemLedgers/itemSaleReports',['escape'=>false]) ?>
-								</li>
-								<!-- <li>
-									<?php echo $this->Html->link('<i class="fa fa-puzzle-piece"></i> Wastage Item Report','/itemLedgers/wastageReport?From='.$t_date.'&To='.$t_date,['escape'=>false]) ?>
-								</li> -->
-								<!-- <li>
-									<?php echo $this->Html->link('<i class="fa fa-globe"></i> Weight Variation Report','/itemLedgers/weightVariationReport?From='.$t_date.'&To='.$t_date,['escape'=>false]) ?>
-								</li> -->
-									<!-- <li>
-									<?php echo $this->Html->link('<i class="fa fa-info"></i> Item Indent Report','/itemLedgers/orderEstimate',['escape'=>false]) ?>
-								</li> 
-								<li>
-									<?php echo $this->Html->link('<i class="fa fa-cubes"></i> Driver Location Report','/Drivers/driver_location',['escape'=>false]) ?>
-								</li>
-								 <li>
-									<?php echo $this->Html->link('<i class="fa fa-edit"></i> Consolidate Report','/itemLedgers/averageReport?From='.$t_date.'&To='.$t_date,['escape'=>false]) ?>
-								</li> -->
-								<!-- <li>
-									<?php echo $this->Html->link('<i class="fa fa-trophy"></i> First Order Discount Report','/Orders/newCustomer',['escape'=>false]) ?>
-								</li> -->
-								<!-- <li>
-									<?php echo $this->Html->link('<i class="fa fa-database"></i> Stock Return Voucher Report','/StockReturnVouchers/',['escape'=>false]) ?>
-								</li> -->
-							</ul>
-						</li>
+						</li> -->
+						
 					</ul>
 				</div>				 
 				<a href="javascript:;" class="menu-toggler responsive-toggler" data-toggle="collapse" data-target=".navbar-collapse">
@@ -343,6 +269,82 @@
 									
 								</ul>
 							</li>
+							<li class="classic-menu-dropdown" >
+								<a data-toggle="dropdown" href="javascript:;" aria-expanded="false">
+									<i class="fa fa-reorder" ></i>Reports <i class="fa fa-angle-down"></i>
+								</a>
+								<ul class="sub-menu" >
+									<li>
+										<?php echo $this->Html->link('<i class="fa  fa-file"></i> Stock Report','/itemLedgers/report_show',['escape'=>false]) ?>
+									</li>
+									<li>
+										<?php echo $this->Html->link('<i class="fa  fa-file"></i> Top Selling Item Report','/ItemCategories/top_selling',['escape'=>false]) ?>
+									</li>
+									<li>
+										<?php echo $this->Html->link('<i class="fa  fa-file"></i> WishList Report','/Wishlists/wishlist_report',['escape'=>false]) ?>
+									</li>
+									<li>
+										<?php echo $this->Html->link('<i class="fa  fa-file"></i> Cart Report','/Carts/cart_report',['escape'=>false]) ?>
+									</li>
+									<li>
+										<?php echo $this->Html->link('<i class="fa  fa-file"></i> Points Report','/JainCashPoints/point_report',['escape'=>false]) ?>
+									</li>
+									<li>
+										<?php echo $this->Html->link('<i class="fa  fa-file"></i> Promo Code Report','/PromoCodes/promo_code_report',['escape'=>false]) ?>
+									</li>
+									<li>
+										<?php echo $this->Html->link('<i class="fa  fa-file"></i>Used Promo Code','/Orders/used_promo_code_report',['escape'=>false]) ?>
+									</li>
+									<!-- <li>
+										<?php echo $this->Html->link('<i class="fa fa-database"></i> Product Report','/itemLedgers/driver_report',['escape'=>false]) ?>
+									</li> -->
+									<!-- <li>
+										<?php echo $this->Html->link('<i class="fa fa-bar-chart-o"></i> Cash Back Details','/CashBacks/Index',['escape'=>false]) ?>
+									</li> -->
+									<?php if($login_user_id==3){ ?>
+									<li>
+										<?php echo $this->Html->link('<i class="fa fa-trophy"></i> Cash Back Winner','/CashBacks/CashBackWinner',['escape'=>false]) ?>
+									</li>
+									<?php } ?>
+									<!--<li>
+										<?php 
+										$t_date = date('d-m-Y');
+										echo $this->Html->link('<i class="fa fa-book"></i> Invoice Report','/WalkinSales/invoiceReports?warehouse=&drivers=&From='.$t_date.'&To='.$t_date,['escape'=>false]) ?>
+									</li>
+									<li>
+										<?php echo $this->Html->link('<i class="fa fa-life-ring"></i> Issue Return Report','/ItemLedgers/itemIssueReport',['escape'=>false]) ?>
+									</li>
+									
+									<li>
+										<?php echo $this->Html->link('<i class="fa fa-puzzle-piece"></i> Account Statement','/Ledgers/AccountStatements',['escape'=>false]) ?>
+									</li>
+									-->
+									<li>
+										<?php echo $this->Html->link('<i class="fa fa-tag"></i> Item Wise Sales Report','/itemLedgers/itemSaleReports',['escape'=>false]) ?>
+									</li>
+									<!-- <li>
+										<?php echo $this->Html->link('<i class="fa fa-puzzle-piece"></i> Wastage Item Report','/itemLedgers/wastageReport?From='.$t_date.'&To='.$t_date,['escape'=>false]) ?>
+									</li> -->
+									<!-- <li>
+										<?php echo $this->Html->link('<i class="fa fa-globe"></i> Weight Variation Report','/itemLedgers/weightVariationReport?From='.$t_date.'&To='.$t_date,['escape'=>false]) ?>
+									</li> -->
+										<!-- <li>
+										<?php echo $this->Html->link('<i class="fa fa-info"></i> Item Indent Report','/itemLedgers/orderEstimate',['escape'=>false]) ?>
+									</li> 
+									<li>
+										<?php echo $this->Html->link('<i class="fa fa-cubes"></i> Driver Location Report','/Drivers/driver_location',['escape'=>false]) ?>
+									</li>
+									 <li>
+										<?php echo $this->Html->link('<i class="fa fa-edit"></i> Consolidate Report','/itemLedgers/averageReport?From='.$t_date.'&To='.$t_date,['escape'=>false]) ?>
+									</li> -->
+									<!-- <li>
+										<?php echo $this->Html->link('<i class="fa fa-trophy"></i> First Order Discount Report','/Orders/newCustomer',['escape'=>false]) ?>
+									</li> -->
+									<!-- <li>
+										<?php echo $this->Html->link('<i class="fa fa-database"></i> Stock Return Voucher Report','/StockReturnVouchers/',['escape'=>false]) ?>
+									</li> -->
+								</ul>
+						</li>
 							<li>
 								<?php echo $this->Html->link('<i class="fa fa-reorder"></i> <span>Manage Orders</span>',array('controller'=>'Orders','action'=>'index'),['escape'=>false]); ?>
 							</li>

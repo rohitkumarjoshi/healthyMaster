@@ -168,10 +168,10 @@ h6.block {
 /* Links */
 a {
   text-shadow: none;
-  color:#062e63;
+  color:#ec0903;
 }
 a:hover {
-  color: #062e63;
+  color: #ff3934;
 }
 a:focus, a:hover, a:active {
   outline: 0;
@@ -3617,7 +3617,7 @@ Portlets
   display: inline-block;
   font-size: 18px;
   line-height: 18px;
-  font-weight: 300;
+  font-weight: 600;
   padding: 10px 0;
 }
 .portlet > .portlet-title > .caption.bold {

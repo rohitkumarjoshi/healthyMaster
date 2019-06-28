@@ -9,8 +9,7 @@
 			<div class="portlet-title">
 				<div class="caption">
 					<i class="font-purple-intense"></i>
-					<span class="caption-subject font-purple-intense ">
-						<i class="fa fa-search"></i> Feedbacks
+					<span class="caption-subject font-purple-intense ">FEEDBACK
 					</span>
 				</div>
 				<div class="actions">

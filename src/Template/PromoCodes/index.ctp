@@ -4,8 +4,7 @@
 			<div class="portlet-title">
 				<div class="caption">
 					<i class="font-purple-intense"></i>
-					<span class="caption-subject font-purple-intense ">
-							<i class="fa fa-plus"></i> Add Promo Code
+					<span class="caption-subject font-purple-intense ">ADD PROMO CODES
 					</span>
 				</div>
 			</div>
@@ -14,7 +13,7 @@
 			<div class="row">
 				<div class="col-md-3">
 					<label class=" control-label">Promo Code Type <span class="required" aria-required="true">*</span></label>
-					<select name="promo_code_type" class="select2me" required>
+					<select name="promo_code_type" class="form-control select2me input-sm" required>
 						<option value=""> Select Promo Code Type </option>
 						<option value="Item Wise"> Item Wise </option>
 						<option value="Category Wise"> Category Wise </option>
@@ -33,13 +32,13 @@
 				<div class="col-md-3">
 					<div class="radio-list">
 						<label>Type</label>
-						<div class="radio-inline form-control input-sm" style="padding-right: 1px;">
+						<div class="radio-inline input-sm" style="padding-right: 1px;">
 							<input type="hidden" name="cash_back_flag" value=""><label for="cash-back-flag-no"><input type="radio" name="amount_type" value="percent" class="radio-task" checked="checked">Percent</label><label for="cash-back-flag-yes"><input type="radio" name="amount_type" value="amount" class="radio-task" checked="checked" >Amount</label>
 						</div>
 					</div>
 				</div>
 			</div>
-			<div class="row">
+			<div class="row" style="margin-top: 10px;">
 				<div class="col-md-3">
 					<label class=" control-label">Discount</label>
 					<?php echo $this->Form->control('discount_per',['placeholder'=>'Discount','class'=>'form-control input-sm','label'=>false]); ?>
@@ -52,12 +51,12 @@
 					<?php echo $this->Form->control('item_id',['empty'=>'--Select Item--','options' => $items,'class'=>'form-control input-sm select2me customer_id cstmr chosen-select','label'=>false]); ?>
 
 				</div>
-				<div class="col-md-3">
+				<div class="col-md-3" style="margin-top: 18px;">
 					<?php echo $this->Form->input('is_freeship', array('type'=>'checkbox', 'label'=>'Is Free Ship','id'=>'freeship'));
 					?>
 				</div>
 			</div>
-			<div class="row">
+			<div class="row" style="margin-top: 10px;">
 				<div class="col-md-3">
 					<label class=" control-label">Cart Value <span class="required" aria-required="true">*</span></label>
 					<?php echo $this->Form->control('cart_value',['placeholder'=>'Cart Value','class'=>'form-control input-sm','label'=>false]); ?>
@@ -70,18 +69,20 @@
 				<div class="col-md-4">
 					<label class=" control-label">Valid To</label>
 					
-					<?php echo $this->Form->control('valid_to',['readonly','placeholder'=>'Valid From','class'=>'form-control date-time-range-picker select2','label'=>false]); ?>
+					<?php echo $this->Form->control('valid_to',['readonly','placeholder'=>'Valid From','class'=>'form-control date-time-range-picker input-sm select2','label'=>false]); ?>
 					
 				</div>
 			</div>
-			<div class="row">
+			<div class="row" style="margin-top: 10px;">
 				<div class="col-md-10">
 					<label class=" control-label">Description<span class="required" aria-required="true">*</span></label>
 					<textarea name="description" class="form-control"></textarea>
 				</div>
 			</div>
-				<?= $this->Form->button($this->Html->tag('i', '', ['class'=>'fa fa-plus']) . __(' Submit'),['class'=>'btn btn-success']); ?>
+			<div style="margin-top: 10px;">
+				<center><button type="submit" class="btn btn-success">Submit</button></center>
 				<?= $this->Form->end() ?>
+			</div>
 			</div>
 		</div>
 	</div>
@@ -91,7 +92,7 @@
 				<div class="portlet-title">
 					<div class="caption">
 						<i class=" fa fa-gift"></i>
-						<span class="caption-subject">Codes</span>
+						<span class="caption-subject">CODE</span>
 					</div>
 					<div class="actions">
 						<input type="text" class="form-control input-sm pull-right" placeholder="Search..." id="search3"  style="width: 200px;">

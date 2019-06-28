@@ -1,6 +1,6 @@
 <style>
 .table>thead>tr>th{
-	font-size:12px !important;
+	font-size:13px !important;
 }
 </style>
 <div class="row">
