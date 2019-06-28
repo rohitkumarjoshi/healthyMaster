@@ -50,7 +50,7 @@
 						//echo $this->Form->control('gst_apply', ['empty'=>'--select--','options' => $gst,'class'=>'form-control input-sm attribute gst','value'=>'No']); ?> 
 					</div>-->
 					<div class="col-md-3 gst_show">
-						<?php echo $this->Form->control('gst_figure_id', ['empty'=>'--select--','options' => $GstFigures,'class'=>'form-control input-sm attribute']); ?>
+						<?php echo $this->Form->control('gst_figure_id', ['options' => $GstFigures,'class'=>'form-control input-sm attribute']); ?>
 					</div>
 
 					<div class="col-md-3">

@@ -51,7 +51,7 @@
 						//echo $this->Form->control('gst_apply', ['empty'=>'--select--','options' => $gst,'class'=>'form-control input-sm attribute gst','value'=>$item->gst_apply]); ?> 
 					</div>-->
 					<div class="col-md-3 gst_show">
-						<?php echo $this->Form->control('gst_figure_id', ['empty'=>'--select--','options' => $GstFigures,'class'=>'form-control input-sm attribute','value'=>$item->gst_figure_id]); ?>
+						<?php echo $this->Form->control('gst_figure_id', ['options' => $GstFigures,'class'=>'form-control input-sm attribute','value'=>$item->gst_figure_id]); ?>
 					</div>
 
 					<div class="col-md-3">
