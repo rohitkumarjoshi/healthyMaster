@@ -18,6 +18,8 @@ class ItemsController extends AppController
      *
      * @return \Cake\Http\Response|null
      */
+
+
     public function index($status = Null)
     {
 		$this->viewBuilder()->layout('index_layout');
@@ -104,7 +106,6 @@ class ItemsController extends AppController
         $item = $this->Items->newEntity();
         if ($this->request->is('post')) {
 			
-        	$data=$this->request->getData();
             //pr($data);
 			$item = $this->Items->patchEntity($item,$data,['associated'=>['ItemVariations']]);
             //pr($item->toArray());exit;

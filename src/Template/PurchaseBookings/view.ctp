@@ -40,12 +40,12 @@ margin-bottom: 0;
 						<td width="20" align="center">:</td>
 						<td><?= h('#'.str_pad($this->Number->format($purchaseBooking->voucher_no), 4, '0', STR_PAD_LEFT)) ?></td>
 					</tr>
-					<tr>
+					<!-- <tr>
 						<td>G.R.N. No.</td>
 						<td width="20" align="center">:</td>
 						<td ><?= h('#'.str_pad($this->Number->format($purchaseBooking->grn_id), 4, '0', STR_PAD_LEFT)) ?></td>
 						
-					</tr>
+					</tr> -->
 					<tr>
 						<td>Vendor</td>
 						<td width="20" align="center">:</td>

@@ -49,6 +49,10 @@ class PurchaseBookingsTable extends Table
             'foreignKey' => 'vendor_id',
             'joinType' => 'INNER'
         ]);
+        $this->belongsTo('Warehouses', [
+            'foreignKey' => 'warehouse_id',
+            'joinType' => 'INNER'
+        ]);
         $this->belongsTo('JainThelaAdmins', [
             'foreignKey' => 'jain_thela_admin_id',
             'joinType' => 'INNER'

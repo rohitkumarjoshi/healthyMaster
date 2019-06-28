@@ -204,8 +204,8 @@ echo $this->Html->link('Close',array(),['escape'=>false,'class'=>'btn  red hidde
 			</tbody>
 			<tfoot>
 				<tr>
-					<td colspan="2"><b>Deliver Between:-</b></td>
-					<td colspan="5"><b><?php echo $order->delivery_time ;?></b></td>
+					<td colspan="2" style="padding: 10px;"><b>Deliver Between:-</b></td>
+					<td colspan="5"style="padding: 10px;"><b><?php echo $order->delivery_time ;?></b></td>
 				</tr>
 				<!--<tr>
 				<td colspan="6"><a class="btn  blue hidden-print margin-bottom-5 pull-right" onclick="javascript:window.print();">Print <i class="fa fa-print"></i></a>

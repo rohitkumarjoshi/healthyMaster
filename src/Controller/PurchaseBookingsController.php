@@ -23,7 +23,7 @@ class PurchaseBookingsController extends AppController
 		$this->viewBuilder()->layout('index_layout');
 		
        
-        $purchaseBookings = $this->PurchaseBookings->find()->contain(['Grns', 'Vendors', 'JainThelaAdmins'])->order(['PurchaseBookings.id'=>'DESC']);
+        $purchaseBookings = $this->PurchaseBookings->find()->contain(['Vendors', 'JainThelaAdmins'])->order(['PurchaseBookings.id'=>'DESC']);
 		
         $this->set(compact('purchaseBookings'));
         $this->set('_serialize', ['purchaseBookings']);
@@ -40,9 +40,10 @@ class PurchaseBookingsController extends AppController
     {
 		$this->viewBuilder()->layout('index_layout');
         $purchaseBooking = $this->PurchaseBookings->get($id, [
-	'contain' => ['Grns', 'Vendors','PurchaseBookingDetails'=>['Items','ItemVariations'=>['Units']]]
+	'contain' => [ 'Vendors','PurchaseBookingDetails'=>['Items','ItemVariations'=>['Units']]]
         ]);
 			
+    //pr($purchaseBooking->toArray());exit;
         $this->set('purchaseBooking', $purchaseBooking);
         $this->set('_serialize', ['purchaseBooking']);
     }
@@ -55,9 +56,9 @@ class PurchaseBookingsController extends AppController
     public function add($grn_id = null)
     {
 		$this->viewBuilder()->layout('index_layout');
-		$grn = $this->PurchaseBookings->Grns->get($grn_id, [
-            'contain' => ['GrnDetails'=>['Items','ItemVariations'=>['Units']], 'Vendors', 'JainThelaAdmins']
-        ]);
+		// $grn = $this->PurchaseBookings->Grns->get($grn_id, [
+  //           'contain' => ['GrnDetails'=>['Items','ItemVariations'=>['Units']], 'Vendors', 'JainThelaAdmins']
+  //       ]);
 		$jain_thela_admin_id=$this->Auth->User('jain_thela_admin_id');
         $purchaseBooking = $this->PurchaseBookings->newEntity();
         if ($this->request->is('post')) { 
@@ -70,13 +71,13 @@ class PurchaseBookingsController extends AppController
 				$purchaseBooking->voucher_no=1;
 			}
 			$purchaseBooking->jain_thela_admin_id=$jain_thela_admin_id;
-			$purchaseBooking->vendor_id=$grn->vendor_id;
-			$purchaseBooking->grn_id=$grn->id;
+			// $purchaseBooking->vendor_id=$grn->vendor_id;
+			// $purchaseBooking->grn_id=$grn->id;
 			
 			//pr($purchaseBooking);exit;
             if ($this->PurchaseBookings->save($purchaseBooking)) {
 				
-				$this->PurchaseBookings->ItemLedgers->deleteAll(['grn_id' => $grn_id]);
+				//$this->PurchaseBookings->ItemLedgers->deleteAll(['grn_id' => $grn_id]);
 				foreach($purchaseBooking->purchase_booking_details as $purchase_booking_detail)
 				{
 					$query = $this->PurchaseBookings->ItemLedgers->query();
@@ -84,9 +85,9 @@ class PurchaseBookingsController extends AppController
 					->values([
 						'jain_thela_admin_id' => $jain_thela_admin_id,
 						'driver_id' => 0,
-						'grn_id' => $grn_id,
+						//'grn_id' => $grn_id,
 						'item_id' => $purchase_booking_detail->item_id,
-						'warehouse_id' => $grn->warehouse_id,
+						'warehouse_id' => $purchaseBooking->warehouse_id,
 						'purchase_booking_id' => $purchaseBooking->id,
 						'rate' => $purchase_booking_detail->rate,
 						'item_variation_id' => $purchase_booking_detail->item_variation_id,
@@ -94,26 +95,26 @@ class PurchaseBookingsController extends AppController
 						'status' => 'In',
 						'quantity' => $purchase_booking_detail->quantity,
 						'rate_updated' => 'Yes',
-						'transaction_date'=>$grn->transaction_date
+						'transaction_date'=>$purchaseBooking->transaction_date
 					]);
 					$query->execute();
 				}
 					
-				$query=$this->PurchaseBookings->Grns->query();
-				$result = $query->update()
-                    ->set(['purchase_booked' => 'Yes'])
-                    ->where(['id' => $grn_id])
-                    ->execute();
-				$LedgerAccounts = $this->PurchaseBookings->LedgerAccounts->find('all')->where(['jain_thela_admin_id'=>$jain_thela_admin_id,'vendor_id'=>$grn->vendor_id]);
+				// $query=$this->PurchaseBookings->Grns->query();
+				// $result = $query->update()
+    //                 ->set(['purchase_booked' => 'Yes'])
+    //                 ->where(['id' => $grn_id])
+    //                 ->execute();
+				$LedgerAccounts = $this->PurchaseBookings->LedgerAccounts->find('all')->where(['jain_thela_admin_id'=>$jain_thela_admin_id,'vendor_id'=>$purchaseBooking->vendor_id]);
 				
 				$query = $this->PurchaseBookings->Ledgers->query();
 					$query->insert(['ledger_account_id', 'purchase_booking_id', 'debit', 'credit', 'transaction_date'])
 					->values([
 						'ledger_account_id' => 1,
 						'purchase_booking_id' => $purchaseBooking->id,
-						'debit' => $this->request->data['grand_total'],
+						'debit' => $this->request->data['amount'],
 						'credit' => 0,
-						'transaction_date'=>$grn->transaction_date
+						'transaction_date'=>$purchaseBooking->transaction_date
 					]);
 					$query->execute();	
 					$query = $this->PurchaseBookings->Ledgers->query();
@@ -121,9 +122,9 @@ class PurchaseBookingsController extends AppController
 					->values([
 						'ledger_account_id' => 4,
 						'purchase_booking_id' => $purchaseBooking->id,
-						'debit' => $this->request->data['frieght_amount'],
+						'debit' => 0,//$this->request->data['frieght_amount'],
 						'credit' => 0,
-						'transaction_date'=>$grn->transaction_date
+						'transaction_date'=>$purchaseBooking->transaction_date
 					]);
 					$query->execute();
 					$query = $this->PurchaseBookings->Ledgers->query();
@@ -131,9 +132,9 @@ class PurchaseBookingsController extends AppController
 					->values([
 						'ledger_account_id' => 5,
 						'purchase_booking_id' => $purchaseBooking->id,
-						'debit' => $this->request->data['gst_amount'],
+						'debit' =>0,// $this->request->data['gst_amount'],
 						'credit' => 0,
-						'transaction_date'=>$grn->transaction_date
+						'transaction_date'=>$purchaseBooking->transaction_date
 					]);
 					$query->execute();
 				foreach($LedgerAccounts as $LedgerAccount)
@@ -144,8 +145,8 @@ class PurchaseBookingsController extends AppController
 						'ledger_account_id' => $LedgerAccount->id,
 						'purchase_booking_id' => $purchaseBooking->id,
 						'debit' => 0,
-						'credit' => $this->request->data['grand_total'],
-						'transaction_date'=>$grn->transaction_date
+						'credit' => $this->request->data['amount'],
+						'transaction_date'=>$purchaseBooking->transaction_date
 					]);
 					$query->execute();	
 				}
@@ -157,11 +158,26 @@ class PurchaseBookingsController extends AppController
 			
             $this->Flash->error(__('The purchase booking could not be saved. Please, try again.'));
         }
-       
+         $vendors = $this->PurchaseBookings->Vendors->find('list');
+        $warehouses = $this->PurchaseBookings->ItemLedgers->Warehouses->find('list')->where(['jain_thela_admin_id'=>$jain_thela_admin_id]);
+        $item_fetchs=$this->PurchaseBookings->PurchaseBookingDetails->Items->find()->where(['Items.freeze'=>0, 'Items.ready_to_sale' => 'Yes'])->contain(['GstFigures']);
+        foreach($item_fetchs as $item_fetch){
+            $item_name=$item_fetch->name;
+            $alias_name=$item_fetch->alias_name;
+            @$unit_name=$item_fetch->unit->unit_name;
+            $print_quantity=$item_fetch->print_quantity;
+            $rates=$item_fetch->offline_sales_rate;
+            $sales_rates=$item_fetch->sales_rate;
+            $minimum_quantity_factor=$item_fetch->minimum_quantity_factor;
+            $minimum_quantity_purchase=$item_fetch->minimum_quantity_purchase;
+            $is_combo=$item_fetch->is_combo;
+            
+            $items[]= ['value'=>$item_fetch->id,'text'=>$item_name." (".$alias_name.")", 'print_quantity'=>$print_quantity, 'rates'=>$rates,'sales_rate' =>$sales_rates,'minimum_quantity_factor'=>$minimum_quantity_factor, 'unit_name'=>$unit_name, 'minimum_quantity_purchase'=>$minimum_quantity_purchase,'is_combo' => $is_combo,'gst_figure_id'=>@$item_fetch->gst_figure_id,'gst_name'=>@$item_fetch->gst_figure->name,'tax_percentage'=>@$item_fetch->gst_figure->tax_percentage];
+        }
 		//pr($grn);
 		//exit;
        
-        $this->set(compact('purchaseBooking', 'grn'));
+        $this->set(compact('purchaseBooking', 'grn','vendors','warehouses','items'));
         $this->set('_serialize', ['purchaseBooking']);
     }
 
@@ -174,16 +190,17 @@ class PurchaseBookingsController extends AppController
      */
     public function edit($id = null)
     {
+            $jain_thela_admin_id=$this->Auth->User('jain_thela_admin_id');
     	$this->viewBuilder()->layout('index_layout');
         $purchaseBooking = $this->PurchaseBookings->get($id, [
-	'contain' => ['Grns', 'Vendors','PurchaseBookingDetails'=>['Items','ItemVariations'=>['Units']]]
+	'contain' => ['Vendors','PurchaseBookingDetails'=>['Items','ItemVariations'=>['Units']]]
         ]);
        // pr($purchaseBooking);exit;
         
          
         if ($this->request->is(['patch', 'post', 'put'])) {
         	 $purchaseBookings = $this->PurchaseBookings->get($id, [
-	'contain' => ['Grns', 'Vendors','PurchaseBookingDetails'=>['Items','ItemVariations'=>['Units']]]
+	'contain' => ['Vendors','PurchaseBookingDetails'=>['Items','ItemVariations'=>['Units']]]
         ]);
             $purchaseBooking = $this->PurchaseBookings->patchEntity($purchaseBookings, $this->request->getData());
             //pr($purchaseBooking);exit;
@@ -194,10 +211,26 @@ class PurchaseBookingsController extends AppController
             }
             $this->Flash->error(__('The purchase booking could not be saved. Please, try again.'));
         }
-        $grns = $this->PurchaseBookings->Grns->find('list', ['limit' => 200]);
+         $item_fetchs=$this->PurchaseBookings->PurchaseBookingDetails->Items->find()->where(['Items.freeze'=>0, 'Items.ready_to_sale' => 'Yes'])->contain(['GstFigures']);
+        foreach($item_fetchs as $item_fetch){
+            $item_name=$item_fetch->name;
+            $alias_name=$item_fetch->alias_name;
+            @$unit_name=$item_fetch->unit->unit_name;
+            $print_quantity=$item_fetch->print_quantity;
+            $rates=$item_fetch->offline_sales_rate;
+            $sales_rates=$item_fetch->sales_rate;
+            $minimum_quantity_factor=$item_fetch->minimum_quantity_factor;
+            $minimum_quantity_purchase=$item_fetch->minimum_quantity_purchase;
+            $is_combo=$item_fetch->is_combo;
+            
+            $items[]= ['value'=>$item_fetch->id,'text'=>$item_name." (".$alias_name.")", 'print_quantity'=>$print_quantity, 'rates'=>$rates,'sales_rate' =>$sales_rates,'minimum_quantity_factor'=>$minimum_quantity_factor, 'unit_name'=>$unit_name, 'minimum_quantity_purchase'=>$minimum_quantity_purchase,'is_combo' => $is_combo,'gst_figure_id'=>@$item_fetch->gst_figure_id,'gst_name'=>@$item_fetch->gst_figure->name,'tax_percentage'=>@$item_fetch->gst_figure->tax_percentage];
+        }
+        //$grns = $this->PurchaseBookings->Grns->find('list', ['limit' => 200]);
+        //$details = $this->PurchaseBookings->PurchaseBookingDetails->find()->where(['purchase_booking_id'=>$id])->contain(['Items','ItemVariations'=>['Units']]);
         $vendors = $this->PurchaseBookings->Vendors->find('list', ['limit' => 200]);
+          $warehouses = $this->PurchaseBookings->ItemLedgers->Warehouses->find('list')->where(['jain_thela_admin_id'=>$jain_thela_admin_id]);
         $jainThelaAdmins = $this->PurchaseBookings->JainThelaAdmins->find('list', ['limit' => 200]);
-        $this->set(compact('purchaseBooking', 'grns','vendors', 'jainThelaAdmins'));
+        $this->set(compact('purchaseBooking', 'vendors', 'jainThelaAdmins','warehouses','items'));
         $this->set('_serialize', ['purchaseBooking']);
     }
 

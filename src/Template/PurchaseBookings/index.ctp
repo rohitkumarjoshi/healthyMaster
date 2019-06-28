@@ -21,8 +21,8 @@
 						<thead>
 						<tr>
 							<th scope="col">Sr. No.</th><!-- 
-							<th scope="col">Voucher No.</th> -->
-							<th scope="col">Grn No.</th>
+							<th scope="col">Voucher No.</th> --><!-- 
+							<th scope="col">Grn No.</th> -->
 							
 							<th scope="col">Transaction Date</th>
 							<th scope="col">Vendor Name</th>
@@ -36,7 +36,7 @@
             <tr>
                 <td><?= ++$sr_no ?></td>
 				<!-- <td><?= h('#'.str_pad($this->Number->format($purchaseBooking->voucher_no), 4, '0', STR_PAD_LEFT)) ?></td> -->
-                <td><?= h('#'.str_pad($this->Number->format($purchaseBooking->grn->grn_no), 4, '0', STR_PAD_LEFT)) ?></td>
+               <!--  <td><?= h('#'.str_pad($this->Number->format($purchaseBooking->grn->grn_no), 4, '0', STR_PAD_LEFT)) ?></td> -->
                 <td><?= h($purchaseBooking->transaction_date) ?></td>
                 <td><?= $purchaseBooking->vendor->name ?></td>
                 <td><?= $purchaseBooking->total_amount ?></td>

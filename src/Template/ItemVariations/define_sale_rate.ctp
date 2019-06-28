@@ -1,6 +1,6 @@
 <style>
 .table>thead>tr>th{
-	font-size:12px !important;
+	font-size:13px !important;
 }
 </style>
 <div class="row">
@@ -11,8 +11,7 @@
 			<div class="portlet-title">
 				<div class="caption">
 					<i class="font-purple-intense"></i>
-					<span class="caption-subject font-purple-intense ">
-						<i class="fa fa-plus"></i> Sales Rate Module
+					<span class="caption-subject font-purple-intense ">SALES RATE MODULE
 					</span>
 				</div>
 				<div class="actions">
@@ -20,24 +19,32 @@
 				</div>
 			</div>
 			<div class="portlet-body">
+				<form method="GET" >
+					<table width="50%" class="table table-condensed">
+						<tbody>
+							<tr>
+								<td width="2%">
+									<?php echo $this->Form->input('item_category_id', ['empty'=>'--Category--','options' => $category,'label' => false,'class' => 'form-control input-sm select2me','placeholder'=>'Category' ]); ?>
+								</td>
+								<td width="10%">
+									<button type="submit" class="btn btn-success btn-sm"><i class="fa fa-filter"></i> Filter</button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</form>
 				<?php $i=0; foreach ($item_variations as $item_variation): ?>	
 				<table class="table table-condensed table-hover table-bordered" id="main_tble">
 					<thead>
 						<tr>
-							<th colspan="7"><?php
-								$item_name=$item_variation->item->name;
-								$alias_name=$item_variation->item->alias_name;
-								?>
-								<?= h(@$item_name. ' ('.$alias_name.')') ?></th>
-						</tr>
-						<tr>
-							<th>Sr</th>
-							<th>Category</th>
-							<th width="100">Unit</th>
-							<th>Print Rate</th>
-							<th>Online Sale Rate</th>
-							<th>Item Discount %</th>
-							<th width="100">
+							<th width="5%">Sr</th>
+							<th width="10%">Category</th>
+							<th width="10%">Item</th>
+							<th width="20%">Unit</th>
+							<th width="15%">Print Rate</th>
+							<th width="15%">Online Sale Rate</th>
+							<th width="15%">Item Discount %</th>
+							<th width="20%">
 								Ready to Sale
 								<?php echo  $this->Form->control('rts',['class'=>'form-control input-sm all','options'=>['empty'=>'--All--', 'Yes'=>'Yes','No'=>'No'], 'label'=>false]); ?>
 							</th>
@@ -51,6 +58,11 @@
 							
 							</td>
 							<td><?= h(@$item_variation->item->item_category->name) ?></td>
+							<td><?php
+								$item_name=$item_variation->item->name;
+								$alias_name=$item_variation->item->alias_name;
+								?>
+								<?= h(@$item_name. ' ('.$alias_name.')') ?></td>
                             
 							<td style="font-size:10px;">
 								Rate per <b style="font-size:12px;"><?= $item_variation->quantity_variation." ".h($item_variation->unit->shortname) ?></b>
@@ -74,7 +86,7 @@
 				</table>
 				<?php $i++; endforeach; ?>
 				<div align="center">
-					<?= $this->Form->button($this->Html->tag('i', '', ['class'=>'fa fa-plus']) . __(' Update Sales Rate'),['class'=>'btn btn-success','id'=>'submitbtn']); ?>
+					<?= $this->Form->button($this->Html->tag('i') . __(' Update Sales Rate'),['class'=>'btn btn-success','id'=>'submitbtn']); ?>
 				</div>
 			</div>
 		</div>

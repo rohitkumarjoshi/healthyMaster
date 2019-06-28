@@ -24,10 +24,25 @@ class ItemVariationsController extends AppController
         $this->viewBuilder()->layout('index_layout');
        
         $itemvariation = $this->ItemVariations->newEntity();
-        
+         if ($this->request->is(['post'])) {
+           $item_category_id=$this->request->getData('item_category_id');
+            if($item_category_id!=null)
+            {
+                $cat=$this->ItemVariations->Items->find()
+                ->select('id')
+                ->where(['item_category_id'=>$item_category_id]);
+                
+
+                foreach ($cat as $cats) {
+
+                    $item_variations = $this->ItemVariations->find()
+                    ->where(['item_id'=>$cats->id])
+                    ->contain(['Items'=>['ItemCategories'],'Units']);
+                }
+            } 
+         }
         if ($this->request->is(['post', 'put'])) {
             $item_variation=$this->request->getData();
-            pr($item_variation);
             
             foreach($item_variation as $itemVariations){
                 //pr($itemVariations['print_rate']);exit;
@@ -45,13 +60,14 @@ class ItemVariationsController extends AppController
                     ->execute();
             }
 
-            pr($query->toArray());exit;
+            //pr($query->toArray());exit;
             $this->Flash->success(__('Item rates have updated successfully.'));
          }
         $item_variations = $this->ItemVariations->find()
-        ->group(['Items.name'])->contain(['Items'=>['ItemCategories'],'Units']);
+        ->contain(['Items'=>['ItemCategories'],'Units']);
+        $category=$this->ItemVariations->Items->ItemCategories->find('list');
         //pr($item_variations->toArray());exit;
-        $this->set(compact('item_variations','itemvariation', 'itemCategories', 'units'));
+        $this->set(compact('item_variations','itemvariation', 'itemCategories', 'units','category'));
         $this->set('_serialize', ['items']);
     }
 

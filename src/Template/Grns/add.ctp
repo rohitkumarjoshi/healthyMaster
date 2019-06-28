@@ -56,6 +56,8 @@
 									<td>
 										<label>Quantity<label>
 									</td>
+									<td><label>Rate<label></td>
+									<td><label>Amount<label></td>
 									<td>
 										<label>Action</label>
 									</td>
