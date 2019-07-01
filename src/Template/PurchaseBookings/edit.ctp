@@ -53,7 +53,7 @@
                                         <label>Item<label>
                                     </td>
                                 <td>
-                                        <label>Unit<label>
+                                        <label>Variation<label>
                                     </td>
                                     <td><label> Quantity<label></td>
                                     <td><label>Rate<label></td>
@@ -80,16 +80,15 @@
                                     <td>
                                         <?php echo $this->Form->input('purchase_booking_details['.$grn_rows.'][id]', ['label' => false,'value'=>$purchase_booking_detail->id, 'type'=>'hidden']); ?>
                                         <?php echo $this->Form->input('purchase_booking_details['.$grn_rows.'][purchase_booking_detail]', ['label' => false,'value'=>$purchase_booking_detail->purchase_booking_id , 'type'=>'hidden']); ?>
-                                            <?php echo $this->Form->control('purchase_booking_details['.$grn_rows.'][item_id]',['value' => $purchase_booking_detail->item_id,'class'=>'form-control input-sm','label'=>false,'type'=>'hidden']); ?>
-                                            <?= $purchase_booking_detail->item->name ?>
-                                            ( <?= $purchase_booking_detail->item_variation->quantity_variation.' '.$purchase_booking_detail->item_variation->unit->shortname ?> )
-                                                <?php echo $this->Form->input('purchase_booking_details['.$grn_rows.'][item_variation_id]', ['label' => false,'class' => 'form-control input-sm number','placeholder'=>'Variation','value'=>$purchase_booking_detail->item_variation_id,'type'=>'hidden']); ?>
+                                            <?php echo $this->Form->control('purchase_booking_details['.$grn_rows.'][item_id]',['value' => $purchase_booking_detail->item_id,'class'=>'form-control input-sm select2  item-id','id'=>'item-id','label'=>false,'options'=>$items]); ?>
+                                                
+
+                                    </td>
+                                            <?php echo $this->Form->input('purchase_booking_details['.$grn_rows.'][item_variation_id]', ['label' => false,'class' => 'form-control input-sm number variation','placeholder'=>'Variation','value'=>$purchase_booking_detail->item_variation->name]); ?>
+                                    <td>
                                     </td>
                                     <td>
-                                    <?= $purchase_booking_detail->quantity ?>
-                                        <?php echo $this->Form->input('purchase_booking_details['.$grn_rows.'][quantity]', ['label' => false,'class' => 'form-control input-sm number','placeholder'=>'Quantity','value'=>$purchase_booking_detail->quantity,'type'=>'hidden']); ?>
-                                        
-
+                                        <?php echo $this->Form->input('purchase_booking_details['.$grn_rows.'][quantity]', ['label' => false,'class' => 'form-control input-sm number','placeholder'=>'Quantity','value'=>$purchase_booking_detail->quantity]); ?>
                                     </td>
                                         <?php echo $this->Form->input('purchase_booking_details['.$grn_rows.'][invoice_quantity]', ['label' => false,'class' => 'form-control input-sm number calculation_amount','placeholder'=>'Invoice Quantity','value'=>$purchase_booking_detail->quantity]); ?>  
                                     <td>
@@ -138,7 +137,7 @@
 <?php echo $this->Html->script('/assets/global/plugins/jquery.min.js'); ?>
 <script>
 $(document).ready(function() {
-
+        rename_rows();
 
     $(document).on('change','.show_quantity',function(){
         //alert();
@@ -331,14 +330,11 @@ $(document).ready(function() {
         calculate_total();
     });
 
-    add_row();
     calculate_total();
     function add_row(){
         var tr=$("#sample_table tbody tr.main_tr").clone();
         $("#main_table tbody#main_tbody").append(tr);
-        
         rename_rows();
-        
     }
 
 
@@ -572,9 +568,9 @@ function selectAutoCompleted1(value) {
                     <td>
                         <?php echo $this->Form->input('net_amount', ['label' => false,'class' => 'form-control input-sm number cal_amount net_amount','readonly']); ?>  
                     </td>
-                    <td>
+                   <!--  <td>
                         <a class="btn btn-default delete-tr input-sm" href="#" role="button" ><i class="fa fa-times"></i></a>
-                    </td>
+                    </td> -->
                     
                 </tr>
             </tbody>

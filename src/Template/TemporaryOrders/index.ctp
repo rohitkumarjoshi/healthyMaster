@@ -23,19 +23,19 @@
             foreach ($temps as $temp) {
                
                 ?>
-    <div style="border: solid 1px #e5e5e5;margin-top: 20px;padding: 15px;">
+    <div style="margin-top: 20px;padding: 15px;">
         <table width="100%">    
             
             <tbody>
                 <tr style="background-color:#fff; color:#000; padding: 20px;" >
                     <td align="left" colspan="5">
                         <b>
-                            Order No.: <?= $temp->order->order_no ?>
-                            <span class="pull-right"><?php
+                            Order No.: <?= $temp->order_no ?>
+                            <!-- <span class="pull-right"><?php
                                 foreach ($count as $cnt) {
                                     echo $cnt->total;
                                 }
-                            ?></span>
+                            ?></span> -->
                         </b>
                     </td>
                 </tr>
@@ -51,7 +51,7 @@
                 </thead>
                 
                 <?php
-                foreach($temp->order->order_details as $order_detail ){ 
+                foreach($temp->order_details as $order_detail ){ 
                     @$i++;
                     $show_variation=$order_detail->item_variation->quantity_variation.' '.$order_detail->item_variation->unit->shortname;
                     $quantity=$order_detail->quantity;

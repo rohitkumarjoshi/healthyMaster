@@ -37,7 +37,7 @@
                         ?>
                         <tr>
                             <td><?= $i ?></td>
-                            <td><?= h($pincode->state->name) ?></td>
+                            <td><?= h($pincode->state->state_name) ?></td>
                             <td><?= h($pincode->city->name) ?></td>
                             <td><?= h($pincode->pincode) ?></td>
                             <td><?php

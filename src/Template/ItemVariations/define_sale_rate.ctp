@@ -5,7 +5,6 @@
 </style>
 <div class="row">
 	<div class="col-md-12">
-	<?= $this->Form->create($itemvariation,['id'=>'form_sample_3']) ?>
 	
 		<div class="portlet light bordered">
 			<div class="portlet-title">
@@ -33,6 +32,8 @@
 						</tbody>
 					</table>
 				</form>
+
+				<?= $this->Form->create($itemvariation,['id'=>'form_sample_3']) ?>
 				<?php $i=0; foreach ($item_variations as $item_variation): ?>	
 				<table class="table table-condensed table-hover table-bordered" id="main_tble">
 					<thead>
@@ -88,9 +89,10 @@
 				<div align="center">
 					<?= $this->Form->button($this->Html->tag('i') . __(' Update Sales Rate'),['class'=>'btn btn-success','id'=>'submitbtn']); ?>
 				</div>
+			<?= $this->Form->end() ?>
+				
 			</div>
 		</div>
-		<?= $this->Form->end() ?>
 	</div>
 </div>
 <?php echo $this->Html->script('/assets/global/plugins/jquery.min.js'); ?>

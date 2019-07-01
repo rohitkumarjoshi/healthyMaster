@@ -17,8 +17,7 @@
 			<div class="portlet-title">
 				<div class="caption">
 					<i class="font-purple-intense"></i>
-					<span class="caption-subject font-purple-intense ">
-						<i class="fa fa-book"></i> Order</span>
+					<span class="caption-subject font-purple-intense ">ORDER</span>
 				</div>
 				<div class="actions">
 					<?php echo $this->Html->link('<i class="fa fa-plus"></i> Add new','/Orders/Add/Offline',['escape'=>false,'class'=>'btn btn-default']) ?>
@@ -119,8 +118,6 @@
 							<th scope="col">Order Type</th>
 							<th scope="col">Order Date</th>
 							<th scope="col">Delivery Date</th>
-							
-							<th scope="col">Status</th>
 							<th scope="col" class="actions"><?= __('Actions') ?></th>
 							<th scope="col">Edit</th>
 						</tr>
@@ -165,31 +162,38 @@
 							<td><?= h($order->order_type) ?></td>
 							<td><?php $q=explode(' ',$order->order_date); ?> <span style="font-size:11px;"><?php echo $q[0] ?></span></td>
 							<td><span style="font-size:11px;"><?= h($date_show) ?></span></td>
-							<td><?= h($status) ?></td>
+							
 							
 							<td class="actions">
-							<?php  if($status=='In Process'){ ?>
-							   <?php echo $this->Html->link('Placed',['controller'=>'Orders','action' => 'placed',$order_id],['escape'=>false,'class'=>'btn blue btn-xs']); ?>
-							   <a class="btn red btn-xs cncl" order_id="<?php echo $order->id; ?>" > <i class="fa fa-remove"></i> Cancel</a>
-							   
-							<?php } ?> 
-							<?php  if($status=='Packed'){ ?>
-							   <?php echo $this->Html->link('Packed',['controller'=>'Orders','action' => 'packed',$order_id],['escape'=>false,'class'=>'btn blue btn-xs']); ?>
-							   <a class="btn red btn-xs cncl" order_id="<?php echo $order->id; ?>" > <i class="fa fa-remove"></i> Cancel</a>
-							   
-							<?php } ?> 
-							<?php  if($status=='Dispatch'){ ?>
-							   <?php echo $this->Html->link('Dispatch',['controller'=>'Orders','action' => 'dispatch',$order_id],['escape'=>false,'class'=>'btn blue btn-xs']); ?>
-							   <a class="btn red btn-xs cncl" order_id="<?php echo $order->id; ?>" > <i class="fa fa-remove"></i> Cancel</a>
-							   
-							<?php } ?> 
-							<?php  if($status=='Delivered'){ ?>
-							   <?php echo $this->Html->link('Delivered',['controller'=>'Orders','action' => 'placed',$order_id],['escape'=>false,'class'=>'btn blue btn-xs']); ?>
-							   <a class="btn red btn-xs cncl" order_id="<?php echo $order->id; ?>" > <i class="fa fa-remove"></i> Cancel</a>
-							   
-							<?php } ?> 
-							
-							
+							<select name="status" class="form-control select2 input-sm option_status">
+								<?php if($order->status=="In Process")
+								{?>
+									<option value="In Process" selected>In Process</option>
+									<option value="Packed">Packed</option>
+									<option value="Dispatch">Dispatch</option>
+									<option value="Delivered">Delivered</option>
+								<?php }if($order->status=="Packed")
+								{?>
+									<option value="Packed" selected>Packed</option>
+									<option value="In Process">In Process</option>
+									<option value="Dispatch">Dispatch</option>
+									<option value="Delivered">Delivered</option>
+								<?php }if($order->status=="Dispatch")
+								{?>
+								<option value="Dispatch" selected>Dispatch</option>
+								<option value="Packed">Packed</option>
+									<option value="In Process">In Process</option>
+									<option value="Delivered">Delivered</option>
+								<?php }if($order->status=="Delivered")
+								{?>
+								<option value="Delivered" selected>Delivered</option>
+								<option value="Dispatch" >Dispatch</option>
+								<option value="Packed" >Packed</option>
+									<option value="In Process" >In Process</option>
+
+							<?php } ?>
+							</select>
+							<button class="btn btn-primary btn-xs ok" order_id="<?=$order->id ?>">Ok</button>
 							</td>
 							<?php  if(($status=='In Process') || ($status=='In process')){ 
 							if(( $order_date == $current_date ) || ($order_date == $prev_date  )){?>
@@ -242,6 +246,21 @@ var $rows = $('#main_tble tbody tr');
 </script>
 <script>
 $(document).ready(function() {
+
+	 $(document).on('click',".ok",function(){
+		var status=$(this).closest('tr').find('.option_status').val();
+		var id=$(this).attr('order_id');
+		//alert(status);
+		 $.ajax({
+            url: "<?php echo $this->Url->build(["controller" => "Orders", "action" => "statuses"]); ?>",
+            type: 'post',
+            data: {status: status,id:id},
+           success: function (data) {
+               alert("ok");
+               }
+            });
+
+	});
 	
 	var form3 = $('#content');
 	var error3 = $('.alert-danger', form3);

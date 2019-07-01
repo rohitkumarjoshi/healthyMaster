@@ -23,15 +23,26 @@ class TemporaryOrdersController extends AppController
         $this->paginate = [
             'contain' => ['Orders'=>['OrderDetails']]
         ];
-        $temporaryOrders = $this->paginate($this->TemporaryOrders);
-        $temps=$this->TemporaryOrders->find()->
-        contain(['Orders'=>['CustomerAddresses','OrderDetails'=>['Items','ItemVariations'=>['Units']]]]);
-        
-        foreach ($temps as $temp) {
-           $count=$this->TemporaryOrders->Orders->OrderDetails->find()
-           ->select(['total'=>'count(OrderDetails.item_id)'])
-           ->where(['order_id'=>$temp->order_id]);
+
+        if ($this->request->is(['post', 'put'])) {
+            $temporary_orders=$this->request->getData('temporary_orders');
+            
+            $temps=$this->TemporaryOrders->Orders->find()
+            //->select(['total'=>'count(Orders.OrderDetails.item_id)'])
+            ->where(['Orders.id IN'=>$temporary_orders])
+            ->contain(['CustomerAddresses','OrderDetails'=>['Items','ItemVariations'=>['Units']]]);
         }
+        //pr($temporary_orders);exit;
+
+        // $temporaryOrders = $this->paginate($this->TemporaryOrders);
+        // $temps=$this->TemporaryOrders->find()->
+        // contain(['Orders'=>['CustomerAddresses','OrderDetails'=>['Items','ItemVariations'=>['Units']]]]);
+        
+        // foreach ($temps as $temp) {
+        //    $count=$this->TemporaryOrders->Orders->OrderDetails->find()
+        //    ->select(['total'=>'count(OrderDetails.item_id)'])
+        //    ->where(['order_id'=>$temp->order_id]);
+        // }
 
         //pr($count->toArray());exit;
 

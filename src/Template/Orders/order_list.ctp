@@ -35,7 +35,7 @@
 					<?php echo $this->Html->link('Dispatch',['controller'=>'Orders','action' => 'orderList?status=dispatch'],['escape'=>false,'class'=>$class1]); ?>
 					<?php echo $this->Html->link('Delivered',['controller'=>'Orders','action' => 'orderList?status=delivered'],['escape'=>false,'class'=>$class1]); ?>
 				</div> -->
-			<?= $this->Form->create($order,['id'=>'form_sample_3']) ?>
+			<?= $this->Form->create($order,['id'=>'form_sample_3','url'=>'/TemporaryOrders/index']) ?>
 			<?php $page_no=$this->Paginator->current('Orders'); $page_no=($page_no-1)*20; ?>
 				<table class="table table-condensed table-hover table-bordered" id="main_tble">
 					<thead>
@@ -79,7 +79,7 @@
 						?>
 						<tr <?php if(($status=='In Process') || ($status=='In process')){ ?>style="background-color:#ffe4e4; "<?php } ?> >
 							<td>
-								<input type="hidden" name="temporary_orders[status]" value="<?= $cur_status ?>"><input class="checkbox" id="check" type="checkbox" name="temporary_orders[<?= $sr_no?>][order_id]" value="<?= $order->id ?>">
+								<input class="checkbox" id="check" type="checkbox" name="temporary_orders[]" value="<?= $order->id ?>">
 								</td>
 							<td>
 

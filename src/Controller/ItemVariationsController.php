@@ -22,29 +22,35 @@ class ItemVariationsController extends AppController
     public function defineSaleRate()
     {
         $this->viewBuilder()->layout('index_layout');
-       
+       $item_variations=[];
         $itemvariation = $this->ItemVariations->newEntity();
-         if ($this->request->is(['post'])) {
-           $item_category_id=$this->request->getData('item_category_id');
+           $item_category_id=$this->request->query('item_category_id');
             if($item_category_id!=null)
             {
+
                 $cat=$this->ItemVariations->Items->find()
                 ->select('id')
                 ->where(['item_category_id'=>$item_category_id]);
-                
+                // pr($cat->toArray());exit;
 
                 foreach ($cat as $cats) {
 
                     $item_variations = $this->ItemVariations->find()
                     ->where(['item_id'=>$cats->id])
                     ->contain(['Items'=>['ItemCategories'],'Units']);
-                }
+                
             } 
+           // pr($item_variations->toArray());exit;
+         }
+         else
+         {
+             $item_variations = $this->ItemVariations->find()
+        ->contain(['Items'=>['ItemCategories'],'Units']);
          }
         if ($this->request->is(['post', 'put'])) {
             $item_variation=$this->request->getData();
-            
-            foreach($item_variation as $itemVariations){
+            //pr($item_variation);exit;
+            foreach($item_variation['itemVariations'] as $itemVariations){
                 //pr($itemVariations['print_rate']);exit;
                 $itemVariation=(object)$itemVariations;
                 $query = $this->ItemVariations->query();
@@ -60,11 +66,10 @@ class ItemVariationsController extends AppController
                     ->execute();
             }
 
-            //pr($query->toArray());exit;
+            
             $this->Flash->success(__('Item rates have updated successfully.'));
          }
-        $item_variations = $this->ItemVariations->find()
-        ->contain(['Items'=>['ItemCategories'],'Units']);
+       
         $category=$this->ItemVariations->Items->ItemCategories->find('list');
         //pr($item_variations->toArray());exit;
         $this->set(compact('item_variations','itemvariation', 'itemCategories', 'units','category'));

@@ -66,7 +66,7 @@ class ItemCategoriesController extends AppController
             //pr($file);exit;
             $file_name=$file['name'];           
             $ext = substr(strtolower(strrchr($file['name'], '.')), 1); //get the extension
-            $arr_ext = array('jpg', 'jpeg', 'png'); //set allowed extensions
+            $arr_ext = array('jpg', 'jpeg', 'png','JPEG'); //set allowed extensions
             $setNewFileName = uniqid();
             $img_name= $setNewFileName.'.'.$ext;
             if(!empty($file_name)){
@@ -74,6 +74,7 @@ class ItemCategoriesController extends AppController
             }if(empty($file_name)){
                 
             }
+                       
             //pr($item);exit;
             if ($this->ItemCategories->save($itemCategory)) {
                 //pr($item);exit;
@@ -88,7 +89,7 @@ class ItemCategoriesController extends AppController
                         imagejpeg($image, $destination_url, 10);
                         $keyname1 = 'itemcategories/'.$img_name;
                         $this->AwsFile->putObjectFile($keyname1,$destination_url,$file['type']);
-            
+                        
                     //move_uploaded_file($file['tmp_name'], WWW_ROOT . 'img/item_images/'.$img_name);
                   }
                 return $this->redirect(['action' => 'index']);

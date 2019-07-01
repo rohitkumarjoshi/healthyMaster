@@ -7,22 +7,22 @@ use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
 /**
- * Cities Model
+ * States Model
  *
- * @property \App\Model\Table\StatesTable|\Cake\ORM\Association\BelongsTo $States
  * @property \App\Model\Table\CountriesTable|\Cake\ORM\Association\BelongsTo $Countries
+ * @property \App\Model\Table\CitiesTable|\Cake\ORM\Association\HasMany $Cities
  * @property \App\Model\Table\UsersTable|\Cake\ORM\Association\HasMany $Users
  *
- * @method \App\Model\Entity\City get($primaryKey, $options = [])
- * @method \App\Model\Entity\City newEntity($data = null, array $options = [])
- * @method \App\Model\Entity\City[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\City|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\City|bool saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\City patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\City[] patchEntities($entities, array $data, array $options = [])
- * @method \App\Model\Entity\City findOrCreate($search, callable $callback = null, $options = [])
+ * @method \App\Model\Entity\State get($primaryKey, $options = [])
+ * @method \App\Model\Entity\State newEntity($data = null, array $options = [])
+ * @method \App\Model\Entity\State[] newEntities(array $data, array $options = [])
+ * @method \App\Model\Entity\State|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\State|bool saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\State patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
+ * @method \App\Model\Entity\State[] patchEntities($entities, array $data, array $options = [])
+ * @method \App\Model\Entity\State findOrCreate($search, callable $callback = null, $options = [])
  */
-class CitiesTable extends Table
+class StatesTable extends Table
 {
 
     /**
@@ -35,20 +35,19 @@ class CitiesTable extends Table
     {
         parent::initialize($config);
 
-        $this->setTable('cities');
-        $this->setDisplayField('name');
+        $this->setTable('states');
+        $this->setDisplayField('state_name');
         $this->setPrimaryKey('id');
 
-        $this->belongsTo('States', [
-            'foreignKey' => 'state_id',
-            'joinType' => 'INNER'
-        ]);
         $this->belongsTo('Countries', [
             'foreignKey' => 'country_id',
             'joinType' => 'INNER'
         ]);
+        $this->hasMany('Cities', [
+            'foreignKey' => 'state_id'
+        ]);
         $this->hasMany('Users', [
-            'foreignKey' => 'city_id'
+            'foreignKey' => 'state_id'
         ]);
     }
 
@@ -65,27 +64,12 @@ class CitiesTable extends Table
             ->allowEmpty('id', 'create');
 
         $validator
-            ->scalar('name')
-            ->maxLength('name', 50)
-            ->requirePresence('name', 'create')
-            ->notEmpty('name');
+            ->scalar('state_name')
+            ->maxLength('state_name', 50)
+            ->requirePresence('state_name', 'create')
+            ->notEmpty('state_name');
 
        /*  $validator
-            ->integer('price')
-            ->requirePresence('price', 'create')
-            ->notEmpty('price');
-
-        $validator
-            ->scalar('category')
-            ->requirePresence('category', 'create')
-            ->notEmpty('category');
-
-        $validator
-            ->dateTime('updated_at')
-            ->requirePresence('updated_at', 'create')
-            ->notEmpty('updated_at');
-
-        $validator
             ->dateTime('created_at')
             ->requirePresence('created_at', 'create')
             ->notEmpty('created_at');
@@ -107,7 +91,6 @@ class CitiesTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->existsIn(['state_id'], 'States'));
         $rules->add($rules->existsIn(['country_id'], 'Countries'));
 
         return $rules;

@@ -63,7 +63,10 @@
 							<td><?= h($item->item_category->name) ?></td>
 							
 							<td><?= h($item->freeze) ?></td>
-							<td><img style="height:2%;" src="/healthyMaster/webroot/img/item_images/<?= $item->image ?>" ></td>
+							<td>
+							    
+							   <?= $this->Html->image('/img/item_images/'.$item->image, ['style'=>'width:50px; height:50px;']); ?>
+							    </td>
 							<td class="actions">
 								<?= $this->Html->link(__('Edit'), ['action' => 'edit', $item->id]) ?>
 								<?php if($status=='unfreeze' or $status==''){ ?>

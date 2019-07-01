@@ -46,7 +46,7 @@
 							<td><?= h($vendor->email) ?></td>
 							<td><?= h($vendor->address) ?></td>
 							<td><?= h($vendor->city->name) ?></td>
-							<td><?= h($vendor->state->name) ?></td>
+							<td><?= h($vendor->state->state_name) ?></td>
 							<td><?= h($vendor->gst_no) ?></td>
 							<td class="actions">
 								 <?= $this->Html->link(__('<span class="fa fa-pencil"></span>'), ['action' => 'edit', $vendor->id],['class'=>'btn btn-primary  btn-condensed btn-sm','escape'=>false]) ?>

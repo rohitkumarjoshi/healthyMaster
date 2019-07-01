@@ -26,14 +26,14 @@
 					<div class="col-md-3">
 						<?php echo $this->Form->control('item_category_id', ['empty'=>'--select--','options' => $itemCategories,'class'=>'form-control input-sm','required']); ?>
 					</div>
-					<div class="col-md-3">
+					<!--<div class="col-md-3">
 						<div class="radio-list">
 						<label>Ready To Sale</label>
 						<div class="form-control input-sm" style="padding-right: 1px;">
 							<label class='radio-inline'><input type='radio' name='ready_to_sale' value='yes' >Yes </label><label class='radio-inline'><input type='radio' name='ready_to_sale' value='no' checked="checked">No </label>
 						</div>
 					</div>
-					</div>
+					</div>-->
 
 				</div><br/>
 				<div class="row">
@@ -127,7 +127,7 @@ $('.gst').on('change',function(){
 		$('.gst_show').hide();
 	}
 }); */
-	 var radio = "<label class='radio-inline'><input type='radio' name='item_variations.0.ready_to_sale' class='ready' value='yes'>Yes </label><label class='radio-inline'><input type='radio' name='item_variations.0.ready_to_sale' class='ready' value='no' checked>No </label>";
+	 var radio = "<label class='radio-inline'><input type='radio' name='item_variations.0.ready_to_sale' class='ready' value='yes' checked>Yes </label><label class='radio-inline'><input type='radio' name='item_variations.0.ready_to_sale' class='ready' value='no' >No </label>";
 
    
 

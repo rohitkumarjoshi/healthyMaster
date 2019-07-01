@@ -362,9 +362,9 @@
 							</li> -->
 
 
-							<li>
+							<!-- <li>
 								<?php echo $this->Html->link('<i class="fa fa-ticket"></i> GRNs','/Grns',['escape'=>false]) ?>
-							</li>
+							</li> -->
 							<li>
 								<?php echo $this->Html->link('<i class="fa  fa-book"></i> Purchase Booking','/PurchaseBookings',['escape'=>false]) ?>
 							</li>
@@ -383,7 +383,7 @@
 								<?php echo $this->Html->link('<i class="fa fa-retweet"></i> Stock Return','/itemLedgers/stock_return',['escape'=>false]) ?>
 							</li> -->
 							<li>
-								<?php echo $this->Html->link('<i class="fa fa-asterisk"></i> WalkinbSales','/Orders/add/Offline',['escape'=>false]) ?>
+								<?php echo $this->Html->link('<i class="fa fa-asterisk"></i> WalkinSales','/Orders/add/Offline',['escape'=>false]) ?>
 							</li>
 							<!--<li>
 								<?php echo $this->Html->link('<i class="fa fa-tasks"></i> Bulk Order','/Orders/add/Bulkorder',['escape'=>false]) ?>

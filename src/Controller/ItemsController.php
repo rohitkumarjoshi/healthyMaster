@@ -107,6 +107,7 @@ class ItemsController extends AppController
         if ($this->request->is('post')) {
 			
             //pr($data);
+            $data=$this->request->data;
 			$item = $this->Items->patchEntity($item,$data,['associated'=>['ItemVariations']]);
             //pr($item->toArray());exit;
 

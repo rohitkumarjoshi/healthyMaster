@@ -11,7 +11,9 @@
 			</div>
 			<div class="portlet-body">
 				<div class="row" style="overflow-y: scroll;height: 170px;">
-					<h3><?= ucfirst($customers->name) ?></h3>
+					<div class="col-md-8">
+						<label class=" control-label">Name : <?= $customers->name?></label>
+					</div>
 					<div class="col-md-8">
 						<label class=" control-label">Mobile : <?= $customers->mobile?></label>
 					</div>
@@ -19,13 +21,30 @@
 						<label class=" control-label">Email : <?= $customers->email?></label>
 					</div>
 					<div class="col-md-8">
-						<label class=" control-label">Address : 
+						
+							
 						<?php
-							foreach ($customer_address as $customeradd) {
-							echo $customeradd->house_no.','.$customeradd->address.','.$customeradd->locality.'  ';
+							$i=0;
+							foreach ($customer_address as $customeradd) { $i++;?>
+								<label class=" control-label">Address  <?= $i?> : 
+							<?php echo $customeradd->house_no.','.$customeradd->address.','.$customeradd->locality.'  ';
 							}
 						?></label>
 					</div>
+					<!-- <div class="col-md-8">
+						<label class=" control-label">City :<?php
+							foreach ($customer_address as $customeradd) {
+							echo $customeradd->city->name;
+							}
+						?></label>
+					</div>
+					<div class="col-md-8">
+						<label class=" control-label">State : <?php
+							foreach ($customer_address as $customeradd) {
+							echo $customeradd->state->name;
+							}
+						?></label>
+					</div> -->
 				</div>
 			</div>
 		</div>
@@ -104,6 +123,8 @@
 			</div>
 			<div class="portlet-body">
 				<div style="overflow-y: scroll;height: 170px;">
+					<?php if(!empty($carts))
+					{?>
 					<div class="col-md-4">
 						<table class="table table-condensed  table-bordered" id="main_tble" >
 							<thead>
@@ -140,6 +161,12 @@
 							</tbody>
 						</table>
 					</div>
+				<?php } 
+				else{
+					echo"No Data";
+				}?>
+
+
 				</div>
 			</div>
 		</div>

@@ -17,6 +17,21 @@ class PincodesController extends AppController
      *
      * @return \Cake\Http\Response|void
      */
+
+    public function options(){
+        $state_id=$this->request->getData('input'); 
+
+            $states=$this->Pincodes->Cities->find()->where(['Cities.state_id'=>$state_id]);
+            ?>
+                    <option>--Select--</option>
+                    <?php foreach($states as $show){ ?>
+                        
+                        <option value="<?= $show->id ?>"><?= $show->name?></option>
+                    <?php } ?>
+            <?php
+        
+        exit;  
+    }
     public function index()
     {
         $this->viewBuilder()->layout('index_layout');

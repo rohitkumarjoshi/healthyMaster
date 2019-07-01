@@ -39,7 +39,9 @@ class CustomersController extends AppController
 			}
 		]
 	]);
-    	$customer_address=$this->Customers->CustomerAddresses->find()->where(['CustomerAddresses.customer_id'=>$id]);
+    	$customer_address=$this->Customers->CustomerAddresses->find()
+    	//->contain(['Cities','States'])
+    	->where(['CustomerAddresses.customer_id'=>$id]);
     	$orders = $this->Customers->Orders->find()->where(['Orders.customer_id'=>$id])
     	->contain(['OrderDetails']);
     	foreach ($orders as $order) {

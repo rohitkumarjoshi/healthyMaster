@@ -239,7 +239,30 @@ class OrdersController extends AppController
         exit;  
     }
 
-    
+    public function statuses()
+    {
+    	$x=0;
+    	 $status=$this->request->getData('status'); 
+        $id=$this->request->getData('id');
+        if($status == 'Packed'){
+	            $packed=$this->Orders->get($id);
+
+		         $packed->status="Packed";
+		         $this->Orders->save($packed);
+           }
+           if($status == 'Dispatch'){
+	            $packed=$this->Orders->get($id);
+
+		         $packed->status="Dispatch";
+		         $this->Orders->save($packed);
+           }if($status == 'Delivered'){
+	            $packed=$this->Orders->get($id);
+
+		         $packed->status="Delivered";
+		         $this->Orders->save($packed);
+           }
+           exit;
+    }
 	
     public function index($status=null,$type=null)
     {
@@ -476,78 +499,7 @@ class OrdersController extends AppController
 		$OrderStatus=[];
 		$OrderStatus=[['text'=>'Cancel','value'=>'Cancel'],['text'=>'Delivered','value'=>'Delivered'],['text'=>'In Process','value'=>'In Process']];
 
-		if ($this->request->is(['post', 'put'])) {
-			$x=0;
-			$dd=$this->request->getData('temporary_orders');
-			$stats=$dd['status'];
-			//pr(sizeof($dd));exit;
-			if($stats == "In Process")
-			{
-				$temp=$this->Orders->TemporaryOrders->newEntities($dd);
-						
-	            if($this->Orders->TemporaryOrders->saveMany($temp))
-	            	$x=1;
-	        }
-	        if($stats == "Packed")
-	        {
-	        	$i=0;
-	        	$size=sizeof($dd);
-	        	if($i != $size)
-	        	{
-		        	foreach ($dd as $datas)
-					{
-
-						
-						$order_id=$this->request->getData('temporary_orders.'.$i.'.order_id');
-						
-						$i++;
-						$order=$this->Orders->find()->where(['id'=>$order_id]);
-						foreach ($order as $order) {
-							//pr($order->status);
-							$order->status="Dispatch";
-						//pr($order->toArray());exit;
-						if($this->Orders->save($order))
-							$x=1;
-						}
-							
-					}
-				}
-	        }
-
-	        if($stats == "Dispatch")
-	        {
-	        	//pr("fdvdf");exit;
-	        	$i=0;
-	        	$size=sizeof($dd);
-	        	if($i != $size)
-	        	{
-		        	foreach ($dd as $data)
-					{
-						//pr($dd);exit;
-						
-						$order_id=$this->request->getData('temporary_orders.'.$i.'.order_id');
-						//pr($order_id);
-						$i++;
-						$order=$this->Orders->find()->where(['id'=>$order_id]);
-						//pr($order->toArray());exit;
-						foreach ($order as $order) {
-						//pr($order->status);
-							$order->status="Delivered";
-						//pr($order->toArray());exit;
-						if($this->Orders->save($order))
-							$x=1;
-						}
-							
-					}
-				}
-	        }
-            //pr($order_id);exit;
-            if ($x) {
-                $this->Flash->success(__('The order has been saved.'));
-                 return $this->redirect(['controller' => 'TemporaryOrders', 'action' => 'index']);
-                }
-                $this->Flash->error(__('The order could not be saved. Please, try again.'));
-		}
+		
 
         $this->set(compact('orders','Customer_data','order_type','OrderStatus','order_no','customer_id','order_types','orderstatus','from_date','to_date','status','order'));
         $this->set('_serialize', ['orders']);
@@ -577,6 +529,7 @@ class OrdersController extends AppController
         $order = $this->Orders->get($id, [
             'contain' => ['Customers', 'CustomerAddresses', 'PromoCodes', 'OrderDetails'=>['Items','ItemVariations'=>['Units']]]
         ]);
+        //pr($order);exit;
 	
         $this->set(compact('order', 'id', 'print'));
         $this->set('_serialize', ['order']);
