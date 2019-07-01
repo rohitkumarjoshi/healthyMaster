@@ -145,14 +145,9 @@ background-color: #fff;}
 										<label>Rate<label>
 									</td>
 									<td width="20%">
-										<label>Taxable amount<label>
+										<label>amount<label>
 									</td>
-									<td width="20%">
-										<label>Gst Amount<label>
-									</td>
-									<td width="20%">
-										<label>Net Amount<label>
-									</td>
+									
 									<td>Delete</td>
 								</tr>
 							</thead>
@@ -161,7 +156,7 @@ background-color: #fff;}
 							</tbody>
 							<tfoot>
 								<tr>
-									<td colspan="7" style="text-align:right;">
+									<td colspan="5" style="text-align:right;">
 									<a class="btn btn-default input-sm add_row" href="#" role="button"  style="float: left;"><i class="fa fa-plus"></i> Add Row</a>
 									 Total Amount</td>
 									<td>
@@ -170,7 +165,7 @@ background-color: #fff;}
 									<td></td>
 								</tr>
 								<tr>
-									<td colspan="7" style="text-align:right;">
+									<td colspan="5" style="text-align:right;">
 									Delivery Charge
 									</td>
 									<td>
@@ -179,12 +174,12 @@ background-color: #fff;}
 									<td></td>
 								</tr>
 								<tr>
-									<td colspan="7" style="text-align:right;">Grand Total</td>
+									<td colspan="5" style="text-align:right;">Grand Total</td>
 									<td><?php echo $this->Form->input('grand_total', ['label' => false,'class' => 'form-control input-sm number ','placeholder'=>'Total Amount','type'=>'text','readonly']); ?>
 									</td>
 								</tr>
 								<tr>
-									<td colspan="7" style="text-align:right;">
+									<td colspan="5" style="text-align:right;">
 									Amount From Wallet
 									</td>
 									<td>
@@ -194,7 +189,7 @@ background-color: #fff;}
 								</tr>
 								
 								<tr>
-									<td colspan="7" style="text-align:right;">
+									<td colspan="5" style="text-align:right;">
 									Paid Amount
 									</td>
 									<td>
@@ -428,6 +423,24 @@ $(document).ready(function() {
 		
 	}
 
+function round(value, exp) {
+          if (typeof exp === 'undefined' || +exp === 0)
+            return Math.round(value);
+
+          value = +value;
+          exp = +exp;
+
+          if (isNaN(value) || !(typeof exp === 'number' && exp % 1 === 0))
+            return 0;
+
+          // Shift
+          value = value.toString().split('e');
+          value = Math.round(+(value[0] + 'e' + (value[1] ? (+value[1] + exp) : exp)));
+
+          // Shift back
+          value = value.toString().split('e');
+          return +(value[0] + 'e' + (value[1] ? (+value[1] - exp) : -exp));
+        }
 
 
 	function calculate_total(){
@@ -439,6 +452,7 @@ $(document).ready(function() {
 			}else{
 				tax_percentage=0;
 			}
+			
 		var obj=$(this).closest('tr');
 		var qty=obj.find('td:nth-child(4) input').val();
 
@@ -447,16 +461,18 @@ $(document).ready(function() {
 		//alert(qty);
 		var rate=obj.find('td:nth-child(5) input').val();
 		var amount=qty*rate;
-		//alert(amount);
-		gst=amount*tax_percentage/100;
-		gst_total=amount+gst;
-		var gs=Math.round(obj.find('td:nth-child(7) .gst_amount').val(gst));
-		Math.round(obj.find('td:nth-child(8) input').val(gst_total));
 		
-		var rate=Math.round(obj.find('td:nth-child(6) input').val(amount));
+		gst=(amount*tax_percentage)/(parseFloat(100)+parseFloat(tax_percentage));
+		
+		gst=round(gst,2);
+		gst_total=amount-gst;
+		var gs=Math.round(obj.find('td:nth-child(6) .gst_amount').val(gst));
+		Math.round(obj.find('td:nth-child(6) .net_amount').val(gst_total));
+		
+		var rate=Math.round(obj.find('td:nth-child(6) .show_amount').val(amount));
 		var total_amount=0;
 		$("#main_table tbody#main_tbody tr.main_tr").each(function(){ 
-			total_amount+=parseFloat($(this).find("td:nth-child(8) input").val());
+			total_amount+=parseFloat($(this).find("td:nth-child(6) .show_amount").val());
 		});
 		var display_amount=Math.round(total_amount);
 		if($('input[name=discount_percent]').val())
@@ -508,12 +524,12 @@ $(document).ready(function() {
 			$(this).find("td:nth-child(5) input").attr({name:"order_details["+i+"][rate]", id:"order_details-"+i+"-rate"}).rules('add', {
 				required: true
 			});
-			$(this).find("td:nth-child(6) input").attr({name:"order_details["+i+"][amount]", id:"order_details-"+i+"-amount"}).rules('add', {
+			$(this).find("td:nth-child(6) .show_amount").attr({name:"order_details["+i+"][amount]", id:"order_details-"+i+"-amount"}).rules('add', {
 				required: true
 			});
-			$(this).find("td:nth-child(7) .gst_amount").attr({name:"order_details["+i+"][gst_amount]", id:"order_details-"+i+"-gst_amount"});
-			$(this).find("td:nth-child(7) .gst_figure_id").attr({name:"order_details["+i+"][gst_figure_id]", id:"order_details-"+i+"-gst_figure_id"});
-			$(this).find("td:nth-child(8) .net_amount").attr({name:"order_details["+i+"][net_amount]", id:"order_details-"+i+"-net_amount"});
+			$(this).find("td:nth-child(6) .gst_amount").attr({name:"order_details["+i+"][gst_amount]", id:"order_details-"+i+"-gst_amount"});
+			$(this).find("td:nth-child(6) .gst_figure_id").attr({name:"order_details["+i+"][gst_figure_id]", id:"order_details-"+i+"-gst_figure_id"});
+			$(this).find("td:nth-child(6) .net_amount").attr({name:"order_details["+i+"][net_amount]", id:"order_details-"+i+"-net_amount"});
 			
 			i++;
 		});
@@ -835,14 +851,12 @@ function selectAutoCompleted1(value) {
 					<td>
 						<?php echo $this->Form->input('amount', ['label' => false,'class' => 'form-control input-sm number cal_amount show_amount','placeholder'=>'Amount','readonly','value'=>0]); ?>	
 						<?php echo $this->Form->input('is_combo', ['label' => false,'class' => 'form-control input-sm is_combo','type'=>'hidden']); ?>
-					</td>	
-					<td>
-						<?php echo $this->Form->input('gst_amount', ['label' => false,'class' => 'form-control input-sm number cal_amount gst_amount','readonly']); ?>	
+						
+						<?php echo $this->Form->input('gst_amount', ['label' => false,'class' => 'form-control input-sm number cal_amount gst_amount','readonly','type'=>'hidden']); ?>	
 						<?php echo $this->Form->input('gst_figure_id', ['label' => false,'class' => 'form-control input-sm gst_figure_id','type'=>'hidden']); ?>
-					</td>
-					<td>
-						<?php echo $this->Form->input('net_amount', ['label' => false,'class' => 'form-control input-sm number cal_amount net_amount','readonly']); ?>	
-					</td>
+						<?php echo $this->Form->input('net_amount', ['label' => false,'class' => 'form-control input-sm number cal_amount net_amount','readonly','type'=>'hidden']); ?>	
+					</td>	
+					
                     <td>
 						<a class="btn btn-default delete-tr input-sm" href="#" role="button" ><i class="fa fa-times"></i></a>
 					</td>
