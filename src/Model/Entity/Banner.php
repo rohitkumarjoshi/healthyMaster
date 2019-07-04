@@ -19,6 +19,7 @@ class Banner extends Entity
 			'image_fullpath'
 		];
 
+
 		protected function _getImageFullpath()
 		{
 			if(!empty($this->_properties['image'])){
