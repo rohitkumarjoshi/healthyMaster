@@ -59,6 +59,7 @@
 						$options['SingleImage']='SingleImage';
 						$options['Category']='Category';
 						$options['MostSelling']='MostSelling';
+						$options['MostView']='MostView';
 						echo $this->Form->control('layout', ['empty'=>'--select--','options' => $options,'class'=>'form-control input-sm attribute']); ?>
 					</div>
 					 <div class="col-md-3">
