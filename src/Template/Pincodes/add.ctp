@@ -52,10 +52,10 @@
                         <label>Delivery Charge</label>
                         <input type="text" name="charge" class="form-control input-sm" value="0">
                     </div>
-                    <div class="col-md-3">
+                    <!--<div class="col-md-3">
                         <label>Type</label>
                         <input type="text" name="type" class="form-control input-sm" value="0">
-                    </div>
+                    </div>-->
                 </div>
                 <br/>
                 <?= $this->Form->button($this->Html->tag('i', '') . __(' Submit'),['class'=>'btn btn-success']); ?>

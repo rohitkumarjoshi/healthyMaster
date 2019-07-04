@@ -1020,7 +1020,7 @@ class OrdersController extends AppController
 				$order_no=$order_detail_fetch->order_no;
 				$delivery_date=date('Y-m-d', strtotime($order_detail_fetch->delivery_date));
 			
-				$customer_id=$order_detail_fetch->customer_id; 
+				$customer_id=$order_detail_fetch->customer_id;
 				$customer_details=$this->Orders->Customers->find()
                     ->where(['Customers.id' => $customer_id])->first();
                     $mobile=$customer_details->mobile;

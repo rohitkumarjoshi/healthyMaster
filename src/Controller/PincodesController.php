@@ -53,7 +53,7 @@ class PincodesController extends AppController
     public function view($id = null)
     {
         $pincode = $this->Pincodes->get($id, [
-            'contain' => ['States', 'Cities']
+            'contain' => ['States', 'Cities','DeliveryCharges']
         ]);
 
         $this->set('pincode', $pincode);
@@ -108,7 +108,7 @@ class PincodesController extends AppController
     {
         $this->viewBuilder()->layout('index_layout');
         $pincode = $this->Pincodes->get($id, [
-            'contain' => []
+            'contain' => ['DeliveryCharges']
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $pincode = $this->Pincodes->patchEntity($pincode, $this->request->getData());
