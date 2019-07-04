@@ -22,7 +22,7 @@ class Banner extends Entity
 		protected function _getImageFullpath()
 		{
 			if(!empty($this->_properties['image'])){
-				return 'http://healthymaster.in/healthymaster/img/item_images/'.$this->_properties['image'];
+				return 'http://healthymaster.in/healthymaster/banners/'.$this->_properties['image'];
 			}
 			else
 			{
