@@ -8,7 +8,7 @@
 		<meta charset="utf-8"/>
 		<?php echo $this->Html->meta(
 				'favicon.png',
-				'/img/favicon.png',
+				'/img/favicon1.png',
 				['type' => 'icon']
 			); ?>
 		<title><?= $this->fetch('title') ?></title>
@@ -265,6 +265,9 @@
 									</li>
 									<li>
 										<?php echo $this->Html->link('<i class="fa fa-cubes"></i> Sales Rate Update','/ItemVariations/define_sale_rate',['escape'=>false]) ?>
+									</li>
+									<li>
+										<?php echo $this->Html->link('<i class="fa fa-cubes"></i> Home Screen','/home-screens/add',['escape'=>false]) ?>
 									</li>
 									
 								</ul>

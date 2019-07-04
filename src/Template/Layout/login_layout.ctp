@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Jain-Thela</title>
+<title>HealthyMaster</title>
 <!-- Include external files and scripts here (See HTML helper for more info.) -->
 <?php
 echo $this->fetch('meta');
