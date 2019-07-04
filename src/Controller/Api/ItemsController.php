@@ -11,6 +11,25 @@ class ItemsController extends AppController
 		$this->set(compact('status', 'message', 'item'));
 		$this->set('_serialize', ['status', 'message', 'item']);
 	}
+	public function categoryDetails()
+    {
+    	$category_id=$this->request->query('category_id');
+		$categoryDetails = $this->Items->ItemCategories->find()->where(['is_deleted'=>0,'id' => $category_id])->first();			
+		 
+		if(!empty($categoryDetails->toArray()))
+		{
+			$status=true;
+			$error="category found successfully";				
+		}else
+		{
+			$status=false;
+			$error="No data found";
+			$categoryDetails=array();				
+		}
+
+		$this->set(compact('status', 'error','categoryDetails'));
+		$this->set('_serialize', ['status', 'error','categoryDetails']);			
+	}
     public function item()
     {
 		$isViewAll=$this->request->query('isViewAll');
