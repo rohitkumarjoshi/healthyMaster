@@ -13,7 +13,20 @@ use Cake\ORM\Entity;
  */
 class ItemCategory extends Entity
 {
+		protected $_virtual = [
+			'image_fullpath'
+		];
 
+		protected function _getImageFullpath()
+		{
+			if(!empty($this->_properties['image'])){
+				return 'http://healthymaster.in/healthymaster/itemcategories/'.$this->_properties['image'];
+			}
+			else
+			{
+				return '';
+			}
+		} 
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
      *
