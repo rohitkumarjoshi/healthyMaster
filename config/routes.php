@@ -70,17 +70,8 @@ Router::scope('/', function (RouteBuilder $routes) {
      */
     $routes->fallbacks(DashedRoute::class);
 });
+
 Router::prefix('api', function ($routes) {
-	$routes->extensions(['json', 'xml']);
-	$routes->fallbacks('InflectedRoute');
-
-});
-
-Router::scope('/api', function ($routes) {
-  // connect routes with *no* CSRF protection as that middleware is not active
-  // for this routing scope.
-});
-/*Router::prefix('api', function ($routes) {
     $routes->extensions(['json', 'xml']);
 
    //$routes->fallbacks('InflectedRoute');
@@ -117,6 +108,10 @@ Router::scope('/api', function ($routes) {
 			   ],
 			   'wish_list_item' => [
 				   'action' => 'wish_list_item',
+				   'method' => 'GET'
+			   ],
+			   'categoryDetails' => [
+				   'action' => 'categoryDetails',
 				   'method' => 'GET'
 			   ]
 		   ]
@@ -509,10 +504,7 @@ Router::scope('/api', function ($routes) {
 		   ]
 		]
 	);
-});*/
+}); 
 
-/**
- * Load all plugin routes. See the Plugin documentation on
- * how to customize the loading of plugin routes.
- */
+ 
 Plugin::routes();
