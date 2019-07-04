@@ -18,50 +18,35 @@ class ItemsController extends AppController
 		if($isViewAll == 'true')
 		{
 			$this->viewAll();
-		}else
-		{
-			$jain_thela_admin_id=$this->request->query('jain_thela_admin_id');
-			$item_category_id=$this->request->query('item_category_id');
-			$item_sub_category_id=$this->request->query('item_sub_category_id');
+		}
+		else
+		{ 
+			$item_category_id=$this->request->query('item_category_id'); 
 			$customer_id=$this->request->query('customer_id');
 			$page=@$this->request->query('page');
 			$limit = 10;
 			
-			$categoryImage_nw = $this->Items->ItemCategories->find()->where(['is_deleted'=>0,'id' => $item_category_id])->first();			
+			$categoryDetails = $this->Items->ItemCategories->find()->where(['is_deleted'=>0,'id' => $item_category_id])->first();			
 			
-			$categoryImage = 'http://healthymaster.in'.$this->request->webroot.'itemcategories/'.$categoryImage_nw->image;
-			
-			if($item_sub_category_id=='0')
-			{
-				$where=['Items.item_category_id'=>$item_category_id, 'Items.is_combo'=>'no', 'Items.freeze'=>0, 'Items.ready_to_sale'=>'Yes'];
-			}
-			else
-			{
-				$where=['Items.item_category_id'=>$item_category_id, 'Items.item_sub_category_id'=>$item_sub_category_id, 'Items.is_combo'=>'no', 'Items.freeze'=>0, 'Items.ready_to_sale'=>'Yes'];
-			}
+			$categoryImage = 'http://healthymaster.in'.$this->request->webroot.'itemcategories/'.$categoryDetails->image;
+			 
+			$where=['Items.item_category_id'=>$item_category_id, 'Items.is_combo'=>'no', 'Items.freeze'=>0, 'Items.ready_to_sale'=>'Yes'];
+			 
 			$items = $this->Items->find()
-						->where($where)
-						->order(['name'=>'ASC'])
-						->contain(['ItemVariations'=>
-							function($q) use($customer_id) {
-								return $q->where(['ready_to_sale' =>'Yes'])
-								->contain(['Units','Carts'=>
-									function($q) use($customer_id){
-										return $q->where(['customer_id'=>$customer_id]);
-								}]);
-							}
-						])->limit($limit)->page($page);
-						$items->select(['image_url' => $items->func()->concat(['http://healthymaster.in'.$this->request->webroot.'img/item_images/','image' => 'identifier' ])])
-						->autoFields(true);
-						
-					//pr($items->toArray());	exit;
-						
-				
-			/*  foreach($items as $item){
-				if(!$item->cart){
-					$item->cart=(object)[];
-				}
-			}  */
+				->where($where)
+				->order(['name'=>'ASC'])
+				->contain(['ItemVariations'=>
+					function($q) use($customer_id) {
+						return $q->where(['ready_to_sale' =>'Yes'])
+						->contain(['Units','Carts'=>
+							function($q) use($customer_id){
+								return $q->where(['customer_id'=>$customer_id]);
+						}]);
+					}
+				])->limit($limit)->page($page);
+				$items->select(['image_url' => $items->func()->concat(['http://healthymaster.in'.$this->request->webroot.'img/item_images/','image' => 'identifier' ])])
+				->autoFields(true);
+			 
 					
 			$cart_count = $this->Items->Carts->find('All')->where(['Carts.customer_id'=>$customer_id])->count();
 			
@@ -74,14 +59,13 @@ class ItemsController extends AppController
 				$status=false;
 				$error="No data found";				
 			}
-			
 
-			$this->set(compact('status', 'error', 'items','categoryImage','cart_count'));
-			$this->set('_serialize', ['status', 'error','cart_count','categoryImage','items']);			
+			$this->set(compact('status', 'error', 'items','categoryImage','cart_count','categoryDetails'));
+			$this->set('_serialize', ['status', 'error','cart_count','categoryImage','items','categoryDetails']);			
 		}
     }
 
-	 public function itemdescription()
+	public function itemdescription()
     {
 		$jain_thela_admin_id=$this->request->query('jain_thela_admin_id');
 		$item_id=$this->request->query('item_id');
@@ -122,30 +106,30 @@ class ItemsController extends AppController
 				
 				$querys=$this->Items->ItemLedgers->find();
 				$customer_also_bought=$querys
-						->select(['total_rows' => $querys->func()->count('ItemLedgers.id'),'item_id',])
-						->where(['inventory_transfer'=>'no','status'=>'out'])
-						->group(['ItemLedgers.item_id'])
-						->order(['total_rows'=>'DESC'])
-						->limit(5)
-						->contain(['Items'=>function($q)use($customer_id){
-								return $q->select(['name', 'image','alias_name','ready_to_sale'])
-						->contain(['ItemVariations' => 
-								function($q) use($customer_id){
-									return $q->where(['ready_to_sale' =>'Yes'])
-									->contain(['Units'=>
-									function($q){
-										return $q->select(['id','longname','shortname','is_deleted','jain_thela_admin_id']); 
-									},'Carts' => 
-										function($q) use($customer_id)
-										{
-											return $q->where(['customer_id'=>$customer_id]);
-										}]);
-								}
-							])->autoFields(true);
-						}]);
-						$customer_also_bought->select(['image_url' => $customer_also_bought->func()->concat(['http://healthymaster.in'.$this->request->webroot.'img/item_images/','image' => 'identifier' ])]);
-		
-						$cart_count = $this->Items->Carts->find('All')->where(['Carts.customer_id'=>$customer_id])->count();
+					->select(['total_rows' => $querys->func()->count('ItemLedgers.id'),'item_id',])
+					->where(['inventory_transfer'=>'no','status'=>'out'])
+					->group(['ItemLedgers.item_id'])
+					->order(['total_rows'=>'DESC'])
+					->limit(5)
+					->contain(['Items'=>function($q)use($customer_id){
+							return $q->select(['name', 'image','alias_name','ready_to_sale'])
+					->contain(['ItemVariations' => 
+							function($q) use($customer_id){
+								return $q->where(['ready_to_sale' =>'Yes'])
+								->contain(['Units'=>
+								function($q){
+									return $q->select(['id','longname','shortname','is_deleted','jain_thela_admin_id']); 
+								},'Carts' => 
+									function($q) use($customer_id)
+									{
+										return $q->where(['customer_id'=>$customer_id]);
+									}]);
+							}
+						])->autoFields(true);
+					}]);
+					$customer_also_bought->select(['image_url' => $customer_also_bought->func()->concat(['http://healthymaster.in'.$this->request->webroot.'img/item_images/','image' => 'identifier' ])]);
+
+					$cart_count = $this->Items->Carts->find('All')->where(['Carts.customer_id'=>$customer_id])->count();
 			 
 		$status=true;
 		$error="Item Description found successfully";
@@ -186,7 +170,6 @@ class ItemsController extends AppController
 									
 								])->autoFields(true);
 							}]);
-						
 		}
 		else if($type=='recently')
 		{
@@ -214,14 +197,11 @@ class ItemsController extends AppController
 									
 								])->autoFields(true);
 						}]);
-						
-		
-
 		}
 		else if($type='Top Selling Product')
 		{
 			$categoryImage = 'http://healthymaster.in'.$this->request->webroot.'item_list_category_image/topselling.png';
-        $querys=$this->Items->ItemLedgers->find();
+        	$querys=$this->Items->ItemLedgers->find();
 				$view_items=$querys
 						->where(['inventory_transfer'=>'no','status'=>'out'])
 						->group(['ItemLedgers.item_id'])
@@ -244,7 +224,6 @@ class ItemsController extends AppController
 									
 								])->autoFields(true);
 						}]);
-						
 		}
         
 		$cart_count = $this->Items->Carts->find('All')->where(['Carts.customer_id'=>$customer_id])->count();
@@ -263,11 +242,10 @@ class ItemsController extends AppController
 		{
 			$status=false;
 			$error="No data found";				
-		}			
-		
-		
-		$this->set(compact('status', 'error','cart_count','categoryImage','items'));
-        $this->set('_serialize', ['status', 'error','cart_count','categoryImage','items']);
+		}
+		$categoryDetails=array();			
+		$this->set(compact('status', 'error','cart_count','categoryImage','items','categoryDetails'));
+        $this->set('_serialize', ['status', 'error','cart_count','categoryImage','items','categoryDetails']);
     }
 	
 	public function searchItem()
