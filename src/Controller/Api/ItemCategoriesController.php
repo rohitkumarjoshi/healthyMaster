@@ -18,27 +18,27 @@ class ItemCategoriesController extends AppController
 				
 				$banners = $this->ItemCategories->Banners->find('All')->where(['Banners.status'=>'Active']);
 				
-				$Banners = array("title"=>$HomeScreen->title,'layout'=>$HomeScreen->layout,'category_id'=>$HomeScreen->category_id,'item_id'=>$HomeScreen->item_id,'image'=>$HomeScreen->image,"Banners"=>$banners);
+				$Banners = array("title"=>$HomeScreen->title,'layout'=>$HomeScreen->layout,'category_id'=>$HomeScreen->category_id,'item_id'=>$HomeScreen->item_id,'image'=>$HomeScreen->image,"DynamicList"=>$banners);
 				array_push($dynamic,$Banners);
 			}
 			if($HomeScreen->layout=='CategoryItems'){
 				
-				$itemCategories = $this->ItemCategories->Items->find()->where(['Items.ready_to_sale'=>'Yes','item_category_id'=>$HomeScreen->category_id])->contain(['ItemVariations']);
+				$itemCategories = $this->ItemCategories->Items->find()->where(['Items.ready_to_sale'=>'Yes','item_category_id'=>$HomeScreen->category_id])->contain(['ItemVariations'=>['Units']]);
 				
-				$ItemCategories = array("title"=>$HomeScreen->title,'layout'=>$HomeScreen->layout,'category_id'=>$HomeScreen->category_id,'item_id'=>$HomeScreen->item_id,'image'=>$HomeScreen->image,"ItemCategories"=>$itemCategories);
+				$ItemCategories = array("title"=>$HomeScreen->title,'layout'=>$HomeScreen->layout,'category_id'=>$HomeScreen->category_id,'item_id'=>$HomeScreen->item_id,'image'=>$HomeScreen->image,"DynamicList"=>$itemCategories);
 				array_push($dynamic,$ItemCategories);
 			}
 			if($HomeScreen->layout=='SingleImage'){
 				
 				$items = $this->ItemCategories->Items->find()->where(['Items.ready_to_sale'=>'Yes','id'=>$HomeScreen->item_id])->contain(['ItemVariations']);
 				
-				$Items = array("title"=>$HomeScreen->title,'layout'=>$HomeScreen->layout,'category_id'=>$HomeScreen->category_id,'item_id'=>$HomeScreen->item_id,'image'=>$HomeScreen->image,"Items"=>$items);
+				$Items = array("title"=>$HomeScreen->title,'layout'=>$HomeScreen->layout,'category_id'=>$HomeScreen->category_id,'item_id'=>$HomeScreen->item_id,'image'=>$HomeScreen->image,"DynamicList"=>$items);
 				array_push($dynamic,$Items);
 			}
 			if($HomeScreen->layout=='Category'){
 				 $category = $this->ItemCategories->find()->where(['is_deleted'=>0]);
 				
-				$Category = array("title"=>$HomeScreen->title,'layout'=>$HomeScreen->layout,'category_id'=>$HomeScreen->category_id,'item_id'=>$HomeScreen->item_id,'image'=>$HomeScreen->image,"Category"=>$category);
+				$Category = array("title"=>$HomeScreen->title,'layout'=>$HomeScreen->layout,'category_id'=>$HomeScreen->category_id,'item_id'=>$HomeScreen->item_id,'image'=>$HomeScreen->image,"DynamicList"=>$category);
 				array_push($dynamic,$Category);
 			}
 			
@@ -64,7 +64,7 @@ class ItemCategoriesController extends AppController
 				]);
 				}]);
 				
-				$Selling = array("title"=>$HomeScreen->title,'layout'=>$HomeScreen->layout,'category_id'=>$HomeScreen->category_id,'item_id'=>$HomeScreen->item_id,'image'=>$HomeScreen->image,"MostSelling"=>$recently_bought);
+				$Selling = array("title"=>$HomeScreen->title,'layout'=>$HomeScreen->layout,'category_id'=>$HomeScreen->category_id,'item_id'=>$HomeScreen->item_id,'image'=>$HomeScreen->image,"DynamicList"=>$recently_bought);
 				array_push($dynamic,$Selling);
 				
 			}
@@ -92,7 +92,7 @@ class ItemCategoriesController extends AppController
 				]);
 				}]);
 				
-				$PopularItems = array("title"=>$HomeScreen->title,'layout'=>$HomeScreen->layout,'category_id'=>$HomeScreen->category_id,'item_id'=>$HomeScreen->item_id,'image'=>$HomeScreen->image,"PopularItems"=>$popular_items);
+				$PopularItems = array("title"=>$HomeScreen->title,'layout'=>$HomeScreen->layout,'category_id'=>$HomeScreen->category_id,'item_id'=>$HomeScreen->item_id,'image'=>$HomeScreen->image,"DynamicList"=>$popular_items);
 				array_push($dynamic,$PopularItems);
 				
 			}
