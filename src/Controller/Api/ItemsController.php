@@ -43,6 +43,42 @@ class ItemsController extends AppController
 			$item_category_id=$this->request->query('item_category_id'); 
 			$customer_id=$this->request->query('customer_id');
 			$page=@$this->request->query('page');
+
+			$searchBox=@$this->request->query('searchBox');
+			$s_price=@$this->request->query('s_price');
+			$e_price=@$this->request->query('e_price');
+			$sortby=@$this->request->query('sortby');
+			$priceFilter=array();
+			if(!empty(@$s_price) && !empty(@$e_price)){
+	            $priceFilter['ItemVariations.sales_rate  >='] = $s_price;
+	            $priceFilter['ItemVariations.sales_rate  <='] = $e_price;
+	        }
+	        $searchFilter=array();
+	        if(!empty(@$searchBox)){
+	            $searchFilter['Items.name LIKE'] = '%'.$searchBox.'%'; 
+	        }
+	        $price_sort=array();
+	        $name_sort=array();
+	        if(!empty($sortby))
+			{ 
+				if($sortby=='name_A2Z'){
+					$name_sort=['Items.name'=>'ASC'];
+				}
+				if($sortby=='name_Z2A'){
+					$name_sort=['Items.name'=>'DESC'];
+				}
+
+				if($sortby=='price_H2L'){
+					$price_sort=['ItemVariations.sales_rate'=>'ASC'];
+				}
+				if($sortby=='price_L2H'){
+					$price_sort=['ItemVariations.sales_rate'=>'DESC'];
+				}
+			}
+			else{
+				$name_sort=['Items.name'=>'ASC'];
+			}
+
 			$limit = 10;
 			
 			$categoryDetails = $this->Items->ItemCategories->find()->where(['is_deleted'=>0,'id' => $item_category_id])->first();			
@@ -52,19 +88,28 @@ class ItemsController extends AppController
 			$where=['Items.item_category_id'=>$item_category_id, 'Items.is_combo'=>'no', 'Items.freeze'=>0, 'Items.ready_to_sale'=>'Yes'];
 			 
 			$items = $this->Items->find()
-				->where($where)
-				->order(['name'=>'ASC'])
+				->where($where) 				
 				->contain(['ItemVariations'=>
-					function($q) use($customer_id) {
-						return $q->where(['ready_to_sale' =>'Yes'])
+					function($q) use($customer_id,$price_sort) {
+						return $q->where(['ready_to_sale' =>'Yes'])->order($price_sort)
 						->contain(['Units','Carts'=>
 							function($q) use($customer_id){
 								return $q->where(['customer_id'=>$customer_id]);
 						}]);
 					}
-				])->limit($limit)->page($page);
+				]);
+				
+				if(!empty($priceFilter)){
+					$items->Matching('ItemVariations', function($q)use($priceFilter,$price_sort) {
+	                    return $q->where($priceFilter)->order($price_sort);
+	                })->group('Items.id');	
+				}
+				if(!empty($searchFilter)){
+					$items->where($searchFilter); 
+				}
+
 				$items->select(['image_url' => $items->func()->concat(['http://healthymaster.in'.$this->request->webroot.'img/item_images/','image' => 'identifier' ])])
-				->autoFields(true);
+				->autoFields(true)->order($name_sort)->limit($limit)->page($page);
 			 
 					
 			$cart_count = $this->Items->Carts->find('All')->where(['Carts.customer_id'=>$customer_id])->count();
