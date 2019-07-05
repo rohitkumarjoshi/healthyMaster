@@ -15,10 +15,10 @@ background-color: #fff;}
 	<div class="col-md-12">
 		<div class="portlet light bordered">
 			<div class="portlet-title">
-				<div class="caption">
+				<!--<div class="caption">
 					<i class="font-purple-intense"></i>
 					<span class="caption-subject font-purple-intense "><i class="fa fa-plus"></i> Create Order </span>
-				</div>
+				</div>-->
 
 			</div>
 			<div class="portlet-body">

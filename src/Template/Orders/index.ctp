@@ -20,7 +20,7 @@
 					<span class="caption-subject font-purple-intense ">ORDER</span>
 				</div>
 				<div class="actions">
-					<?php echo $this->Html->link('<i class="fa fa-plus"></i> Add new','/Orders/Add/Offline',['escape'=>false,'class'=>'btn btn-default']) ?>
+					<?php //echo $this->Html->link('<i class="fa fa-plus"></i> Add new','/Orders/Add/Offline',['escape'=>false,'class'=>'btn btn-default']) ?>
 					&nbsp;
 					<?php if($status=='process'){
 						$class1="btn btn-xs blue";

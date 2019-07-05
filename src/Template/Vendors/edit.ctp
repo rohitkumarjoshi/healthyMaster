@@ -19,7 +19,7 @@
 					</div>
 					<div class="col-md-4">
 						<label class=" control-label">Mobile No. </label>
-						<?php echo $this->Form->control('mobile',['placeholder'=>'Moble No.','class'=>'form-control input-sm','label'=>false]); ?>
+						<?php echo $this->Form->control('mobile',['placeholder'=>'Moble No.','class'=>'form-control input-sm','label'=>false,'oninput'=>"this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');",'required','minlength'=>10]); ?>
 					</div>
 					<div class="col-md-4">
 						<label class=" control-label">Email </label>
@@ -29,7 +29,7 @@
 				<div class="row" style="margin-top: 12px;">
 					<div class="col-md-4">
 						<label class=" control-label">GST No. </label>
-						<?php echo $this->Form->control('gst_no',['placeholder'=>'GST No.','class'=>'form-control input-sm','label'=>false]); ?>
+						<?php echo $this->Form->control('gst_no',['placeholder'=>'GST No.','class'=>'form-control input-sm','label'=>false,'required']); ?>
 					</div>
 					<div class="col-md-4">
                         <?= $this->Form->control('id',['type'=>'hidden']); ?>
