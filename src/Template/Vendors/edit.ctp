@@ -36,7 +36,7 @@
                         <?php echo $this->Form->control('state_id', ['empty'=>'-- select --','options' =>$states,'class'=>'form-control input-sm select select2me select2','required']); ?>
                     </div>
                     <div class="col-md-4">
-                        <?php echo $this->Form->control('city_id', ['empty'=>'-- select --','options' =>$cities,'class'=>'form-control input-sm select select2me select2','required']); ?>
+                        <?php echo $this->Form->control('city_id', ['empty'=>'-- select --','options' =>$cities,'class'=>'form-control input-sm select ','required']); ?>
                     </div>
 				</div>
 				<div class="row">
