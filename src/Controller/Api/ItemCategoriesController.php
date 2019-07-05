@@ -32,7 +32,7 @@ class ItemCategoriesController extends AppController
 				
 				$items = $this->ItemCategories->Items->find()->where(['Items.ready_to_sale'=>'Yes','id'=>$HomeScreen->item_id])->contain(['ItemVariations']);
 				
-				$Items = array("title"=>$HomeScreen->title,'layout'=>$HomeScreen->layout,'category_id'=>$HomeScreen->category_id,'item_id'=>$HomeScreen->item_id,'image'=>$HomeScreen->image,"DynamicList"=>$items);
+				$Items = array("title"=>$HomeScreen->title,'layout'=>$HomeScreen->layout,'category_id'=>$HomeScreen->category_id,'item_id'=>$HomeScreen->item_id,'image'=>$HomeScreen->image,'image_fullpath'=>'http://healthymaster.in/healthymaster/img/home_screen/'.$HomeScreen->image,"DynamicList"=>$items);
 				array_push($dynamic,$Items);
 			}
 			if($HomeScreen->layout=='Category'){

@@ -135,7 +135,6 @@ $('.gst').on('change',function(){
 	add_row();
 
 	 $(document).on('click','#plus',function(){
-
            add_row();
       });
        $(document).on('click','#minus',function(){
@@ -272,6 +271,11 @@ $('.gst').on('change',function(){
 			}
 	});
 
+	$(".minimum_stock").die().live('keyup',function(){
+		var minimum=$(this).val();
+		$(this).closest('tr').find('.order_limit').attr('max',minimum);
+	});
+	
 	$(".virt").die().live('click',function(){
 		var virtual = $(this).val();
 			if(virtual=='yes'){

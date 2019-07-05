@@ -19,7 +19,7 @@
 					</div>
 					<div class="col-md-4">
 						<label class=" control-label">Mobile No. </label>
-						<?php echo $this->Form->control('mobile',['placeholder'=>'Moble No.','class'=>'form-control input-sm','label'=>false]); ?>
+						<?php echo $this->Form->control('mobile',['placeholder'=>'Moble No.','class'=>'form-control input-sm','label'=>false,'oninput'=>"this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');",'required','minlength'=>10]); ?>
 					</div>
 					<div class="col-md-4">
 						<label class=" control-label">Email </label>
@@ -29,14 +29,21 @@
 				<div class="row" style="margin-top: 12px;">
 					<div class="col-md-4">
 						<label class=" control-label">GST No. </label>
-						<?php echo $this->Form->control('gst_no',['placeholder'=>'GST No.','class'=>'form-control input-sm','label'=>false]); ?>
+						<?php echo $this->Form->control('gst_no',['placeholder'=>'GST No.','class'=>'form-control input-sm','label'=>false,'required']); ?>
 					</div>
 					<div class="col-md-4">
                         <?= $this->Form->control('id',['type'=>'hidden']); ?>
-                        <?php echo $this->Form->control('state_id', ['empty'=>'-- select --','options' => $states,'class'=>'form-control input-sm select select2me select2','required']); ?>
+                        <?php echo $this->Form->control('state_id', ['empty'=>'-- select --','options' => $states,'class'=>'form-control input-sm select select2me select2 state','required']); ?>
                     </div>
-                    <div class="col-md-4">
-                        <?php echo $this->Form->control('city_id', ['empty'=>'-- select --','options' => $cities,'class'=>'form-control input-sm select select2me select2','required']); ?>
+                    <!--<div class="col-md-4">
+                        <?php //echo $this->Form->control('city_id', ['empty'=>'-- select --','options' => $cities,'class'=>'form-control input-sm select select2me','required']); ?>
+                    </div>-->
+					 <div class="col-md-4">
+                       <label class=" control-label">City </label>
+                        <select name="city_id" class="form-control input-sm city select2" required>
+                            
+                            
+                        </select>
                     </div>
 				</div>
 				<div class="row" style="margin-top: 12px;">
@@ -55,6 +62,33 @@
 <?php echo $this->Html->script('/assets/global/plugins/jquery.min.js'); ?>
 <script>
 $(document).ready(function() {
+	
+	$(document).on('change','.state',function(){
+        
+        var input=$(this).val();
+        var master = $(this); 
+        $(".city option").remove();
+        if(input.length>0){
+            var m_data = new FormData();
+            var url ="<?php echo $this->Url->build(["controller" => "Pincodes", "action" => "options"]); ?>";
+         //   alert(url);
+            m_data.append('input',input); 
+            $.ajax({
+                url: url,
+                data: m_data,
+                processData: false,
+                contentType: false,
+                type: 'POST',
+                dataType:'text',
+                success: function(data)
+                { 
+                    $('.city').append(data);
+                }
+            });
+        }
+        
+      });
+	  
 	
   //--------- FORM VALIDATION
 	var form3 = $('#form_sample_3');

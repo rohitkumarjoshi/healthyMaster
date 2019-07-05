@@ -5,7 +5,7 @@
 				<div class="caption">
 					<i class="font-purple-intense"></i>
 					<span class="caption-subject font-purple-intense ">
-						<i class="fa fa-plus"></i> Add Item
+						<i class="fa fa-plus"></i> Edit Item
 					</span>
 				</div>
 				<div class="actions">
@@ -99,7 +99,7 @@
 					                    <td style="vertical-align: bottom;"> 
 					                    	<?php echo $this->Form->control('item_variations.0.minimum_stock',['class'=>'form-control minimum_stock','placeholder'=>'Minimum Stock','label'=>false,'value'=>$variation->minimum_stock]); ?>
 					                    </td>
-					                    <td style="vertical-align: bottom;"> <?php echo $this->Form->control('item_variations.0.minimum_quantity_purchase',['class'=>'form-control minimum_quantity_purchase  order_limit','placeholder'=>'Maximum Order Limit', 'label'=>false,'value'=>$variation->minimum_quantity_purchase]); ?></td>
+					                    <td style="vertical-align: bottom;"> <?php echo $this->Form->control('item_variations.0.minimum_quantity_purchase',['class'=>'form-control minimum_quantity_purchase  order_limit','placeholder'=>'Maximum Order Limit', 'label'=>false,'value'=>$variation->minimum_quantity_purchase,'max'=>$variation->minimum_stock]); ?></td>
 					                     <td style="vertical-align: bottom;"> 
 					                    	<?php echo $this->Form->control('item_variations.0.print_rate',['class'=>'form-control print_rate','placeholder'=>'Print Rate','label'=>false,'value'=>$variation->print_rate]); ?>
 					                    </td> 
@@ -115,7 +115,7 @@
                               </table>
                             </div>
                         </div>
-			<?= $this->Form->button(__('Create new item'),['class'=>'btn btn-success']) ?>
+			<?= $this->Form->button(__('Save'),['class'=>'btn btn-success']) ?>
 			<?= $this->Form->end() ?>
 			</div>
 		</div>
@@ -166,6 +166,10 @@ $('.gst').on('change',function(){
 	}
 }); */
 	
+	$(".minimum_stock").die().live('keyup',function(){
+		var minimum=$(this).val();
+		$(this).closest('tr').find('.order_limit').attr('max',minimum);
+	});
 	
 	rename_row();
 

@@ -16,21 +16,26 @@
                     <div class="col-md-3">
                         <label class=" control-label">State <span class="required" aria-required="true">*</span></label>
                         <?php echo $this->Form->control('state_id',['placeholder'=>'State','class'=>'form-control input-sm','label'=>false]); ?>
-                    </div><div class="col-md-3">
+                    </div>
+					<div class="col-md-3">
                         <label class=" control-label">City <span class="required" aria-required="true">*</span></label>
                         <?php echo $this->Form->control('city_id',['placeholder'=>'City','class'=>'form-control input-sm','label'=>false]); ?>
                     </div>
                     <div class="col-md-3">
                         <label class=" control-label">Pincode <span class="required" aria-required="true">*</span></label>
-                        <?php echo $this->Form->control('pincode',['placeholder'=>'pincode','class'=>'form-control input-sm','label'=>false]); ?>
+                        <?php echo $this->Form->control('pincode',['placeholder'=>'pincode','class'=>'form-control input-sm','label'=>false,'maxlength'=>6]); ?>
                     </div>
                    <div class="col-md-3">
-                        <label>We Deliver</label>
-                        <select name="we_deliver" class="form-control input-sm wedeliver">
+                       
+						  <?php 
+						  $options['Yes']='Yes';
+						  $options['No']='No';
+						   echo $this->Form->control('we_deliver', ['empty'=>'-- select --','options' => $options,'class'=>'form-control input-sm wedeliver']); ?>
+                       <!-- <select name="we_deliver" class="form-control input-sm wedeliver">
                            
                             <option value="Yes">Yes</option>
                             <option value="No">No</option>
-                        </select>
+                        </select>-->
                     </div>
                 </div><br>
                 <div class="row delivery_reason display-none">

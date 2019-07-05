@@ -19,14 +19,14 @@
                     </div>
                     <div class="col-md-3">
                        <label class=" control-label">City </label>
-                        <select name="city_id" class="form-control input-sm city">
+                        <select name="city_id" class="form-control input-sm city" required>
                             
                             
                         </select>
                     </div>
                     <div class="col-md-3">
                         <label class=" control-label">Pincode </label>
-                        <?php echo $this->Form->control('pincode',['placeholder'=>'Pincode','class'=>'form-control input-sm','label'=>false]); ?>
+                        <?php echo $this->Form->control('pincode',['placeholder'=>'Pincode','class'=>'form-control input-sm','label'=>false,'maxlength'=>6,'required']); ?>
                     </div>
                     <div class="col-md-3">
                         <label>We Deliver</label>
@@ -120,7 +120,7 @@ $(document).on('change','.state',function(){
         focusInvalid: true, // do not focus the last invalid input
         rules: {
                 name:{
-                    required: true,                  
+                    city_id: true,                  
                 },
                 franchise_id:{
                     required: true,

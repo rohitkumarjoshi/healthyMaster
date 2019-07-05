@@ -106,6 +106,11 @@ class ItemsController extends AppController
         $item = $this->Items->newEntity();
         if ($this->request->is('post')) {
 			
+			$query = $this->Items->find();
+			$item_codes=$query->select(['max_value' => $query->func()->max('item_code')])->toArray();
+			$item_code=$item_codes[0]->max_value+1;
+		    $this->request->data['item_code']=$item_code;
+			
             //pr($data);
             $data=$this->request->data;
 			$item = $this->Items->patchEntity($item,$data,['associated'=>['ItemVariations']]);
@@ -124,6 +129,9 @@ class ItemsController extends AppController
 			}if(empty($file_name)){
 				
 			}
+			
+			
+		 
 			//pr($item);exit;
 			if ($this->Items->save($item)) {
 				//pr($item);exit;
