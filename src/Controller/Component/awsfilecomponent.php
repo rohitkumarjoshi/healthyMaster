@@ -31,7 +31,7 @@ class AwsFileComponent extends Component
 	function putObjectFile($keyname,$sourceFile,$contentType)
 	{		
 		$this->configuration();
-		$fullpath=dirname(WWW_ROOT.$this->bucketName.$keyname);
+		$fullpath= dirname(WWW_ROOT.$this->bucketName.$keyname);
         $res1 = is_dir($fullpath);
         if($res1 != 1) {
             new Folder($fullpath, true, 0777);
