@@ -15,11 +15,11 @@
                 <div class="row">
                     <div class="col-md-3">
                         <label class=" control-label">State <span class="required" aria-required="true">*</span></label>
-                        <?php echo $this->Form->control('state_id',['placeholder'=>'State','class'=>'form-control input-sm','label'=>false]); ?>
+                        <?php echo $this->Form->control('state_id',['placeholder'=>'State','class'=>'form-control input-sm state','label'=>false]); ?>
                     </div>
 					<div class="col-md-3">
                         <label class=" control-label">City <span class="required" aria-required="true">*</span></label>
-                        <?php echo $this->Form->control('city_id',['placeholder'=>'City','class'=>'form-control input-sm','label'=>false]); ?>
+                        <?php echo $this->Form->control('city_id',['placeholder'=>'City','class'=>'form-control input-sm city','label'=>false]); ?>
                     </div>
                     <div class="col-md-3">
                         <label class=" control-label">Pincode <span class="required" aria-required="true">*</span></label>
@@ -65,6 +65,33 @@
 <?php echo $this->Html->script('/assets/global/plugins/jquery.min.js'); ?>
 <script>
 $(document).ready(function() {
+
+
+    $(document).on('change','.state',function(){
+        
+        var input=$(this).val();
+        var master = $(this); 
+        $(".city option").remove();
+        if(input.length>0){
+            var m_data = new FormData();
+            var url ="<?php echo $this->Url->build(["controller" => "Pincodes", "action" => "options"]); ?>";
+         //   alert(url);
+            m_data.append('input',input); 
+            $.ajax({
+                url: url,
+                data: m_data,
+                processData: false,
+                contentType: false,
+                type: 'POST',
+                dataType:'text',
+                success: function(data)
+                { 
+                    $('.city').append(data);
+                }
+            });
+        }
+        
+      });
     
      var deliver_value= $('.wedeliver').val();
        if(deliver_value == "No")
