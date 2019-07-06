@@ -89,7 +89,11 @@ class HomeScreensController extends AppController
         $categories = $this->HomeScreens->ItemCategories->find('list');
 		$HomeScreens=$this->HomeScreens->find()->contain(['ItemCategories','Items']);
 		//pr($HomeScreens->toArray()); exit;
-        $items = $this->HomeScreens->Items->find('list');
+        $items = $this->HomeScreens->Items->find('list')->contain(['ItemVariations']);
+		$items->Matching('ItemVariations', function($q) {
+	                    return $q->where(['ItemVariations.ready_to_sale' =>'Yes']);
+	                });
+					
         $this->set(compact('homeScreen', 'categories', 'items','HomeScreens'));
     }
 

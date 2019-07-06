@@ -20,7 +20,7 @@ class ItemCategory extends Entity
 		protected function _getImageFullpath()
 		{
 			if(!empty($this->_properties['image'])){
-				return 'http://healthymaster.in/healthymaster/itemcategories/'.$this->_properties['image'];
+				return 'http://healthymaster.in/healthymaster/img/itemcategories/'.$this->_properties['image'];
 			}
 			else
 			{
