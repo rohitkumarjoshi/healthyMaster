@@ -27,12 +27,34 @@ class CustomersController extends AppController
 		if(!empty($mobile_no) && empty($otp) && empty($signup))
 		{
 			
-		        $customerDetails = $this->Customers->find()->where(['mobile'=>$mobile_no,'status'=>'completed'])->first();
-				if($customerDetails){
-				    $id=$customerDetails->id;
+	        $customerDetails = $this->Customers->find()->where(['mobile'=>$mobile_no,'status'=>'completed'])->first();
+			if($customerDetails){
+			    $id=$customerDetails->id;
+				$new_signup='no';
+				$random=(string)mt_rand(1000,9999);
+				$sms=str_replace(' ', '+', 'Your one time OTP for Jainthela App is: '.$random.'');
+				$working_key='A7a76ea72525fc05bbe9963267b48dd96';
+				$sms_sender='JAINTE';
+				$sms=str_replace(' ', '+', $sms);
+				/* file_get_contents('http://alerts.sinfini.com/api/web2sms.php?workingkey='.$working_key.'&sender='.$sms_sender.'&to='.$mobile_no.'&message='.$sms.''); */
+				
+				file_get_contents('http://103.39.134.40/api/mt/SendSMS?user=phppoetsit&password=9829041695&senderid='.$sms_sender.'&channel=Trans&DCS=0&flashsms=0&number='.$mobile_no.'&text='.$sms.'&route=7');
+				
+				$customerDetails = $this->Customers->get($customerDetails->id);
+				$customerDetails->otp=$random;
+				$customerDetails->user_img = $img_name;
+				$this->Customers->save($customerDetails);
+				$status=true;
+				$error="Customer registration successfully.";
+			}else{
+				
+				$customerDetails = $this->Customers->find()->where(['mobile'=>$mobile_no,'status'=>'incompleted'])->first();
+				if($customerDetails)
+				{
+					$id=$customerDetails->id;
 					$new_signup='no';
 					$random=(string)mt_rand(1000,9999);
-					$sms=str_replace(' ', '+', 'Your one time OTP for Jainthela App is: '.$random.'');
+					$sms=str_replace(' ', '+', 'Your one time OTP is: '.$random.'');
 					$working_key='A7a76ea72525fc05bbe9963267b48dd96';
 					$sms_sender='JAINTE';
 					$sms=str_replace(' ', '+', $sms);
@@ -44,67 +66,44 @@ class CustomersController extends AppController
 					$customerDetails->otp=$random;
 					$customerDetails->user_img = $img_name;
 					$this->Customers->save($customerDetails);
-					$status=true;
+					$status=true;	
 					$error="Customer registration successfully.";
-				}else{
-					
-					$customerDetails = $this->Customers->find()->where(['mobile'=>$mobile_no,'status'=>'incompleted'])->first();
-					if($customerDetails)
-					{
-						$id=$customerDetails->id;
-						$new_signup='no';
-						$random=(string)mt_rand(1000,9999);
-						$sms=str_replace(' ', '+', 'Your one time OTP for Jainthela App is: '.$random.'');
-						$working_key='A7a76ea72525fc05bbe9963267b48dd96';
-						$sms_sender='JAINTE';
-						$sms=str_replace(' ', '+', $sms);
-						/* file_get_contents('http://alerts.sinfini.com/api/web2sms.php?workingkey='.$working_key.'&sender='.$sms_sender.'&to='.$mobile_no.'&message='.$sms.''); */
-						
-						file_get_contents('http://103.39.134.40/api/mt/SendSMS?user=phppoetsit&password=9829041695&senderid='.$sms_sender.'&channel=Trans&DCS=0&flashsms=0&number='.$mobile_no.'&text='.$sms.'&route=7');
-						
-						$customerDetails = $this->Customers->get($customerDetails->id);
-						$customerDetails->otp=$random;
-						$customerDetails->user_img = $img_name;
-						$this->Customers->save($customerDetails);
-						$status=true;	
-						$error="Customer registration successfully.";
-					}
-					else{
-							$customer = $this->Customers->newEntity();
-							$customer->mobile=$mobile_no;
-							$customer->status='incompleted';
-							
-							$random=(string)mt_rand(1000,9999);
-							$customer->otp=$random;
-							$sms=str_replace(' ', '+', 'Your one time OTP for Jainthela App is: '.$random.'');
-							$working_key='A7a76ea72525fc05bbe9963267b48dd96';
-							$sms_sender='JAINTE';
-							$sms=str_replace(' ', '+', $sms);
-							/* file_get_contents('http://alerts.sinfini.com/api/web2sms.php?workingkey='.$working_key.'&sender='.$sms_sender.'&to='.$mobile_no.'&message='.$sms.''); */
-							
-							file_get_contents('http://103.39.134.40/api/mt/SendSMS?user=phppoetsit&password=9829041695&senderid='.$sms_sender.'&channel=Trans&DCS=0&flashsms=0&number='.$mobile_no.'&text='.$sms.'&route=7');
-							$customer->user_img = $img_name;
-							if($this->Customers->save($customer)){
-								$new_signup='yes';
-								$status=true;
-								$customerDetails=$this->Customers->get($customer->id);
-							}else{
-								$status=false;
-								$error="Customer registration failed.";
-							}
-					  }
-					
 				}
-				
-				$this->set(compact('status', 'error', 'new_signup', 'customerDetails'));
-		        $this->set('_serialize', ['status', 'error', 'new_signup', 'customerDetails']);
+				else{
+					$customer = $this->Customers->newEntity();
+					$customer->mobile=$mobile_no;
+					$customer->status='incompleted';
+					
+					$random=(string)mt_rand(1000,9999);
+					$customer->otp=$random;
+					$sms=str_replace(' ', '+', 'Your one time OTP is: '.$random.'');
+					$working_key='A7a76ea72525fc05bbe9963267b48dd96';
+					$sms_sender='JAINTE';
+					$sms=str_replace(' ', '+', $sms);
+					/* file_get_contents('http://alerts.sinfini.com/api/web2sms.php?workingkey='.$working_key.'&sender='.$sms_sender.'&to='.$mobile_no.'&message='.$sms.''); */
+					
+					file_get_contents('http://103.39.134.40/api/mt/SendSMS?user=phppoetsit&password=9829041695&senderid='.$sms_sender.'&channel=Trans&DCS=0&flashsms=0&number='.$mobile_no.'&text='.$sms.'&route=7');
+					$customer->user_img = $img_name;
+					if($this->Customers->save($customer)){
+						$new_signup='yes';
+						$status=true;
+						$customerDetails=$this->Customers->get($customer->id);
+					}else{
+						$status=false;
+						$error="Customer registration failed.";
+					}
+				  } 
+			}
+			
+			$this->set(compact('status', 'error', 'new_signup', 'customerDetails'));
+	        $this->set('_serialize', ['status', 'error', 'new_signup', 'customerDetails']);
 		}
 		else if(!empty($mobile_no) && !empty($otp) && !empty($signup))
 		{
 			
 			if($signup=='completed')
 			{
-			$customerDetails = $this->Customers->find()->where(['mobile'=>$mobile_no, 'otp'=>$otp, 'status'=>'completed'])->first();
+				$customerDetails = $this->Customers->find()->where(['mobile'=>$mobile_no, 'otp'=>$otp, 'status'=>'completed'])->first();
 				if($customerDetails)
 				{
 					$customerDetails->already_login=true;
@@ -125,7 +124,7 @@ class CustomersController extends AppController
 			}
 			else if($signup=='incompleted'){
 				
-			$customerDetails = $this->Customers->find()->where(['mobile'=>$mobile_no, 'otp'=>$otp, 'status'=>'incompleted'])->first();
+				$customerDetails = $this->Customers->find()->where(['mobile'=>$mobile_no, 'otp'=>$otp, 'status'=>'incompleted'])->first();
 				if($customerDetails)
 				{
 					$today=date('Y-m-d');
@@ -153,8 +152,6 @@ class CustomersController extends AppController
 					$this->set('_serialize', ['status', 'error']);
 				}
 			}
-			
-			
 		}
 		else
 		{

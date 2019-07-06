@@ -262,14 +262,14 @@ class CartsController extends AppController
 		}
 		$address_availablity = $this->Carts->CustomerAddresses->find()
 			->where(['CustomerAddresses.customer_id'=>$customer_id]);
-			if(empty($address_availablity->toArray()))
-			{
-				$address_available=false;
-			}
-			else
-			{
-				$address_available=true;
-			}
+		if(empty($address_availablity->toArray()))
+		{
+			$address_available=false;
+		}
+		else
+		{
+			$address_available=true;
+		}
 			
 		$carts=$this->Carts->find()
 		->where(['customer_id' => $customer_id])
@@ -399,8 +399,15 @@ class CartsController extends AppController
 
 			
 			$delivery_charges = '0';
+			$this->loadModel('Pincodes');
+			$PincodesData=$this->Pincodes->find()->select('id')->where(['pincode' => $pincode])->order(['id' =>'DESC'])->first();
+			$pincode_id=0;
+			if($PincodesData>0){
+				$pincode_id = $PincodesData->id;
+			}
 			$this->loadModel('DeliveryCharges');
-			$delivery_charges=$this->DeliveryCharges->find()->where(['pincode' => $pincode])->order(['id' =>'DESC'])->first();
+
+			$delivery_charges=$this->DeliveryCharges->find()->where(['pincode_id' => $pincode_id])->order(['id' =>'DESC'])->first();
 			
 			if($isFreeShipping == 'Yes')
 			{
