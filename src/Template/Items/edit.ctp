@@ -173,7 +173,7 @@ $('.gst').on('change',function(){
 	
 	rename_row();
 
-	 var radio = "<label class='radio-inline'><input type='radio' name='item_variations[0][ready_to_sale]' class='ready' value='yes'>Yes </label><label class='radio-inline'><input type='radio' name='item_variations[0][ready_to_sale]' class='ready' value='no' checked>No </label>";
+	 var radio = "<label class='radio-inline'><input type='radio' name='item_variations[0][ready_to_sale]' class='ready' value='Yes'>Yes </label><label class='radio-inline'><input type='radio' name='item_variations[0][ready_to_sale]' class='ready' value='No' checked>No </label>";
 
    
 

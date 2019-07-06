@@ -34,6 +34,9 @@
 										<label>Item<label>
 									</th>
 									<th width="20%">
+										<label>Item Code<label>
+									</th>
+									<th width="20%">
 										<label>Variation<label>
 									</th>
 									<th width="20%">
@@ -44,10 +47,10 @@
 							<tbody id='main_tbody' class="tab">
 						<?php foreach($itemLedgers as $itemLedger){
 							
-								$item_freeze=$itemLedger->item->freeze;
-								if($item_freeze==1){
-									continue;
-								}
+								// $item_freeze=$itemLedger->item->freeze;
+								// if($item_freeze==1){
+								// 	continue;
+								// }
 								// $driver_stock=number_format($itemLedger->totalInDriver-$itemLedger->totalOutDriver, 2);
 								$warehouse_stock=number_format($itemLedger->totalInWarehouse-$itemLedger->totalOutWarehouse, 2);
 								@$i++;
@@ -59,6 +62,7 @@
 										<td>
 											<a href="#" role="button" class="stock_show" itm="<?= $itemLedger->item_id ?>"><?= $itemLedger->item->name ?></a>	
 										</td>
+										<td><?= $itemLedger->item->item_code?></td>
 										<td>
 											<?= $itemLedger->item_variation->quantity_variation.' '.$itemLedger->item_variation->unit->shortname ?>
 										</td>

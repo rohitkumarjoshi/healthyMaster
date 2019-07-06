@@ -43,10 +43,10 @@
                     <thead>
                         <tr>
                             <th scope="col"><?= __('S.No') ?></th>
+                            <th scope="col">Date</th>
                             <th scope="col">Order</th>
                             <th scope="col">Customer</th>
                             <th scope="col">Code</th>
-                            <th scope="col">Code Type</th>
                             <th scope="col">Discount</th>
                         </tr>
                     </thead>
@@ -57,10 +57,10 @@
                         ?>
                         <tr>
                             <td><?php echo $i; $i++;?></td>
+                            <td><?= date('d-m-Y',strtotime($used_promos->created_on))?></td>
                             <td><?= $used_promos->order_no?></td>
                             <td><?= $used_promos->customer->name?></td>
                             <td><?= $used_promos->promo_code->code?></td>
-                            <td><?= $used_promos->promo_code->promo_code_type?></td>
                             <td><?= $used_promos->promo_code->discount_per." ".$used_promos->promo_code->amount_type?></td>
                         </tr>
                         <?php endforeach;  ?>

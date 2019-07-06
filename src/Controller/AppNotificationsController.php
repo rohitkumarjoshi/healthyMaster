@@ -18,6 +18,14 @@ class AppNotificationsController extends AppController
      *
      * @return \Cake\Http\Response|null
      */
+
+    public function notificationReport()
+    {
+    	$notifications=$this->AppNotifications->AppNotificationCustomers->find()
+    	->contain(['AppNotifications','Customers']);
+    	 $this->set(compact('notifications'));
+    }
+
     public function index()
     {
 		$this->viewBuilder()->layout('index_layout');

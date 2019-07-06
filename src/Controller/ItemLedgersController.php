@@ -605,8 +605,8 @@ class ItemLedgersController extends AppController
 			// 'totalInDriver' => $query->func()->sum($totalInDriverCase),
 			// 'totalOutDriver' => $query->func()->sum($totalOutDriverCase),'id','ItemLedgers.item_id'
 		])
-		->where(['ItemLedgers.jain_thela_admin_id'=>$jain_thela_admin_id])
-		->group('ItemLedgers.item_id')
+		->where(['Items.freeze'=>0])
+		//->group('ItemLedgers.item_id')
 		->autoFields(true)
 		->contain(['ItemVariations'=>['Units'],'Items'=>['itemCategories']])->order(['Items.name' => 'ASC']);
 

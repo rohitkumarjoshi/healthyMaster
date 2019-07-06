@@ -65,8 +65,8 @@ background-color: #fff;}
 							<!-- <th>Item Variation</th> -->
 							<th>Item</th>
 							<th>Variation</th>
-							<th>Quantity</th>
 							<th>Rate</th>
+							<th>Date</th>
 							
 						</tr>
 					</thead>
@@ -83,8 +83,8 @@ background-color: #fff;}
 							<!-- <td><?= h(@$Cart->item_variation->name) ?></td> -->
 							<td><?= h(@$Cart->item->name) ?></td>
 							<td><?= h(@$Cart->item_variation->quantity_variation) ." ".  h(@$Cart->item_variation->unit->shortname) ?></td>
-							<td><?= h(@$Cart->quantity) ?></td>
 							<td><?= h(@$Cart->item_variation->rate) ?></td>
+							<td><?= date('d-m-Y',strtotime($Cart->created_on)) ?></td>
 						</tr>
 						<?php endforeach; ?>
 					</tbody>

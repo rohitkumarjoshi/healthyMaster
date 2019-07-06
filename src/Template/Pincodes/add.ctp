@@ -70,7 +70,7 @@
 $(document).ready(function() {
 
 $(document).on('change','.state',function(){
-        
+    
         var input=$(this).val();
         var master = $(this); 
         $(".city option").remove();

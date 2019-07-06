@@ -50,7 +50,7 @@ class PromoCodesController extends AppController
         $this->viewBuilder()->layout('index_layout');
         $jain_thela_admin_id=1;
         $promoCode = $this->PromoCodes->newEntity();
-        $promoCodes = $this->PromoCodes->find()->where(['PromoCodes.jain_thela_admin_id'=>$jain_thela_admin_id])->contain(['Items', 'ItemCategories']);
+        $promoCodes = $this->PromoCodes->find()->contain(['Items', 'ItemCategories']);
         if ($this->request->is('post')) {
             $datas = $this->request->getData();
             if(!empty($datas['code']))
@@ -74,8 +74,8 @@ class PromoCodesController extends AppController
         }
         
         //pr($promoCodes->toArray());exit;
-        $itemCategories = $this->PromoCodes->ItemCategories->find('list', ['limit' => 200])->where(['jain_thela_admin_id'=>$jain_thela_admin_id]);
-        $items = $this->PromoCodes->Items->find('list', ['limit' => 200]);
+        $itemCategories = $this->PromoCodes->ItemCategories->find('list');
+        $items = $this->PromoCodes->Items->find('list');
         $this->set(compact('promoCode', 'promoCodes', 'itemCategories','items','code','item_id','from_date','to_date'));
         $this->set('_serialize', ['promoCode']);
         $this->set('_serialize', ['promoCodes','code','item_id','from_date','to_date']);

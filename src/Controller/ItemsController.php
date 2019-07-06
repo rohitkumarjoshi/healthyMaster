@@ -20,6 +20,14 @@ class ItemsController extends AppController
      */
 
 
+    public function itemEntry()
+    {
+        $this->viewBuilder()->layout('index_layout');
+        $item_var=$this->Items->ItemVariations->find()
+        ->contain(['Items'=>['ItemCategories','GstFigures'],'Units']);
+        $this->set(compact('item_var'));
+    }
+
     public function index($status = Null)
     {
 		$this->viewBuilder()->layout('index_layout');

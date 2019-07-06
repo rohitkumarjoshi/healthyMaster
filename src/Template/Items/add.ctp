@@ -127,7 +127,7 @@ $('.gst').on('change',function(){
 		$('.gst_show').hide();
 	}
 }); */
-	 var radio = "<label class='radio-inline'><input type='radio' name='item_variations.0.ready_to_sale' class='ready' value='yes' checked>Yes </label><label class='radio-inline'><input type='radio' name='item_variations.0.ready_to_sale' class='ready' value='no' >No </label>";
+	 var radio = "<label class='radio-inline'><input type='radio' name='item_variations.0.ready_to_sale' class='ready' value='Yes' checked>Yes </label><label class='radio-inline'><input type='radio' name='item_variations.0.ready_to_sale' class='ready' value='No' >No </label>";
 
    
 

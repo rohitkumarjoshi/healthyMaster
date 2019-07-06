@@ -43,7 +43,8 @@
 				<thead>
 					<tr>
 						<th>Sr</th>
-						<th>Code Name</th>
+						<th>Promo Code</th>
+						<th>Description</th>
 						<th>Code Type</th>
 						<th>Discount</th>
 						<th>Item Category</th>
@@ -65,6 +66,7 @@
 					<tr>
 						<td><?= $i ?></td>
 						<td><?= h(@$promoCode->code) ?></td>
+						<td><?= h(@$promoCode->description) ?></td>
 						<td><?= h(@$promoCode->promo_code_type) ?></td>
 						<td><?php 
 							$type=$promoCode->amount_type;

@@ -92,8 +92,8 @@ class PincodesController extends AppController
             }
             $this->Flash->error(__('The pincode could not be saved. Please, try again.'));
         }
-        $states = $this->Pincodes->States->find('list', ['limit' => 200]);
-        $cities = $this->Pincodes->Cities->find('list', ['limit' => 200]);
+        $states = $this->Pincodes->States->find('list');
+        $cities = $this->Pincodes->Cities->find('list');
         $this->set(compact('pincode', 'states', 'cities'));
     }
 
