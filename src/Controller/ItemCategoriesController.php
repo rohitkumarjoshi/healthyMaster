@@ -25,19 +25,19 @@ class ItemCategoriesController extends AppController
        $querys=$this->ItemCategories->Items->ItemLedgers->find();
                 $recently_bought=$querys
                         ->select(['total_rows' => $querys->func()->count('ItemLedgers.id'),'item_id'])
-                        ->where(['inventory_transfer'=>'no','status'=>'out'])
+                        ->where(['status'=>'out'])
                         ->group(['ItemLedgers.item_id'])
                         ->order(['total_rows'=>'DESC'])
                         ->limit(10)
                         ->contain(['Items'=>function($q)  {
-                            return $q->select(['name', 'image','ready_to_sale','is_new'])
+                            return $q->select(['name', 'item_code','item_category_id','ready_to_sale','is_new'])->contain(['ItemCategories'])
                             ->contain(['ItemVariations'=>
                                 function($q)  {
                                     return $q->where(['ready_to_sale' =>'Yes'])
                                     ->contain(['Units','Carts']);
                                 }
                             ]);
-                        }]);
+                      }]);
                         //pr($recently_bought->toArray());exit;
         $this->set(compact('recently_bought'));
     }

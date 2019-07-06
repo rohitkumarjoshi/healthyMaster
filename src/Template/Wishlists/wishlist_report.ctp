@@ -65,6 +65,7 @@ background-color: #fff;}
 							<th>Item</th>
 							<th>Variation</th>
 							<th>Rate</th>
+							<th>Date</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -76,10 +77,11 @@ background-color: #fff;}
 						?>
 						<tr>
 							<td><?= $i ?></td>
-							<td><?= h(@$wishlist->customer->name) ?></td>
+							<td><?= h(@$wishlist->customer->name)."(".h(@$wishlist->customer->mobile).")"?></td>
 							<td><?= h(@$wishlist->item->name) ?></td>
 							<td><?= h(@$wishlist->item_variation->quantity_variation).' '.$wishlist->item_variation->unit->shortname ?></td>
 							<td><?= h(@$wishlist->item_variation->sales_rate) ?></td>
+							<td><?= date('d-m-Y',strtotime($wishlist->created_on)) ?></td>
 							
 						</tr>
 						<?php endforeach; ?>

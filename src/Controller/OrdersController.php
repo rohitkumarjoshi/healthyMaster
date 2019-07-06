@@ -14,6 +14,14 @@ use App\Controller\AppController;
  */
 class OrdersController extends AppController
 {
+
+	public function oreport()
+    {
+        $this->viewBuilder()->layout('index_layout'); 
+        $order=$this->Orders->OrderDetails->newEntity();
+        $orders=$this->Orders->OrderDetails->find()->contain(['Orders','Items']);
+        $this->set(compact('order','orders'));
+    }
 	public function initialize()
 	{
 		parent::initialize();
@@ -258,8 +266,15 @@ class OrdersController extends AppController
            }if($status == 'Delivered'){
 	            $packed=$this->Orders->get($id);
 
-		         $packed->status="Delivered";
-		         $this->Orders->save($packed);
+		        $packed->status="Delivered";
+		        if($this->Orders->save($packed))
+		        {
+		        	//pr($packed);exit;
+		        	$item_ledger=$this->Orders->ItemLedgers->newEntity();
+		        	$ledger=$this->Orders->ItemLedgers->patchEntity($item_ledger,$packed);
+		        	$ledger->status="Out";
+		        	$this->Orders->ItemLedgers->save($ledger);
+		        }
            }
            exit;
     }
