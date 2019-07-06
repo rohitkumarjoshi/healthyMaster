@@ -177,33 +177,35 @@ class CartsController extends AppController
 				if(empty($fetchs->toArray()))
 				{
 					$query = $this->Carts->query();
-							$query->insert(['customer_id','item_variation_id', 'item_id', 'quantity', 'cart_count', 'is_combo'])
-									->values([
-									'customer_id' => $customer_id,
-									'item_id' => $item_id,
-									'item_variation_id' => $item_variation_id,
-									'quantity' => $item_add_quantity,
-									'cart_count' => 1,
-									'is_combo' => $is_combo
-									])
-							->execute();
-				}else{
-					
-						foreach($fetchs as $fetch){
-							$update_id=$fetch->id;
-							$exist_quantity=$fetch->quantity;
-							$exist_count=$fetch->cart_count;
-						}
-						//$update_quantity=$item_add_quantity+$exist_quantity;
-						$update_quantity=$item_add_quantity;
-						$update_count=$exist_count+1;					
+					$query->insert(['customer_id','item_variation_id', 'item_id', 'quantity', 'cart_count', 'is_combo'])
+							->values([
+							'customer_id' => $customer_id,
+							'item_id' => $item_id,
+							'item_variation_id' => $item_variation_id,
+							'quantity' => $item_add_quantity,
+							'cart_count' => 1,
+							'is_combo' => $is_combo
+							])
+					->execute();
+				}
+				else
+				{
+					foreach($fetchs as $fetch){
+						$update_id=$fetch->id;
+						$exist_quantity=$fetch->quantity;
+						$exist_count=$fetch->cart_count;
+					}
+					$exist_quantity;
+					$update_quantity=$item_add_quantity+$exist_quantity;
+					//$update_quantity=$item_add_quantity;
+					$update_count=$exist_count+1;					
 					
 					$cart=$this->Carts->get($update_id);
-					$query = $this->Carts->query();
-						$result = $query->update()
-							->set(['quantity' => $update_quantity, 'cart_count' => $update_count, 'is_combo' => $is_combo])
-							->where(['id' => $update_id])
-							->execute();
+					$query = $this->Carts->query(); 
+					$result = $query->update()
+						->set(['quantity' => $update_quantity, 'cart_count' => $update_count, 'is_combo' => $is_combo])
+						->where(['id' => $update_id])
+						->execute();
 				}
 		}
 		else if($tag=='minus')
@@ -225,8 +227,7 @@ class CartsController extends AppController
 					$exist_quantity=$fetch->quantity;
 					$exist_count=$fetch->cart_count;
 				}
-				//$update_quantity=$exist_quantity-$item_add_quantity;
-				$update_quantity=$item_add_quantity;
+				$update_quantity=$exist_quantity-$item_add_quantity; 
 				$update_count=$exist_count-1;
 			
 				if($exist_count==1)
@@ -293,7 +294,7 @@ class CartsController extends AppController
 			
 			foreach($carts as $cart_data)
 			{
-				$cart_data->item->image = 'http://healthymaster.in'.$this->request->webroot.'img/item_images/'.$cart_data->item->image;			
+				//$cart_data->item->image = 'http://healthymaster.in'.$this->request->webroot.'img/item_images/'.$cart_data->item->image;			
 				
 				foreach($cart_data->item->item_variations as $item_variation)
 				{
