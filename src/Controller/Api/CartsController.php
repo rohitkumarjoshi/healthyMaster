@@ -61,8 +61,8 @@ class CartsController extends AppController
 				$exist_quantity=$fetch->quantity;
 				$exist_count=$fetch->cart_count;
 			}
-			//$update_quantity=$item_add_quantity+$exist_quantity;
-			$update_quantity=$item_add_quantity;
+			$update_quantity=$item_add_quantity+$exist_quantity;
+			//$update_quantity=$item_add_quantity;
 			$update_count=$exist_count+1;
 		
 			$cart=$this->Carts->get($update_id);	
