@@ -9,8 +9,7 @@
 			<div class="portlet-title">
 				<div class="caption">
 					<i class="font-purple-intense"></i>
-					<span class="caption-subject font-purple-intense ">
-						<i class="fa fa-plus"></i> Top Selling Items
+					<span class="caption-subject font-purple-intense ">TOP SELLING ITEM REPORT
 					</span>
 				</div>
 			</div>
@@ -21,6 +20,7 @@
 							<th>Sr</th>
 							<th>Category</th>
 							<th>Item</th>
+							<th>Variation</th>
 							<th>Item Code</th>
 							<th>Amount</th>
 						</tr>
@@ -35,8 +35,9 @@
 							<td><?= $i ?></td>
 							<td><?= $top->item->item_category->name?></td>
 							<td><?= $top->item->name ?></td>
+							<td><?= $top->item_variation->quantity_variation ?></td>
 							<td><?= $top->item->item_code ?></td>
-							<td><?= $top->total_rows ?>Times</td>
+							<td><?= $top->rate ?></td>
 						</tr>
 					<?php } ?>
 					</tbody>

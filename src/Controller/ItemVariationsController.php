@@ -19,6 +19,13 @@ class ItemVariationsController extends AppController
      * @return \Cake\Http\Response|void
      */
 
+    public function itemEntry()
+    {
+        $this->viewBuilder()->layout('index_layout');
+        $item_var=$this->ItemVariations->find()
+        ->contain(['Items'=>['ItemCategories','GstFigures'],'Units']);
+        $this->set(compact('item_var'));
+    }
     public function defineSaleRate()
     {
         $this->viewBuilder()->layout('index_layout');

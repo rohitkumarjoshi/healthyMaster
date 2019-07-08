@@ -21,7 +21,10 @@ class AppNotificationsController extends AppController
 
     public function notificationReport()
     {
+    	$this->viewBuilder()->layout('index_layout');
     	$notifications=$this->AppNotifications->AppNotificationCustomers->find()
+    	->select(['count'=>'count(customer_id)','AppNotifications.image','AppNotifications.message','AppNotifications.item_id'])
+    	->group('app_notification_id')
     	->contain(['AppNotifications','Customers']);
     	 $this->set(compact('notifications'));
     }

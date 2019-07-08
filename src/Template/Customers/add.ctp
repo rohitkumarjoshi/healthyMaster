@@ -22,8 +22,8 @@
 						<?php echo $this->Form->control('mobile',['placeholder'=>'Moble No.','class'=>'form-control input-sm','label'=>false,'oninput'=>"this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');",'minlength'=>10]); ?>
 					</div>
 					<div class="col-md-3">
-						<label class=" control-label">Email </label>
-						<?php echo $this->Form->control('email',['placeholder'=>'Email','class'=>'form-control input-sm','label'=>false]); ?>
+						<label class=" control-label">Email<span class="required" aria-required="true">*</span> </label>
+						<?php echo $this->Form->control('email',['placeholder'=>'Email','class'=>'form-control input-sm','label'=>false,'type'=>'email']); ?>
 					</div>
 					<div class="col-md-3">
 						<label class=" control-label">Bulk Booking Discount % </label>
@@ -55,12 +55,15 @@ $(document).ready(function() {
 				name:{
 					required: true,					 
 				},
-				franchise_id:{
+				email:{
 					required: true,
 				},
-				mobile:{
-					required: true,
-				},
+				mobile_no:{
+						required:true,
+						number:true,
+						minlength:10,
+						maxlength:10
+					},
 				address:{
 					required: true,
 				}

@@ -22,22 +22,10 @@ class ItemCategoriesController extends AppController
     public function topSelling()
     {
         $this->viewBuilder()->layout('index_layout');
-       $querys=$this->ItemCategories->Items->ItemLedgers->find();
-                $recently_bought=$querys
-                        ->select(['total_rows' => $querys->func()->count('ItemLedgers.id'),'item_id'])
+       $recently_bought=$this->ItemCategories->Items->ItemLedgers->find()
                         ->where(['status'=>'out'])
-                        ->group(['ItemLedgers.item_id'])
-                        ->order(['total_rows'=>'DESC'])
-                        ->limit(10)
-                        ->contain(['Items'=>function($q)  {
-                            return $q->select(['name', 'item_code','item_category_id','ready_to_sale','is_new'])->contain(['ItemCategories'])
-                            ->contain(['ItemVariations'=>
-                                function($q)  {
-                                    return $q->where(['ready_to_sale' =>'Yes'])
-                                    ->contain(['Units','Carts']);
-                                }
-                            ]);
-                      }]);
+                        ->group(['ItemLedgers.item_id','ItemLedgers.item_variation_id'])
+                        ->contain(['Items'=>['ItemCategories'],'ItemVariations']);
                         //pr($recently_bought->toArray());exit;
         $this->set(compact('recently_bought'));
     }

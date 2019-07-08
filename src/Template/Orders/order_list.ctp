@@ -17,8 +17,7 @@
 			<div class="portlet-title">
 				<div class="caption">
 					<i class="font-purple-intense"></i>
-					<span class="caption-subject font-purple-intense ">
-						<i class="fa fa-book"></i> Order</span>
+					<span class="caption-subject font-purple-intense ">ORDER</span>
 				</div>
 				<!-- <div class="actions">
 					<?php if($status=='process'){
@@ -116,7 +115,7 @@
 				</table>
 				<?php if($cur_status != "Delivered"){?>
 					<div class="col-md-4">
-								<?= $this->Form->button($this->Html->tag('i', '', ['class'=>'fa fa-plus']) . __(' Submit'),['class'=>'btn btn-success']); ?>
+								<?= $this->Form->button($this->Html->tag('i', '') . __(' Submit'),['class'=>'btn btn-success']); ?>
 					</div>
 				<?php }?>
 			<?= $this->Form->end() ?>
