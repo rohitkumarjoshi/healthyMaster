@@ -573,7 +573,7 @@ class ItemLedgersController extends AppController
 		$jain_thela_admin_id=$this->Auth->User('jain_thela_admin_id');
 		$this->viewBuilder()->layout('index_layout');
 
-		$query = $this->ItemLedgers->find();
+		$query = $this->ItemLedgers->find()->where(['created_on'=>'2019-07-08 10:31:49']);
 
 		$totalInWarehouseCase = $query->newExpr()
 			->addCase(
@@ -606,7 +606,7 @@ class ItemLedgersController extends AppController
 			// 'totalOutDriver' => $query->func()->sum($totalOutDriverCase),'id','ItemLedgers.item_id'
 		])
 		->where(['Items.freeze'=>0])
-		//->group('ItemLedgers.item_id')
+		->group(['ItemLedgers.item_id','ItemLedgers.item_variation_id'])
 		->autoFields(true)
 		->contain(['ItemVariations'=>['Units'],'Items'=>['itemCategories']])->order(['Items.name' => 'ASC']);
 

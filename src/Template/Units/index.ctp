@@ -72,12 +72,7 @@
 								<td class="actions">
 								<?php echo $this->Html->link('<i class="fa fa-pencil"></i>',['action' => 'index', $unit->id],['escape'=>false,'class'=>'btn btn-sm blue']); ?>
 								
-								<?php echo $this->Form->PostLink('<i class="fa fa-trash"></i>',['action' => 'delete', $unit->id],[
-								'escape'=>false,
-								'class'=>'btn btn-sm red',
-								'confirm'=> __ ('Are yousue youwant to delete this unit?',$unit->id)]
-								)
-								?>
+								
 								
 								</td>
 								

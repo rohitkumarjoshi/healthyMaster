@@ -8,8 +8,7 @@
 			<div class="portlet-title">
 				<div class="caption">
 					<i class="font-purple-intense"></i>
-					<span class="caption-subject font-purple-intense ">
-						<i class="fa fa-plus"></i> STOCK REPORT
+					<span class="caption-subject font-purple-intense "> STOCK REPORT
 					</span>
 				</div>
 				<div class="actions"> 
@@ -30,18 +29,37 @@
 									<th width="10%">
 										<label>Sr<label>
 									</th>
-									<th width="20%">
+									<th width="10%">
 										<label>Item<label>
 									</th>
-									<th width="20%">
+									<th width="10%">
 										<label>Item Code<label>
 									</th>
-									<th width="20%">
+									<th width="10%">
 										<label>Variation<label>
 									</th>
-									<th width="20%">
-										<label>Current Stock<label>
+									<th width="10%">
+										<label>Opening Stock<label>
 									</th>
+									<th width="10%">
+										<label>Purchase<label>
+									</th>
+									<th width="10%">
+										<label>Wastage<label>
+									</th>
+									<th width="10%">
+										<label>Reuse<label>
+									</th>
+									<th width="10%">
+										<label>Stock For Sale<label>
+									</th>
+									<th width="10%">
+										<label>Sale Of the Day<label>
+									</th>
+									<th width="10%">
+										<label>Closing Stock<label>
+									</th>
+
 								</tr>
 							</thead>
 							<tbody id='main_tbody' class="tab">
@@ -54,6 +72,7 @@
 								// $driver_stock=number_format($itemLedger->totalInDriver-$itemLedger->totalOutDriver, 2);
 								$warehouse_stock=number_format($itemLedger->totalInWarehouse-$itemLedger->totalOutWarehouse, 2);
 								@$i++;
+								$in=$itemLedger->item_variation->opening_stock + $itemLedger->totalInWarehouse;
 								
 								if($warehouse_stock!= 0) {
 								?>
@@ -66,9 +85,13 @@
 										<td>
 											<?= $itemLedger->item_variation->quantity_variation.' '.$itemLedger->item_variation->unit->shortname ?>
 										</td>
-										<td>
-											<?= number_format($warehouse_stock, 2).' Packet'; ?>
-										</td>
+										<td><?= $itemLedger->item_variation->opening_stock ?></td>
+										<td><?= $itemLedger->totalInWarehouse ?></td>
+										<td></td>
+										<td></td>
+										<td><?= $in  ?></td>
+										<td><?= $itemLedger->totalOutWarehouse ?></td>
+										<td><?= $in-$itemLedger->totalOutWarehouse ?></td>
 									</tr>
 								<?php } 
 								} ?>

@@ -4,7 +4,7 @@
         <div class="portlet light bordered">
             <div class="portlet-title">
                 <div class="caption">
-                    <span class="caption-subject"><?= __('Order Report') ?></span>
+                    <span class="caption-subject"><?= __('ORDER REPORT') ?></span>
                 </div>
             </div>
             <div class="portlet-body">
@@ -33,18 +33,18 @@
                         ?>
                         <tr>
                             <td><?php echo $i; $i++;?></td>
-                            <td><?= $item_var->item->item_category->name?></td>
-                            <td><?= $item_var->item->name?></td>
-                            <td><?= $item_var->item->alias_name?></td>
-                            <td><?= $item_var->item->description?></td>
-                            <td><?= $item_var->item->gst_figure->name?></td>
-                            <td><?= $item_var->quantity_variation?></td>
-                            <td><?= $item_var->unit->shortname ?></td>
-                            <td><?= $item_var->minimum_stock ?></td>
-                            <td><?= $item_var->minimum_quantity_purchase ?></td>
-                            <td><?= $item_var->print_rate ?></td>
-                            <td><?= $item_var->sales_rate ?></td>
-                            <td><?= $item_var->sales_rate ?></td>
+                            <td><?= $var->item->item_category->name?></td>
+                            <td><?= $var->item->name?></td>
+                            <td><?= $var->item->alias_name?></td>
+                            <td><?= $var->item->description?></td>
+                            <td><?= $var->item->gst_figure->name?></td>
+                            <td><?= $var->quantity_variation?></td>
+                            <td><?= $var->unit->shortname ?></td>
+                            <td><?= $var->minimum_stock ?></td>
+                            <td><?= $var->minimum_quantity_purchase ?></td>
+                            <td><?= $var->print_rate ?></td>
+                            <td><?= $var->sales_rate ?></td>
+                            <td><?= $var->sales_rate ?></td>
                         </tr>
                         <?php endforeach;  ?>
                     </tbody>

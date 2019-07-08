@@ -34,13 +34,13 @@ fieldset
                 <div class="">
                     <div class="form-group  ">
                       <label>New Password</label>
-                      <input type="password" class="form-control" name="password" id="password" value=""  placeholder="New Password">
+                      <input type="password" class="form-control" name="password" id="password" value=""  placeholder="New Password" required="required">
                     </div>
                 </div>
                 <div class="">
                      <div class="form-group  ">
                       <label>Confirm New Password</label>
-                      <input type="password" class="form-control" name="cpassword" id="cpassword" value=""  placeholder="Confirm New Password">
+                      <input type="password" class="form-control" name="cpassword" id="cpassword" value=""  placeholder="Confirm New Password" required="required">
                     </div>              
                 </div>
               <div class="col-md-12">

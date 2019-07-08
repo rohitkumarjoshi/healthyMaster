@@ -18,9 +18,9 @@ class OrdersController extends AppController
 	public function oreport()
     {
         $this->viewBuilder()->layout('index_layout'); 
-        $order=$this->Orders->OrderDetails->newEntity();
+        //$order=$this->Orders->OrderDetails->newEntity();
         $orders=$this->Orders->OrderDetails->find()->contain(['Orders','Items']);
-        $this->set(compact('order','orders'));
+        $this->set(compact('orders'));
     }
 	public function initialize()
 	{
@@ -270,6 +270,7 @@ class OrdersController extends AppController
 		        if($this->Orders->save($packed))
 		        {
 		        	//pr($packed);exit;
+		        	pr($packed->id);exit;
 		        	$item_ledger=$this->Orders->ItemLedgers->newEntity();
 		        	$ledger=$this->Orders->ItemLedgers->patchEntity($item_ledger,$packed);
 		        	$ledger->status="Out";

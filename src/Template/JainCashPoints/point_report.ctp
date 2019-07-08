@@ -24,7 +24,7 @@ background-color: #fff;}
 			<div class="portlet-title">
 				<div class="caption">
 					<i class=" fa fa-gift"></i>
-					<span class="caption-subject">Cash Points</span>
+					<span class="caption-subject">CASH POINTS</span>
 				</div>
 				<div class="actions">
 					<input type="text" class="form-control input-sm pull-right" placeholder="Search..." id="search3"  style="width: 200px;">
@@ -39,7 +39,7 @@ background-color: #fff;}
 							<th>Sr</th>
 							<th>Transaction Date</th>
 							<th>Customer</th>
-						    <th>Point</th>
+						    <th>Availiable Point</th>
 							<th>Used Point</th>
 							<th>Order No</th>
 						</tr>
@@ -53,9 +53,9 @@ background-color: #fff;}
 						?>
 						<tr>
 							<td><?= $i ?></td>
-					    	<td><?= h(date('d-m-Y',strtotime($point->updated_on))) ?></td>
+					    	<td><?= h(date('d-m-Y',strtotime($point->order->created_on))) ?></td>
 					    	<td><?= h(@$point->customer->name) ?></td>
-					    	<td><?= h(@$point->point) ?></td>
+					    	<td><?= h(@$point->point)-$point->used_point ?></td>
 							<td><?= h(@$point->used_point) ?></td>
 							<td>
 								<?php 

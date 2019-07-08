@@ -4,7 +4,7 @@
         <div class="portlet light bordered">
             <div class="portlet-title">
                 <div class="caption">
-                    <span class="caption-subject"><?= __('Push Notification Report') ?></span>
+                    <span class="caption-subject"><?= __('PUSH NOTIFICATION REPORT') ?></span>
                 </div>
             </div>
             <div class="portlet-body">
@@ -26,7 +26,23 @@
                             foreach ($notifications as $notification):
                         ?>
                         <tr>
-                            
+                            <td><?= $i; $i++;?></td>
+                            <td> <?= $this->Html->image($notification->app_notification->image, ['style'=>'width:50px; height:50px;']); ?></td>
+                            <td><?php
+                                if($notification->app_notification->item_id == null)
+                                {
+                                    echo "Info Message";
+                                }
+                                else
+                                {
+                                    echo"Product Description";
+                                }
+                            ?></td>
+                            <td><?= $notification->app_notification->message?></td>
+                            <td></td>
+                            <td><?= $notification->count?></td>
+                            <td><?= $notification->sent?></td>
+
                         </tr>
                         <?php endforeach;  ?>
                     </tbody>

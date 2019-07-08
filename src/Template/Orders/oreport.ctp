@@ -4,7 +4,7 @@
         <div class="portlet light bordered">
             <div class="portlet-title">
                 <div class="caption">
-                    <span class="caption-subject"><?= __('Order Report') ?></span>
+                    <span class="caption-subject"><?= __('ORDER REPORT') ?></span>
                 </div>
             </div>
             <div class="portlet-body">
@@ -28,12 +28,11 @@
                         <tr>
                             <td><?php echo $i; $i++;?></td>
                             <td><?= $order_detail->order->order_no?></td>
-                            <td><?= date('d-m-Y',strtotime($order_detail->order->created_on))?></td>
+                            <td><?= date('d-m-Y',strtotime($order_detail->order->order_date))?></td>
                             <td><?= $order_detail->item->name?></td>
                             <td><?= $order_detail->amount?></td>
                             <td><?= $order_detail->order->payment_status?></td>
                             <td><?= $order_detail->order->status?></td>
-                            <td><?= date('d-m-Y',strtotime($order_detail->created_on))?></td>
                         </tr>
                         <?php endforeach;  ?>
                     </tbody>
