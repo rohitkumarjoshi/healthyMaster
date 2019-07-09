@@ -173,7 +173,7 @@ class CustomersController extends AppController
 		$isImageChanged=$this->request->data('isImageChanged');
 		
 		$user_img=$this->request->data('user_img');
-		
+		//pr($user_img); exit;
 		$fetchs=$this->Customers->find()->where(['Customers.id !=' => $customer_id, 'Customers.mobile' =>$mobile])->count();
 		if(empty($fetchs)){
 			if($isImageChanged == "true")
