@@ -435,16 +435,11 @@ class ItemsController extends AppController
 		$customer_id=$this->request->query('customer_id');	
 		$this->loadModel('Wishlists');		
 		$wishlist = $this->Wishlists->find()
-		->contain(['Items' =>['ItemVariations' =>['Units']]])
+		->contain(['Items' =>['ItemVariations' =>['Units']],'ItemVariations'])
 		->where(['customer_id' => $customer_id]);
 		
 		if(!empty($wishlist->toArray()))
-		{
-			foreach($wishlist as $wishListItem)
-			{
-				$wishListItem->item->image = 'http://healthymaster.in'.$this->request->webroot.'img/item_images/'.$wishListItem->item->image;
-			}
-			
+		{ 
 			$totalItem = sizeof($wishlist->toArray());
 			$status=true;
 			$error="Wish list found successfully";			
@@ -456,5 +451,20 @@ class ItemsController extends AppController
 		}
         $this->set(compact('status', 'error','totalItem', 'wishlist'));
         $this->set('_serialize', ['status', 'error','totalItem', 'wishlist']);
+	}
+	public function removeWishlist()
+	{
+		$id=$this->request->query('id');	
+		$this->loadModel('Wishlists');		
+		$Wishlists = $this->Wishlists->get($id);
+        if ($this->Wishlists->delete($Wishlists)) {
+            $error="item remove successfully";	
+            $status=true;
+        } else {
+        	$status=false;
+            $error="Something went wrong.";	
+        } 
+        $this->set(compact('status', 'error'));
+        $this->set('_serialize', ['status', 'error']);
 	}
 }
