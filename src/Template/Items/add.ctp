@@ -74,6 +74,7 @@
                                           <th width="10%">Maximum Order Limit</th>
                                           <th width="8%">Print Rate</th>
                                           <th width="8%">Sales Rate</th>
+                                          <th width="8%">Opening Stock</th>
                                           <th width="15%">Ready To Sale</th>
                                           <th width="8%">Actions</th>
                                       </tr>
@@ -105,8 +106,11 @@
                      <td style="vertical-align: bottom;"> 
                     	<?php echo $this->Form->control('item_variations.0.print_rate',['class'=>'form-control print_rate','placeholder'=>'Print Rate','label'=>false]); ?>
                     </td>
-                     <td style="vertical-align: bottom;"> 
+                    <td style="vertical-align: bottom;"> 
                     	<?php echo $this->Form->control('item_variations.0.sales_rate',['class'=>'form-control sales_rate','placeholder'=>'Sales Rate','label'=>false]); ?>
+                    </td>
+                    <td style="vertical-align: bottom;"> 
+                    	<?php echo $this->Form->control('item_variations.0.opening_stock',['class'=>'form-control opening_stock','placeholder'=>'Opening Stock','label'=>false]); ?>
                     </td>
                     <td><div class="myRadio" style="display: inline-block;"></div></td>
                     <td style="vertical-align: bottom;"> <button type="button" id="plus" class="btn btn-sm green"><i class="fa fa-plus"></i></button>
@@ -127,7 +131,7 @@ $('.gst').on('change',function(){
 		$('.gst_show').hide();
 	}
 }); */
-	 var radio = "<label class='radio-inline'><input type='radio' name='item_variations.0.ready_to_sale' class='ready' value='yes' checked>Yes </label><label class='radio-inline'><input type='radio' name='item_variations.0.ready_to_sale' class='ready' value='no' >No </label>";
+	 var radio = "<label class='radio-inline'><input type='radio' name='item_variations.0.ready_to_sale' class='ready' value='Yes' checked>Yes </label><label class='radio-inline'><input type='radio' name='item_variations.0.ready_to_sale' class='ready' value='No' >No </label>";
 
    
 
@@ -170,6 +174,7 @@ $('.gst').on('change',function(){
 
             $(this).find('.print_rate').attr('name','item_variations['+i+'][print_rate]');
             $(this).find('.sales_rate').attr('name','item_variations['+i+'][sales_rate]');
+            $(this).find('.opening_stock').attr('name','item_variations['+i+'][opening_stock]');
 			i++;
 			a++
           });

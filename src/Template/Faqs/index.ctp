@@ -1,36 +1,40 @@
-<?php $this->set('title', 'FAQ'); ?>
+
 <div class="page-content-wrap">
             
     <div class="row">
-        <div class="col-md-4">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">ADD FAQ</h3>
+        <div class="col-md-5">
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="font-purple-intense"></i>
+                        <span class="caption-subject font-purple-intense ">
+                              <?php 
+                            if(!empty($id)){ ?> EDIT ADDRESS
+                            <?php }else{ ?> ADD ADDRESS
+                            <?php } ?>
+                        </span>
+                    </div>
                 </div>
-                <?= $this->Form->create($faq,['id'=>"jvalidate"]) ?>
-                <div class="panel-body">
-                    <div class="form-group">
-                        <label>Question</label>
-                        <?= $this->Form->control('question',['class'=>'form-control','placeholder'=>'Question ','label'=>false]) ?>
-                        <span class="help-block"></span>
-                    </div>
-                    <div class="form-group">
-                        <label>Answer</label>
-                        <?= $this->Form->control('answer',['class'=>'form-control','placeholder'=>'Answer ','label'=>false]) ?>
-                        <span class="help-block"></span>
-                    </div>
-                    
-                </div>      
-               <div class="panel-footer">
-                 <center>
-                        <?= $this->Form->button(__('Submit'),['class'=>'btn btn-success']) ?>
-                 </center>
-               </div>   
-               <?= $this->Form->end() ?>
+                <div class="portlet-body">
+                    <?= $this->Form->create($faq,['id'=>'form_sample_3']) ?>
+                    <div class="row">
+                            <div class="col-md-12">
+                                <label class=" control-label">Question<span class="required" aria-required="true">*</span></label>
+                                <?php echo $this->Form->control('question',['placeholder'=>'Question','class'=>'form-control input-sm','label'=>false,'required']); ?>
+                            </div>
+                        </div>
+                        <div class="row">
+                        <div class="col-md-12">
+                            <label class=" control-label">Answer<span class="required" aria-required="true">*</span></label>
+                                <?php echo $this->Form->control('answer',['placeholder'=>'Answer','class'=>'form-control input-sm','label'=>false,'required']); ?>
+                            </div>
+                        </div>   
+                    <?= $this->Form->button($this->Html->tag('i', '') . __(' Submit'),['class'=>'btn btn-success']); ?>
+                    <?= $this->Form->end() ?>
+                </div>
             </div>
         </div>
-    
-        <div class="col-md-8">
+        <div class="col-md-7">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title">LIST FAQ</h3>
@@ -105,24 +109,42 @@
         </div>
     </div>
 </div>
+<?php echo $this->Html->script('/assets/global/plugins/jquery.min.js'); ?>
+<script>
+$(document).ready(function() {
+    
+  //--------- FORM VALIDATION
+    var form3 = $('#form_sample_3');
+    var error3 = $('.alert-danger', form3);
+    var success3 = $('.alert-success', form3);
+    form3.validate({
+        
+        errorElement: 'span', //default input error message container
+        errorClass: 'help-block help-block-error', // default input error message class
+        focusInvalid: true, // do not focus the last invalid input
+        rules: {
+                question:{
+                    required: true,                  
+                },
+                answer:{
+                    required: true,                  
+                },
+                house_no:{
+                    required: true,                  
+                },
+                locality:{
+                    required: true,                  
+                },
+                mobile_no:{
+                        required:true,
+                        number:true,
+                        minlength:10,
+                        maxlength:10
+                    }
+            },
+       
 
-<?= $this->Html->script('plugins/bootstrap/bootstrap-select.js',['block'=>'jsSelect']) ?>
-<?= $this->Html->script('plugins/jquery-validation/jquery.validate.js',['block'=>'jsValidate']) ?>
-<?php
-   $js='var jvalidate = $("#jvalidate").validate({
-        ignore: [],
-        rules: {                                            
-                question: {
-                        required: true,
-                },
-                answer: {
-                        required: true,
-                },
-                // city_id: {
-                //         required: true,
-                // },
-            }                                        
-        });';  
-echo $this->Html->scriptBlock($js, array('block' => 'scriptBottom'));       
-?>
+    });
+});
+</script>
  

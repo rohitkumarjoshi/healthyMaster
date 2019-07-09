@@ -9,8 +9,7 @@
 			<div class="portlet-title">
 				<div class="caption">
 					<i class="font-purple-intense"></i>
-					<span class="caption-subject font-purple-intense ">
-						<i class="fa fa-plus"></i> Top Selling Items
+					<span class="caption-subject font-purple-intense ">TOP SELLING ITEM REPORT
 					</span>
 				</div>
 			</div>
@@ -19,9 +18,11 @@
 					<thead>
 						<tr>
 							<th>Sr</th>
-							<th>Image</th>
+							<th>Category</th>
 							<th>Item</th>
-							<th>Total Sale</th>
+							<th>Variation</th>
+							<th>Item Code</th>
+							<th>Amount</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -32,9 +33,11 @@
 						?>
 						<tr>
 							<td><?= $i ?></td>
-							<td><img style="height:2%;" src="/healthyMaster/webroot/img/item_images/<?= $top->item->image ?>" ></td>
+							<td><?= $top->item->item_category->name?></td>
 							<td><?= $top->item->name ?></td>
-							<td><?= $top->total_rows ?>Times</td>
+							<td><?= $top->item_variation->quantity_variation ?></td>
+							<td><?= $top->item->item_code ?></td>
+							<td><?= $top->rate ?></td>
 						</tr>
 					<?php } ?>
 					</tbody>

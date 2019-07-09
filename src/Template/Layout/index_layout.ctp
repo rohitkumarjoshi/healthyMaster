@@ -280,6 +280,22 @@
 										<?php echo $this->Html->link('<i class="fa  fa-file"></i> Stock Report','/itemLedgers/report_show',['escape'=>false]) ?>
 									</li>
 									<li>
+										<?php echo $this->Html->link('<i class="fa  fa-file"></i> Push Notification','/AppNotifications/notification_report',['escape'=>false]) ?>
+									</li>
+									<li>
+										<?php echo $this->Html->link('<i class="fa  fa-file"></i>Purchase Report','/PurchaseBookings/purchase_report',['escape'=>false]) ?>
+									</li>
+									<li>
+										<?php echo $this->Html->link('<i class="fa  fa-file"></i>GST Report','/Items/gst_report',['escape'=>false]) ?>
+									</li>
+
+									<li>
+										<?php echo $this->Html->link('<i class="fa  fa-file"></i> Order Report','/Orders/oreport',['escape'=>false]) ?>
+									</li>
+									<li>
+										<?php echo $this->Html->link('<i class="fa  fa-file"></i> Feedback Report','/Feedbacks/report',['escape'=>false]) ?>
+									</li>
+									<li>
 										<?php echo $this->Html->link('<i class="fa  fa-file"></i> Top Selling Item Report','/ItemCategories/top_selling',['escape'=>false]) ?>
 									</li>
 									<li>

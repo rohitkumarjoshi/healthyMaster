@@ -157,7 +157,7 @@ class CartsController extends AppController
          $this->viewBuilder()->layout('index_layout');
          $Cart= $this->Carts->newEntity();
         $Carts = $this->Carts->find()
-        ->group(['customer_id'])
+        //->group(['customer_id'])
         ->contain(['Items','Customers','ItemVariations'=>['Units']]);
         if ($this->request->is('post')) {
             $datas = $this->request->getData();

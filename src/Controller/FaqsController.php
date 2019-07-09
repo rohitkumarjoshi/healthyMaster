@@ -122,7 +122,7 @@ class FaqsController extends AppController
         if ($this->request->is('post')) {
 
             $data=$this->request->getData();
-            pr($data);exit;
+            //pr($data);exit;
             $faq = $this->Faqs->patchEntity($faq, $this->request->getData());
             if ($this->Faqs->save($faq)) {
                 $this->Flash->success(__('The faq has been saved.'));

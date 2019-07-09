@@ -28,7 +28,7 @@
 				<div class="row">
 					<div class="col-md-8">
 						<label class=" control-label">Mobile <span class="required" aria-required="true">*</span></label>
-						<?php echo $this->Form->control('mobile',['placeholder'=>'Mobile','class'=>'form-control input-sm','label'=>false]); ?>
+						<?php echo $this->Form->control('mobile',['placeholder'=>'Mobile','class'=>'form-control input-sm','label'=>false,'type'=>'number','minlength'=>10,'maxlength'=>10]); ?>
 					</div>
 				</div>
 				<div class="row">
@@ -162,9 +162,21 @@ $(document).ready(function() {
 				name:{
 					required: true,					 
 				},
-				unit_id:{
-					required: true,
-				}
+				address:{
+					required: true,					 
+				},
+				house_no:{
+					required: true,					 
+				},
+				locality:{
+					required: true,					 
+				},
+				mobile_no:{
+						required:true,
+						number:true,
+						minlength:10,
+						maxlength:10
+					}
 			},
 
 		errorPlacement: function (error, element) { // render error placement for each input type

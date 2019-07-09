@@ -19,6 +19,14 @@ class FeedbacksController extends AppController
      * @return \Cake\Http\Response|null
      */
 
+    public function report()
+    {
+        $this->viewBuilder()->layout('index_layout'); 
+        $feedback=$this->Feedbacks->newEntity();
+        $feedbacks=$this->Feedbacks->find()->contain(['Customers']);
+        $this->set(compact('feedback','feedbacks'));
+    }
+
     public function ajaxAutocompleted(){
         $name=$this->request->getData('input'); 
         $searchType=$this->request->getData('searchType');

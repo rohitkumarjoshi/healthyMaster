@@ -47,8 +47,8 @@
 							<th width="15%">Item Discount %</th>
 							<th width="20%">
 								Ready to Sale
-								<?php echo  $this->Form->control('rts',['class'=>'form-control input-sm all','options'=>['empty'=>'--All--', 'Yes'=>'Yes','No'=>'No'], 'label'=>false]); ?>
-							</th>
+								<!-- <?php echo  $this->Form->control('rts',['class'=>'form-control input-sm all','options'=>['empty'=>'--All--', 'Yes'=>'Yes','No'=>'No'], 'label'=>false]); ?>
+ -->							</th>
 							
 						</tr>
 					</thead>

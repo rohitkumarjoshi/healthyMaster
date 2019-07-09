@@ -35,10 +35,9 @@ class PincodesController extends AppController
     public function index()
     {
         $this->viewBuilder()->layout('index_layout');
-        $this->paginate = [
-            'contain' => ['States','Cities','DeliveryCharges']
-        ];
-        $pincodes = $this->paginate($this->Pincodes);
+        
+        $pincodes = $this->Pincodes->find()->contain(['States','Cities','DeliveryCharges']);
+        //pr($pincodes->toArray());exit;
 
         $this->set(compact('pincodes'));
     }
@@ -71,7 +70,7 @@ class PincodesController extends AppController
         $DeliveryCharges = $this->Pincodes->DeliveryCharges->newEntity();
         if ($this->request->is('post')) {
             $data=$this->request->getData();
-            pr($data);
+            //pr($data);
             $pincode = $this->Pincodes->patchEntity($pincode,$data);
             if ($this->Pincodes->save($pincode)) {
                 if($data['we_deliver']=="Yes")
@@ -92,8 +91,8 @@ class PincodesController extends AppController
             }
             $this->Flash->error(__('The pincode could not be saved. Please, try again.'));
         }
-        $states = $this->Pincodes->States->find('list', ['limit' => 200]);
-        $cities = $this->Pincodes->Cities->find('list', ['limit' => 200]);
+        $states = $this->Pincodes->States->find('list');
+        $cities = $this->Pincodes->Cities->find('list');
         $this->set(compact('pincode', 'states', 'cities'));
     }
 
@@ -110,8 +109,10 @@ class PincodesController extends AppController
         $pincode = $this->Pincodes->get($id, [
             'contain' => ['DeliveryCharges']
         ]);
+        //pr($this->request->getData());
         if ($this->request->is(['patch', 'post', 'put'])) {
             $pincode = $this->Pincodes->patchEntity($pincode, $this->request->getData());
+            //pr($pincode);exit;
             if ($this->Pincodes->save($pincode)) {
                 $this->Flash->success(__('The pincode has been saved.'));
 

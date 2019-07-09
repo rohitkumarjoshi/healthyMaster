@@ -19,11 +19,11 @@
 					</div>
 					<div class="col-md-3">
 						<label class=" control-label">Mobile No. <span class="required" aria-required="true">*</span></label>
-						<?php echo $this->Form->control('mobile',['placeholder'=>'Moble No.','class'=>'form-control input-sm','label'=>false,'oninput'=>"this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');",'minlength'=>10]); ?>
+						<?php echo $this->Form->control('mobile',['placeholder'=>'Moble No.','class'=>'form-control input-sm mobile','label'=>false,'oninput'=>"this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');",'minlength'=>10]); ?>
 					</div>
 					<div class="col-md-3">
-						<label class=" control-label">Email </label>
-						<?php echo $this->Form->control('email',['placeholder'=>'Email','class'=>'form-control input-sm','label'=>false]); ?>
+						<label class=" control-label">Email<span class="required" aria-required="true">*</span> </label>
+						<?php echo $this->Form->control('email',['placeholder'=>'Email','class'=>'form-control input-sm','label'=>false,'type'=>'email']); ?>
 					</div>
 					<div class="col-md-3">
 						<label class=" control-label">Bulk Booking Discount % </label>
@@ -41,6 +41,7 @@
 <?php echo $this->Html->script('/assets/global/plugins/jquery.min.js'); ?>
 <script>
 $(document).ready(function() {
+
 	
   //--------- FORM VALIDATION
 	var form3 = $('#form_sample_3');
@@ -55,12 +56,16 @@ $(document).ready(function() {
 				name:{
 					required: true,					 
 				},
-				franchise_id:{
+				email:{
 					required: true,
 				},
-				mobile:{
-					required: true,
-				},
+				mobile_no:{
+						required:true,
+						number:true,
+						minlength:10,
+						maxlength:10
+						
+					},
 				address:{
 					required: true,
 				}
@@ -126,6 +131,41 @@ $(document).ready(function() {
 		}else{
 			$rows.show();
 		}
+	});
+	$(document).on('change','.mobile',function(){
+		//alert();
+		var input=$(this).val();
+
+        var master = $(this); 
+		//alert(input);
+		if(input.length>0){
+            var m_data = new FormData();
+            var url ="<?php echo $this->Url->build(["controller" => "Customers", "action" => "check"]); ?>";
+         //   alert(url);
+            m_data.append('input',input); 
+            $.ajax({
+                url: url,
+                data: m_data,
+                processData: false,
+                contentType: false,
+                type: 'POST',
+                dataType:'text',
+                success: function(response)
+                { 
+                	alert(response);
+                	if(response == 1)
+                	{
+						$('.mobile').val('');
+						alert("No Already Exist");
+					}
+					else
+					{
+						$('.mobile').val(response);
+					}
+
+                }
+            });
+            }
 	});
 });
 </script>

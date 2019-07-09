@@ -18,6 +18,13 @@ class PurchaseBookingsController extends AppController
      *
      * @return \Cake\Http\Response|null
      */
+    public function purchaseReport()
+    {
+       $this->viewBuilder()->layout('index_layout');
+       $purchases=$this->PurchaseBookings->PurchaseBookingDetails->find()
+       ->contain(['Items'=>['ItemCategories'],'ItemVariations'=>['Units'],'PurchaseBookings'=>['Vendors']]);
+        $this->set(compact('purchases'));
+    }
     public function index()
     {
 		$this->viewBuilder()->layout('index_layout');

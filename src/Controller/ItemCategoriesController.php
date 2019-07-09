@@ -22,22 +22,10 @@ class ItemCategoriesController extends AppController
     public function topSelling()
     {
         $this->viewBuilder()->layout('index_layout');
-       $querys=$this->ItemCategories->Items->ItemLedgers->find();
-                $recently_bought=$querys
-                        ->select(['total_rows' => $querys->func()->count('ItemLedgers.id'),'item_id'])
-                        ->where(['inventory_transfer'=>'no','status'=>'out'])
-                        ->group(['ItemLedgers.item_id'])
-                        ->order(['total_rows'=>'DESC'])
-                        ->limit(10)
-                        ->contain(['Items'=>function($q)  {
-                            return $q->select(['name', 'image','ready_to_sale','is_new'])
-                            ->contain(['ItemVariations'=>
-                                function($q)  {
-                                    return $q->where(['ready_to_sale' =>'Yes'])
-                                    ->contain(['Units','Carts']);
-                                }
-                            ]);
-                        }]);
+       $recently_bought=$this->ItemCategories->Items->ItemLedgers->find()
+                        ->where(['status'=>'out'])
+                        ->group(['ItemLedgers.item_id','ItemLedgers.item_variation_id'])
+                        ->contain(['Items'=>['ItemCategories'],'ItemVariations']);
                         //pr($recently_bought->toArray());exit;
         $this->set(compact('recently_bought'));
     }
@@ -66,7 +54,7 @@ class ItemCategoriesController extends AppController
             //pr($file);exit;
             $file_name=$file['name'];           
             $ext = substr(strtolower(strrchr($file['name'], '.')), 1); //get the extension
-            $arr_ext = array('jpg', 'jpeg', 'png','JPEG'); //set allowed extensions
+            $arr_ext = array('jpg', 'jpeg','png','JPEG'); //set allowed extensions
             $setNewFileName = uniqid();
             $img_name= $setNewFileName.'.'.$ext;
             if(!empty($file_name)){

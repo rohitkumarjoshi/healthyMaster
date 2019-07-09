@@ -18,6 +18,17 @@ class VendorsController extends AppController
      *
      * @return \Cake\Http\Response|null
      */
+
+     public function check()
+    {
+        $items='';
+         $gst_no=$this->request->getData('input'); 
+            $items=$this->Vendors->find()->where(['gst_no'=>$gst_no]);
+            //$no=$items->mobile;
+                if($items)
+                    echo"1";    
+        exit;  
+    }
     public function index($id=null)
     {
 		

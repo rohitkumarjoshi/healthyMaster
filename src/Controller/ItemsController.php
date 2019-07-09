@@ -20,6 +20,14 @@ class ItemsController extends AppController
      */
 
 
+    public function gstReport()
+    {
+       $this->viewBuilder()->layout('index_layout');
+       $gsts=$this->Items->ItemVariations->find()
+       ->contain(['Items'=>['GstFigures','ItemCategories']]);
+        $this->set(compact('gsts'));
+    }
+
     public function index($status = Null)
     {
 		$this->viewBuilder()->layout('index_layout');
