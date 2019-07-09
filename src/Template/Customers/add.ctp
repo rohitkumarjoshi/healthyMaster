@@ -152,16 +152,13 @@ $(document).ready(function() {
                 dataType:'text',
                 success: function(response)
                 { 
-                	alert(response);
+                	//alert(response);
                 	if(response == 1)
                 	{
 						$('.mobile').val('');
 						alert("No Already Exist");
 					}
-					else
-					{
-						$('.mobile').val(response);
-					}
+
 
                 }
             });

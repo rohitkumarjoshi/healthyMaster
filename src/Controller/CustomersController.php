@@ -20,15 +20,14 @@ class CustomersController extends AppController
      */
     public function check()
     {
-    	$items='0';
+    	//$items='0';
     	 $mobile=$this->request->getData('input'); 
     	 //alert($mobile);
-            $items=$this->Customers->find()->where(['mobile'=>$mobile]);
-            //$no=$items->mobile;
-            	if($items)
-            		echo"1";
-            	else
-            		echo $mobile;	
+            if($this->Customers->exists(['mobile'=>$mobile]))
+            {
+            	echo"1";
+            }
+	
         exit;  
     }
     public function index()
