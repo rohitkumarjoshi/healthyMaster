@@ -25,17 +25,17 @@ class ItemCategoriesController extends AppController
 				
 				$itemCategories = $this->ItemCategories->Items->find()->where(['Items.ready_to_sale'=>'Yes','item_category_id'=>$HomeScreen->category_id])->contain(['ItemVariations'=>['Units']]);
 				$itemCategories->Matching('ItemVariations', function($q) {
-	                    return $q->where(['ready_to_sale' =>'Yes']);
+	                    return $q->where(['ItemVariations.ready_to_sale' =>'Yes']);
 	                });
 				$ItemCategories = array("title"=>$HomeScreen->title,'layout'=>$HomeScreen->layout,'category_id'=>$HomeScreen->category_id,'item_id'=>$HomeScreen->item_id,'image'=>$HomeScreen->image,"DynamicList"=>$itemCategories);
 				array_push($dynamic,$ItemCategories);
 			}
 			if($HomeScreen->layout=='SingleImage'){
 				
-				$items = $this->ItemCategories->Items->find()->where(['Items.ready_to_sale'=>'Yes','id'=>$HomeScreen->item_id])->contain(['ItemVariations']);
+				$items = $this->ItemCategories->Items->find()->where(['Items.ready_to_sale'=>'Yes','Items.id'=>$HomeScreen->item_id])->contain(['ItemVariations']);
 				
 				$items->Matching('ItemVariations', function($q) {
-	                    return $q->where(['ready_to_sale' =>'Yes']);
+	                    return $q->where(['ItemVariations.ready_to_sale' =>'Yes']);
 	                });
 					
 				$Items = array("title"=>$HomeScreen->title,'layout'=>$HomeScreen->layout,'category_id'=>$HomeScreen->category_id,'item_id'=>$HomeScreen->item_id,'image'=>$HomeScreen->image,'image_fullpath'=>'http://healthymaster.in/healthymaster/img/home_screen/'.$HomeScreen->image,"DynamicList"=>$items);
@@ -53,12 +53,12 @@ class ItemCategoriesController extends AppController
 				$querys=$this->ItemCategories->Items->ItemLedgers->find();
 				$recently_bought=$querys
 				->select(['total_rows' => $querys->func()->count('ItemLedgers.id'),'item_id'])
-				->where(['inventory_transfer'=>'no','status'=>'out'])
+				->where(['status'=>'out'])
 				->group(['ItemLedgers.item_id'])
 				->order(['total_rows'=>'DESC'])
 				->limit(10)
 				->contain(['Items'=>function($q) use($customer_id) {
-				return $q->select(['name', 'image','ready_to_sale','is_new'])
+				return $q->select(['name', 'image','ready_to_sale','is_new','id'])
 				->contain(['ItemVariations'=>
 				function($q) use($customer_id) {
 					return $q->where(['ready_to_sale' =>'Yes'])
@@ -80,12 +80,12 @@ class ItemCategoriesController extends AppController
 				$query=$this->ItemCategories->Items->ItemLedgers->find();
 				$popular_items=$query
 				->select(['total_rows' => $query->func()->count('ItemLedgers.id'),'item_id'])
-				->where(['inventory_transfer'=>'no','status'=>'out'])
+				->where(['status'=>'out'])
 				->group(['ItemLedgers.item_id'])
 				->order(['total_rows'=>'DESC'])
 				->limit(10)
 				->contain(['Items'=>function($q) use($customer_id){
-				return $q->select(['name', 'image','ready_to_sale','is_new'])
+				return $q->select(['name', 'image','ready_to_sale','is_new','id'])
 
 				->contain(['ItemVariations'=>
 					function($q) use($customer_id) {
