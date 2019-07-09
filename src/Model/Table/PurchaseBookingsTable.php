@@ -106,9 +106,9 @@ class PurchaseBookingsTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->existsIn(['grn_id'], 'Grns'));
-        $rules->add($rules->existsIn(['vendor_id'], 'Vendors'));
-        $rules->add($rules->existsIn(['jain_thela_admin_id'], 'JainThelaAdmins'));
+       // $rules->add($rules->existsIn(['grn_id'], 'Grns'));
+        //$rules->add($rules->existsIn(['vendor_id'], 'Vendors'));
+       // $rules->add($rules->existsIn(['jain_thela_admin_id'], 'JainThelaAdmins'));
 
         return $rules;
     }
