@@ -18,6 +18,19 @@ class CustomersController extends AppController
      *
      * @return \Cake\Http\Response|null
      */
+    public function check()
+    {
+    	$items='0';
+    	 $mobile=$this->request->getData('input'); 
+    	 //alert($mobile);
+            $items=$this->Customers->find()->where(['mobile'=>$mobile]);
+            //$no=$items->mobile;
+            	if($items)
+            		echo"1";
+            	else
+            		echo $mobile;	
+        exit;  
+    }
     public function index()
     {
 		$this->viewBuilder()->layout('index_layout');

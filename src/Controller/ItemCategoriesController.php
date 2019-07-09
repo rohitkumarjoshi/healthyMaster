@@ -54,7 +54,7 @@ class ItemCategoriesController extends AppController
             //pr($file);exit;
             $file_name=$file['name'];           
             $ext = substr(strtolower(strrchr($file['name'], '.')), 1); //get the extension
-            $arr_ext = array('jpg', 'jpeg', 'png','JPEG'); //set allowed extensions
+            $arr_ext = array('jpg', 'jpeg','png','JPEG'); //set allowed extensions
             $setNewFileName = uniqid();
             $img_name= $setNewFileName.'.'.$ext;
             if(!empty($file_name)){

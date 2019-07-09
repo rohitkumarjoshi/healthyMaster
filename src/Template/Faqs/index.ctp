@@ -1,45 +1,39 @@
-<?php $this->set('title', 'FAQ'); ?>
+
 <div class="page-content-wrap">
             
     <div class="row">
         <div class="col-md-5">
-        <div class="portlet light bordered">
-            <div class="portlet-title">
-                <div class="caption">
-                    <i class="font-purple-intense"></i>
-                    <span class="caption-subject font-purple-intense ">
-                          <?php 
-                        if(!empty($id)){ ?> EDIT ADDRESS
-                        <?php }else{ ?> ADD ADDRESS
-                        <?php } ?>
-                    </span>
-                </div>
-                <div class="actions">
-                     <?php if(!empty($id)){ ?>
-                        <?php echo $this->Html->link('<i class="fa fa-plus"></i> Add New',['action' => 'index/'.$customer_id],array('escape'=>false,'class'=>'btn btn-default')); ?>
-                    <?php } ?>
-                </div>
-            </div>
-            <div class="portlet-body">
-                <?= $this->Form->create($faq,['id'=>'form_sample_3']) ?>
-                <div class="row">
-                        <div class="col-md-12">
-                            <label class=" control-label">Question<span class="required" aria-required="true">*</span></label>
-                            <?php echo $this->Form->control('question',['placeholder'=>'Question','class'=>'form-control input-sm','label'=>false,'required']); ?>
-                        </div>
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="font-purple-intense"></i>
+                        <span class="caption-subject font-purple-intense ">
+                              <?php 
+                            if(!empty($id)){ ?> EDIT ADDRESS
+                            <?php }else{ ?> ADD ADDRESS
+                            <?php } ?>
+                        </span>
                     </div>
+                </div>
+                <div class="portlet-body">
+                    <?= $this->Form->create($faq,['id'=>'form_sample_3']) ?>
                     <div class="row">
-                    <div class="col-md-12">
-                        <label class=" control-label">Answer<span class="required" aria-required="true">*</span></label>
-                            <?php echo $this->Form->control('answer',['placeholder'=>'Answer','class'=>'form-control input-sm','label'=>false,'required']); ?>
+                            <div class="col-md-12">
+                                <label class=" control-label">Question<span class="required" aria-required="true">*</span></label>
+                                <?php echo $this->Form->control('question',['placeholder'=>'Question','class'=>'form-control input-sm','label'=>false,'required']); ?>
+                            </div>
                         </div>
-                    </div>   
-                <?= $this->Form->button($this->Html->tag('i', '') . __(' Submit'),['class'=>'btn btn-success']); ?>
-                <?= $this->Form->end() ?>
+                        <div class="row">
+                        <div class="col-md-12">
+                            <label class=" control-label">Answer<span class="required" aria-required="true">*</span></label>
+                                <?php echo $this->Form->control('answer',['placeholder'=>'Answer','class'=>'form-control input-sm','label'=>false,'required']); ?>
+                            </div>
+                        </div>   
+                    <?= $this->Form->button($this->Html->tag('i', '') . __(' Submit'),['class'=>'btn btn-success']); ?>
+                    <?= $this->Form->end() ?>
+                </div>
             </div>
         </div>
-    </div>
-    
         <div class="col-md-7">
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -148,31 +142,9 @@ $(document).ready(function() {
                         maxlength:10
                     }
             },
-       invalidHandler: function (event, validator) { //display error alert on form submit   
-            success3.hide();
-            error3.show();
-        },
-
-        highlight: function (element) { // hightlight error inputs
-           $(element)
-                .closest('.form-group').addClass('has-error'); // set error class to the control group
-        },
-
-        unhighlight: function (element) { // revert the change done by hightlight
-            $(element)
-                .closest('.form-group').removeClass('has-error'); // set error class to the control group
-        },
-
-        success: function (label) {
-            label
-                .closest('.form-group').removeClass('has-error'); // set success class to the control group
-        },
-
-        submitHandler: function (form) {
-            success3.show();
-            error3.hide();
-            form[0].submit(); // submit the form
-        }
+       
 
     });
+});
+</script>
  

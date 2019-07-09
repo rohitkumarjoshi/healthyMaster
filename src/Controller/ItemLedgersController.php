@@ -573,7 +573,7 @@ class ItemLedgersController extends AppController
 		$jain_thela_admin_id=$this->Auth->User('jain_thela_admin_id');
 		$this->viewBuilder()->layout('index_layout');
 
-		$query = $this->ItemLedgers->find()->where(['created_on'=>'2019-07-08 10:31:49']);
+		$query = $this->ItemLedgers->find()->where(['created_on'=>date('Y-m-d')]);
 
 		$totalInWarehouseCase = $query->newExpr()
 			->addCase(

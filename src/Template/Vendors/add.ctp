@@ -29,7 +29,7 @@
 				<div class="row" style="margin-top: 12px;">
 					<div class="col-md-4">
 						<label class=" control-label">GST No. <span class="required" aria-required="true">* </label>
-						<?php echo $this->Form->control('gst_no',['placeholder'=>'GST No.','class'=>'form-control input-sm','label'=>false,'required']); ?>
+						<?php echo $this->Form->control('gst_no',['placeholder'=>'GST No.','class'=>'form-control input-sm gst_no','label'=>false,'required']); ?>
 					</div>
 					<div class="col-md-4">
                         <?= $this->Form->control('id',['type'=>'hidden']); ?>
@@ -63,35 +63,8 @@
 <?php echo $this->Html->script('/assets/global/plugins/jquery.min.js'); ?>
 <script>
 $(document).ready(function() {
-	
-	$(document).on('change','.state',function(){
-        
-        var input=$(this).val();
-        var master = $(this); 
-        $(".city option").remove();
-        if(input.length>0){
-            var m_data = new FormData();
-            var url ="<?php echo $this->Url->build(["controller" => "Pincodes", "action" => "options"]); ?>";
-         //   alert(url);
-            m_data.append('input',input); 
-            $.ajax({
-                url: url,
-                data: m_data,
-                processData: false,
-                contentType: false,
-                type: 'POST',
-                dataType:'text',
-                success: function(data)
-                { 
-                    $('.city').append(data);
-                }
-            });
-        }
-        
-      });
-	  
-	
-  //--------- FORM VALIDATION
+
+
 	var form3 = $('#form_sample_3');
 	var error3 = $('.alert-danger', form3);
 	var success3 = $('.alert-success', form3);
@@ -180,6 +153,65 @@ $(document).ready(function() {
 		}
 
 	});
+
+	$(document).on('change','.gst_no',function(){
+		//alert();
+		var input=$(this).val();
+
+        var master = $(this); 
+		//alert(input);
+		if(input.length>0){
+            var m_data = new FormData();
+            var url ="<?php echo $this->Url->build(["controller" => "Vendors", "action" => "check"]); ?>";
+         //   alert(url);
+            m_data.append('input',input); 
+            $.ajax({
+                url: url,
+                data: m_data,
+                processData: false,
+                contentType: false,
+                type: 'POST',
+                dataType:'text',
+                success: function(response)
+                { 
+                	//alert(response);
+                	if(response == 1)
+						$('.gst_no').val('');
+					alert("GST Number Already Exist");
+                }
+            });
+            }
+	});
+	
+	$(document).on('change','.state',function(){
+        
+        var input=$(this).val();
+        var master = $(this); 
+        $(".city option").remove();
+        if(input.length>0){
+            var m_data = new FormData();
+            var url ="<?php echo $this->Url->build(["controller" => "Pincodes", "action" => "options"]); ?>";
+         //   alert(url);
+            m_data.append('input',input); 
+            $.ajax({
+                url: url,
+                data: m_data,
+                processData: false,
+                contentType: false,
+                type: 'POST',
+                dataType:'text',
+                success: function(data)
+                { 
+                    $('.city').append(data);
+                }
+            });
+        }
+        
+      });
+	  
+	
+  //--------- FORM VALIDATION
+	
 	//--	 END OF VALIDATION
 });
 </script>

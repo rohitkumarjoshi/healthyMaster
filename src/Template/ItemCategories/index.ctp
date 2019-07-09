@@ -25,7 +25,9 @@
 						<?php echo $this->Form->control('name',['placeholder'=>'Item Category name','class'=>'form-control input-sm','label'=>false]); ?>
 					</div>
 					<div class="col-md-8" style="margin-top: 10px;">
-						 <?= $this->Form->input('image',['class'=>'form-control','type'=>'file']) ?>
+						<label class=" control-label">Image<span class="required" aria-required="true"></span></label>
+						 <!-- <?= $this->Form->input('image',['class'=>'form-control','type'=>'file','value'=>$itemCategory->image]) ?> -->
+						 <input type="file" name="image" class="form-control input-sm" value="<?=$itemCategory->image?>">
 					</div>
 				</div>
 				<br/>
@@ -94,10 +96,10 @@ $(document).ready(function() {
 		errorClass: 'help-block help-block-error', // default input error message class
 		focusInvalid: true, // do not focus the last invalid input
 		rules: {
-				name:{
+				image:{
 					required: true,					 
 				},
-				unit_id:{
+				name:{
 					required: true,
 				}
 			},
@@ -147,4 +149,5 @@ $(document).ready(function() {
 		}
 
 	});
+});
 	</script>
