@@ -1,6 +1,7 @@
 <?php
 namespace App\Controller\Api;
 use App\Controller\Api\AppController;
+use Cake\I18n\Time;
 use Cake\ORM\TableRegistry;
 class OrdersController extends AppController
 {
@@ -594,8 +595,9 @@ curl_close($ch);
 			{
 				if(!empty($promocode))
 				{
-					$ts = Time::now('Asia/Kolkata');
+					$ts = Time::now('Asia/Kolkata'); 
 					$current_timestamp = date('Y-m-d H:i:s',strtotime($ts));
+					
 					$this->loadModel('PromoCodes');
 					$promoCodeLists = $this->PromoCodes->find()->where(['PromoCodes.valid_from <' =>$current_timestamp, 'PromoCodes.valid_to >' =>$current_timestamp,'PromoCodes.code'=>$promocode])->first();	
 					$promo_code_id = $promoCodeLists->id;	
