@@ -113,6 +113,10 @@ Router::prefix('api', function ($routes) {
 			   'categoryDetails' => [
 				   'action' => 'categoryDetails',
 				   'method' => 'GET'
+			   ],
+			   'removeWishlist' => [
+				   'action' => 'removeWishlist',
+				   'method' => 'GET'
 			   ]
 		   ]
 		]
