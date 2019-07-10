@@ -43,12 +43,12 @@ class CustomerAddressesTable extends Table
 		
         $this->belongsTo('States', [
             'foreignKey' => 'state_id',
-            'joinType' => 'INNER'
+            'joinType' => 'LEFT'
         ]);
 
         $this->belongsTo('Cities', [
             'foreignKey' => 'city_id',
-            'joinType' => 'INNER'
+            'joinType' => 'LEFT'
         ]);		
 		
 		
