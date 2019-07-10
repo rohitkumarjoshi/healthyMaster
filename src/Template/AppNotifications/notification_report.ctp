@@ -17,8 +17,6 @@
                             <th scope="col">Message</th>
                             <th scope="col">User</th>
                             <th scope="col">No Of Person</th>
-                            <th scope="col">Status</th>
-                        </tr>
                     </thead>
                     <tbody>
                         <?php $i=1;
@@ -41,7 +39,6 @@
                             <td><?= $notification->app_notification->message?></td>
                             <td></td>
                             <td><?= $notification->count?></td>
-                            <td><?= $notification->sent?></td>
 
                         </tr>
                         <?php endforeach;  ?>

@@ -29,16 +29,24 @@
                         </tr>
 							</thead>
 							<tbody id='main_tbody' class="tab">
-						<?php $i=1;foreach($gsts as $gst){?>
+						<?php $i=1;foreach($gsts as $gst){
+							$sale_rate=$gst->sales_rate;
+	                        $gst_per=$gst->item->gst_figure->name;
+	                        $tx=100+$gst_per;
+							$tax=round(($sale_rate * $gst_per)/$tx);
+							?>
 							<tr>
 								<td><?= $i; $i++;?></td>
 	                            <td> <?= $gst->item->item_code?></td>
 	                            <td><?= $gst->item->name ?></td>
 	                            <td><?= $gst->item->item_category->name?></td>
-	                            <td><?= $gst->sales_rate?></td>
+	                            <td><?php
+	                             	echo $sale_rate - $tax;
+	                             ?>
+	                            </td>
 	                            <td><?= $gst->item->gst_figure->name?></td>
-	                            <td></td>
-	                            <td></td>
+	                            <td><?= $tax/2 ?></td>
+	                            <td><?= $tax/2 ?></td>
 	                            <td><?= $gst->sales_rate?></td>
 							</tr>
 						<?php 

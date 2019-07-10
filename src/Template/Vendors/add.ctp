@@ -176,8 +176,10 @@ $(document).ready(function() {
                 { 
                 	//alert(response);
                 	if(response == 1)
+                	{
 						$('.gst_no').val('');
-					alert("GST Number Already Exist");
+						alert("GST Number Already Exist");
+                	}
                 }
             });
             }

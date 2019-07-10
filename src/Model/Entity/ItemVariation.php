@@ -40,6 +40,7 @@ class ItemVariation extends Entity
         'print_rate' => true,
         'sales_rate' => true,
         'out_of_stock' => true,
+        'opening_stock' => true,
         'minimum_quantity_purchase' => true,
         'item' => true,
         'unit' => true

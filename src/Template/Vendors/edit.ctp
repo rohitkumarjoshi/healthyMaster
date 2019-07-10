@@ -29,13 +29,13 @@
 				<div class="row" style="margin-top: 12px;">
 					<div class="col-md-4">
 						<label class=" control-label">GST No.<span class="required" aria-required="true">*  </label>
-						<?php echo $this->Form->control('gst_no',['placeholder'=>'GST No.','class'=>'form-control input-sm','label'=>false,'required']); ?>
+						<?php echo $this->Form->control('gst_no',['placeholder'=>'GST No.','class'=>'form-control input-sm gst_no','label'=>false,'required']); ?>
 					</div>
 					<div class="col-md-4">
-                        <?= $this->Form->control('id',['type'=>'hidden']); ?><span class="required" aria-required="true">* 
+                        <?= $this->Form->control('id',['type'=>'hidden']); ?><span class="required" aria-required="true"> 
                         <?php echo $this->Form->control('state_id', ['empty'=>'-- select --','options' =>$states,'class'=>'form-control input-sm select select2me select2 state','required']); ?>
                     </div>
-                    <div class="col-md-4"><span class="required" aria-required="true">* 
+                    <div class="col-md-4"><span class="required" aria-required="true"> 
                         <?php echo $this->Form->control('city_id', ['empty'=>'-- select --','options' =>$cities,'class'=>'form-control input-sm city','required']); ?>
                     </div>
 				</div>
@@ -55,6 +55,38 @@
 <?php echo $this->Html->script('/assets/global/plugins/jquery.min.js'); ?>
 <script>
 $(document).ready(function() {
+
+	
+	$(document).on('change','.gst_no',function(){
+		//alert();
+		var input=$(this).val();
+
+        var master = $(this); 
+		//alert(input);
+		if(input.length>0){
+            var m_data = new FormData();
+            var url ="<?php echo $this->Url->build(["controller" => "Vendors", "action" => "check"]); ?>";
+         //   alert(url);
+            m_data.append('input',input); 
+            $.ajax({
+                url: url,
+                data: m_data,
+                processData: false,
+                contentType: false,
+                type: 'POST',
+                dataType:'text',
+                success: function(response)
+                { 
+                	//alert(response);
+                	if(response == 1)
+                	{
+						$('.gst_no').val('');
+						alert("GST Number Already Exist");
+                	}
+                }
+            });
+            }
+	});
 	
  $(document).on('change','.state',function(){
         
