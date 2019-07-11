@@ -41,7 +41,8 @@ class Banner extends Entity
      * @var array
      */
     protected $_accessible = [
-        'link_name' => true,
+        '*' => true,
+		'link_name' => true,
         'name' => true,
         'image' => true,
         'status' => true
