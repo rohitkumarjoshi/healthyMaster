@@ -69,7 +69,16 @@ echo $this->Html->link('Close',array(),['escape'=>false,'class'=>'btn  red hidde
 				</thead>
 				
 				<?php
+				$total_gst=0; $total_taxbale_amount=0;
 				foreach($order->order_details as $order_detail ){ 
+				    $gst=0; $taxbale_amount=0;
+						$amount=$order_detail->amount;
+						$tax_percentage=$order_detail->item->gst_figure->tax_percentage;
+						 $gst=(($amount*$tax_percentage)/(100+$tax_percentage));
+						 $gst= round($gst,2);
+						 $taxbale_amount=$amount-$gst;
+						 $total_taxbale_amount+=$taxbale_amount;
+						 $total_gst+=$gst;
 					@$i++;
 					$show_variation=$order_detail->item_variation->quantity_variation.' '.$order_detail->item_variation->unit->shortname;
 					$quantity=$order_detail->quantity;
@@ -118,6 +127,28 @@ echo $this->Html->link('Close',array(),['escape'=>false,'class'=>'btn  red hidde
 				$grand_total=@$total_rate+$delivery_charge;
 				$discount_per=$order->discount_percent;
 				?>
+				 <tr style="background-color:#fff; border-top:1px solid #000">
+					<td colspan="5">&nbsp;</td><td style="padding-top:12px;"><b>Taxbale amount </b></td>
+					<td style="padding: 10px;"><b><?= h(@$total_taxbale_amount) ?></b></td>
+				 </tr>
+				<?php if($order->customer_address->state_id==17){ ?>
+				 <tr style="background-color:#fff; border-top:1px solid #000">
+					<td colspan="5">&nbsp;</td><td style="padding-top:12px;"><b>CGST</b></td>
+					<td style="padding: 10px;"><b><?= h(@$total_gst/2) ?></b></td>
+				 </tr>
+					<tr style="background-color:#fff; border-top:1px solid #000">
+					<td colspan="5">&nbsp;</td><td style="padding-top:12px;"><b>SGST</b></td>
+					<td style="padding: 10px;"><b><?= h(@$total_gst/2) ?></b></td>
+				 </tr>
+					
+					
+				<?php }else{ ?>
+				 <tr style="background-color:#fff; border-top:1px solid #000">
+					<td colspan="5">&nbsp;</td><td style="padding-top:12px;"><b>IGST</b></td>
+					<td style="padding: 10px;"><b><?= h(@$total_gst) ?></b></td>
+				 </tr>
+					
+				<?php } ?>
 				<tr style="background-color:#fff; border-top:1px solid #000">
 					<td colspan="5">&nbsp;</td><td style="padding-top:12px;"><b>Amount </b></td>
 					<td style="padding: 10px;"><b><?= h(@$order->total_amount) ?></b></td>

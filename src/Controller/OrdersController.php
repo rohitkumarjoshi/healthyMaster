@@ -252,6 +252,7 @@ class OrdersController extends AppController
     	$x=0;
     	 $status=$this->request->getData('status'); 
         $id=$this->request->getData('id');
+		
         if($status == 'Packed'){
 	            $packed=$this->Orders->get($id);
 
@@ -270,6 +271,29 @@ class OrdersController extends AppController
 		        $packed->status="Delivered";
 		        if($this->Orders->save($packed))
 		        {
+					
+					$Ordersdatas=$this->Orders->get($id,['contain'=>['OrderDetails'=>['Items'=>['GstFigures']]]]);
+					//pr($Ordersdatas);
+					foreach($Ordersdatas->order_details as $data){
+						$gst=0; $taxbale_amount=0;
+						 $order_detail_id=$data->id;
+						 $amount=$data->amount;
+						 $gst_figure_id=$data->item->gst_figure_id;
+						 $tax_percentage=$data->item->gst_figure->tax_percentage;
+						 $gst=(($amount*$tax_percentage)/(100+$tax_percentage));
+						 $gst= round($gst,2);
+						 $taxbale_amount=$amount-$gst;
+						 
+						$query = $this->Orders->OrderDetails->query();
+						$query->update()
+						->set(['net_amount' =>$taxbale_amount,'gst_amount' =>$gst,'gst_figure_id' => $gst_figure_id])
+						->where(['id' =>$order_detail_id])
+						->execute();
+						 
+						 
+					}
+					
+					
 		        	$order_id=$packed->id;
 		        	$order_detail=$this->Orders->OrderDetails->find()->where(['order_id'=>$order_id]);
 					foreach ($order_detail as $detail) {
@@ -285,7 +309,7 @@ class OrdersController extends AppController
                         'purchase_booking_id' => 0,
                         'rate' => $detail->rate,
                         'item_variation_id' => $detail->item_variation_id,
-                        'amount' => 0,
+                        'amount' => $detail->amount,
                         'status' => 'Out',
                         'quantity' => $detail->quantity,
                         'rate_updated' => 'OK'
@@ -564,9 +588,9 @@ class OrdersController extends AppController
     {
 		$this->viewBuilder()->layout('index_layout');
         $order = $this->Orders->get($id, [
-            'contain' => ['Customers', 'CustomerAddresses', 'PromoCodes', 'OrderDetails'=>['Items','ItemVariations'=>['Units']]]
+            'contain' => ['Customers', 'CustomerAddresses', 'PromoCodes', 'OrderDetails'=>['Items'=>['GstFigures'],'ItemVariations'=>['Units']]]
         ]);
-        //pr($order);exit;
+       // pr($order);exit;
 	
         $this->set(compact('order', 'id', 'print'));
         $this->set('_serialize', ['order']);
