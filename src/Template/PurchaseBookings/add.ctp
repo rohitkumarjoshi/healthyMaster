@@ -81,7 +81,7 @@
 									<td colspan="7" style="text-align:right;">
 									<a class="btn btn-default input-sm add_row" href="#" role="button"  style="float: left;"><i class="fa fa-plus"></i> Add Row</a>Total Amount</td>
 									<td>
-									<?php echo $this->Form->input('amount', ['label' => false,'class' => 'form-control input-sm number cal_amount','placeholder'=>'Total Amount','type'=>'text','readonly']); ?>
+									<?php echo $this->Form->input('total_amount', ['label' => false,'class' => 'form-control input-sm number cal_amount','placeholder'=>'Total Amount','type'=>'text','readonly']); ?>
 									</td>
 									<td></td>
 									</th>
@@ -337,7 +337,7 @@ $(document).ready(function() {
 		var rate=Math.round(obj.find('td:nth-child(6) input').val(amount));
 		var total_amount=0;
 		$("#main_table tbody#main_tbody tr.main_tr").each(function(){ 
-			total_amount+=parseFloat($(this).find("td:nth-child(8) input").val());
+			total_amount+=parseFloat($(this).find("td:nth-child(6) input").val());
 		});
 		var display_amount=Math.round(total_amount);
 		if($('input[name=discount_percent]').val())
@@ -360,7 +360,7 @@ $(document).ready(function() {
 		var grand_total=Math.round(total_amount+delivery_charge);
 		var paid_amount=Math.round(grand_total-amount_from_wallet);
 		$('input[name=grand_total]').val(grand_total);
-		$('input[name=amount]').val(display_amount);
+		$('input[name=total_amount]').val(display_amount);
 		$('input[name=pay_amount]').val(paid_amount);
 		
 		});

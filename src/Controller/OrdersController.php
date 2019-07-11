@@ -266,15 +266,36 @@ class OrdersController extends AppController
            }if($status == 'Delivered'){
 	            $packed=$this->Orders->get($id);
 
+		        //pr($packed);exit;
 		        $packed->status="Delivered";
 		        if($this->Orders->save($packed))
 		        {
-		        	//pr($packed);exit;
-		        	pr($packed->id);exit;
-		        	$item_ledger=$this->Orders->ItemLedgers->newEntity();
-		        	$ledger=$this->Orders->ItemLedgers->patchEntity($item_ledger,$packed);
-		        	$ledger->status="Out";
-		        	$this->Orders->ItemLedgers->save($ledger);
+		        	$order_id=$packed->id;
+		        	$order_detail=$this->Orders->OrderDetails->find()->where(['order_id'=>$order_id]);
+					foreach ($order_detail as $detail) {
+						$query = $this->Orders->ItemLedgers->query();
+                    $query->insert(['jain_thela_admin_id', 'driver_id', 'grn_id', 'item_id', 'warehouse_id','order_id', 'purchase_booking_id', 'rate', 'amount', 'status', 'quantity','rate_updated','item_variation_id'])
+                    ->values([
+                        'jain_thela_admin_id' => 1,
+                        'driver_id' => 0,
+                        //'grn_id' => $grn_id,
+                        'item_id' => $detail->item_id,
+                        'warehouse_id' => 0,
+                        'order_id' => $detail->order_id,
+                        'purchase_booking_id' => 0,
+                        'rate' => $detail->rate,
+                        'item_variation_id' => $detail->item_variation_id,
+                        'amount' => 0,
+                        'status' => 'Out',
+                        'quantity' => $detail->quantity,
+                        'rate_updated' => 'OK'
+                    ]);
+                    $query->execute();	        		
+					}		        	
+		        	// $item_ledger=$this->Orders->ItemLedgers->newEntity();
+		        	// $ledger=$this->Orders->ItemLedgers->patchEntity($item_ledger,$packed);
+		        	// $ledger->status="Out";
+		        	// $this->Orders->ItemLedgers->save($ledger);
 		        }
            }
            exit;

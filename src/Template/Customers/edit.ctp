@@ -19,7 +19,7 @@
 					</div>
 					<div class="col-md-3">
 						<label class=" control-label">Mobile No. <span class="required" aria-required="true">*</span></label>
-						<?php echo $this->Form->control('mobile',['placeholder'=>'Moble No.','class'=>'form-control input-sm','label'=>false,'minlength'=>10]); ?>
+						<?php echo $this->Form->control('mobile',['placeholder'=>'Moble No.','class'=>'form-control input-sm mobile','label'=>false,'minlength'=>10]); ?>
 					</div>
 					<div class="col-md-3">
 						<label class=" control-label">Email <span class="required" aria-required="true">*</label>
@@ -41,6 +41,40 @@
 <?php echo $this->Html->script('/assets/global/plugins/jquery.min.js'); ?>
 <script>
 $(document).ready(function() {
+
+
+	$(document).on('change','.mobile',function(){
+		//alert();
+		var input=$(this).val();
+
+        var master = $(this); 
+		//alert(input);
+		if(input.length>0){
+            var m_data = new FormData();
+            var url ="<?php echo $this->Url->build(["controller" => "Customers", "action" => "check"]); ?>";
+         //   alert(url);
+            m_data.append('input',input); 
+            $.ajax({
+                url: url,
+                data: m_data,
+                processData: false,
+                contentType: false,
+                type: 'POST',
+                dataType:'text',
+                success: function(response)
+                { 
+                	//alert(response);
+                	if(response == 1)
+                	{
+						$('.mobile').val('');
+						alert("No Already Exist");
+					}
+
+
+                }
+            });
+            }
+	});
 	
   //--------- FORM VALIDATION
 	var form3 = $('#form_sample_3');
