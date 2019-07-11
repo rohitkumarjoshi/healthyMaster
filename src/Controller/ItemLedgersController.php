@@ -583,7 +583,7 @@ class ItemLedgersController extends AppController
 			);
 		$totalOutWarehouseCase = $query->newExpr()
 			->addCase(
-				$query->newExpr()->add(['status' => 'out', 'warehouse_id']),
+				$query->newExpr()->add(['status' => 'out','warehouse_id']),
 				$query->newExpr()->add(['quantity']),
 				'integer'
 			);

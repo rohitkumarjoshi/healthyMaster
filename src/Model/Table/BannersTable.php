@@ -33,6 +33,10 @@ class BannersTable extends Table
         $this->setTable('banners');
         $this->setDisplayField('name');
         $this->setPrimaryKey('id');
+		$this->belongsTo('Items', [
+            'foreignKey' => 'item_id',
+            'joinType' => 'LEFT'
+        ]);
     }
 
     /**
@@ -43,7 +47,7 @@ class BannersTable extends Table
      */
     public function validationDefault(Validator $validator)
     {
-        $validator
+       /*  $validator
             ->integer('id')
             ->allowEmptyString('id', 'create');
 
@@ -69,7 +73,7 @@ class BannersTable extends Table
             ->scalar('status')
             ->maxLength('status', 255)
             ->requirePresence('status', 'create')
-            ->allowEmptyString('status', false);
+            ->allowEmptyString('status', false); */
 
         return $validator;
     }
