@@ -98,6 +98,7 @@ echo $this->Html->link('Close',array(),['escape'=>false,'class'=>'btn  red hidde
 					<td style="padding: 10px;"><?= $i ?></td>
 					<td style="padding: 10px;">
 						<?php echo $this->Html->image('/img/item_images/'.$image, ['height' => '40px', 'width'=>'40px', 'class'=>'img-rounded img-responsive']); ?>
+						
 					</td>
 					<td style="padding: 10px;"><?= h($show_item) ?></td>
 					<td style="padding: 10px;"><?= h($show_variation) ?></td>
