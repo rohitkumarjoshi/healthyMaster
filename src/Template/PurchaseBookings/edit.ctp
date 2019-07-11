@@ -58,13 +58,7 @@
                                     <td><label> Quantity<label></td>
                                     <td><label>Rate<label></td>
                                    <td width="20%">
-                                        <label>Taxable amount<label>
-                                    </td>
-                                    <td width="20%">
-                                        <label>Gst Amount<label>
-                                    </td>
-                                    <td width="20%">
-                                        <label>Net Amount<label>
+                                        <label>Amount<label>
                                     </td>
                                 </tr>
                             </thead>
@@ -84,7 +78,7 @@
                                                 
 
                                     </td>
-                                            <?php echo $this->Form->input('purchase_booking_details['.$grn_rows.'][item_variation_id]', ['label' => false,'class' => 'form-control input-sm number variation','placeholder'=>'Variation','value'=>$purchase_booking_detail->item_variation->name]); ?>
+                                            <?php echo $this->Form->input('purchase_booking_details['.$grn_rows.'][item_variation_id]', ['label' => false,'class' => 'form-control input-sm number variation','placeholder'=>'Variation','value'=>$purchase_booking_detail->item_variation_id]); ?>
                                     <td>
                                     </td>
                                     <td>
@@ -96,12 +90,8 @@
                                     </td>
                                     <td>
                                         <?php echo $this->Form->input('purchase_booking_details['.$grn_rows.'][amount]', ['label' => false,'class' => 'form-control input-sm number','placeholder'=>'Amount','readonly','value'=>$purchase_booking_detail->amount]); ?>   
-                                    </td>
-                                    <td>
-                                        <?php echo $this->Form->input('purchase_booking_details['.$grn_rows.'][gst_amount]', ['label' => false,'class' => 'form-control input-sm number','placeholder'=>'Amount','readonly','value'=>$purchase_booking_detail->gst_amount]); ?>   
-                                    </td>
-                                    <td>
-                                        <?php echo $this->Form->input('purchase_booking_details['.$grn_rows.'][net_amount]', ['label' => false,'class' => 'form-control input-sm number','placeholder'=>'Amount','readonly','value'=>$purchase_booking_detail->net_amount]); ?>   
+                                        <?php echo $this->Form->input('purchase_booking_details['.$grn_rows.'][gst_amount]', ['label' => false,'class' => 'form-control input-sm number','placeholder'=>'Amount','readonly','value'=>$purchase_booking_detail->gst_amount,'type'=>'hidden']); ?>   
+                                        <?php echo $this->Form->input('purchase_booking_details['.$grn_rows.'][net_amount]', ['label' => false,'class' => 'form-control input-sm number','placeholder'=>'Amount','readonly','value'=>$purchase_booking_detail->net_amount,'type'=>'hidden']); ?>   
                                     </td>
                                 </tr>
                             <?php
@@ -111,7 +101,7 @@
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <td colspan="7" style="text-align:right;">
+                                    <td colspan="5" style="text-align:right;">
                                     <a class="btn btn-default input-sm add_row" href="#" role="button"  style="float: left;"><i class="fa fa-plus"></i> Add Row</a>Total Amount</td>
                                     <td>
                                     <?php echo $this->Form->input('total_amount', ['label' => false,'class' => 'form-control input-sm number cal_amount','placeholder'=>'Total Amount','type'=>'text','readonly']); ?>
@@ -359,13 +349,13 @@ $(document).ready(function() {
         //alert(amount);
         gst=amount*tax_percentage/100;
         gst_total=amount+gst;
-        var gs=Math.round(obj.find('td:nth-child(7) .gst_amount').val(gst));
-        Math.round(obj.find('td:nth-child(8) input').val(gst_total));
+        var gs=Math.round(obj.find('td:nth-child(6) .gst_amount').val(gst));
+        Math.round(obj.find('td:nth-child(6) input').val(gst_total));
         
         var rate=Math.round(obj.find('td:nth-child(6) input').val(amount));
         var total_amount=0;
         $("#main_table tbody#main_tbody tr.main_tr").each(function(){ 
-            total_amount+=parseFloat($(this).find("td:nth-child(8) input").val());
+            total_amount+=parseFloat($(this).find("td:nth-child(6) input").val());
         });
         var display_amount=Math.round(total_amount);
         if($('input[name=discount_percent]').val())
@@ -420,9 +410,9 @@ $(document).ready(function() {
             $(this).find("td:nth-child(6) input").attr({name:"purchase_booking_details["+i+"][amount]", id:"purchase_booking_details-"+i+"-amount"}).rules('add', {
                 required: true
             });
-            $(this).find("td:nth-child(7) .gst_amount").attr({name:"purchase_booking_details["+i+"][gst_amount]", id:"purchase_booking_details-"+i+"-gst_amount"});
-            $(this).find("td:nth-child(7) .gst_figure_id").attr({name:"purchase_booking_details["+i+"][gst_figure_id]", id:"purchase_booking_details-"+i+"-gst_figure_id"});
-            $(this).find("td:nth-child(8) .net_amount").attr({name:"purchase_booking_details["+i+"][net_amount]", id:"purchase_booking_details-"+i+"-net_amount"});
+            $(this).find("td:nth-child(6) .gst_amount").attr({name:"purchase_booking_details["+i+"][gst_amount]", id:"purchase_booking_details-"+i+"-gst_amount"});
+            $(this).find("td:nth-child(6) .gst_figure_id").attr({name:"purchase_booking_details["+i+"][gst_figure_id]", id:"purchase_booking_details-"+i+"-gst_figure_id"});
+            $(this).find("td:nth-child(6) .net_amount").attr({name:"purchase_booking_details["+i+"][net_amount]", id:"purchase_booking_details-"+i+"-net_amount"});
             
             i++;
         });
@@ -560,13 +550,9 @@ function selectAutoCompleted1(value) {
                     <td>
                         <?php echo $this->Form->input('amount', ['label' => false,'class' => 'form-control input-sm number cal_amount show_amount','placeholder'=>'Amount','readonly','value'=>0]); ?>  
                         <?php echo $this->Form->input('is_combo', ['label' => false,'class' => 'form-control input-sm is_combo','type'=>'hidden']); ?>
-                    </td>   
-                    <td>
-                        <?php echo $this->Form->input('gst_amount', ['label' => false,'class' => 'form-control input-sm number cal_amount gst_amount','readonly']); ?>  
+                        <?php echo $this->Form->input('gst_amount', ['label' => false,'class' => 'form-control input-sm number cal_amount gst_amount','readonly','type'=>'hidden']); ?>  
                         <?php echo $this->Form->input('gst_figure_id', ['label' => false,'class' => 'form-control input-sm gst_figure_id','type'=>'hidden']); ?>
-                    </td>
-                    <td>
-                        <?php echo $this->Form->input('net_amount', ['label' => false,'class' => 'form-control input-sm number cal_amount net_amount','readonly']); ?>  
+                        <?php echo $this->Form->input('net_amount', ['label' => false,'class' => 'form-control input-sm number cal_amount net_amount','readonly','type'=>'hidden']); ?>  
                     </td>
                    <!--  <td>
                         <a class="btn btn-default delete-tr input-sm" href="#" role="button" ><i class="fa fa-times"></i></a>

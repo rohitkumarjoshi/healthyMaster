@@ -95,7 +95,10 @@
               <tbody id="sub-body" class="hidden">
                 <tr>
                     <td style="vertical-align: bottom;" class="index"> </td>
-                    <td style="vertical-align: bottom;"> <?php echo $this->Form->control('item_variations.0.quantity_variation',['class'=>'form-control quantity_variation','id'=>false,'label'=>false,'required']); ?></td>
+                    <td style="vertical-align: bottom;"> <?php echo $this->Form->control('item_variations.0.quantity_variation',['class'=>'form-control quantity_variation','id'=>false,'label'=>false,'required']); ?>
+                    <?php echo $this->Form->control('item_variations.0.default',['class'=>'form-control default','id'=>false,'label'=>false,'type'=>'hidden']); ?>
+                    	
+                    </td>
                     <td style="vertical-align: bottom;">
                     <?php echo $this->Form->control('item_variations.0.unit_id', ['empty'=>'--select--','options' => @$unit_option,'class'=>'form-control unit','label'=>false]); ?>
                     </td>
@@ -122,6 +125,12 @@
 
 <script>
 $(document).ready(function() {
+
+	 $(document).on('change','.quantity_variation',function(){
+	 	var quantity=$(this).val()/1000;
+	 	//var default=quantity/1000;
+           $(this).closest('tr').find('.default').val(quantity);
+      });
 /* 
 $('.gst').on('change',function(){
 	var gst_apply=$(this).val();
@@ -167,6 +176,7 @@ $('.gst').on('change',function(){
             
             $(this).find('.index').html(a);
             $(this).find('.quantity_variation').attr('name','item_variations['+i+'][quantity_variation]');
+            $(this).find('.default').attr('name','item_variations['+i+'][default]');
             $(this).find('.unit').attr('name','item_variations['+i+'][unit_id]');
             $(this).find('.ready').attr('name','item_variations['+i+'][ready_to_sale]');
             $(this).find('.minimum_stock').attr('name','item_variations['+i+'][minimum_stock]');

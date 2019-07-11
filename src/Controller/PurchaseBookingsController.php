@@ -30,7 +30,8 @@ class PurchaseBookingsController extends AppController
 		$this->viewBuilder()->layout('index_layout');
 		
        
-        $purchaseBookings = $this->PurchaseBookings->find()->contain(['Vendors', 'JainThelaAdmins'])->order(['PurchaseBookings.id'=>'DESC']);
+        $purchaseBookings = $this->PurchaseBookings->find()->contain(['Vendors'])->order(['PurchaseBookings.id'=>'DESC']);
+       // pr($purchaseBookings->toArray());exit;
 		
         $this->set(compact('purchaseBookings'));
         $this->set('_serialize', ['purchaseBookings']);
@@ -119,7 +120,7 @@ class PurchaseBookingsController extends AppController
 					->values([
 						'ledger_account_id' => 1,
 						'purchase_booking_id' => $purchaseBooking->id,
-						'debit' => $this->request->data['amount'],
+						'debit' => $this->request->data['total_amount'],
 						'credit' => 0,
 						'transaction_date'=>$purchaseBooking->transaction_date
 					]);
@@ -152,7 +153,7 @@ class PurchaseBookingsController extends AppController
 						'ledger_account_id' => $LedgerAccount->id,
 						'purchase_booking_id' => $purchaseBooking->id,
 						'debit' => 0,
-						'credit' => $this->request->data['amount'],
+						'credit' => $this->request->data['total_amount'],
 						'transaction_date'=>$purchaseBooking->transaction_date
 					]);
 					$query->execute();	

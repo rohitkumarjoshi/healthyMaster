@@ -45,8 +45,9 @@ class CustomerAddressesController extends AppController
             'contain' => ['Customers']
         ];
         $customerAddresses = $this->CustomerAddresses->find()->where(['customer_id'=>$customer_id])->contain(['Customers']);
+        $states=$this->CustomerAddresses->States->find('list')->where(['country_id'=>'101']);
 
-        $this->set(compact('customerAddresses', 'customerAddress', 'customer_id', 'id'));
+        $this->set(compact('customerAddresses', 'customerAddress', 'customer_id', 'id','states'));
         $this->set('_serialize', ['customerAddresses', 'customerAddress', 'customer_id', 'id']);
     }
 

@@ -152,7 +152,7 @@ class ItemsController extends AppController
                         'driver_id' => 0,
                         //'grn_id' => $grn_id,
                         'item_id' => $item->id,
-                        'warehouse_id' => 0,
+                        'warehouse_id' => 1,
                         'purchase_booking_id' => 0,
                         'rate' => $variation->sales_rate,
                         'item_variation_id' => $variation->id,
