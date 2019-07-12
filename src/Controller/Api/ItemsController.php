@@ -435,7 +435,7 @@ class ItemsController extends AppController
 		$customer_id=$this->request->query('customer_id');	
 		$this->loadModel('Wishlists');		
 		$wishlist = $this->Wishlists->find()
-		->contain(['Items' =>['ItemVariations' =>['Units']],'ItemVariations'])
+		->contain(['Items' =>['ItemVariations' =>['Units']],'ItemVariations'=>['Units']])
 		->where(['customer_id' => $customer_id]);
 		
 		if(!empty($wishlist->toArray()))

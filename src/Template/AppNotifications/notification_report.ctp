@@ -37,7 +37,7 @@
                                 }
                             ?></td>
                             <td><?= $notification->app_notification->message?></td>
-                            <td></td>
+                            <td>Admin</td>
                             <td><?= $notification->count?></td>
 
                         </tr>

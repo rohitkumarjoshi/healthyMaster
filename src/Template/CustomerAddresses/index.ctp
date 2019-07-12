@@ -32,6 +32,11 @@
 					</div>
 				</div>
 				<div class="row">
+					<div class="col-md-8"><span class="required" aria-required="true"></span>
+						<?php echo $this->Form->control('state_id', ['empty'=>'-- select --','options' => $states,'class'=>'form-control input-sm select select2me select2 state','required']); ?>
+					</div>
+				</div>
+				<div class="row">
 					<div class="col-md-8">
 						<label class=" control-label">House no <span class="required" aria-required="true">*</span></label>
 						<?php echo $this->Form->control('house_no',['placeholder'=>'House no','class'=>'form-control input-sm','label'=>false]); ?>
@@ -49,6 +54,7 @@
 						<?php echo $this->Form->control('locality',['placeholder'=>'locality','class'=>'form-control input-sm','label'=>false]); ?>
 					</div>
 				</div>
+
 				 <br>
 				<div class="row">
 				<div class="col-md-8">

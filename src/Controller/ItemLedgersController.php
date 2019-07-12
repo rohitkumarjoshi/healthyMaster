@@ -419,7 +419,7 @@ class ItemLedgersController extends AppController
 			'total_in' => $query->func()->sum($totalInCase),
 			'total_out' => $query->func()->sum($totalOutCase),'id','item_id'
 		])
-		->where(['ItemLedgers.warehouse_id' => $warehouse_id, 'ItemLedgers.jain_thela_admin_id' => $jain_thela_admin_id, 'ItemLedgers.item_id' => $item_id])
+		->where(['ItemLedgers.warehouse_id' => $warehouse_id, 'ItemLedgers.item_id' => $item_id])
 		->group('item_id')
 		->autoFields(true)
 		->contain(['Items'])

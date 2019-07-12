@@ -259,6 +259,15 @@ $(document).ready(function() {
                alert("ok");
                }
             });
+		  $('.option_status').on('change',function(){
+		  	alert();
+		  	var del=$(this).val();
+		  	alert(del);
+		  	if(del == "Delivered")
+		  	{
+		  		$('.ok').hide();
+		  	}
+		  });
 
 	});
 	

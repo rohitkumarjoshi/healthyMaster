@@ -43,7 +43,8 @@ class AppNotificationsTable extends Table
 		 $this->hasMany('AppNotificationCustomers', [
             'foreignKey' => 'app_notification_id'
         ]);
-		 $this->belongsTo('Customers');
+         $this->belongsTo('Customers');
+		 $this->belongsTo('Users');
 		 $this->belongsTo('DeepLinks');
     }
 

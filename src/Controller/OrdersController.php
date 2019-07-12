@@ -252,7 +252,14 @@ class OrdersController extends AppController
     	$x=0;
     	 $status=$this->request->getData('status'); 
         $id=$this->request->getData('id');
-		
+
+        if($status == 'In Process'){
+	            $packed=$this->Orders->get($id);
+
+		         $packed->status="In Process";
+		         $this->Orders->save($packed);
+           }
+
         if($status == 'Packed'){
 	            $packed=$this->Orders->get($id);
 
@@ -304,7 +311,7 @@ class OrdersController extends AppController
                         'driver_id' => 0,
                         //'grn_id' => $grn_id,
                         'item_id' => $detail->item_id,
-                        'warehouse_id' => 0,
+                        'warehouse_id' => 1,
                         'order_id' => $detail->order_id,
                         'purchase_booking_id' => 0,
                         'rate' => $detail->rate,

@@ -25,7 +25,7 @@ class AppNotificationsController extends AppController
     	$notifications=$this->AppNotifications->AppNotificationCustomers->find()
     	->select(['count'=>'count(customer_id)','AppNotifications.image','AppNotifications.message','AppNotifications.item_id'])
     	->group('app_notification_id')
-    	->contain(['AppNotifications','Customers']);
+    	->contain(['AppNotifications'=>['Users'],'Customers']);
     	 $this->set(compact('notifications'));
     }
 
@@ -80,6 +80,7 @@ class AppNotificationsController extends AppController
         if ($this->request->is('post'))
 		{
 				$appNotification = $this->AppNotifications->patchEntity($appNotification, $this->request->data);
+				$appNotification->user_id= $this->Auth->User('id');
 				$file = $this->request->data['image'];
 				$file_name=$file['name'];
 				
@@ -336,6 +337,7 @@ class AppNotificationsController extends AppController
         $appNotification = $this->AppNotifications->newEntity();
         if ($this->request->is('post')) {
             $appNotification = $this->AppNotifications->patchEntity($appNotification, $this->request->getData());
+            $appNotification->user_id= $this->Auth->User('id');
             if ($this->AppNotifications->save($appNotification)) {
                 $this->Flash->success(__('The app notification has been saved.'));
 

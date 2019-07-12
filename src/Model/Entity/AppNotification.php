@@ -30,6 +30,7 @@ class AppNotification extends Entity
      */
     protected $_accessible = [
         '*' => true,
+        'user_id'=>true,
         'id' => false
     ];
 }

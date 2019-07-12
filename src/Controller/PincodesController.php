@@ -91,7 +91,7 @@ class PincodesController extends AppController
             }
             $this->Flash->error(__('The pincode could not be saved. Please, try again.'));
         }
-        $states = $this->Pincodes->States->find('list');
+        $states = $this->Pincodes->States->find('list')->where(['country_id'=>'101']);
         $cities = $this->Pincodes->Cities->find('list');
         $this->set(compact('pincode', 'states', 'cities'));
     }
@@ -120,7 +120,7 @@ class PincodesController extends AppController
             }
             $this->Flash->error(__('The pincode could not be saved. Please, try again.'));
         }
-        $states = $this->Pincodes->States->find('list', ['limit' => 200]);
+        $states = $this->Pincodes->States->find('list')->where(['country_id'=>'101']);
         $cities = $this->Pincodes->Cities->find('list', ['limit' => 200]);
         $this->set(compact('pincode', 'states', 'cities'));
     }
