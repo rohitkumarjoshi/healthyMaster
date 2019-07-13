@@ -107,6 +107,7 @@ class ItemCategoriesController extends AppController
 		}
 		
 		$cart_count = $this->ItemCategories->Carts->find('All')->where(['Carts.customer_id'=>$customer_id])->count();
+		$wishlist_count = $this->ItemCategories->Wishlists->find('All')->where(['Wishlists.customer_id'=>$customer_id])->count();
 		
 		//-- New Arrival
 
@@ -190,8 +191,8 @@ class ItemCategoriesController extends AppController
 
 		$status=true;
 		$error="Data found successfully";
-        $this->set(compact('status', 'error', 'dynamic','cart_count'));
-        $this->set('_serialize', ['status', 'error','cart_count','dynamic']);
+        $this->set(compact('status', 'error', 'dynamic','cart_count','wishlist_count'));
+        $this->set('_serialize', ['status', 'error','cart_count','dynamic','wishlist_count']);
     }
 	
 	public function categoryList()

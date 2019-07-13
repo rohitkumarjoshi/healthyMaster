@@ -43,6 +43,7 @@ class ItemCategoriesTable extends Table
 		$this->belongsTo('Banners');
 		$this->belongsTo('HomeScreens');
 		$this->belongsTo('Carts');
+		$this->belongsTo('Wishlists');
 		//$this->belongsTo('ItemLedgers');
     }
 

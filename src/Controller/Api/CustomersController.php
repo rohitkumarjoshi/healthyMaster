@@ -45,7 +45,7 @@ class CustomersController extends AppController
 				$customerDetails->user_img = $img_name;
 				$this->Customers->save($customerDetails);
 				$status=true;
-				$error="Customer registration successfully.";
+				$error="OTP sent successfully.";
 			}else{
 				
 				$customerDetails = $this->Customers->find()->where(['mobile'=>$mobile_no,'status'=>'incompleted'])->first();
@@ -67,7 +67,7 @@ class CustomersController extends AppController
 					$customerDetails->user_img = $img_name;
 					$this->Customers->save($customerDetails);
 					$status=true;	
-					$error="Customer registration successfully.";
+					$error="Login successfully.";
 				}
 				else{
 					$customer = $this->Customers->newEntity();
@@ -88,6 +88,7 @@ class CustomersController extends AppController
 						$new_signup='yes';
 						$status=true;
 						$customerDetails=$this->Customers->get($customer->id);
+						$error="Customer registration successfully.";
 					}else{
 						$status=false;
 						$error="Customer registration failed.";
@@ -109,7 +110,7 @@ class CustomersController extends AppController
 					$customerDetails->already_login=true;
 					$status=true;
 					$new_signup='';
-					$error='Successfully Login';
+					$error='Login Successfully';
 					
 					$this->set(compact('status', 'error', 'new_signup', 'customerDetails'));
 					$this->set('_serialize', ['status', 'error', 'new_signup', 'customerDetails']);
@@ -140,7 +141,7 @@ class CustomersController extends AppController
 					$customerDetails->already_login=false;
 					$status=true;
 					$new_signup='';
-					$error='Successfully Login';
+					$error='Login Successfully';
 					$this->set(compact('status', 'error', 'new_signup', 'customerDetails'));
 					$this->set('_serialize', ['status', 'error', 'new_signup', 'customerDetails']);
 				}
