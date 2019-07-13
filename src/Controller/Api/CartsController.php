@@ -261,6 +261,12 @@ class CartsController extends AppController
 		else if($tag=='cart'){
 			$cart_count = $this->Carts->find('All')->where(['Carts.customer_id'=>$customer_id])->count();
 		}
+		
+    	$CustomerAddresses = $this->Carts->CustomerAddresses->find()
+			->where(['CustomerAddresses.customer_id'=>$customer_id,'CustomerAddresses.default_address'=>1])
+			->contain(['States','Cities'])->first();
+		$pincode=$CustomerAddresses->pincode;
+		
 		$address_availablity = $this->Carts->CustomerAddresses->find()
 			->where(['CustomerAddresses.customer_id'=>$customer_id]);
 		if(empty($address_availablity->toArray()))
@@ -489,8 +495,8 @@ class CartsController extends AppController
 				
 			$status=true;
 			$error='Cart data found successfully';
-			$this->set(compact('status', 'error','address_available','grand_total','carts','delivery_charges','subtotal','discount_amount','isPromoApplied','totalPoints','remaningPoints','redeem_points','isPointsRedeem'));
-			$this->set('_serialize', ['status', 'error','isPointsRedeem','totalPoints','redeem_points','remaningPoints','subtotal','delivery_charges','discount_amount','isPromoApplied','grand_total','address_available','carts']);
+			$this->set(compact('status', 'error','address_available','grand_total','carts','delivery_charges','subtotal','discount_amount','isPromoApplied','totalPoints','remaningPoints','redeem_points','isPointsRedeem','CustomerAddresses'));
+			$this->set('_serialize', ['status', 'error','isPointsRedeem','totalPoints','redeem_points','remaningPoints','subtotal','delivery_charges','discount_amount','isPromoApplied','grand_total','address_available','carts','CustomerAddresses']);
 		}
 	}
 	
