@@ -19,36 +19,48 @@
 			</div>
 			<div class="portlet-body">
 				<?= $this->Form->create($customerAddress,['id'=>'form_sample_3']) ?>
-				<div class="row">
+				<div class="row" style="margin-top:10px;">
 					<div class="col-md-8">
 						<label class=" control-label">Name<span class="required" aria-required="true">*</span></label>
 						<?php echo $this->Form->control('name',['placeholder'=>'Name','class'=>'form-control input-sm','label'=>false]); ?>
 					</div>
 				</div>
-				<div class="row">
+				<div class="row" style="margin-top:10px;">
 					<div class="col-md-8">
 						<label class=" control-label">Mobile <span class="required" aria-required="true">*</span></label>
 						<?php echo $this->Form->control('mobile',['placeholder'=>'Mobile','class'=>'form-control input-sm','label'=>false,'type'=>'number','minlength'=>10,'maxlength'=>10]); ?>
 					</div>
 				</div>
-				<div class="row">
+				<div class="row" style="margin-top:10px;">
 					<div class="col-md-8"><span class="required" aria-required="true"></span>
 						<?php echo $this->Form->control('state_id', ['empty'=>'-- select --','options' => $states,'class'=>'form-control input-sm select select2me select2 state','required']); ?>
 					</div>
 				</div>
-				<div class="row">
+				<div class="row" style="margin-top:10px;">
+					<div class="col-md-8">
+						<label class=" control-label">Pincode<span class="required" aria-required="true">*</span></label>
+						<?php echo $this->Form->control('pincode',['placeholder'=>'Pincode','class'=>'form-control input-sm','label'=>false]); ?>
+					</div>
+				</div>
+				<div class="row" style="margin-top:10px;">
+					<div class="col-md-8">
+						<label class=" control-label">Apartment Name<span class="required" aria-required="true">*</span></label>
+						<?php echo $this->Form->control('apartment_name',['placeholder'=>'Apartment Name','class'=>'form-control input-sm','label'=>false]); ?>
+					</div>
+				</div>
+				<div class="row" style="margin-top:10px;">
 					<div class="col-md-8">
 						<label class=" control-label">House no <span class="required" aria-required="true">*</span></label>
 						<?php echo $this->Form->control('house_no',['placeholder'=>'House no','class'=>'form-control input-sm','label'=>false]); ?>
 					</div>
 				</div>
-				<div class="row">
+				<div class="row" style="margin-top:10px;">
 					<div class="col-md-8">
 						<label class=" control-label">Address<span class="required" aria-required="true">*</span></label>
 						<?php echo $this->Form->control('address',['placeholder'=>'address','class'=>'form-control input-sm','label'=>false]); ?>
 					</div>
 				</div>
-				<div class="row">
+				<div class="row" style="margin-top:10px;">
 					<div class="col-md-8">
 						<label class=" control-label">Locality<span class="required" aria-required="true">*</span></label>
 						<?php echo $this->Form->control('locality',['placeholder'=>'locality','class'=>'form-control input-sm','label'=>false]); ?>
@@ -56,7 +68,7 @@
 				</div>
 
 				 <br>
-				<div class="row">
+				<div class="row" style="margin-top:10px;">
 				<div class="col-md-8">
 								<div class="form-group">
 									<label class="control-label">Default Address<span class="required" aria-required="true">*</span></label>

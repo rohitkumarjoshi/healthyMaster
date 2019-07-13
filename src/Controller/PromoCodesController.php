@@ -18,6 +18,18 @@ class PromoCodesController extends AppController
      *
      * @return \Cake\Http\Response|null
      */
+     public function check()
+    {
+        //$items='0';
+         $code=$this->request->getData('input'); 
+         //alert($mobile);
+            if($this->PromoCodes->exists(['code'=>$code]))
+            {
+                echo"1";
+            }
+    
+        exit;  
+    }
     public function index()
     {
        $this->viewBuilder()->layout('index_layout');

@@ -12,7 +12,8 @@
                     <thead>
                         <tr>
                             <th scope="col"><?= __('S.No') ?></th>
-                            <th scope="col">Name</th>
+                            <th scope="col">Customer ID</th>
+                            <th scope="col">Customer</th>
                             <th scope="col">Mobile</th>
                             <th scope="col">Message</th>
                             <th scope="col">Posting Date</th>
@@ -25,6 +26,7 @@
                         ?>
                         <tr>
                             <td><?php echo $i; $i++;?></td>
+                            <td><?= $feedback->customer->id?></td>
                             <td><?= $feedback->customer->name?></td>
                             <td><?= $feedback->customer->mobile?></td>
                             <td><?= $feedback->comments?></td>

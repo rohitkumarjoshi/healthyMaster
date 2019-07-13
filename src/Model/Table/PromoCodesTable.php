@@ -76,16 +76,7 @@ class PromoCodesTable extends Table
             ->requirePresence('discount_per', 'create')
             ->notEmpty('discount_per');
 
-        $validator
-            ->dateTime('valid_from')
-            ->requirePresence('valid_from', 'create')
-            ->notEmpty('valid_from');
-
-        $validator
-            ->dateTime('valid_to')
-            ->requirePresence('valid_to', 'create')
-            ->notEmpty('valid_to');
-
+       
         /* $validator
             ->dateTime('created_on')
             ->requirePresence('created_on', 'create')

@@ -33,8 +33,8 @@ class CustomersController extends AppController
     public function index()
     {
 		$this->viewBuilder()->layout('index_layout');
-		$customers = $this->Customers->find();  
-		
+		$customers = $this->Customers->find()->contain(['CustomerAddresses'=>['States','Cities']]);  
+		//pr($customers->toArray());exit;
         $this->set(compact('customers'));
         $this->set('_serialize', ['customers']);
     }

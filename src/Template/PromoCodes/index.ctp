@@ -13,7 +13,7 @@
 			<div class="row">
 				<div class="col-md-3">
 					<label class=" control-label">Promo Code Type <span class="required" aria-required="true">*</span></label>
-					<select name="promo_code_type" class="form-control select2me input-sm" required>
+					<select name="promo_code_type" class="form-control select2me input-sm promo_code_type" onchange="myFunction(this.value)">
 						<option value=""> Select Promo Code Type </option>
 						<option value="Item Wise"> Item Wise </option>
 						<option value="Category Wise"> Category Wise </option>
@@ -23,7 +23,7 @@
 				</div>
 				<div class="col-md-3">
 					<label class=" control-label">Promo Code Name <span class="required" aria-required="true">*</span></label>
-					<?php echo $this->Form->control('code',['placeholder'=>'Promo Code Name','class'=>'form-control input-sm','label'=>false]); ?>
+					<?php echo $this->Form->control('code',['placeholder'=>'Promo Code Name','class'=>'form-control input-sm code','label'=>false]); ?>
 				</div>
 				<div class="col-md-3">
 					<label class=" control-label">Title<span class="required" aria-required="true">*</span></label>
@@ -32,9 +32,19 @@
 				<div class="col-md-3">
 					<div class="radio-list">
 						<label>Type</label>
-						<div class="radio-inline input-sm" style="padding-right: 1px;">
-							<input type="hidden" name="cash_back_flag" value=""><label for="cash-back-flag-no"><input type="radio" name="amount_type" value="percent" class="radio-task" checked="checked">Percent</label><label for="cash-back-flag-yes"><input type="radio" name="amount_type" value="amount" class="radio-task" checked="checked" >Amount</label>
-						</div>
+						<div class="radio-list">
+							<input type="hidden" name="cash_back_flag" value=""><label for="cash-back-flag-no">
+							<div class="radio-inline" style="padding-left: 0px;">
+
+								<?php echo $this->Form->radio(
+								'amount_type',
+								[
+									['value' => 'percent', 'text' => 'Percent','class' => 'radio-task virt','checked' => 'checked'],
+									['value' => 'amount', 'text' => 'Amount','class' => 'radio-task virt']
+								]
+								); ?>
+							</div>
+                        </div>
 					</div>
 				</div>
 			</div>
@@ -44,11 +54,11 @@
 					<?php echo $this->Form->control('discount_per',['placeholder'=>'Discount','class'=>'form-control input-sm','label'=>false]); ?>
 				</div>
 				<div class="col-md-3">
-					<?php echo $this->Form->control('item_category_id', ['empty'=>'-- select --','options' => $itemCategories,'class'=>'form-control input-sm select select2me select2']); ?>
+					<?php echo $this->Form->control('item_category_id', ['empty'=>'-- select --','options' => $itemCategories,'class'=>'form-control input-sm select category select2me select2']); ?>
 				</div>
 				<div class="col-md-3">
-					<label class=" control-label">Item<span class="required" aria-required="true">*</span></label>
-					<?php echo $this->Form->control('item_id',['empty'=>'--Select Item--','options' => $items,'class'=>'form-control input-sm select2me customer_id cstmr chosen-select','label'=>false]); ?>
+					<label class=" control-label">Item</label>
+					<?php echo $this->Form->control('item_id',['empty'=>'--Select Item--','options' => $items,'class'=>'form-control input-sm select2me item customer_id cstmr chosen-select','label'=>false]); ?>
 
 				</div>
 				<div class="col-md-3" style="margin-top: 18px;">
@@ -58,18 +68,18 @@
 			</div>
 			<div class="row" style="margin-top: 10px;">
 				<div class="col-md-3">
-					<label class=" control-label">Cart Value <span class="required" aria-required="true">*</span></label>
-					<?php echo $this->Form->control('cart_value',['placeholder'=>'Cart Value','class'=>'form-control input-sm','label'=>false]); ?>
+					<label class=" control-label">Cart Value </label>
+					<?php echo $this->Form->control('cart_value',['placeholder'=>'Cart Value','class'=>'form-control input-sm cart','id'=>'cart','label'=>false]); ?>
 				</div>
 				
-				<div class="col-md-4">
+				<div class="col-md-3">
 					<label class=" control-label">Valid From</label>
-					<?php echo $this->Form->control('valid_from',['readonly','placeholder'=>'Valid From','class'=>'form-control date-time-range-picker select2','label'=>false]); ?>
-				</div>
-				<div class="col-md-4">
+					<?php echo $this->Form->control('valid_from',['placeholder'=>'Valid From','class'=>'form-control input-sm date-picker','data-date-format'=>'dd-mm-yyyy','label'=>false,'type'=>'text']); ?>
+					</div>
+				<div class="col-md-3">
 					<label class=" control-label">Valid To</label>
 					
-					<?php echo $this->Form->control('valid_to',['readonly','placeholder'=>'Valid From','class'=>'form-control date-time-range-picker input-sm select2','label'=>false]); ?>
+					<?php echo $this->Form->control('valid_to',['placeholder'=>'Valid To','class'=>'form-control input-sm date-picker','data-date-format'=>'dd-mm-yyyy','label'=>false,'type'=>'text']); ?>
 					
 				</div>
 			</div>
@@ -144,6 +154,60 @@
 </div>
 <?php echo $this->Html->script('/assets/global/plugins/jquery.min.js'); ?>
 <script>
+
+function myFunction(val) {
+	alert(val);
+	// if(type == "Item Wise")
+	// {
+	// 	('.item').attr('required','required');
+	// }
+	// if(type == "Category Wise")
+	// {
+	// 	('.category').attr('required','required');
+	// }
+	// if(type == "Free Shipping")
+	// {
+	// 	('.freeship').attr('required','required');
+	// }
+	if(val == "On Cart Value")
+	{
+		('#cart').attr('required','required');
+	}
+
+
+}
+$(document).on('change','.code',function()
+{
+	var input=$(this).val();
+
+        var master = $(this); 
+		//alert(input);
+		if(input.length>0){
+            var m_data = new FormData();
+            var url ="<?php echo $this->Url->build(["controller" => "PromoCodes", "action" => "check"]); ?>";
+         //   alert(url);
+            m_data.append('input',input); 
+            $.ajax({
+                url: url,
+                data: m_data,
+                processData: false,
+                contentType: false,
+                type: 'POST',
+                dataType:'text',
+                success: function(response)
+                { 
+                	//alert(response);
+                	if(response == 1)
+                	{
+						$('.code').val('');
+						alert("Enter Unique Code");
+					}
+
+
+                }
+            });
+            }
+});
 $(document).ready(function() {
 	
 
@@ -164,6 +228,9 @@ $(document).ready(function() {
 					required: true,
 				},
 				valid_from:{
+					required: true,
+				},
+				title:{
 					required: true,
 				},
 				valid_to:{

@@ -305,7 +305,7 @@
 										<?php echo $this->Html->link('<i class="fa  fa-file"></i> Cart Report','/Carts/cart_report',['escape'=>false]) ?>
 									</li>
 									<li>
-										<?php echo $this->Html->link('<i class="fa  fa-file"></i> Points Report','/JainCashPoints/point_report',['escape'=>false]) ?>
+										<?php echo $this->Html->link('<i class="fa  fa-file"></i> Customer Wallet','/JainCashPoints/point_report',['escape'=>false]) ?>
 									</li>
 									<li>
 										<?php echo $this->Html->link('<i class="fa  fa-file"></i> Promo Code Report','/PromoCodes/promo_code_report',['escape'=>false]) ?>
@@ -337,9 +337,9 @@
 										<?php echo $this->Html->link('<i class="fa fa-puzzle-piece"></i> Account Statement','/Ledgers/AccountStatements',['escape'=>false]) ?>
 									</li>
 									-->
-									<li>
+									<!-- <li>
 										<?php echo $this->Html->link('<i class="fa fa-tag"></i> Item Wise Sales Report','/itemLedgers/itemSaleReports',['escape'=>false]) ?>
-									</li>
+									</li> -->
 									<!-- <li>
 										<?php echo $this->Html->link('<i class="fa fa-puzzle-piece"></i> Wastage Item Report','/itemLedgers/wastageReport?From='.$t_date.'&To='.$t_date,['escape'=>false]) ?>
 									</li> -->

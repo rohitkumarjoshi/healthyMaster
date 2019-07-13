@@ -22,11 +22,31 @@ class ItemCategoriesController extends AppController
     public function topSelling()
     {
         $this->viewBuilder()->layout('index_layout');
-       $recently_bought=$this->ItemCategories->Items->ItemLedgers->find()
+       $recently_boughts=$this->ItemCategories->Items->ItemLedgers->find()
+                        ->select(['Count'=>'count(ItemLedgers.item_id)','ItemCategories.name','Items.id','Items.name','ItemVariations.quantity_variation','Items.item_code','ItemLedgers.rate'])
                         ->where(['status'=>'out'])
                         ->group(['ItemLedgers.item_id','ItemLedgers.item_variation_id'])
                         ->contain(['Items'=>['ItemCategories'],'ItemVariations']);
-                        //pr($recently_bought->toArray());exit;
+            foreach ($recently_boughts as $brought) {
+                $count=$brought->count;
+                if($count > 50)
+                {
+                    $recently_bought=$brought;
+                }
+            }
+            pr($recently_boughts->toArray());exit;
+        if ($this->request->is('post')) {
+            $datas = $this->request->getData();
+           
+            if(!empty($datas['From'])){
+                $from_date=date("Y-m-d",strtotime($datas['From']));
+                $recently_bought->where(['ItemLedgers.created_on >='=> $from_date]);
+            }
+            if(!empty($datas['To'])){ 
+                $to_date=date("Y-m-d",strtotime($datas['To']));
+                $recently_bought->where(['ItemLedgers.created_on <=' => $to_date ]);
+            }
+        }
         $this->set(compact('recently_bought'));
     }
 

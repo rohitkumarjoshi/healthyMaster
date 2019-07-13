@@ -39,6 +39,7 @@ background-color: #fff;}
 							<th>Sr</th>
 							<th>Transaction Date</th>
 							<th>Customer</th>
+						    <th>Total Point</th>
 						    <th>Availiable Point</th>
 							<th>Used Point</th>
 							<th>Order No</th>
@@ -55,6 +56,7 @@ background-color: #fff;}
 							<td><?= $i ?></td>
 					    	<td><?= h(date('d-m-Y',strtotime($point->order->created_on))) ?></td>
 					    	<td><?= h(@$point->customer->name) ?></td>
+					    	<td><?= h(@$point->point) ?></td>
 					    	<td><?= h(@$point->point)-$point->used_point ?></td>
 							<td><?= h(@$point->used_point) ?></td>
 							<td>

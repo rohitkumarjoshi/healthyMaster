@@ -14,11 +14,31 @@
 				</div>
 			</div>
 			<div class="portlet-body">
+				<form method="post">
+						<table width="50%" class="table table-condensed">
+					<tbody>
+						<tr>
+							<td width="5%">
+								<label>From</label>
+								<input type="text" name="From" class="form-control input-sm date-picker" placeholder="Transaction From"  data-date-format="dd-mm-yyyy" autocomplete="false">
+							</td>	
+							<td width="5%">
+								<label>To</label>
+								<input type="text" name="To" class="form-control input-sm date-picker" placeholder="Transaction To"   data-date-format="dd-mm-yyyy" >
+							</td>
+							<td width="10%">
+								<button type="submit" class="btn btn-success btn-sm" style="margin-top: 23px !important;"><i class="fa fa-filter"></i> Filter</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				</form>
 				<table class="table table-condensed table-hover table-bordered" id="main_tble">
 					<thead>
 						<tr>
 							<th>Sr</th>
 							<th>Category</th>
+							<th>Item ID</th>
 							<th>Item</th>
 							<th>Variation</th>
 							<th>Item Code</th>
@@ -27,6 +47,8 @@
 					</thead>
 					<tbody>
 						<?php
+						if(!empty($recently_bought))
+						{
 						$i=0;
 							foreach ($recently_bought as $top) {
 								$i++;
@@ -34,12 +56,13 @@
 						<tr>
 							<td><?= $i ?></td>
 							<td><?= $top->item->item_category->name?></td>
+							<td><?= $top->item->id ?></td>
 							<td><?= $top->item->name ?></td>
 							<td><?= $top->item_variation->quantity_variation ?></td>
 							<td><?= $top->item->item_code ?></td>
 							<td><?= $top->rate ?></td>
 						</tr>
-					<?php } ?>
+					<?php }} ?>
 					</tbody>
 				</table>
 			</div>

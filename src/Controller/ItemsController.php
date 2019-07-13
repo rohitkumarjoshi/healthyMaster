@@ -18,7 +18,18 @@ class ItemsController extends AppController
      *
      * @return \Cake\Http\Response|null
      */
-
+  public function check()
+    {
+        //$items='0';
+         $code=$this->request->getData('input'); 
+         //alert($mobile);
+            if($this->Items->exists(['item_code'=>$code]))
+            {
+                echo"1";
+            }
+    
+        exit;  
+    }
 
     public function gstReport()
     {
@@ -142,27 +153,33 @@ class ItemsController extends AppController
 			
 		 
 			//pr($item);exit;
-			if ($this->Items->save($item)) {
+			if ($this->Items->save($item))
+       {
+
+
                 foreach($item->item_variations as $variation)
                 {
-                    $query = $this->Items->ItemLedgers->query();
-                    $query->insert(['jain_thela_admin_id', 'driver_id', 'grn_id', 'item_id', 'warehouse_id', 'purchase_booking_id', 'rate', 'amount', 'status', 'quantity','rate_updated', 'transaction_date','item_variation_id'])
-                    ->values([
-                        'jain_thela_admin_id' => 1,
-                        'driver_id' => 0,
-                        //'grn_id' => $grn_id,
-                        'item_id' => $item->id,
-                        'warehouse_id' => 1,
-                        'purchase_booking_id' => 0,
-                        'rate' => $variation->sales_rate,
-                        'item_variation_id' => $variation->id,
-                        'amount' => 0,
-                        'status' => 'In',
-                        'quantity' => $variation->opening_stock,
-                        'rate_updated' => 'ok',
-                        'transaction_date'=>$variation->transaction_date
-                    ]);
-                    $query->execute();
+                    if(($variation->opening_stock != 0 )|| ($variation->opening_stock != null))
+                    { 
+                        $query = $this->Items->ItemLedgers->query();
+                        $query->insert(['jain_thela_admin_id', 'driver_id', 'grn_id', 'item_id', 'warehouse_id', 'purchase_booking_id', 'rate', 'amount', 'status', 'quantity','rate_updated', 'transaction_date','item_variation_id'])
+                        ->values([
+                            'jain_thela_admin_id' => 1,
+                            'driver_id' => 0,
+                            //'grn_id' => $grn_id,
+                            'item_id' => $item->id,
+                            'warehouse_id' => 1,
+                            'purchase_booking_id' => 0,
+                            'rate' => $variation->sales_rate,
+                            'item_variation_id' => $variation->id,
+                            'amount' => 0,
+                            'status' => 'In',
+                            'quantity' => $variation->opening_stock,
+                            'rate_updated' => 'ok',
+                            'transaction_date'=>$variation->transaction_date
+                        ]);
+                        $query->execute();
+                      }
                 }
 
 				//pr($item);exit;

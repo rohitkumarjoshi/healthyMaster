@@ -14,7 +14,7 @@ class CustomersController extends AppController
 		$this->set('_serialize', ['status', 'message', 'customer']);		
 	}
 	
-	
+
 	
     public function registration()
     {

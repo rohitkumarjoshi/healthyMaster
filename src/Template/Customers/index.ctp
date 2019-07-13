@@ -23,9 +23,13 @@
 						<tr>
 							<th>Sr</th>
 							<th>Name</th>
+							<th>Mobile</th>
 							<th>Email</th>
 							<th>Address</th>
-							<th>Bulk Booking Discount %</th>
+							<th>Landmark</th>
+							<th>State</th>
+							<th>City</th>
+							<th>Pincode</th>
 							<th scope="col" class="actions"><?= __('Actions') ?></th>
 						</tr>
 					</thead>
@@ -33,20 +37,36 @@
 						<?php $i=0;
 						foreach ($customers as $customer): 
 						$i++;
-						$name=$customer->name;
-						$mobile=$customer->mobile;
-						if(!empty($mobile)){
-							$show_name=$name.' ('.$mobile.')';
-						}else{
-							$show_name=$name;
-						}
+						
 						?>
 						<tr>
 							<td><?= $i ?></td>
-							<td><?php echo $this->Html->link($show_name,['controller'=>'Customers','action' => 'customerLedger', $customer->id, 'print'],['target'=>'_blank']); ?></td>
+							<td><?php echo $this->Html->link($customer->name,['controller'=>'Customers','action' => 'customerLedger', $customer->id, 'print'],['target'=>'_blank']); ?></td>
+							<td><?= h($customer->mobile) ?></td>
 							<td><?= h($customer->email) ?></td>
-							<td><?= h($customer->address) ?></td>
-							<td><?= h($customer->bulk_booking_discount_percent) ?></td>
+							<td><?php
+							$i=0;
+							foreach ($customer->customer_addresses as $customeradd) { $i++;?>
+								<label class=" control-label">Address  <?= $i?> : 
+							<?php echo $customeradd->house_no.','.$customeradd->address.','.$customeradd->locality.'  ';
+							}
+						?></td>
+							<td><?php
+								foreach ($customer->customer_addresses as $address) {
+								echo h($address->landmark);
+							}?></td>
+							<td><?php
+								foreach ($customer->customer_addresses as $address) {
+								echo h($address->state->state_name);
+							}?></td>
+							<td><?php
+								foreach ($customer->customer_addresses as $address) {
+								echo h($address->city->name);
+							}?></td>
+							<td><?php
+								foreach ($customer->customer_addresses as $address) {
+								echo h($address->pincode);
+							}?></td>
 							<td class="actions">
 								<?= $this->Html->link(__('Edit'), ['action' => 'edit', $customer->id]) ?>
 								<!-- <?= $this->Html->link(__('View'), ['action' => 'view', $customer->id ]) ?> -->

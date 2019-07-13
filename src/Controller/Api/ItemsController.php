@@ -104,6 +104,7 @@ class ItemsController extends AppController
 	                    return $q->where($priceFilter)->order($price_sort);
 	                })->group('Items.id');	
 				}
+				
 				if(!empty($searchFilter)){
 					$items->where($searchFilter); 
 				}
@@ -133,7 +134,7 @@ class ItemsController extends AppController
     {
 		$jain_thela_admin_id=$this->request->query('jain_thela_admin_id');
 		$item_id=$this->request->query('item_id');
-		$customer_id=$this->request->query('customer_id');
+		$customer_id=$this->request->query('customer_id'); 
 		$item_description = $this->Items->find()
 							->select(['image_url' => $this->Items->find()->func()->concat(['http://healthymaster.in'.$this->request->webroot.'img/item_images/','image' => 'identifier' ])])
 							->where(['Items.id'=>$item_id,'Items.freeze'=>0, 'Items.ready_to_sale'=>'Yes'])

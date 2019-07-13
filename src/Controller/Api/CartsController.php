@@ -164,6 +164,17 @@ class CartsController extends AppController
 		$redeem_points=$this->request->data('redeem_points');
 		$tag=$this->request->data('tag');
 		$pincode=$this->request->data('pincode');
+		
+			$CustomerAddresses = $this->Carts->CustomerAddresses->find()
+			->where(['CustomerAddresses.customer_id'=>$customer_id,'CustomerAddresses.default_address'=>1])
+			->contain(['States','Cities'])->first();
+			
+		if(empty($pincode)){
+			
+			$pincode=$CustomerAddresses->pincode;
+		}
+		
+		
 		$isPointsRedeem = false;
 		if($tag=='add'){
 			$items = $this->Carts->Items->get($item_id);
@@ -262,10 +273,7 @@ class CartsController extends AppController
 			$cart_count = $this->Carts->find('All')->where(['Carts.customer_id'=>$customer_id])->count();
 		}
 		
-    	$CustomerAddresses = $this->Carts->CustomerAddresses->find()
-			->where(['CustomerAddresses.customer_id'=>$customer_id,'CustomerAddresses.default_address'=>1])
-			->contain(['States','Cities'])->first();
-		$pincode=$CustomerAddresses->pincode;
+    	
 		
 		$address_availablity = $this->Carts->CustomerAddresses->find()
 			->where(['CustomerAddresses.customer_id'=>$customer_id]);
@@ -507,6 +515,17 @@ class CartsController extends AppController
 		$redeem_points=$this->request->query('redeem_points');
 		$pincode=$this->request->query('pincode');
 		$isPointsRedeem = false;
+		
+		$CustomerAddresses = $this->Carts->CustomerAddresses->find()
+			->where(['CustomerAddresses.customer_id'=>$customer_id,'CustomerAddresses.default_address'=>1])
+			->contain(['States','Cities'])->first();
+			
+		if(empty($pincode)){
+			
+			$pincode=$CustomerAddresses->pincode;
+		}
+		
+		
 /* 		$carts=$this->Carts->find()
 			->where(['customer_id' => $customer_id])
 			->contain(['Items' => ['ItemVariations' =>['Units']]])
@@ -748,8 +767,8 @@ class CartsController extends AppController
 		else{
 			$status=true;
 			$error='Cart reviewed successfully';
-			$this->set(compact('status', 'error','totalPoints','temp_order_no','grand_total','totalItems','carts','delivery_charges','subtotal','discount_amount','isPromoApplied','customer_addresses','remaningPoints','redeem_points','isPointsRedeem'));
-			$this->set('_serialize', ['status', 'error','temp_order_no','isPointsRedeem','totalPoints','redeem_points','remaningPoints','subtotal','delivery_charges','discount_amount','isPromoApplied','grand_total','totalItems','carts','customer_addresses']);
+			$this->set(compact('status', 'error','totalPoints','temp_order_no','grand_total','totalItems','carts','delivery_charges','subtotal','discount_amount','isPromoApplied','customer_addresses','remaningPoints','redeem_points','isPointsRedeem','CustomerAddresses'));
+			$this->set('_serialize', ['status', 'error','temp_order_no','isPointsRedeem','totalPoints','redeem_points','remaningPoints','subtotal','delivery_charges','discount_amount','isPromoApplied','grand_total','totalItems','carts','customer_addresses','CustomerAddresses']);
 		}
     }
 

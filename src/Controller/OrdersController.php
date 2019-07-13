@@ -19,7 +19,25 @@ class OrdersController extends AppController
     {
         $this->viewBuilder()->layout('index_layout'); 
         //$order=$this->Orders->OrderDetails->newEntity();
-        $orders=$this->Orders->OrderDetails->find()->contain(['Orders','Items']);
+        $orders=$this->Orders->OrderDetails->find()->contain(['Orders'=>['CustomerAddresses','Customers'],'Items']);
+         if ($this->request->is('post')) {
+            $datas = $this->request->getData();
+            if(!empty($datas['apartment']))
+            {
+                $orders->where(['Carts.customer_id'=>$datas['customer_id']]);
+                //pr($datas['customer_id']);
+                //pr($Carts->toArray());exit;
+            }
+           
+            if(!empty($datas['From'])){
+                $from_date=date("Y-m-d",strtotime($datas['From']));
+                $orders->where(['orders.current_date >='=> $from_date]);
+            }
+            if(!empty($datas['To'])){ 
+                $to_date=date("Y-m-d",strtotime($datas['To']));
+                $orders->where(['orders.current_date <=' => $to_date ]);
+            }
+        }
         $this->set(compact('orders'));
     }
 	public function initialize()
@@ -444,7 +462,7 @@ class OrdersController extends AppController
 		$order_type=[['text'=>'Bulkorder','value'=>'Bulkorder'],['text'=>'Cod','value'=>'Cod'],['text'=>'Offline','value'=>'Offline'],['text'=>'Online','value'=>'Online'],['text'=>'Wallet','value'=>'Wallet']];
 		
 		$OrderStatus=[];
-		$OrderStatus=[['text'=>'Cancel','value'=>'Cancel'],['text'=>'Delivered','value'=>'Delivered'],['text'=>'In Process','value'=>'In Process']];
+		$OrderStatus=[['text'=>'Delivered','value'=>'Delivered'],['text'=>'In Process','value'=>'In Process']];
         $this->set(compact('orders','Customer_data','order_type','OrderStatus','order_no','customer_id','order_types','orderstatus','from_date','to_date','status'));
         $this->set('_serialize', ['orders']);
     }
@@ -591,7 +609,7 @@ class OrdersController extends AppController
      * @return \Cake\Http\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function view($id = null, $print= null)
+      public function view($id = null, $print= null)
     {
 		$this->viewBuilder()->layout('index_layout');
         $order = $this->Orders->get($id, [
@@ -1009,6 +1027,7 @@ class OrdersController extends AppController
         // pr($order_details_quantity);exit;
         	// $R=$this->request->getData();
         	// pr($R);exit;
+        	//pr($this->request->getData());exit;
             $order = $this->Orders->patchEntity($order, $this->request->getData());
             $order['transaction_order_no']=0;
             $order['amount_from_jain_cash']=0;

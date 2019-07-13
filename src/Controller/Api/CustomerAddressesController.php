@@ -3,6 +3,22 @@ namespace App\Controller\Api;
 use App\Controller\Api\AppController;
 class CustomerAddressesController extends AppController
 {
+    
+    public function state(){
+		$States=[];
+		$States=$this->CustomerAddresses->States->find()->where(['country_id'=>101])->contain(['Cities']);
+	    if($States->toArray()){
+			$success = true;
+			$message = 'Data found';
+		  }else{
+			$success = false;
+			$message = 'Data not found';
+		  }	
+
+		$this->set(['success' => $success,'message'=>$message,'States'=>$States,'_serialize' => ['success','message','States']]); 
+		
+	  }
+	  
     public function addAddress()
     {
 		$jain_thela_admin_id=$this->request->data('jain_thela_admin_id');
