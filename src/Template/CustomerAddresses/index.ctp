@@ -36,6 +36,14 @@
 						<?php echo $this->Form->control('state_id', ['empty'=>'-- select --','options' => $states,'class'=>'form-control input-sm select select2me select2 state','required']); ?>
 					</div>
 				</div>
+				
+				<div class="col-md-8">
+                       <label class=" control-label">City <span class="required" aria-required="true">* </label>
+                        <select name="city_id" class="form-control input-sm city select2" required>
+                            
+                            
+                        </select>
+                 </div>
 				<div class="row" style="margin-top:10px;">
 					<div class="col-md-8">
 						<label class=" control-label">Pincode<span class="required" aria-required="true">*</span></label>
@@ -58,6 +66,18 @@
 					<div class="col-md-8">
 						<label class=" control-label">Address<span class="required" aria-required="true">*</span></label>
 						<?php echo $this->Form->control('address',['placeholder'=>'address','class'=>'form-control input-sm','label'=>false]); ?>
+					</div>
+				</div>
+				<div class="row" style="margin-top:10px;">
+					<div class="col-md-8">
+						<label class=" control-label">Office Work</label>
+						<?php echo $this->Form->control('office_work',['placeholder'=>'Office Work','class'=>'form-control input-sm','label'=>false]); ?>
+					</div>
+				</div>
+				<div class="row" style="margin-top:10px;">
+					<div class="col-md-8">
+						<label class=" control-label">Others</label>
+						<?php echo $this->Form->control('others',['placeholder'=>'Others','class'=>'form-control input-sm','label'=>false]); ?>
 					</div>
 				</div>
 				<div class="row" style="margin-top:10px;">
@@ -166,7 +186,31 @@
 <?php echo $this->Html->script('/assets/global/plugins/jquery.min.js'); ?>
 <script>
 $(document).ready(function() {
-	
+	$(document).on('change','.state',function(){
+        
+        var input=$(this).val();
+        var master = $(this); 
+        $(".city option").remove();
+        if(input.length>0){
+            var m_data = new FormData();
+            var url ="<?php echo $this->Url->build(["controller" => "Pincodes", "action" => "options"]); ?>";
+         //   alert(url);
+            m_data.append('input',input); 
+            $.ajax({
+                url: url,
+                data: m_data,
+                processData: false,
+                contentType: false,
+                type: 'POST',
+                dataType:'text',
+                success: function(data)
+                { 
+                    $('.city').append(data);
+                }
+            });
+        }
+        
+      });
   //--------- FORM VALIDATION
 	var form3 = $('#form_sample_3');
 	var error3 = $('.alert-danger', form3);
