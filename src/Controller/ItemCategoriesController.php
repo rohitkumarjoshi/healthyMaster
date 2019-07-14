@@ -34,7 +34,7 @@ class ItemCategoriesController extends AppController
                     $recently_bought=$brought;
                 }
             }
-            pr($recently_boughts->toArray());exit;
+            //pr($recently_boughts->toArray());exit;
         if ($this->request->is('post')) {
             $datas = $this->request->getData();
            

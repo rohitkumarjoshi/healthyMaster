@@ -18,6 +18,19 @@ class UnitsController extends AppController
      *
      * @return \Cake\Http\Response|null
      */
+
+     public function check()
+    {
+        //$items='0';
+         $unit=$this->request->getData('input'); 
+         //alert($mobile);
+            if($this->Units->exists(['shortname'=>$unit]))
+            {
+                echo"1";
+            }
+    
+        exit;  
+    }
     public function index($id=null)
     {
 		$this->viewBuilder()->layout('index_layout');

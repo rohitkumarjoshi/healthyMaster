@@ -35,7 +35,7 @@
 					</thead>
 					<tbody>
 						<?php $i=0;
-						foreach ($customers as $customer): 
+						foreach ($customers as $customer){
 						$i++;
 						
 						?>
@@ -45,35 +45,35 @@
 							<td><?= h($customer->mobile) ?></td>
 							<td><?= h($customer->email) ?></td>
 							<td><?php
-							$i=0;
-							foreach ($customer->customer_addresses as $customeradd) { $i++;?>
-								<label class=" control-label">Address  <?= $i?> : 
+							$a=0;
+							foreach ($customer->customer_addresses as $customeradd) { $a++;?>
+								<label class=" control-label">Address  <?= $a?> : 
 							<?php echo $customeradd->house_no.','.$customeradd->address.','.$customeradd->locality.'  ';
 							}
 						?></td>
 							<td><?php
-								foreach ($customer->customer_addresses as $address) {
-								echo h($address->landmark);
-							}?></td>
+								//foreach ($customer->customer_addresses as $address) {
+								echo h($customer->customer_addresses['0']->landmark);
+							?></td>
 							<td><?php
-								foreach ($customer->customer_addresses as $address) {
-								echo h($address->state->state_name);
-							}?></td>
+								//foreach ($customer->customer_addresses as $address) {
+								echo h($customer->customer_addresses['0']->state->state_name);
+							?></td>
 							<td><?php
-								foreach ($customer->customer_addresses as $address) {
-								echo h($address->city->name);
-							}?></td>
+								//foreach ($customer->customer_addresses as $address) {
+								echo h($customer->customer_addresses['0']->city->name);
+							?></td>
 							<td><?php
-								foreach ($customer->customer_addresses as $address) {
-								echo h($address->pincode);
-							}?></td>
+								//foreach ($customer->customer_addresses as $address) {
+								echo h($customer->customer_addresses['0']->pincode);
+							?></td>
 							<td class="actions">
 								<?= $this->Html->link(__('Edit'), ['action' => 'edit', $customer->id]) ?>
 								<!-- <?= $this->Html->link(__('View'), ['action' => 'view', $customer->id ]) ?> -->
 								<?= $this->Html->link(__('Address'), ['controller'=>'CustomerAddresses', 'action' => 'index', $customer->id ]) ?>
 							</td>
 						</tr>
-						<?php endforeach; ?>
+						<?php } ?>
 					</tbody>
 				</table>
 			</div>

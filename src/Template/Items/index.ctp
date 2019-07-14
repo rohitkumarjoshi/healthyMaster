@@ -72,6 +72,9 @@
 								<?php if($status=='unfreeze' or $status==''){ ?>
 								<?= $this->Form->postLink(__('Freeze'), ['action' => 'delete', $item->id], ['confirm' => __('Are you sure you want to delete # {0}?', $item->id)]) ?>
 								<?php } ?>
+								<?php if($status=='freeze' or $status==''){ ?>
+								<?= $this->Form->postLink(__('Unfreeze'), ['action' => 'delete1', $item->id], ['confirm' => __('Are you sure you want to Unfreeze # {0}?', $item->id)]) ?>
+								<?php } ?>
 							</td>
 						</tr>
 						<?php endforeach; ?>

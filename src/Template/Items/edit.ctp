@@ -15,6 +15,9 @@
 			<?= $this->Form->create($item,['type'=>'file','id'=>'form_sample_3']) ?>
 				<div class="row">
 					<div class="col-md-3">
+						<?php echo $this->Form->control('item_code',['class'=>'form-control input-sm itemcode','placeholder'=>'Item Code','type'=>'text']); ?>
+					</div>
+					<div class="col-md-3">
 						<?php echo $this->Form->control('name',['class'=>'form-control input-sm','placeholder'=>'Item Name']); ?>
 						<input type="hidden" name="id" value="<?= $item->id ?>">
 					</div>
@@ -37,29 +40,25 @@
 					</div>-->
 
 				</div><br/>
-				<div class="row">
-					
-					<!-- <div class="col-md-3">
-						<label class="control-label">Maximum Order Limit<span class="required" aria-required="true"></span></label>
-						<?php echo $this->Form->control('minimum_quantity_purchase',['class'=>'form-control input-sm order_limit','placeholder'=>'Maximum Order Limit', 'label'=>false]); ?>
-						<span id="msg2"></span>
-					</div> -->
-					<!--<div class="col-md-3">
-						<?php
-						$gst['Yes']='Yes';
-						$gst['No']='No';
-						//echo $this->Form->control('gst_apply', ['empty'=>'--select--','options' => $gst,'class'=>'form-control input-sm attribute gst','value'=>$item->gst_apply]); ?> 
-					</div>-->
-					<div class="col-md-3 gst_show">
-						<?php echo $this->Form->control('gst_figure_id', ['options' => $GstFigures,'class'=>'form-control input-sm attribute','value'=>$item->gst_figure_id]); ?>
+				<div class="row" style="margin-top: 15px;">
+					<div class="col-md-3">
+						<?php echo $this->Form->control('description', ['class'=>'form-control input-sm','placeholder'=>'Description']); ?>
+						<input type="hidden" name="is_virtual" value="real">
+					</div>
+					<div class="col-md-3">
+						<?php echo $this->Form->control('short_description', ['class'=>'form-control input-sm','placeholder'=>'Short Description']); ?>
+					</div>
+					<div class="col-md-3">
+						<?php echo $this->Form->control('benefit', ['class'=>'form-control input-sm','placeholder'=>'Benefits']); ?>
 					</div>
 
 					<div class="col-md-3">
 						 <?= $this->Form->input('image',['class'=>'form-control','type'=>'File']) ?>
 					</div>
-					<div class="col-md-3">
-						<?php echo $this->Form->control('description', ['class'=>'form-control input-sm','placeholder'=>'Description']); ?>
-						<input type="hidden" name="is_virtual" value="real">
+				</div>
+				<div class="row" style="margin-top: 10px;">
+					<div class="col-md-3 gst_show">
+						<?php echo $this->Form->control('gst_figure_id', ['options' => $GstFigures,'class'=>'form-control input-sm attribute']); ?>
 					</div>
 				</div>
 					

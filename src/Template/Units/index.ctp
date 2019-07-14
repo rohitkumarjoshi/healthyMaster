@@ -19,16 +19,17 @@
 			</div>
 			<div class="portlet-body">
 				<?= $this->Form->create($unit,['id'=>'form_sample_3']) ?>
+				
+				<div class="row">
+					<div class="col-md-8" style="margin-top: 10px;">
+						<label class=" control-label">Short Name <span class="required" aria-required="true">*</span></label>
+						<?php echo $this->Form->control('shortname',['placeholder'=>'Short Name','class'=>'form-control input-sm shortname','label'=>false]); ?>
+					</div>
+				</div>
 				<div class="row">
 					<div class="col-md-8">
 						<label class=" control-label">Long Name <span class="required" aria-required="true">*</span></label>
 						<?php echo $this->Form->control('longname',['placeholder'=>'Long Name','class'=>'form-control input-sm','label'=>false]); ?>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-8" style="margin-top: 10px;">
-						<label class=" control-label">Short Name <span class="required" aria-required="true">*</span></label>
-						<?php echo $this->Form->control('shortname',['placeholder'=>'Short Name','class'=>'form-control input-sm','label'=>false]); ?>
 					</div>
 				</div>
 				<br/>
@@ -89,6 +90,38 @@
 <script>
 $(document).ready(function() {
 	
+	$('.shortname').on('change',function()
+	{
+		var input=$(this).val();
+
+        var master = $(this); 
+		//alert(input);
+		if(input.length>0){
+            var m_data = new FormData();
+            var url ="<?php echo $this->Url->build(["Units" => "Customers", "action" => "check"]); ?>";
+         //   alert(url);
+            m_data.append('input',input); 
+            $.ajax({
+                url: url,
+                data: m_data,
+                processData: false,
+                contentType: false,
+                type: 'POST',
+                dataType:'text',
+                success: function(response)
+                { 
+                	//alert(response);
+                	if(response == 1)
+                	{
+						$('.shortname').val('');
+						alert("Unit Already Exist");
+					}
+
+
+                }
+            });
+            }
+	});
   //--------- FORM VALIDATION
 	var form3 = $('#form_sample_3');
 	var error3 = $('.alert-danger', form3);

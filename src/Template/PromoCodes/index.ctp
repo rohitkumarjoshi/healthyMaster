@@ -54,14 +54,15 @@
 					<?php echo $this->Form->control('discount_per',['placeholder'=>'Discount','class'=>'form-control input-sm','label'=>false]); ?>
 				</div>
 				<div class="col-md-3">
-					<?php echo $this->Form->control('item_category_id', ['empty'=>'-- select --','options' => $itemCategories,'class'=>'form-control input-sm select category select2me select2']); ?>
+					<?php echo $this->Form->control('item_category_id', ['empty'=>'-- select --','options' => $itemCategories,'class'=>'form-control input-sm select category select2me select2','id'=>'category']); ?>
 				</div>
 				<div class="col-md-3">
 					<label class=" control-label">Item</label>
-					<?php echo $this->Form->control('item_id',['empty'=>'--Select Item--','options' => $items,'class'=>'form-control input-sm select2me item customer_id cstmr chosen-select','label'=>false]); ?>
+					<?php echo $this->Form->control('item_id',['empty'=>'--Select Item--','options' => $items,'class'=>'form-control input-sm select2me customer_id cstmr chosen-select','label'=>false,'id'=>'item']); ?>
 
 				</div>
-				<div class="col-md-3" style="margin-top: 18px;">
+				<div class="col-md-3">
+					<label>Shipping</label>
 					<?php echo $this->Form->input('is_freeship', array('type'=>'checkbox', 'label'=>'Is Free Ship','id'=>'freeship'));
 					?>
 				</div>
@@ -156,22 +157,34 @@
 <script>
 
 function myFunction(val) {
-	alert(val);
-	// if(type == "Item Wise")
-	// {
-	// 	('.item').attr('required','required');
-	// }
-	// if(type == "Category Wise")
-	// {
-	// 	('.category').attr('required','required');
-	// }
-	// if(type == "Free Shipping")
-	// {
-	// 	('.freeship').attr('required','required');
-	// }
-	if(val == "On Cart Value")
+	//alert(val);
+	if(val =="Item Wise")
 	{
-		('#cart').attr('required','required');
+		$('#item').attr('required','required');
+		$('#category').removeAttr('required','required');
+		$('#freeship').removeAttr('required','required');
+		$('#cart').removeAttr('required','required');
+	}
+	if(val=="Category Wise")
+	{
+		$('#category').attr('required','required');
+		$('#item').removeAttr('required','required');
+		$('#freeship').removeAttr('required','required');
+		$('#cart').removeAttr('required','required');
+	}
+	if(val=="Free Shipping")
+	{
+		$('#freeship').attr('required','required');
+		$('#item').removeAttr('required','required');
+		$('#category').removeAttr('required','required');
+		$('#cart').removeAttr('required','required');
+	}
+	if(val=="On Cart Value")
+	{
+		$('#cart').attr('required','required');
+		$('#item').removeAttr('required','required');
+		$('#category').removeAttr('required','required');
+		$('#freeship').removeAttr('required','required');
 	}
 
 

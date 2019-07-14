@@ -326,11 +326,24 @@ class ItemsController extends AppController
     {
         $this->request->allowMethod(['post', 'delete']);
         $item = $this->Items->get($id);
-		$item->freeze=1;
+		    $item->freeze=1;
         if ($this->Items->save($item)) {
             $this->Flash->success(__('The item has been freezed.'));
         } else {
             $this->Flash->error(__('The item could not be deleted. Please, try again.'));
+        }
+
+        return $this->redirect(['action' => 'index']);
+    }
+    public function delete1($id = null)
+    {
+        $this->request->allowMethod(['post', 'delete']);
+        $item = $this->Items->get($id);
+        $item->freeze=0;
+        if ($this->Items->save($item)) {
+            $this->Flash->success(__('The item has been Unfreezed.'));
+        } else {
+            $this->Flash->error(__('The item could not be unfreeze. Please, try again.'));
         }
 
         return $this->redirect(['action' => 'index']);

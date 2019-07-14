@@ -38,13 +38,14 @@ class ItemVariationsController extends AppController
                 $cat=$this->ItemVariations->Items->find()
                 ->select('id')
                 ->where(['item_category_id'=>$item_category_id]);
-                // pr($cat->toArray());exit;
+                //pr($cat->toArray());
 
                 foreach ($cat as $cats) {
 
                     $item_variations = $this->ItemVariations->find()
                     ->where(['item_id'=>$cats->id])
                     ->contain(['Items'=>['ItemCategories'],'Units']);
+                //    pr($item_variations->toArray());exit;
                 
             } 
            // pr($item_variations->toArray());exit;
