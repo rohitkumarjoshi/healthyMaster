@@ -63,7 +63,7 @@
 				</div>
 				<div class="col-md-3">
 					<label>Shipping</label>
-					<?php echo $this->Form->input('is_freeship', array('type'=>'checkbox', 'label'=>'Is Free Ship','id'=>'freeship'));
+					<?php echo $this->Form->input('is_freeship', array('type'=>'checkbox','id'=>'freeship'));
 					?>
 				</div>
 			</div>
@@ -75,12 +75,12 @@
 				
 				<div class="col-md-3">
 					<label class=" control-label">Valid From</label>
-					<?php echo $this->Form->control('valid_from',['placeholder'=>'Valid From','class'=>'form-control input-sm date-picker','data-date-format'=>'dd-mm-yyyy','label'=>false,'type'=>'text']); ?>
+					<?php echo $this->Form->control('valid_from',['placeholder'=>'Valid From','class'=>'form-control input-sm date-picker','data-date-format'=>'yyyy-mm-dd','label'=>false,'type'=>'text','id'=>'start_date','onchange'=>'ValidateEndDate()']); ?>
 					</div>
 				<div class="col-md-3">
 					<label class=" control-label">Valid To</label>
 					
-					<?php echo $this->Form->control('valid_to',['placeholder'=>'Valid To','class'=>'form-control input-sm date-picker','data-date-format'=>'dd-mm-yyyy','label'=>false,'type'=>'text']); ?>
+					<?php echo $this->Form->control('valid_to',['placeholder'=>'Valid To','class'=>'form-control input-sm date-picker','data-date-format'=>'yyyy-mm-dd','label'=>false,'type'=>'text','id'=>'end_date','onchange'=>'ValidateEndDate()']); ?>
 					
 				</div>
 			</div>
@@ -116,8 +116,8 @@
 							<tr>
 								<th>Sr</th>
 								<th>Code Name</th>
-								<th>Discount</th>
-								<th>Item Category</th>
+								<th>Discount</th><!-- 
+								<th>Item Category</th> -->
 								<th>Valid From</th>
 								<th>Valid To</th>
 								<th>Status</th>
@@ -133,8 +133,8 @@
 							<tr>
 								<td><?= $i ?></td>
 								<td><?= h(@$promoCode->code) ?></td>
-								<td><?= h(@$promoCode->discount_per) ?></td>
-								<td><?= h(@$promoCode->item_category->name) ?></td>
+								<td><?= h(@$promoCode->discount_per) ?></td><!-- 
+								<td><?= h(@$promoCode->item_category->name) ?></td> -->
 								<td><?= h(@$promoCode->valid_from) ?>
 								<td><?= h(@$promoCode->valid_to) ?>
 								<span id="status_id" style="display:none;"><?php echo $promoCode->id; ?></span>
@@ -154,7 +154,24 @@
 	</div>
 </div>
 <?php echo $this->Html->script('/assets/global/plugins/jquery.min.js'); ?>
+
+<script type="text/javascript">
+function ValidateEndDate() {
+	alert();
+       var startDate = $("start_date").val();
+       var endDate = $("end_date").val();
+       if (startDate != '' && endDate !='') {
+           if (startDate > endDate) {
+               $("end_date").val('');
+               alert("Start date should not be greater than end date");
+           }
+       }
+       return false;
+   }
+</script>
 <script>
+
+
 
 function myFunction(val) {
 	//alert(val);
@@ -222,7 +239,27 @@ $(document).on('change','.code',function()
             }
 });
 $(document).ready(function() {
+
 	
+// $('#start_date').on('change', function() { 
+// 	alert();
+
+//     var datearray = $('#start_date').val().split("-");
+//     alert(datearray);
+
+//     var montharray = ["Jan", "Feb", "Mar","Apr", "May", "Jun","Jul", "Aug", "Sep","Oct", "Nov", "Dec"];
+
+//     var year = "20" + datearray[2];
+
+//     var month = montharray.indexOf(datearray[1])+1;
+
+//     var day = datearray[0];
+
+//     var minDate = (year +"-"+ month +"-"+ day);
+
+//     $('#end_date').attr('min',minDate); 
+
+//   });
 
   //--------- FORM VALIDATION
 	var form3 = $('#form_sample_3');

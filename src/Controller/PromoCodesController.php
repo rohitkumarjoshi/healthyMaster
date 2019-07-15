@@ -34,6 +34,7 @@ class PromoCodesController extends AppController
     {
        $this->viewBuilder()->layout('index_layout');
     	$promoCode = $this->PromoCodes->newEntity();
+        //pr($this->request->getData());exit;
         if ($this->request->is(['patch', 'post', 'put'])) {
             $promoCode = $this->PromoCodes->patchEntity($promoCode, $this->request->getData());
 			$promoCode->jain_thela_admin_id=1;
@@ -48,7 +49,7 @@ class PromoCodesController extends AppController
 
             $this->Flash->error(__('The promo code could not be saved. Please, try again.'));
         }
-        $promoCodes = $this->PromoCodes->find()->contain(['ItemCategories']);
+        $promoCodes = $this->PromoCodes->find();
         $itemCategories = $this->PromoCodes->ItemCategories->find('list');
         $items = $this->PromoCodes->Items->find('list');
         $this->set(compact('promoCode', 'promoCodes', 'itemCategories','items'));
