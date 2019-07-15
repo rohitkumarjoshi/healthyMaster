@@ -35,11 +35,8 @@ class CustomersController extends AppController
 				$sms=str_replace(' ', '+', 'Your one time OTP is: '.$random.'');
 				$working_key='A7a76ea72525fc05bbe9963267b48dd96';
 				$sms_sender='HEALTH';
-				$sms=str_replace(' ', '+', $sms);
-				/* file_get_contents('http://alerts.sinfini.com/api/web2sms.php?workingkey='.$working_key.'&sender='.$sms_sender.'&to='.$mobile_no.'&message='.$sms.''); */
-				
-				file_get_contents('http://103.39.134.40/api/mt/SendSMS?user=phppoetsit&password=9829041695&senderid='.$sms_sender.'&channel=Trans&DCS=0&flashsms=0&number='.$mobile_no.'&text='.$sms.'&route=7');
-				
+				$sms=str_replace(' ', '+', $sms); 
+				file_get_contents('http://103.39.134.40/api/mt/SendSMS?user=phppoetsit&password=9829041695&senderid='.$sms_sender.'&channel=Trans&DCS=0&flashsms=0&number='.$mobile_no.'&text='.$sms.'&route=7'); 
 				$customerDetails = $this->Customers->get($customerDetails->id);
 				$customerDetails->otp=$random;
 				$customerDetails->user_img = $img_name;
@@ -67,7 +64,7 @@ class CustomersController extends AppController
 					$customerDetails->user_img = $img_name;
 					$this->Customers->save($customerDetails);
 					$status=true;	
-					$error="Login successfully.";
+					$error="OPT send successfully.";
 				}
 				else{
 					$customer = $this->Customers->newEntity();
@@ -88,10 +85,10 @@ class CustomersController extends AppController
 						$new_signup='yes';
 						$status=true;
 						$customerDetails=$this->Customers->get($customer->id);
-						$error="Customer registration successfully.";
+						$error="OPT send successfully";
 					}else{
 						$status=false;
-						$error="Customer registration failed.";
+						$error="Something wen wrong, please try again.";
 					}
 				  } 
 			}
@@ -141,7 +138,7 @@ class CustomersController extends AppController
 					$customerDetails->already_login=false;
 					$status=true;
 					$new_signup='';
-					$error='Login Successfully';
+					$error='Customer registration successfully.';
 					$this->set(compact('status', 'error', 'new_signup', 'customerDetails'));
 					$this->set('_serialize', ['status', 'error', 'new_signup', 'customerDetails']);
 				}
