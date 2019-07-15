@@ -23,7 +23,10 @@ class ItemCategoriesController extends AppController
 			}
 			if($HomeScreen->layout=='CategoryItems'){
 				
-				$itemCategories = $this->ItemCategories->Items->find()->where(['Items.is_combo'=>'no', 'Items.freeze'=>0, 'Items.ready_to_sale'=>'Yes','item_category_id'=>$HomeScreen->category_id])->contain(['ItemVariations'=>['Units']]);
+				$itemCategories = $this->ItemCategories->Items->find()->where(['Items.is_combo'=>'no', 'Items.freeze'=>0, 'Items.ready_to_sale'=>'Yes','item_category_id'=>$HomeScreen->category_id])->contain(['ItemVariations'=>['Units','Carts'=>
+        						function($q) use($customer_id){
+        							return $q->where(['customer_id'=>$customer_id]);
+        					}]]);
 				$itemCategories->Matching('ItemVariations', function($q) {
 	                    return $q->where(['ItemVariations.ready_to_sale' =>'Yes']);
 	                });
