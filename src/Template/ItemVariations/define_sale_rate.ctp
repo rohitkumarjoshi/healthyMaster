@@ -34,7 +34,10 @@
 				</form>
 
 				<?= $this->Form->create($itemvariation,['id'=>'form_sample_3']) ?>
-				<?php $i=0; foreach ($item_variations as $item_variation): ?>	
+				<?php $i=0; 
+				if(!empty($item_variations))
+				{
+				foreach ($item_variations as $item_variation): ?>	
 				<table class="table table-condensed table-hover table-bordered" id="main_tble">
 					<thead>
 						<tr>
@@ -85,7 +88,7 @@
 						
 					</tbody>
 				</table>
-				<?php $i++; endforeach; ?>
+				<?php $i++; endforeach; } ?>
 				<div align="center">
 					<?= $this->Form->button($this->Html->tag('i') . __(' Update Sales Rate'),['class'=>'btn btn-success','id'=>'submitbtn']); ?>
 				</div>

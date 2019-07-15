@@ -38,28 +38,34 @@
 						<tr>
 							<th>Sr</th>
 							<th>Category</th>
+							<th>Item Code</th>
 							<th>Item ID</th>
 							<th>Item</th>
 							<th>Variation</th>
 							<th>Item Code</th>
+							<th>Sales</th>
 							<th>Amount</th>
 						</tr>
 					</thead>
 					<tbody>
 						<?php
-						if(!empty($recently_bought))
-						{
+						
 						$i=0;
-							foreach ($recently_bought as $top) {
-								$i++;
+							foreach ($recently_boughts as $top) {
+								 $count=$top->Count;
+								 if($count > 50)
+                				{
+									$i++;
 						?>
 						<tr>
 							<td><?= $i ?></td>
 							<td><?= $top->item->item_category->name?></td>
+							<td><?= $top->item->item_code ?></td>
 							<td><?= $top->item->id ?></td>
 							<td><?= $top->item->name ?></td>
 							<td><?= $top->item_variation->quantity_variation ?></td>
 							<td><?= $top->item->item_code ?></td>
+							<td><?= $top->Count ?> Times</td>
 							<td><?= $top->rate ?></td>
 						</tr>
 					<?php }} ?>

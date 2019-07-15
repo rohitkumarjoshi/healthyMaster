@@ -35,19 +35,20 @@ class ItemVariationsController extends AppController
             if($item_category_id!=null)
             {
 
-                $cat=$this->ItemVariations->Items->find()
-                ->select('id')
-                ->where(['item_category_id'=>$item_category_id]);
-                //pr($cat->toArray());
+                $item_variation=$this->ItemVariations->Items->find()
+                ->select('id','Items.name','ItemCategories.name','Units.shortname','ItemVariations.print_rate','ItemVariations.sales_rate')
+                ->where(['item_category_id'=>$item_category_id])
+                ->contain(['ItemVariations'=>['Units'],'ItemCategories']);
+                //pr($item_variation->toArray());exit;
 
-                foreach ($cat as $cats) {
+            //     foreach ($cat as $cats) {
 
-                    $item_variations = $this->ItemVariations->find()
-                    ->where(['item_id'=>$cats->id])
-                    ->contain(['Items'=>['ItemCategories'],'Units']);
-                //    pr($item_variations->toArray());exit;
+            //         $item_variations = $this->ItemVariations->find()
+            //         ->where(['item_id'=>$cats->id])
+            //         ->contain(['Items'=>['ItemCategories'],'Units']);
+            //     //    pr($item_variations->toArray());exit;
                 
-            } 
+            // } 
            // pr($item_variations->toArray());exit;
          }
          else
@@ -80,7 +81,7 @@ class ItemVariationsController extends AppController
        
         $category=$this->ItemVariations->Items->ItemCategories->find('list');
         //pr($item_variations->toArray());exit;
-        $this->set(compact('item_variations','itemvariation', 'itemCategories', 'units','category'));
+        $this->set(compact('item_variations','ItemVariation','itemvariation', 'itemCategories', 'units','category'));
         $this->set('_serialize', ['items']);
     }
 

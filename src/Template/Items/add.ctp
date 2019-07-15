@@ -232,10 +232,19 @@ $('.gst').on('change',function(){
 					required: true,
 				},
 				image:{
-					required: false,
+					required: true,
+				},
+				short_description:{
+					required: true,
+				},
+				benefit:{
+					required: true,
+				},
+				item_code:{
+					required: true,
 				},
 				alias_name:{
-					required: false,
+					required: true,
 				}
 			},
 

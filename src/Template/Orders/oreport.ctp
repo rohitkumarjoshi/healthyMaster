@@ -44,6 +44,7 @@
                             <th scope="col">Item Name</th>
                             <th scope="col">Value</th>
                             <th scope="col">Payment Mode</th>
+                            <th scope="col">Order From</th>
                             <th scope="col">Status</th>
                         </tr>
                     </thead>
@@ -63,6 +64,7 @@
                             <td><?= $order_detail->item->name?></td>
                             <td><?= $order_detail->amount?></td>
                             <td><?= $order_detail->order->payment_status?></td>
+                            <td><?= $order_detail->order->order_from?></td>
                             <td><?= $order_detail->order->status?></td>
                         </tr>
                         <?php endforeach;  ?>

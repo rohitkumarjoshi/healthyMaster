@@ -24,18 +24,18 @@ class OrdersController extends AppController
             $datas = $this->request->getData();
             if(!empty($datas['apartment']))
             {
-                $orders->where(['Carts.customer_id'=>$datas['customer_id']]);
+                $orders->where(['CustomerAddresses.apartment'=>$datas['apartment']]);
                 //pr($datas['customer_id']);
                 //pr($Carts->toArray());exit;
             }
            
             if(!empty($datas['From'])){
                 $from_date=date("Y-m-d",strtotime($datas['From']));
-                $orders->where(['orders.current_date >='=> $from_date]);
+                $orders->where(['Orders.current_date >='=> $from_date]);
             }
             if(!empty($datas['To'])){ 
                 $to_date=date("Y-m-d",strtotime($datas['To']));
-                $orders->where(['orders.current_date <=' => $to_date ]);
+                $orders->where(['Orders.current_date <=' => $to_date ]);
             }
         }
         $this->set(compact('orders'));

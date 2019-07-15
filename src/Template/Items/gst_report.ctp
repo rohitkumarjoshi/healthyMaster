@@ -19,7 +19,9 @@
 								 <tr>
                             <th scope="col"><?= __('S.No') ?></th>
                             <th scope="col">Item Code</th>
+                            <th scope="col">Item ID</th>
                             <th scope="col">Item</th>
+                            <th scope="col">Category ID</th>
                             <th scope="col">Category</th>
                             <th scope="col">Sale AmountTaxable</th>
                             <th scope="col">GST</th>
@@ -38,7 +40,9 @@
 							<tr>
 								<td><?= $i; $i++;?></td>
 	                            <td> <?= $gst->item->item_code?></td>
+	                            <td><?= $gst->item->id ?></td>
 	                            <td><?= $gst->item->name ?></td>
+	                            <td><?= $gst->item->item_category->id?></td>
 	                            <td><?= $gst->item->item_category->name?></td>
 	                            <td><?php
 	                             	echo $sale_rate - $tax;

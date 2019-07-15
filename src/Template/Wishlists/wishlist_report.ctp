@@ -64,6 +64,7 @@ background-color: #fff;}
 							<th>Customer ID</th>
 							<th>Customer</th>
 							<th>Item ID</th>
+							<th>Item Code</th>
 							<th>Item</th>
 							<th>Variation</th>
 							<th>Rate</th>
@@ -82,6 +83,7 @@ background-color: #fff;}
 							<td><?= h(@$wishlist->customer->name)."(".h(@$wishlist->customer->mobile).")"?></td>
 							<td><?= h(@$wishlist->customer->id)?></td>
 							<td><?= h(@$wishlist->item->id) ?></td>
+							<td><?= h(@$wishlist->item->item_code) ?></td>
 							<td><?= h(@$wishlist->item->name) ?></td>
 							<td><?= h(@$wishlist->item_variation->quantity_variation).' '.$wishlist->item_variation->unit->shortname ?></td>
 							<td><?= h(@$wishlist->item_variation->sales_rate) ?></td>
