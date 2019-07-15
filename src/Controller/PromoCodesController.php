@@ -34,9 +34,16 @@ class PromoCodesController extends AppController
     {
        $this->viewBuilder()->layout('index_layout');
     	$promoCode = $this->PromoCodes->newEntity();
-        //pr($this->request->getData());exit;
+        
+        $data=$this->request->getData();
+
+        $from=$this->request->getData('valid_from');
+        $to=$this->request->getData('valid_to');
+        $data['valid_from']=date('Y-m-d',strtotime($from));
+        $data['valid_to']=date('Y-m-d',strtotime($to));
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $promoCode = $this->PromoCodes->patchEntity($promoCode, $this->request->getData());
+
+            $promoCode = $this->PromoCodes->patchEntity($promoCode, $data);
 			$promoCode->jain_thela_admin_id=1;
 			$promoCode->status='Active';
 			
@@ -50,6 +57,15 @@ class PromoCodesController extends AppController
             $this->Flash->error(__('The promo code could not be saved. Please, try again.'));
         }
         $promoCodes = $this->PromoCodes->find();
+        // foreach ($promoCodes as $promo) {
+        //     $valid_to=$promo->valid_to;
+        //     $today=date('Y-m-d');
+        //     if($valid_to == $today)
+        //     {
+        //         $promoCodes->status="Deactive";
+        //         $this->PromoCodes->save($promoCodes);
+        //     }
+        // }
         $itemCategories = $this->PromoCodes->ItemCategories->find('list');
         $items = $this->PromoCodes->Items->find('list');
         $this->set(compact('promoCode', 'promoCodes', 'itemCategories','items'));

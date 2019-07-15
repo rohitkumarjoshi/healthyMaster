@@ -22,7 +22,7 @@ class PurchaseBookingsController extends AppController
     {
        $this->viewBuilder()->layout('index_layout');
        $purchases=$this->PurchaseBookings->PurchaseBookingDetails->find()
-       ->contain(['Items'=>['ItemCategories'],'ItemVariations'=>['Units'],'PurchaseBookings'=>['Vendors']]);
+       ->contain(['Items'=>['ItemCategories','GstFigures'],'ItemVariations'=>['Units'],'PurchaseBookings'=>['Vendors'=>['Cities']]]);
         $this->set(compact('purchases'));
     }
     public function index()

@@ -115,8 +115,9 @@
 							<!--<th scope="col">wallet Amount</th>-->
 							<th scope="col">Locality</th>
 							<th scope="col">Grand Total</th>
-							<th scope="col">Payment</th>
-							<th scope="col">Order From</th>
+							<th scope="col">Mode Of Payment</th>
+							<th scope="col">Payment Status</th>
+							<th scope="col">Order Type</th>
 							<th scope="col">Order Date</th>
 							<th scope="col">Delivery Date</th>
 							<th scope="col" class="actions"><?= __('Actions') ?></th>
@@ -160,6 +161,7 @@
 							<!--<td align="right"><?= $this->Number->format($order->amount_from_wallet) ?></td>-->
 							<td><?= h(@$order->customer_address->locality) ?></td>
 							<td align="right"><?= $this->Number->format($order->grand_total) ?></td>
+							<td><?= h($order->order_type) ?></td>
 							<td><?= h($order->payment_status) ?></td>
 							<td><?= h($order->order_from) ?></td>
 							<td><?php $q=explode(' ',$order->order_date); ?> <span style="font-size:11px;"><?php echo $q[0] ?></span></td>

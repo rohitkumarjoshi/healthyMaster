@@ -22,6 +22,7 @@
 					<thead>
 						<tr>
 							<th>Sr</th>
+							<th>Customer ID</th>
 							<th>Name</th>
 							<th>Mobile</th>
 							<th>Email</th>
@@ -41,6 +42,7 @@
 						?>
 						<tr>
 							<td><?= $i ?></td>
+							<td><?= $customer->id ?></td>
 							<td><?php echo $this->Html->link($customer->name,['controller'=>'Customers','action' => 'customerLedger', $customer->id, 'print'],['target'=>'_blank']); ?></td>
 							<td><?= h($customer->mobile) ?></td>
 							<td><?= h($customer->email) ?></td>

@@ -138,7 +138,7 @@
 				<!-- BEGIN LOGO -->
 				<div class="page-logo" style="padding-top:2px;padding-bottom:2px; width: auto;">
 					<!-- <?php echo $this->Html->image('/img/jainthela.png', ['height' => '40px']); ?> -->
-					<span><?php echo $this->Html->image('/img/208.png', ['height' => '40px']); ?></span>
+					<span><?php echo $this->Html->image('/img/a.png', ['height' => '40px']); ?></span>
 				</div>
 				<!-- End LOGO -->
 				<div class="hor-menu hidden-sm hidden-xs">

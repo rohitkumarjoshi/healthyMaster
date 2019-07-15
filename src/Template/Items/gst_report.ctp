@@ -27,7 +27,9 @@
                             <th scope="col">GST</th>
                             <th scope="col">CGST Amount</th>
                             <th scope="col">SGST Amount</th>
-                            <th scope="col">Amount After GST</th>
+                            <th scope="col">IGST Amount</th>
+                            <th scope="col">Total Tax</th>
+                            <th scope="col">Sales Value With Tax</th>
                         </tr>
 							</thead>
 							<tbody id='main_tbody' class="tab">
@@ -49,8 +51,10 @@
 	                             ?>
 	                            </td>
 	                            <td><?= $gst->item->gst_figure->name?></td>
-	                            <td><?= $tax/2 ?></td>
-	                            <td><?= $tax/2 ?></td>
+	                            <td><?= $cgst=$tax/2 ?></td>
+	                            <td><?= $sgst=$tax/2 ?></td>
+	                            <td></td>
+	                            <td><?= $cgst + $sgst?></td>
 	                            <td><?= $gst->sales_rate?></td>
 							</tr>
 						<?php 
