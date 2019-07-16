@@ -41,7 +41,25 @@ class JainCashPointsController extends AppController
     {
         $this->viewBuilder()->layout('index_layout');
 
-        $jain_cash_point=$this->JainCashPoints->find()->contain(['Customers','Orders']);;
+        $jain_cash_point=$this->JainCashPoints->find()->contain(['Customers','Orders']);
+        if ($this->request->is('post')) {
+            $datas = $this->request->getData();
+            if(!empty($datas['customer_id']))
+            {
+                $jain_cash_point->where(['JainCashPoints.customer_id'=>$datas['customer_id']]);
+                //pr($datas['customer_id']);
+                //pr($jain_cash_point->toArray());exit;
+            }
+            
+            if(!empty($datas['From'])){
+                $from_date=date("Y-m-d",strtotime($datas['From']));
+                $jain_cash_point->where(['JainCashPoints.updated_on >='=> $from_date]);
+            }
+            if(!empty($datas['To'])){ 
+                $to_date=date("Y-m-d",strtotime($datas['To']));
+                $jain_cash_point->where(['JainCashPoints.updated_on <=' => $to_date ]);
+            }
+        }
          $this->set(compact('jain_cash_point'));
     }
 

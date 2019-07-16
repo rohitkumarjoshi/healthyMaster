@@ -23,7 +23,25 @@ class PurchaseBookingsController extends AppController
        $this->viewBuilder()->layout('index_layout');
        $purchases=$this->PurchaseBookings->PurchaseBookingDetails->find()
        ->contain(['Items'=>['ItemCategories','GstFigures'],'ItemVariations'=>['Units'],'PurchaseBookings'=>['Vendors'=>['Cities']]]);
-        $this->set(compact('purchases'));
+        if ($this->request->is('post')) {
+            $datas = $this->request->getData();
+            if(!empty($datas['vendor_id']))
+            {
+                $purchases->where(['PurchaseBookings.vendor_id'=>$datas['vendor_id']]);
+                //pr($datas['customer_id']);
+                //pr($purchases->toArray());exit;
+            }
+            if(!empty($datas['From'])){
+                $from_date=date("Y-m-d",strtotime($datas['From']));
+                $purchases->where(['PurchaseBookings.transaction_date >='=> $from_date]);
+            }
+            if(!empty($datas['To'])){ 
+                $to_date=date("Y-m-d",strtotime($datas['To']));
+                $purchases->where(['PurchaseBookings.transaction_date <=' => $to_date ]);
+            }
+        }
+       $vendors=$this->PurchaseBookings->Vendors->find('list');
+        $this->set(compact('purchases','vendors'));
     }
     public function index()
     {

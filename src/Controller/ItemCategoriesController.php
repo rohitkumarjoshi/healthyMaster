@@ -29,7 +29,7 @@ class ItemCategoriesController extends AppController
                         ->contain(['Items'=>['ItemCategories'],'ItemVariations']);
 
             
-           // pr($recently_boughts->toArray());exit;
+           //pr($recently_boughts->toArray());exit;
         if ($this->request->is('post')) {
             $datas = $this->request->getData();
            

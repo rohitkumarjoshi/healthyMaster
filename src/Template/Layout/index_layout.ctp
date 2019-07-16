@@ -289,7 +289,7 @@
 										<?php echo $this->Html->link('<i class="fa  fa-file"></i>Purchase Report','/PurchaseBookings/purchase_report',['escape'=>false]) ?>
 									</li>
 									<li>
-										<?php echo $this->Html->link('<i class="fa  fa-file"></i>GST Report','/Items/gst_report',['escape'=>false]) ?>
+										<?php echo $this->Html->link('<i class="fa  fa-file"></i>GST Report','/Orders/gst_reports',['escape'=>false]) ?>
 									</li>
 
 									<li>
@@ -454,7 +454,7 @@
 				<!-- END SIDEBAR -->
 			<!-- BEGIN CONTENT -->
 			<div class="page-content-wrapper">
-				<div class="page-content">
+				<div class="page-content" style="min-height:431px;width: 100%;!important">
 					<div  class="page-spinner-bar hide">
 						<div class="bounce1"></div>
 						<div class="bounce2"></div>

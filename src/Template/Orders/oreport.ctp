@@ -4,17 +4,17 @@
         <div class="portlet light bordered">
             <div class="portlet-title">
                 <div class="caption">
-                    <span class="caption-subject"><?= __('ORDER REPORT') ?></span>
+                    <span class="caption-subject"><?= __('ORDER/SALES REPORT') ?></span>
                 </div>
             </div>
-            <div class="portlet-body">
+            <div class="portlet-body" style="overflow: auto;!important">
                 <form method="post">
                         <table width="50%" class="table table-condensed">
                     <tbody>
                         <tr>
                             <td width="5%">
                                 <label class=" control-label">Apartment <span class="required" aria-required="true">*</span></label>
-                                <?php echo $this->Form->input('apartment', ['empty'=>'--Apartment--','label' => false,'class' => 'form-control input-sm select2me']); ?>
+                                <?php echo $this->Form->input('apartment', ['empty'=>'--Apartment--','label' => false,'class' => 'form-control input-sm']); ?>
                             </td>
                             <td width="5%">
                                 <label>From</label>
@@ -35,17 +35,29 @@
                     <thead>
                         <tr>
                             <th scope="col"><?= __('S.No') ?></th>
-                            <th scope="col">Order No</th>
                             <th scope="col">Order Date</th>
+                            <th scope="col">Order No</th>
+                            <th scope="col">Item Code</th>
+                            <th scope="col">Item Name</th>
+                            <th scope="col">Variation</th>
+                            <th scope="col">Category</th>
+                            <th scope="col">Customer ID</th>
                             <th scope="col">Customer</th>
                             <th scope="col">Mobile</th>
-                            <th scope="col">Address</th>
+                            <th scope="col">Flat No</th>
                             <th scope="col">Apartment</th>
-                            <th scope="col">Item Name</th>
-                            <th scope="col">Value</th>
+                            <th scope="col">Locality</th>
+                            <th scope="col">City</th>
+                            <th scope="col">State</th>
+                            <th scope="col">Walkin Sale</th>
+                            <th scope="col">Online Sale App</th>
+                            <th scope="col">Online Sale Web</th>
                             <th scope="col">Payment Mode</th>
-                            <th scope="col">Order From</th>
-                            <th scope="col">Status</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Gross Amount</th>
+                            <th scope="col">Discount</th>
+                            <th scope="col">Net Sales</th>
+                            <th scope="col">Order Status</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -55,16 +67,37 @@
                         ?>
                         <tr>
                             <td><?php echo $i; $i++;?></td>
-                            <td><?= $order_detail->order->order_no?></td>
                             <td><?= date('d-m-Y',strtotime($order_detail->order->order_date))?></td>
+                            <td><?= $order_detail->order->order_no?></td>
+                            <td><?= $order_detail->item->item_code?></td>
+                            <td><?= $order_detail->item->name?></td>
+                            <td><?= $order_detail->item_variation->quantity_variation?></td>
+                            <td><?= $order_detail->item->item_category->name?></td>
+                            <td><?= $order_detail->order->customer->id?></td>
                             <td><?= $order_detail->order->customer->name?></td>
                             <td><?= $order_detail->order->customer->mobile?></td>
-                            <td></td>
-                            <td></td>
-                            <td><?= $order_detail->item->name?></td>
+                            <td><?= $order_detail->order->customer_address->house_no?></td>
+                            <td><?= $order_detail->order->customer_address->apartment?></td>
+                            <td><?= $order_detail->order->customer_address->locality?></td>
+                            <td><?= $order_detail->order->customer_address->city->name?></td>
+                            <td><?= $order_detail->order->customer_address->state->state_name?></td>
+                            <td><?php if($order_detail->order->order_from == "walkin_sale")
+                            {
+                                echo"Yes";
+                            }?></td>
+                            <td><?php if($order_detail->order->order_from == "app")
+                            {
+                                echo"Yes";
+                            }?></td>
+                            <td><?php if($order_detail->order->order_from == "web")
+                            {
+                                echo"Yes";
+                            }?></td>
+                            <td><?= $order_detail->order->order_type ?></td>
+                            <td><?= $order_detail->quantity?></td>
                             <td><?= $order_detail->amount?></td>
-                            <td><?= $order_detail->order->payment_status?></td>
-                            <td><?= $order_detail->order->order_from?></td>
+                            <td><?= $order_detail->order->amount_from_promo_code ?></td>
+                            <td></td>
                             <td><?= $order_detail->order->status?></td>
                         </tr>
                         <?php endforeach;  ?>
@@ -74,8 +107,21 @@
         </div>
     </div>
 </div>
-<?= $this->element('selectpicker') ?>
-<?= $this->element('validate') ?>
-<?= $this->element('datepicker') ?>
-
+<?php echo $this->Html->script('/assets/global/plugins/jquery.min.js'); ?>
+<script>
+var $rows = $('#main_tble tbody tr');
+    $('#search3').on('keyup',function() {
+        var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+        var v = $(this).val();
+        if(v){ 
+            $rows.show().filter(function() {
+                var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+    
+                return !~text.indexOf(val);
+            }).hide();
+        }else{
+            $rows.show();
+        }
+    });
+</script>
 

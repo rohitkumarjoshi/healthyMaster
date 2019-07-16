@@ -39,7 +39,6 @@
 							<th>Sr</th>
 							<th>Category</th>
 							<th>Item Code</th>
-							<th>Item ID</th>
 							<th>Item</th>
 							<th>Variation</th>
 							<th>Item Code</th>
@@ -53,7 +52,7 @@
 						$i=0;
 							foreach ($recently_boughts as $top) {
 								 $count=$top->Count;
-								 if($count > 50)
+								 if($count > 2)
                 				{
 									$i++;
 						?>
@@ -61,7 +60,6 @@
 							<td><?= $i ?></td>
 							<td><?= $top->item->item_category->name?></td>
 							<td><?= $top->item->item_code ?></td>
-							<td><?= $top->item->id ?></td>
 							<td><?= $top->item->name ?></td>
 							<td><?= $top->item_variation->quantity_variation ?></td>
 							<td><?= $top->item->item_code ?></td>

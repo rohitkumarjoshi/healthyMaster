@@ -4,7 +4,7 @@
 		<div class="portlet-title">
 			<div class="caption">
 				<i class=" fa fa-gift"></i>
-				<span class="caption-subject">Codes</span>
+				<span class="caption-subject">Promo Codes</span>
 			</div>
 			<div class="actions">
 				<input type="text" class="form-control input-sm pull-right" placeholder="Search..." id="search3"  style="width: 200px;">
@@ -48,7 +48,7 @@
 						<th>Code Type</th>
 						<th>Discount</th>
 						<th>Item Category</th>
-						<th>Item ID</th>
+						<th>Item Code</th>
 						<th>Item</th>
 						<th>Cart Value</th>
 						<th>Free Shipping</th>
@@ -83,7 +83,7 @@
 							}
 						?></td>
 						<td><?= h(@$promoCode->item_category->name) ?></td>
-						<td><?= h(@$promoCode->item->id) ?></td>
+						<td><?= h(@$promoCode->item->item_code) ?></td>
 						<td><?= h(@$promoCode->item->name) ?></td>
 						<td><?= h(@$promoCode->cart_value) ?></td>
 						<td><?php $freeship=@$promoCode->is_freeship;

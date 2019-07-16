@@ -27,6 +27,8 @@
 							<th>Mobile</th>
 							<th>Email</th>
 							<th>Address</th>
+							<th>Flat No.</th>
+							<th>Apartment</th>
 							<th>Landmark</th>
 							<th>State</th>
 							<th>City</th>
@@ -53,6 +55,14 @@
 							<?php echo $customeradd->house_no.','.$customeradd->address.','.$customeradd->locality.'  ';
 							}
 						?></td>
+							<td><?php
+								//foreach ($customer->customer_addresses as $address) {
+								echo h($customer->customer_addresses['0']->house_no);
+							?></td>
+							<td><?php
+								//foreach ($customer->customer_addresses as $address) {
+								echo h($customer->customer_addresses['0']->apartment);
+							?></td>
 							<td><?php
 								//foreach ($customer->customer_addresses as $address) {
 								echo h($customer->customer_addresses['0']->landmark);

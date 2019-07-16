@@ -24,14 +24,40 @@ background-color: #fff;}
 			<div class="portlet-title">
 				<div class="caption">
 					<i class=" fa fa-gift"></i>
-					<span class="caption-subject">CASH POINTS</span>
+					<span class="caption-subject">Customer Wallet</span>
 				</div>
 				<div class="actions">
 					<input type="text" class="form-control input-sm pull-right" placeholder="Search..." id="search3"  style="width: 200px;">
 				</div>
 			</div>
 			<div class="portlet-body">
-				
+				<form method="post">
+					<table width="50%" class="table table-condensed">
+				<tbody>
+					<tr>
+						<td width="5%">
+								<label class=" control-label">Customer <span class="required" aria-required="true">*</span></label><!-- 
+						<?php echo $this->Form->control('customer_id',['empty'=>'--Select Customer--','options' => $customers,'class'=>'form-control input-sm select2me customer_id cstmr chosen-select','label'=>false]); ?> -->
+						<input type="text" name="customer" class="form-control input-sm selectedAutoCompleted autocompleted customer_id cstmr chosen-select" valueType="item_name"  autocomplete="off">
+						<input type="hidden" name="customer_id" id="customer_id">
+						
+						 <div class="suggesstion-box"></div>
+							</td>
+						<td width="5%">
+							<label>From</label>
+							<input type="text" name="From" class="form-control input-sm date-picker" placeholder="Transaction From" value="<?php if(!empty(@$from_date)) { echo date('d-m-Y',strtotime(@$from_date)); } ?>"  data-date-format="dd-mm-yyyy">	
+						</td>	
+						<td width="5%">
+							<label>To</label>
+							<input type="text" name="To" class="form-control input-sm date-picker" placeholder="Transaction To" value="<?php if(!empty(@$to_date)) { echo date('d-m-Y',strtotime(@$to_date)); } ?>" data-date-format="dd-mm-yyyy">
+						</td>
+						<td width="10%">
+							<button type="submit" class="btn btn-success btn-sm" style="margin-top: 23px !important;"><i class="fa fa-filter"></i> Filter</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			</form>
 				<div>
 					<table class="table table-condensed table-hover table-bordered" id="main_tble">
 					<thead>

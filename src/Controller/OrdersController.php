@@ -15,11 +15,38 @@ use App\Controller\AppController;
 class OrdersController extends AppController
 {
 
+	public function gstReports()
+	{
+		$this->viewBuilder()->layout('index_layout'); 
+		$gsts=$this->Orders->OrderDetails->find()
+		->where(['Orders.invoice_no !='=>' '])
+		->contain(['Orders'=>['CustomerAddresses'=>['States']],'Items'=>['GstFigures','ItemCategories'],'ItemVariations'=>['Units']]);
+		if ($this->request->is('post')) {
+            $datas = $this->request->getData();
+            if(!empty($datas['item_id']))
+            {
+                $gsts->where(['OrderDetails.item_id'=>$datas['item_id']]);
+                //pr($datas['customer_id']);
+                //pr($Carts->toArray());exit;
+            }
+             if(!empty($datas['From'])){
+                $from_date=date("Y-m-d",strtotime($datas['From']));
+                $gsts->where(['Orders.invoice_date >='=> $from_date]);
+            }
+            if(!empty($datas['To'])){ 
+                $to_date=date("Y-m-d",strtotime($datas['To']));
+                $gsts->where(['Orders.invoice_date <=' => $to_date ]);
+            }
+        }
+		$items=$this->Orders->OrderDetails->Items->find('list')->where(['freeze'=>0]);
+		//pr($gsts->toArray());exit;
+		$this->set(compact('gsts','items'));
+	}
 	public function oreport()
     {
         $this->viewBuilder()->layout('index_layout'); 
         //$order=$this->Orders->OrderDetails->newEntity();
-        $orders=$this->Orders->OrderDetails->find()->contain(['Orders'=>['CustomerAddresses','Customers'],'Items']);
+        $orders=$this->Orders->OrderDetails->find()->contain(['Orders'=>['CustomerAddresses'=>['Cities','States'],'Customers'],'Items'=>['ItemCategories'],'ItemVariations']);
          if ($this->request->is('post')) {
             $datas = $this->request->getData();
             if(!empty($datas['apartment']))
@@ -31,11 +58,11 @@ class OrdersController extends AppController
            
             if(!empty($datas['From'])){
                 $from_date=date("Y-m-d",strtotime($datas['From']));
-                $orders->where(['Orders.current_date >='=> $from_date]);
+                $orders->where(['Orders.order_date >='=> $from_date]);
             }
             if(!empty($datas['To'])){ 
                 $to_date=date("Y-m-d",strtotime($datas['To']));
-                $orders->where(['Orders.current_date <=' => $to_date ]);
+                $orders->where(['Orders.order_date <=' => $to_date ]);
             }
         }
         $this->set(compact('orders'));
@@ -94,6 +121,27 @@ class OrdersController extends AppController
     	$used_promo=$this->Orders->find()
     	->where(['promo_code_id >'=>0])
     	->contain(['PromoCodes','Customers']);
+    	if ($this->request->is('post')) {
+            $datas = $this->request->getData();
+            if(!empty($datas['customer_id']))
+            {
+                $used_promo->where(['Orders.customer_id'=>$datas['customer_id']]);
+                //pr($datas['customer_id']);
+                //pr($Carts->toArray());exit;
+            }
+             if(!empty($datas['order_no']))
+            {
+                $used_promo->where(['Orders.order_no'=>$datas['item_id']]);
+            }
+            if(!empty($datas['From'])){
+                $from_date=date("Y-m-d",strtotime($datas['From']));
+                $used_promo->where(['Orders.created_on >='=> $from_date]);
+            }
+            if(!empty($datas['To'])){ 
+                $to_date=date("Y-m-d",strtotime($datas['To']));
+                $used_promo->where(['Orders.created_on <=' => $to_date ]);
+            }
+        }
     	//pr($used_promo->toArray());exit;
     	$this->set(compact(['used_promo']));
     }

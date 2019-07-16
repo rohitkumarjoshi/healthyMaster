@@ -573,47 +573,46 @@ class ItemLedgersController extends AppController
 		$jain_thela_admin_id=$this->Auth->User('jain_thela_admin_id');
 		$this->viewBuilder()->layout('index_layout');
 
-		$query = $this->ItemLedgers->find()->where(['created_on'=>'2019-07-09 10:31:49']);
+		$transaction_date=date('Y-m-d');
+		//$transaction_date='2019-07-17';
+		$ItemLedgersData = $this->ItemLedgers->find()->select(['item_id','item_variation_id','status','quantity','transaction_date'])
+		->where(['ItemLedgers.transaction_date < '=>$transaction_date])
+		->orWhere(['ItemLedgers.transaction_date'=>$transaction_date,'ItemLedgers.rate_updated'=>'yess']);
+        
+        $ItemLedgersData->select(['total_op_qt' => $ItemLedgersData->func()->sum('ItemLedgers.quantity')])
+       ->group(['ItemLedgers.item_variation_id','ItemLedgers.status'])
+        ;
 
-		$totalInWarehouseCase = $query->newExpr()
-			->addCase(
-				$query->newExpr()->add(['status' => 'In', 'warehouse_id']),
-				$query->newExpr()->add(['quantity']),
-				'integer'
-			);
-		$totalOutWarehouseCase = $query->newExpr()
-			->addCase(
-				$query->newExpr()->add(['status' => 'out','warehouse_id']),
-				$query->newExpr()->add(['quantity']),
-				'integer'
-			);
-		// $totalInDriverCase = $query->newExpr()
-		// 	->addCase(
-		// 		$query->newExpr()->add(['status' => 'In', 'driver_id']),
-		// 		$query->newExpr()->add(['quantity']),
-		// 		'integer'
-		// 	);
-		// $totalOutDriverCase = $query->newExpr()
-		// 	->addCase(
-		// 		$query->newExpr()->add(['status' => 'out', 'driver_id']),
-		// 		$query->newExpr()->add(['quantity']),
-		// 		'integer'
-		// 	);
-		$query->select([
-			'totalInWarehouse' => $query->func()->sum($totalInWarehouseCase),
-			'totalOutWarehouse' => $query->func()->sum($totalOutWarehouseCase)
-			// 'totalInDriver' => $query->func()->sum($totalInDriverCase),
-			// 'totalOutDriver' => $query->func()->sum($totalOutDriverCase),'id','ItemLedgers.item_id'
-		])
-		->where(['Items.freeze'=>0])
-		->group(['ItemLedgers.item_id','ItemLedgers.item_variation_id'])
-		->autoFields(true)
-		->contain(['ItemVariations'=>['Units'],'Items'=>['itemCategories']])->order(['Items.name' => 'ASC']);
+        $itemVarOpeningQt=[];
+        foreach($ItemLedgersData as $data){ 
+        	if($data->status=="In"){
+        		@$itemVarOpeningQt[$data->item_variation_id]+=$data->total_op_qt;
+        	}else{
+        		@$itemVarOpeningQt[$data->item_variation_id]-=$data->total_op_qt;
+        	}
+        	
+        }
+    //
+        $ItemLedgersDataNew = $this->ItemLedgers->find()->select(['item_id','item_variation_id','status','quantity','transaction_date','purchase_booking_id','wastage','order_id'])->where(['ItemLedgers.transaction_date'=>$transaction_date]);
+        
+        $ItemLedgersDataNew->select(['total_qt' => $ItemLedgersDataNew->func()->sum('ItemLedgers.quantity')])
+       ->group(['ItemLedgers.item_variation_id','ItemLedgers.purchase_booking_id','ItemLedgers.wastage','ItemLedgers.order_id'])
+        ;
 
-		$itemLedgers=$query;
+        $itemPurchaseQt=[];
+        $itemSaleQt=[];
+        foreach($ItemLedgersDataNew as $data){ 
+        	if($data->purchase_booking_id > 0 ){
+        		@$itemPurchaseQt[$data->item_variation_id]+=$data->total_qt;
+        	}else if($data->order_id > 0 ){
+        		@$itemSaleQt[$data->item_variation_id]+=$data->total_qt;
+        	}
+        }
+        
+		$ItemVariations = $this->ItemLedgers->ItemVariations->find()->contain(['Items','Units']);
 
 		//pr($itemLedgers->toArray());exit;
-		$this->set(compact('itemLedgers','url'));
+		$this->set(compact('itemLedgers','url','itemVarOpeningQt','ItemVariations','itemPurchaseQt','itemSaleQt'));
     }
 
 	public function exportExcelStk(){
