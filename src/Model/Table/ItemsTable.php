@@ -56,6 +56,10 @@ class ItemsTable extends Table
 		$this->hasMany('ItemLedgers', [
             'foreignKey' => 'item_id'
         ]);
+		$this->hasMany('ItemRows', [
+            'foreignKey' => 'item_id',
+			'joinType' => 'LEFT'
+        ]);
 		
 		$this->hasMany('ItemVariations');
 		$this->hasOne('Carts', [

@@ -60,6 +60,18 @@
 					<div class="col-md-3 gst_show">
 						<?php echo $this->Form->control('gst_figure_id', ['options' => $GstFigures,'class'=>'form-control input-sm attribute']); ?>
 					</div>
+					<div class="col-md-3">
+						<?php echo $this->Form->control('hsn_code', ['class'=>'form-control input-sm','placeholder'=>'HSN Code']); ?>
+					</div>
+					<div class="col-md-3">
+						<label class=" control-label">Item Keyword </label>
+						<?php
+						foreach($item->item_rows as $item_row){
+							$item_row_id[]=$item_row->item_category_id;
+						}
+						
+						echo $this->Form->control('item_keyword[]', ['empty'=>'--select--','options' => $keywords,'class'=>'form-control input-sm select2me','multiple','label'=>false,'value'=>$item_row_id]); ?>
+					</div>
 				</div>
 					
 				<div class="row">
