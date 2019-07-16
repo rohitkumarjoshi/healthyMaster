@@ -34,6 +34,7 @@
 				</div><br/>
 				<div class="row" style="margin-top: 15px;">
 					<div class="col-md-3">
+					
 						<?php echo $this->Form->control('description', ['class'=>'form-control input-sm','placeholder'=>'Description']); ?>
 						<input type="hidden" name="is_virtual" value="real">
 					</div>
@@ -51,6 +52,13 @@
 				<div class="row" style="margin-top: 10px;">
 					<div class="col-md-3 gst_show">
 						<?php echo $this->Form->control('gst_figure_id', ['options' => $GstFigures,'class'=>'form-control input-sm attribute']); ?>
+					</div>
+					<div class="col-md-3">
+						<?php echo $this->Form->control('hsn_code', ['class'=>'form-control input-sm','placeholder'=>'HSN Code']); ?>
+					</div>
+					<div class="col-md-3">
+						<label class=" control-label">Item Keyword </label>
+						<?php echo $this->Form->control('item_keyword[]', ['empty'=>'--select--','options' => $keywords,'class'=>'form-control input-sm select2me','multiple','label'=>false]); ?>
 					</div>
 				</div>
 					

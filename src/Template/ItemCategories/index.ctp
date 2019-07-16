@@ -1,3 +1,11 @@
+<?php
+/**
+ * @var \App\View\AppView $this
+ * @var \App\Model\Entity\ItemCategory[]|\Cake\Collection\CollectionInterface $itemCategories
+ */
+?>
+
+
 <div class="row">
 	<div class="col-md-5 col-sm-5">
 		<div class="portlet light bordered">
@@ -5,8 +13,8 @@
 				<div class="caption">
 					<i class="font-purple-intense"></i>
 					<span class="caption-subject font-purple-intense ">
-						<?php 
-						if(!empty($itemCategory->id)){ ?> EDIT ITEM CATEGORY
+						<?php  
+						if(!empty($itemCategory1->id)){ ?> EDIT ITEM CATEGORY
 						<?php }else{ ?>ADD ITEM CATEGORY
 						<?php } ?>
 					</span>
@@ -18,16 +26,21 @@
 				</div>
 			</div>
 			<div class="portlet-body">
-				<?= $this->Form->create($itemCategory,['type'=>'file','id'=>'form_sample_3']) ?>
+				<?= $this->Form->create($itemCategory1,['type'=>'file','id'=>'form_sample_3']) ?>
 				<div class="row">
 					<div class="col-md-8">
 						<label class=" control-label">Item Category <span class="required" aria-required="true">*</span></label>
 						<?php echo $this->Form->control('name',['placeholder'=>'Item Category name','class'=>'form-control input-sm','label'=>false]); ?>
 					</div>
+					<div class="col-md-8">
+						<label class=" control-label">Parent Category </label>
+							<?php echo $this->Form->control('parent_id', ['empty'=>'--select--','options' => $itemParent,'class'=>'form-control input-sm','label'=>false]); ?>
+						
+					</div>
 					<div class="col-md-8" style="margin-top: 10px;">
 						<label class=" control-label">Image<span class="required" aria-required="true"></span></label>
-						 <!-- <?= $this->Form->input('image',['class'=>'form-control','type'=>'file','value'=>$itemCategory->image]) ?> -->
-						 <input type="file" name="image" class="form-control input-sm" value="<?=$itemCategory->image?>">
+						 <!-- <?= $this->Form->input('image',['class'=>'form-control','type'=>'file','value'=>$itemCategory1->image]) ?> -->
+						 <input type="file" name="image" class="form-control input-sm" value="<?=$itemCategory1->image?>">
 					</div>
 				</div>
 				<br/>
@@ -54,6 +67,7 @@
 							<tr>
 								<th><?=  h('Sr.no') ?></th>
 								<th><?=  h('Category Name') ?></th>
+								<th><?=  h('Parent') ?></th>
 								<th><?=  h('Image') ?></th>
 								<th class="actions"><?= __('Actions') ?></th>
 							</tr>
@@ -67,6 +81,7 @@
 							<tr>
 								<td><?= h($k) ?></td>
 								<td><?= h($itemCategory->name) ?></td>
+								<td><?= h(@$itemCategory->parent_item_category->name) ?></td>
 								<td>
 						    	<?=	$this->Html->image('/img/itemcategories/'.$itemCategory->image, ['style'=>'width:50px; height:50px;']); ?>
 								</td>

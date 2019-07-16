@@ -126,12 +126,13 @@ class ItemsController extends AppController
         $item = $this->Items->newEntity();
         if ($this->request->is('post')) {
 			
-			$query = $this->Items->find();
+			/* $query = $this->Items->find();
 			$item_codes=$query->select(['max_value' => $query->func()->max('item_code')])->toArray();
 			$item_code=$item_codes[0]->max_value+1;
-		    $this->request->data['item_code']=$item_code;
+		    $this->request->data['item_code']=$item_code; */
 			
-            //pr($data);
+			$item_keywords=$this->request->data['item_keyword'];
+          
             $data=$this->request->data;
 			$item = $this->Items->patchEntity($item,$data,['associated'=>['ItemVariations']]);
             //pr($item->toArray());exit;
@@ -150,15 +151,25 @@ class ItemsController extends AppController
 				
 			}
 			
-			
-		 
-			//pr($item);exit;
 			if ($this->Items->save($item))
-       {
-
+			{
+				if(!empty($item_keywords)){
+					
+					foreach($item_keywords as $item_keyword){
+					 $ItemRows=$this->Items->ItemRows->newEntity();
+					 $ItemRows->item_id=$item->id;
+					 $ItemRows->item_category_id=$item_keyword;
+					 $ItemRows->status=0;
+					 $this->Items->ItemRows->save($ItemRows);	
+					
+					}
+				}
 
                 foreach($item->item_variations as $variation)
                 {
+					
+					
+					
                     if(($variation->opening_stock != 0 )|| ($variation->opening_stock != null))
                     { 
                         $query = $this->Items->ItemLedgers->query();
@@ -176,7 +187,7 @@ class ItemsController extends AppController
                             'status' => 'In',
                             'quantity' => $variation->opening_stock,
                             'rate_updated' => 'ok',
-                            'transaction_date'=>$variation->transaction_date
+                            'transaction_date'=>date('Y-m-d')
                         ]);
                         $query->execute();
                       }
@@ -202,16 +213,23 @@ class ItemsController extends AppController
             $this->Flash->error(__('The item could not be saved. Please, try again.'));
         }
 		
-       $GstFigures= $this->Items->GstFigures->find('list');
+        $Keyword_itemCategories= $this->Items->itemCategories->find()->where(['itemCategories.id'=>2])
+		->contain(['ChildItemCategories'])->first();
+		foreach($Keyword_itemCategories->child_item_categories as $data){
+			$keywords[$data->id]=$data->name;
+		}
+	  // pr($Keyword_itemCategories); exit;
+		 $GstFigures= $this->Items->GstFigures->find('list');
 		
-		$itemCategories = $this->Items->ItemCategories->find('list')->where(['is_deleted'=>0,'jain_thela_admin_id'=>$jain_thela_admin_id]);
+		$itemCategories = $this->Items->ItemCategories->find('list')->where(['is_deleted'=>0]);
+		//pr($itemCategories->toArray()); exit;
         $units = $this->Items->ItemVariations->Units->find()->where(['is_deleted'=>0]);
         $item_fetchs = $this->Items->find('list')->where(['freeze'=>0]);
 		foreach($units as $unit_data){
 			$unit_name=$unit_data->unit_name;
 			$unit_option[]= ['value'=>$unit_data->id,'text'=>$unit_data->shortname,'unit_name'=>$unit_name];
 		}
-        $this->set(compact('item', 'itemCategories', 'units', 'unit_option', 'item_fetchs','GstFigures'));
+        $this->set(compact('item', 'itemCategories', 'units', 'unit_option', 'item_fetchs','GstFigures','keywords'));
         $this->set('_serialize', ['item']);
     }
 
@@ -227,10 +245,12 @@ class ItemsController extends AppController
 		$this->viewBuilder()->layout('index_layout');
 		$jain_thela_admin_id=$this->Auth->User('jain_thela_admin_id');
         $item = $this->Items->get($id,  [
-            'contain' => ['ItemVariations']]
+            'contain' => ['ItemVariations','ItemRows']]
         );
 		$old_image_name=$item->image;
         if ($this->request->is(['patch', 'post', 'put'])) {
+			
+			$item_keywords=$this->request->data['item_keyword'];
 			
 			$file = $this->request->data['image'];	
 			$file_name=$file['name'];
@@ -280,6 +300,25 @@ class ItemsController extends AppController
 			// 		$item->minimum_quantity_factor=1;
 			// }
 			if ($this->Items->save($item)) {
+				
+				if(!empty($item_keywords)){
+					$ItemRowsdatas=$this->Items->ItemRows->find()->where(['item_id'=>$item->id]);
+					foreach($ItemRowsdatas as $ItemRowsdata){
+						$delItemRows=$this->Items->ItemRows->get($ItemRowsdata->id);
+						$this->Items->ItemRows->delete($delItemRows);
+					}
+					
+					foreach($item_keywords as $item_keyword){
+					 $ItemRows=$this->Items->ItemRows->newEntity();
+					 $ItemRows->item_id=$item->id;
+					 $ItemRows->item_category_id=$item_keyword;
+					 $ItemRows->status=0;
+					 $this->Items->ItemRows->save($ItemRows);	
+					
+					}
+				}
+				
+				
 				if(!empty($file_name)){
 					 if (in_array($ext, $arr_ext)) {
                          $destination_url = WWW_ROOT . 'img/temp/'.$img_name;
@@ -300,7 +339,11 @@ class ItemsController extends AppController
             }
             $this->Flash->error(__('The item could not be saved. Please, try again.'));
         }
-		
+		$Keyword_itemCategories= $this->Items->itemCategories->find()->where(['itemCategories.id'=>2])
+		->contain(['ChildItemCategories'])->first();
+		foreach($Keyword_itemCategories->child_item_categories as $data){
+			$keywords[$data->id]=$data->name;
+		}
 		$GstFigures= $this->Items->GstFigures->find('list');
 		
 		$itemCategories = $this->Items->ItemCategories->find('list', ['limit' => 200]);
@@ -311,7 +354,7 @@ class ItemsController extends AppController
 		// 	$unit_option[]= ['value'=>$unit_data->id,'text'=>$unit_data->shortname,'unit_name'=>$unit_name];
 		// }
         $variations = $this->Items->ItemVariations->find()->where(['item_id'=>$id])->contain(['Units','Items']);
-        $this->set(compact('item', 'itemCategories', 'units','item_fetchs','variations','GstFigures'));
+        $this->set(compact('item', 'itemCategories', 'units','item_fetchs','variations','GstFigures','keywords'));
         $this->set('_serialize', ['item']);
     }
 
