@@ -19,6 +19,8 @@ class VendorsController extends AppController
      * @return \Cake\Http\Response|null
      */
 
+   
+
      public function check()
     {
        
@@ -34,7 +36,7 @@ class VendorsController extends AppController
 		
 		$this->viewBuilder()->layout('index_layout');
 		$jain_thela_admin_id=$this->Auth->User('jain_thela_admin_id');
-		$vendors = $this->Vendors->find()->where(['Vendors.jain_thela_admin_id'=>$jain_thela_admin_id])->contain(['States','Cities']);  
+		$vendors = $this->Vendors->find()->contain(['States','Cities']);  
 		//$franchises = $this->Vendors->Franchises->find('list', ['limit' => 200]);
         $this->set(compact('vendors'));
         $this->set('_serialize', ['vendors']);

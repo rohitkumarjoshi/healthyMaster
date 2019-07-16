@@ -24,7 +24,7 @@
 					</div>
 					<div class="col-md-4">
 						<label class=" control-label">vendor <span class="required" aria-required="true">*</span></label>
-						<?php echo $this->Form->control('vendor_id',['options' => $vendors,'class'=>'form-control input-sm','label'=>false]); ?>
+						<?php echo $this->Form->control('vendor_id',['empty'=>'--Select--','options' => $vendors,'class'=>'form-control input-sm vendor','label'=>false]); ?>
 					</div>
 					<div class="col-md-4">
 						<label class=" control-label">Warehouse <span class="required" aria-required="true">*</span></label>
@@ -101,6 +101,36 @@
 <script>
 $(document).ready(function() {
 
+	$(document).on('change','.vendor',function(){
+		var input=$(this).val();
+
+        var master = $(this); 
+         $("#main_table tbody#main_tbody tr.main_tr").each(function(){
+			$(this).find("td:nth-child(2) .item-id option ").remove();
+		});
+		//alert(input);
+		if(input.length>0){
+            var m_data = new FormData();
+            var url ="<?php echo $this->Url->build(["controller" => "VendorRows", "action" => "options"]); ?>";
+         //   alert(url);
+            m_data.append('input',input); 
+            $.ajax({
+                url: url,
+                data: m_data,
+                processData: false,
+                contentType: false,
+                type: 'POST',
+                dataType:'text',
+                success: function(response)
+                { 
+                	//alert(response);
+					$("#main_table tbody#main_tbody tr.main_tr").each(function(){
+						$(this).find("td:nth-child(2) .item-id").append(response);
+					});
+                }
+            });
+            }
+	});
 
 	$(document).on('change','.show_quantity',function(){
 		//alert();
@@ -502,7 +532,11 @@ function selectAutoCompleted1(value) {
 				<tr class="main_tr" class="tab">
 					<td align="center" width="1px"></td>
 				    <td>
-				    	<?php echo $this->Form->control('item_id',['empty'=>'--Select Item--','options' => $items,'class'=>'form-control input-sm chosen-select item-id','label'=>false]); ?>
+				    	
+				    	<select name="item_id" class="form-control input-sm chosen-select item-id">
+							
+							
+						</select>
 
 					</td>
 					<td>
