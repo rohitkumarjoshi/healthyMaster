@@ -15,7 +15,7 @@
 					<?php echo $this->Html->link( '<i class="fa fa-file-excel-o"></i> Excel', '/ItemLedgers/Export-Excel-Stk/'.@$url_excel.'',['class' =>'btn btn-sm green tooltips pull-right','target'=>'_blank','escape'=>false,'data-original-title'=>'Download as excel']); ?>
 
 
-					<input type="text" class="form-control input-sm pull-right" placeholder="Search..." id="search3"  style="width: 200px;margin-right: 5px;">
+					
 					
 				</div>
 			</div>
@@ -63,35 +63,28 @@
 								</tr>
 							</thead>
 							<tbody id='main_tbody' class="tab">
-						<?php foreach($itemLedgers as $itemLedger){
+						<?php $i=0; foreach($ItemVariations as $ItemVariation){
 							
-								// $item_freeze=$itemLedger->item->freeze;
-								// if($item_freeze==1){
-								// 	continue;
-								// }
-								// $driver_stock=number_format($itemLedger->totalInDriver-$itemLedger->totalOutDriver, 2);
-								$warehouse_stock=number_format($itemLedger->totalInWarehouse-$itemLedger->totalOutWarehouse, 2);
-								@$i++;
-								$in=$itemLedger->item_variation->opening_stock + $itemLedger->totalInWarehouse;
 								
-								if($warehouse_stock!= 0) {
+								if(@$itemVarOpeningQt[$ItemVariation->id] > 0 || @$itemPurchaseQt[$ItemVariation->id] > 0 ) { $i++;
 								?>
 									<tr class="main_tr" class="tab">
 										<td width="1px"><?= $i ?>.</td>
 										<td>
-											<a href="#" role="button" class="stock_show" itm="<?= $itemLedger->item_id ?>"><?= $itemLedger->item->name ?></a>	
+											<a href="#" role="button" class="stock_show" itm="<?= $ItemVariation->item_id ?>"><?= $ItemVariation->item->name ?></a>	
 										</td>
-										<td><?= $itemLedger->item->item_code?></td>
+										<td><?= $ItemVariation->item->item_code?></td>
 										<td>
-											<?= $itemLedger->item_variation->quantity_variation.' '.$itemLedger->item_variation->unit->shortname ?>
+											<?= $ItemVariation->quantity_variation.' '.$ItemVariation->unit->shortname ?>
 										</td>
-										<td><?= $itemLedger->item_variation->opening_stock ?></td>
-										<td><?= $itemLedger->totalInWarehouse ?></td>
-										<td></td>
-										<td></td>
-										<td><?= $in  ?></td>
-										<td><?= $itemLedger->totalOutWarehouse ?></td>
-										<td><?= $in-$itemLedger->totalOutWarehouse ?></td>
+										<td><?= @$itemVarOpeningQt[$ItemVariation->id] ?></td>
+										<td><?= @$itemPurchaseQt[$ItemVariation->id] ?></td>
+										<td>-</td>
+										<td>-</td>
+										<td><?= @$itemVarOpeningQt[$ItemVariation->id]+@$itemPurchaseQt[$ItemVariation->id] ?></td>
+										<td><?= @$itemSaleQt[$ItemVariation->id] ?></td>
+										<td><?= @$itemVarOpeningQt[$ItemVariation->id]+@$itemPurchaseQt[$ItemVariation->id]-@$itemSaleQt[$ItemVariation->id] ?></td>
+										
 									</tr>
 								<?php } 
 								} ?>

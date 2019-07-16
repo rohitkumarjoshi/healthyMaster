@@ -8,6 +8,25 @@
                 </div>
             </div>
             <div class="portlet-body">
+                <form method="post">
+                        <table width="50%" class="table table-condensed">
+                    <tbody>
+                        <tr>
+                            <td width="5%">
+                                <label>From</label>
+                                <input type="text" name="From" class="form-control input-sm date-picker" placeholder="Transaction From"  data-date-format="dd-mm-yyyy" autocomplete="false">
+                            </td>   
+                            <td width="5%">
+                                <label>To</label>
+                                <input type="text" name="To" class="form-control input-sm date-picker" placeholder="Transaction To"   data-date-format="dd-mm-yyyy" >
+                            </td>
+                            <td width="10%">
+                                <button type="submit" class="btn btn-success btn-sm" style="margin-top: 23px !important;"><i class="fa fa-filter"></i> Filter</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                </form>
                 <table class="table table-striped table-hover table-bordered" id="sample_editable_1">
                     <thead>
                         <tr>
@@ -39,8 +58,22 @@
         </div>
     </div>
 </div>
-<?= $this->element('selectpicker') ?>
-<?= $this->element('validate') ?>
-<?= $this->element('datepicker') ?>
+<?php echo $this->Html->script('/assets/global/plugins/jquery.min.js'); ?>
+<script>
+var $rows = $('#main_tble tbody tr');
+    $('#search3').on('keyup',function() {
+        var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+        var v = $(this).val();
+        if(v){ 
+            $rows.show().filter(function() {
+                var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+    
+                return !~text.indexOf(val);
+            }).hide();
+        }else{
+            $rows.show();
+        }
+    });
+</script>
 
 

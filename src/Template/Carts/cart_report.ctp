@@ -64,7 +64,6 @@ background-color: #fff;}
 							<th>Customer ID</th>
 							<th>Customer</th>
 							<!-- <th>Item Variation</th> -->
-							<th>Item ID</th>
 							<th>Item Code</th>
 							<th>Item</th>
 							<th>Variation</th>
@@ -85,7 +84,6 @@ background-color: #fff;}
 							<td><?= h(@$Cart->customer->id) ?></td>
 							<td><?= h(@$Cart->customer->name) ?></td>
 							<!-- <td><?= h(@$Cart->item_variation->name) ?></td> -->
-							<td><?= h(@$Cart->item->id) ?></td>
 							<td><?= h(@$Cart->item->item_code) ?></td>
 							<td><?= h(@$Cart->item->name) ?></td>
 							<td><?= h(@$Cart->item_variation->quantity_variation) ." ".  h(@$Cart->item_variation->unit->shortname) ?></td>

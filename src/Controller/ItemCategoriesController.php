@@ -17,7 +17,34 @@ class ItemCategoriesController extends AppController
      *
      * @return \Cake\Http\Response|void
      */
-    public function index($id=null)
+
+    public function topSelling()
+    {
+        $this->viewBuilder()->layout('index_layout');
+       $recently_boughts=$this->ItemCategories->Items->ItemLedgers->find()
+                        ->select(['Count'=>'count(ItemLedgers.item_id)','ItemCategories.name','Items.id','Items.name','ItemVariations.quantity_variation','Items.item_code','ItemLedgers.rate'])
+                        ->where(['status'=>'out'])
+                        ->group(['ItemLedgers.item_id','ItemLedgers.item_variation_id'])
+                        ->contain(['Items'=>['ItemCategories'],'ItemVariations']);
+
+            
+           //pr($recently_boughts->toArray());exit;
+        if ($this->request->is('post')) {
+            $datas = $this->request->getData();
+           
+            if(!empty($datas['From'])){
+                $from_date=date("Y-m-d",strtotime($datas['From']));
+                $recently_boughts->where(['ItemLedgers.created_on >='=> $from_date]);
+            }
+            if(!empty($datas['To'])){ 
+                $to_date=date("Y-m-d",strtotime($datas['To']));
+                $recently_boughts->where(['ItemLedgers.created_on <=' => $to_date ]);
+            }
+        }
+        $this->set(compact('recently_boughts'));
+    }
+
+   	public function index($id=null)
     {
       $city_id=$this->Auth->User('city_id');
 	  $this->viewBuilder()->layout('index_layout');

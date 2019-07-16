@@ -24,6 +24,18 @@ class FeedbacksController extends AppController
         $this->viewBuilder()->layout('index_layout'); 
         $feedback=$this->Feedbacks->newEntity();
         $feedbacks=$this->Feedbacks->find()->contain(['Customers']);
+         if ($this->request->is('post')) {
+            $datas = $this->request->getData();
+           
+            if(!empty($datas['From'])){
+                $from_date=date("Y-m-d",strtotime($datas['From']));
+                $feedbacks->where(['Feedbacks.created_on >='=> $from_date]);
+            }
+            if(!empty($datas['To'])){ 
+                $to_date=date("Y-m-d",strtotime($datas['To']));
+                $feedbacks->where(['Feedbacks.created_on <=' => $to_date ]);
+            }
+        }
         $this->set(compact('feedback','feedbacks'));
     }
 

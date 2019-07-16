@@ -90,6 +90,7 @@ class VendorRowsController extends AppController
      */
     public function edit($id = null)
     {
+         $this->viewBuilder()->layout('index_layout');
         $vendorRow = $this->VendorRows->get($id, [
             'contain' => []
         ]);
