@@ -201,11 +201,14 @@ class ItemCategoriesController extends AppController
 	public function categoryList()
 	{
 		$customer_id=$this->request->query('customer_id');
-	    $categoryList = $this->ItemCategories->find('All')->contain(['Items'=>function($q){
+	   /*  $categoryList = $this->ItemCategories->find('All')->contain(['Items'=>function($q){
 	    	return $q->where(['Items.is_combo'=>'no', 'Items.freeze'=>0, 'Items.ready_to_sale'=>'Yes']);
 	    }])->where(['ItemCategories.is_deleted'=>0]);
 		$categoryList->select(['image_url' => $categoryList->func()->concat(['http://healthymaster.in'.$this->request->webroot.'itemcategories/','image' => 'identifier' ])])->autoFields(true);		
-		
+		 */
+		 
+		  $categoryList = $this->ItemCategories->find()->where(['ItemCategories.is_deleted'=>0,'ItemCategories.parent_id IS'=>NULL])->contain(['ChildItemCategories']);
+		// pr($categoryList->toArray()); exit;
 		$cart_count = $this->ItemCategories->Carts->find('All')->where(['Carts.customer_id'=>$customer_id])->count();	
 		$status=true;
 		$error="Category List Successfully";
