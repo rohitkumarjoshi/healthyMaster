@@ -30,6 +30,34 @@ class ItemsController extends AppController
 		$this->set(compact('status', 'error','categoryDetails'));
 		$this->set('_serialize', ['status', 'error','categoryDetails']);			
 	}
+	
+	public function itemkeyword(){
+		$item_category_id=$this->request->query('item_category_id');
+		$customer_id=$this->request->query('customer_id'); 
+		$ItemRows = $this->Items->ItemRows->find()
+		->where(['ItemRows.item_category_id'=>$item_category_id])
+		->contain(['Items'=>['ItemVariations'=>function($q) use($customer_id) {
+						return $q->where(['ready_to_sale' =>'Yes'])
+						->contain(['Units','Carts'=>
+							function($q) use($customer_id){
+								return $q->where(['customer_id'=>$customer_id]);
+						}]);
+					}]]);
+		if($ItemRows->toArray()){
+			$status=true;
+			$error="data found";
+		}else{
+			$status=false;
+			$error="No data found";
+		}
+		$cart_count = $this->Items->Carts->find('All')->where(['Carts.customer_id'=>$customer_id])->count();
+		$this->set(compact('status', 'error','ItemRows','cart_count'));
+		$this->set('_serialize', ['status', 'error','cart_count','ItemRows']);
+		
+		
+	}
+	
+	
     public function item()
     {
 		$isViewAll=$this->request->query('isViewAll');
@@ -129,6 +157,9 @@ class ItemsController extends AppController
 			$this->set('_serialize', ['status', 'error','cart_count','categoryImage','items','categoryDetails']);			
 		}
     }
+	
+	
+	
 
 	public function itemdescription()
     {

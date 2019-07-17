@@ -82,6 +82,10 @@ Router::prefix('api', function ($routes) {
 				   'action' => 'item',
 				   'method' => 'GET'
 			   ],
+			   'itemkeyword' => [
+				   'action' => 'itemkeyword',
+				   'method' => 'GET'
+			   ],
 			   'itemdemo' => [
 				   'action' => 'getItem',
 				   'method' => 'GET'
