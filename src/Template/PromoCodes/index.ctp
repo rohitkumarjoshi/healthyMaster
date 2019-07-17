@@ -51,7 +51,7 @@
 			<div class="row" style="margin-top: 10px;">
 				<div class="col-md-3">
 					<label class=" control-label">Discount</label>
-					<?php echo $this->Form->control('discount_per',['placeholder'=>'Discount','class'=>'form-control input-sm','label'=>false]); ?>
+					<?php echo $this->Form->control('discount_per',['placeholder'=>'Discount','class'=>'form-control input-sm','label'=>false,'id'=>'discount']); ?>
 				</div>
 				<div class="col-md-3">
 					<?php echo $this->Form->control('item_category_id', ['empty'=>'-- select --','options' => $itemCategories,'class'=>'form-control input-sm select category select2me select2','id'=>'category']); ?>
@@ -181,6 +181,13 @@ function ValidateEndDate() {
 
 function myFunction(val) {
 	//alert(val);
+	if(val=="On Cart Value")
+	{
+		$('#cart').attr('required','required');
+		$('#item').removeAttr('required','required');
+		$('#category').removeAttr('required','required');
+		$('#freeship').removeAttr('required','required');
+	}
 	if(val =="Item Wise")
 	{
 		$('#item').attr('required','required');
@@ -202,13 +209,7 @@ function myFunction(val) {
 		$('#category').removeAttr('required','required');
 		$('#cart').removeAttr('required','required');
 	}
-	if(val=="On Cart Value")
-	{
-		$('#cart').attr('required','required');
-		$('#item').removeAttr('required','required');
-		$('#category').removeAttr('required','required');
-		$('#freeship').removeAttr('required','required');
-	}
+	
 
 
 }
@@ -245,7 +246,27 @@ $(document).on('change','.code',function()
             }
 });
 $(document).ready(function() {
+	var radioValue = $("input[name='amount_type']:checked"). val();
+	//alert(radioValue);
+	if(radioValue == "percent")
+	{
+		$('#discount').attr('maxlength','2')
+	}
+	$('.virt').on('click',function(){
+		var radioValue = $(this). val();
 
+		//alert(radioValue);
+		if(radioValue == "percent")
+	{
+		$('#discount').attr('maxlength','2')
+	}
+	if(radioValue == "amount")
+	{
+		$('#discount').attr('maxlength','200')
+	}
+	});
+
+	
 	$('#start_date').on("change",function() {
       var po_date= $(this).val();
 

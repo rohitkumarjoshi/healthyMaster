@@ -124,9 +124,7 @@ $(document).ready(function() {
                 success: function(response)
                 { 
                 	//alert(response);
-					$("#main_table tbody#main_tbody tr.main_tr").each(function(){
-						$(this).find("td:nth-child(2) .item-id").append(response);
-					});
+						$(".item-id").html(response);
                 }
             });
             }

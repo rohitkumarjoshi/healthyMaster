@@ -22,11 +22,13 @@ class VendorRowsController extends AppController
 
             $item=$this->VendorRows->find()->where(['VendorRows.vendor_id '=>$vendor_id])->contain(['Items']);
             ?>
+            <select  class="form-control input-sm chosen-select item-id">
                     <option>--Select--</option>
                     <?php foreach($item as $show){ ?>
                         
                         <option value="<?= $show->item_id ?>"><?= $show->item->name ?></option>
                     <?php } ?>
+                    </select>
             <?php
         
         exit;  

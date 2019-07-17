@@ -1276,7 +1276,7 @@ class OrdersController extends AppController
 			$minimum_quantity_purchase=$item_fetch->minimum_quantity_purchase;
 			$is_combo=$item_fetch->is_combo;
 			
-			$items[]= ['value'=>$item_fetch->id,'text'=>" (".$item_code.")".$item_name, 'print_quantity'=>$print_quantity, 'rates'=>$rates,'sales_rate' =>$sales_rates,'minimum_quantity_factor'=>$minimum_quantity_factor, 'unit_name'=>$unit_name, 'minimum_quantity_purchase'=>$minimum_quantity_purchase,'is_combo' => $is_combo,'gst_figure_id'=>@$item_fetch->gst_figure_id,'gst_name'=>@$item_fetch->gst_figure->name,'tax_percentage'=>@$item_fetch->gst_figure->tax_percentage];
+			$items[]= ['value'=>$item_fetch->id,'text'=>" (".$item_code.") ".$item_name, 'print_quantity'=>$print_quantity, 'rates'=>$rates,'sales_rate' =>$sales_rates,'minimum_quantity_factor'=>$minimum_quantity_factor, 'unit_name'=>$unit_name, 'minimum_quantity_purchase'=>$minimum_quantity_purchase,'is_combo' => $is_combo,'gst_figure_id'=>@$item_fetch->gst_figure_id,'gst_name'=>@$item_fetch->gst_figure->name,'tax_percentage'=>@$item_fetch->gst_figure->tax_percentage];
 		}
 		$this->loadModel('BulkBookingLeads');
 		//pr($items); exit;
