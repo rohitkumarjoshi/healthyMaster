@@ -6,6 +6,12 @@
                 <div class="caption">
                     <span class="caption-subject"><?= __('ORDER/SALES REPORT') ?></span>
                 </div>
+                <div class="actions"> 
+                    <div><a href="javascript:void(0)" id="export-to-excel">Export to excel</a></div>
+                        <form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="post" id="export-form">
+                        <input type="hidden" value='' id='hidden-type' name='ExportType'/>
+                      </form>
+                </div>
             </div>
             <div class="portlet-body" style="overflow: auto;!important">
                 <form method="post">
@@ -39,10 +45,9 @@
                             <th scope="col">Order No</th>
                             <th scope="col">Item Code</th>
                             <th scope="col">Item Name</th>
-                            <th scope="col">Variation</th>
                             <th scope="col">Category</th>
                             <th scope="col">Customer ID</th>
-                            <th scope="col">Customer</th>
+                            <th scope="col">Customer Name</th>
                             <th scope="col">Mobile</th>
                             <th scope="col">Flat No</th>
                             <th scope="col">Apartment</th>
@@ -53,6 +58,8 @@
                             <th scope="col">Online Sale App</th>
                             <th scope="col">Online Sale Web</th>
                             <th scope="col">Payment Mode</th>
+                            <th scope="col">Variation</th>
+                            <th scope="col">Rate</th>
                             <th scope="col">Quantity</th>
                             <th scope="col">Gross Amount</th>
                             <th scope="col">Discount</th>
@@ -71,7 +78,6 @@
                             <td><?= $order_detail->order->order_no?></td>
                             <td><?= $order_detail->item->item_code?></td>
                             <td><?= $order_detail->item->name?></td>
-                            <td><?= $order_detail->item_variation->quantity_variation?></td>
                             <td><?= $order_detail->item->item_category->name?></td>
                             <td><?= $order_detail->order->customer->id?></td>
                             <td><?= $order_detail->order->customer->name?></td>
@@ -81,7 +87,7 @@
                             <td><?= $order_detail->order->customer_address->locality?></td>
                             <td><?= $order_detail->order->customer_address->city->name?></td>
                             <td><?= $order_detail->order->customer_address->state->state_name?></td>
-                            <td><?php if($order_detail->order->order_from == "walkin_sale")
+                            <td><?php if($order_detail->order->order_from == "walkinsales")
                             {
                                 echo"Yes";
                             }?></td>
@@ -94,10 +100,12 @@
                                 echo"Yes";
                             }?></td>
                             <td><?= $order_detail->order->order_type ?></td>
+                            <td><?= $order_detail->item_variation->quantity_variation.' '.$order_detail->item_variation->unit->shortname?></td>
+                            <td><?= $order_detail->rate?></td>
                             <td><?= $order_detail->quantity?></td>
                             <td><?= $order_detail->amount?></td>
                             <td><?= $order_detail->order->amount_from_promo_code ?></td>
-                            <td></td>
+                            <td><?= $order_detail->amount - $order_detail->order->amount_from_promo_code?></td>
                             <td><?= $order_detail->order->status?></td>
                         </tr>
                         <?php endforeach;  ?>
@@ -122,6 +130,21 @@ var $rows = $('#main_tble tbody tr');
         }else{
             $rows.show();
         }
+    });
+</script>
+<script  type="text/javascript">
+$(document).ready(function() {
+jQuery('#Export to excel').bind("click", function() {
+var target = $(this).attr('id');
+switch(target) {
+    case 'export-to-excel' :
+    $('#hidden-type').val(target);
+    //alert($('#hidden-type').val());
+    $('#export-form').submit();
+    $('#hidden-type').val('');
+    break
+}
+});
     });
 </script>
 

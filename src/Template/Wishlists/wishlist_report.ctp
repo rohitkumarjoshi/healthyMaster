@@ -62,9 +62,9 @@ background-color: #fff;}
 						<tr>
 							<th>Sr</th>
 							<th>Customer ID</th>
-							<th>Customer</th>
+							<th>Customer Name</th>
 							<th>Item Code</th>
-							<th>Item</th>
+							<th>Item Name</th>
 							<th>Variation</th>
 							<th>Rate</th>
 							<th>Date</th>

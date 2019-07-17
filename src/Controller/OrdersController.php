@@ -46,7 +46,7 @@ class OrdersController extends AppController
     {
         $this->viewBuilder()->layout('index_layout'); 
         //$order=$this->Orders->OrderDetails->newEntity();
-        $orders=$this->Orders->OrderDetails->find()->contain(['Orders'=>['CustomerAddresses'=>['Cities','States'],'Customers'],'Items'=>['ItemCategories'],'ItemVariations']);
+        $orders=$this->Orders->OrderDetails->find()->contain(['Orders'=>['CustomerAddresses'=>['Cities','States'],'Customers'],'Items'=>['ItemCategories'],'ItemVariations'=>['Units']]);
          if ($this->request->is('post')) {
             $datas = $this->request->getData();
             if(!empty($datas['apartment']))
@@ -295,15 +295,15 @@ class OrdersController extends AppController
     }
 
     public function ajaxAutocompleted(){
-        $name=$this->request->getData('input'); 
+        $mobile=$this->request->getData('input'); 
         $searchType=$this->request->getData('searchType');
         if($searchType == 'item_name'){
-            $items=$this->Orders->Customers->find()->where(['Customers.name Like'=>''.$name.'%']);
+            $items=$this->Orders->Customers->find()->where(['Customers.mobile Like'=>''.$mobile.'%']);
             ?>
                 <ul id="item-list" style="width: 90% !important;">
                     <?php foreach($items as $show){ ?>
-                        <li onClick="selectAutoCompleted('<?php echo $show->id;?>','<?php echo $show->name;?>')">
-                            <?php echo $show->name?>    
+                        <li onClick="selectAutoCompleted('<?php echo $show->id;?>','<?php echo $show->mobile;?>')">
+                            <?php echo $show->mobile?>    
                         </li>
                     <?php } ?>
                 </ul>
@@ -1267,7 +1267,7 @@ class OrdersController extends AppController
 	  // pr($item_fetchs->toArray()); exit;
 		foreach($item_fetchs as $item_fetch){
 			$item_name=$item_fetch->name;
-			$alias_name=$item_fetch->alias_name;
+			$item_code=$item_fetch->item_code;
 			@$unit_name=$item_fetch->unit->unit_name;
 			$print_quantity=$item_fetch->print_quantity;
 			$rates=$item_fetch->offline_sales_rate;
@@ -1276,7 +1276,7 @@ class OrdersController extends AppController
 			$minimum_quantity_purchase=$item_fetch->minimum_quantity_purchase;
 			$is_combo=$item_fetch->is_combo;
 			
-			$items[]= ['value'=>$item_fetch->id,'text'=>$item_name." (".$alias_name.")", 'print_quantity'=>$print_quantity, 'rates'=>$rates,'sales_rate' =>$sales_rates,'minimum_quantity_factor'=>$minimum_quantity_factor, 'unit_name'=>$unit_name, 'minimum_quantity_purchase'=>$minimum_quantity_purchase,'is_combo' => $is_combo,'gst_figure_id'=>@$item_fetch->gst_figure_id,'gst_name'=>@$item_fetch->gst_figure->name,'tax_percentage'=>@$item_fetch->gst_figure->tax_percentage];
+			$items[]= ['value'=>$item_fetch->id,'text'=>" (".$item_code.")".$item_name, 'print_quantity'=>$print_quantity, 'rates'=>$rates,'sales_rate' =>$sales_rates,'minimum_quantity_factor'=>$minimum_quantity_factor, 'unit_name'=>$unit_name, 'minimum_quantity_purchase'=>$minimum_quantity_purchase,'is_combo' => $is_combo,'gst_figure_id'=>@$item_fetch->gst_figure_id,'gst_name'=>@$item_fetch->gst_figure->name,'tax_percentage'=>@$item_fetch->gst_figure->tax_percentage];
 		}
 		$this->loadModel('BulkBookingLeads');
 		//pr($items); exit;

@@ -32,7 +32,7 @@
                         <tr>
                             <th scope="col"><?= __('S.No') ?></th>
                             <th scope="col">Customer ID</th>
-                            <th scope="col">Customer</th>
+                            <th scope="col">Customer Name</th>
                             <th scope="col">Mobile</th>
                             <th scope="col">Message</th>
                             <th scope="col">Posting Date</th>

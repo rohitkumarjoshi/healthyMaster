@@ -44,12 +44,14 @@
 					<tr>
 						<th>Sr</th>
 						<th>Promo Code</th>
+						<th>Title</th>
 						<th>Description</th>
 						<th>Code Type</th>
-						<th>Discount</th>
-						<th>Item Category</th>
+						<th>Discount Value</th>
+						<th>Discount Percent</th>
 						<th>Item Code</th>
-						<th>Item</th>
+						<th>Item Name</th>
+						<th>Item Category</th>
 						<th>Cart Value</th>
 						<th>Free Shipping</th>
 						<th>Valid From</th>
@@ -67,8 +69,18 @@
 					<tr>
 						<td><?= $i ?></td>
 						<td><?= h(@$promoCode->code) ?></td>
+						<td><?= h(@$promoCode->title) ?></td>
 						<td><?= h(@$promoCode->description) ?></td>
 						<td><?= h(@$promoCode->promo_code_type) ?></td>
+						<td><?php 
+							$type=$promoCode->amount_type;
+							if($type == "amount")
+							{
+								echo "Rs.";
+								echo h(@$promoCode->discount_per);
+							}
+							
+						?></td>
 						<td><?php 
 							$type=$promoCode->amount_type;
 							if($type == "percent")
@@ -76,15 +88,11 @@
 								echo h(@$promoCode->discount_per);
 								echo "%";
 							}
-							if($type == "amount")
-							{
-								echo "Rs.";
-								echo h(@$promoCode->discount_per);
-							}
+							
 						?></td>
-						<td><?= h(@$promoCode->item_category->name) ?></td>
 						<td><?= h(@$promoCode->item->item_code) ?></td>
 						<td><?= h(@$promoCode->item->name) ?></td>
+						<td><?= h(@$promoCode->item_category->name) ?></td>
 						<td><?= h(@$promoCode->cart_value) ?></td>
 						<td><?php $freeship=@$promoCode->is_freeship;
 							if($freeship == "1") 

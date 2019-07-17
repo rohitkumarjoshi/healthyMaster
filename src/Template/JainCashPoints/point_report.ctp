@@ -65,10 +65,10 @@ background-color: #fff;}
 							<th>Sr</th>
 							<th>Transaction Date</th>
 							<th>Customer ID</th>
-							<th>Customer</th>
+							<th>Customer Name</th>
 						    <th>Total Point</th>
-						    <th>Availiable Point</th>
 							<th>Used Point</th>
+						    <th>Available Point</th>
 							<th>Order No</th>
 						</tr>
 					</thead>
@@ -85,8 +85,8 @@ background-color: #fff;}
 					    	<td><?= h(@$point->customer->id) ?></td>
 					    	<td><?= h(@$point->customer->name) ?></td>
 					    	<td><?= h(@$point->point) ?></td>
-					    	<td><?= h(@$point->point)-$point->used_point ?></td>
 							<td><?= h(@$point->used_point) ?></td>
+					    	<td><?= h(@$point->point)-$point->used_point ?></td>
 							<td>
 								<?php 
 									if(!empty(@$point->order->order_no))

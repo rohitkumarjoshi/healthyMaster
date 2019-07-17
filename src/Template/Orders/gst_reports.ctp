@@ -42,9 +42,8 @@
 								 <tr>
                             <th scope="col"><?= __('S.No') ?></th>
                             <th scope="col">Item Code</th>
-                            <th scope="col">Item</th>
+                            <th scope="col">Item Name</th>
                             <th scope="col">Variation</th>
-                            <th scope="col">Category ID</th>
                             <th scope="col">Category</th>
                             <th scope="col">Invoice No.</th>
                             <th scope="col">Date</th>
@@ -71,10 +70,9 @@
 	                            <td> <?= $gst->item->item_code?></td>
 	                            <td><?= $gst->item->name ?></td>
 	                            <td><?= $gst->item_variation->quantity_variation." ".$gst->item_variation->unit->shortname ?></td>
-	                            <td><?= $gst->item->item_category->id?></td>
 	                            <td><?= $gst->item->item_category->name?></td>
 	                            <td><?= $gst->order->invoice_no?></td>
-	                            <td></td>
+	                            <td><?= $gst->order->invoice_date?></td>
 	                            <td><?= $gst->quantity ?></td>
 	                            <td><?php
 	                             	echo $amount - $tax;
