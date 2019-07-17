@@ -339,7 +339,7 @@ class ItemsController extends AppController
             }
             $this->Flash->error(__('The item could not be saved. Please, try again.'));
         }
-		$Keyword_itemCategories= $this->Items->itemCategories->find()->where(['itemCategories.id'=>2])
+		$Keyword_itemCategories= $this->Items->ItemCategories->find()->where(['ItemCategories.id'=>2])
 		->contain(['ChildItemCategories'])->first();
 		foreach($Keyword_itemCategories->child_item_categories as $data){
 			$keywords[$data->id]=$data->name;
