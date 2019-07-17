@@ -87,7 +87,7 @@ class HomeScreensController extends AppController
             $this->Flash->error(__('The home screen could not be saved. Please, try again.'));
         }
         $categories = $this->HomeScreens->ItemCategories->find('list');
-		$HomeScreens=$this->HomeScreens->find()->contain(['ItemCategories','Items'])->order(['id'=>'DESC']);
+		$HomeScreens=$this->HomeScreens->find()->contain(['ItemCategories','Items'])->order(['HomeScreens.id'=>'ASC']);
 		//pr($HomeScreens->toArray()); exit;
         $items = $this->HomeScreens->Items->find('list')->contain(['ItemVariations']);
 		$items->Matching('ItemVariations', function($q) {
