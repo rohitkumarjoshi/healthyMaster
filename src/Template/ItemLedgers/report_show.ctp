@@ -30,11 +30,12 @@
 										<label>Sr<label>
 									</th>
 									<th width="10%">
-										<label>Item<label>
-									</th>
-									<th width="10%">
 										<label>Item Code<label>
 									</th>
+									<th width="10%">
+										<label>Item Name<label>
+									</th>
+									
 									<th width="10%">
 										<label>Variation<label>
 									</th>
@@ -70,10 +71,10 @@
 								?>
 									<tr class="main_tr" class="tab">
 										<td width="1px"><?= $i ?>.</td>
+										<td><?= $ItemVariation->item->item_code?></td>
 										<td>
 											<a href="#" role="button" class="stock_show" itm="<?= $ItemVariation->item_id ?>"><?= $ItemVariation->item->name ?></a>	
 										</td>
-										<td><?= $ItemVariation->item->item_code?></td>
 										<td>
 											<?= $ItemVariation->quantity_variation.' '.$ItemVariation->unit->shortname ?>
 										</td>

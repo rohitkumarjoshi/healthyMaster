@@ -34,8 +34,8 @@ background-color: #fff;}
 					?>
 				<div class="row">
 					<div class="col-md-3">
-						<label class=" control-label">Customer <span class="required" aria-required="true">*</span></label>
-						<input type="text" name="customer" class="form-control input-sm selectedAutoCompleted autocompleted customer_id cstmr chosen-select" valueType="item_name" >
+						<label class=" control-label">Mobile No <span class="required" aria-required="true">*</span></label>
+						<input type="number" name="customer" class="form-control input-sm selectedAutoCompleted autocompleted customer_id cstmr chosen-select" valueType="item_name" >
 						<input type="hidden" name="customer_id" id="customer_id">
 						
 						 <div class="suggesstion-box"></div>

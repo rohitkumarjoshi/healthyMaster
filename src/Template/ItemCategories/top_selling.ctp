@@ -1,7 +1,4 @@
-<style>
-.table>thead>tr>th{
-	font-size:12px !important;
-}
+
 </style>
 <div class="row">
 	<div class="col-md-12">
@@ -37,13 +34,12 @@
 					<thead>
 						<tr>
 							<th>Sr</th>
+							<th>Item Code</th>
+							<th>Item Name</th>
 							<th>Category</th>
-							<th>Item Code</th>
-							<th>Item</th>
 							<th>Variation</th>
-							<th>Item Code</th>
-							<th>Sales</th>
-							<th>Amount</th>
+							<th>Sales Count</th>
+							<th>Sales Value</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -52,17 +48,16 @@
 						$i=0;
 							foreach ($recently_boughts as $top) {
 								 $count=$top->Count;
-								 if($count > 2)
+								 if($count > 50)
                 				{
 									$i++;
 						?>
 						<tr>
 							<td><?= $i ?></td>
-							<td><?= $top->item->item_category->name?></td>
 							<td><?= $top->item->item_code ?></td>
 							<td><?= $top->item->name ?></td>
-							<td><?= $top->item_variation->quantity_variation ?></td>
-							<td><?= $top->item->item_code ?></td>
+							<td><?= $top->item->item_category->name?></td>
+							<td><?= $top->item_variation->quantity_variation.' '.$top->item_variation->unit->shortname?></td>
 							<td><?= $top->Count ?> Times</td>
 							<td><?= $top->rate ?></td>
 						</tr>

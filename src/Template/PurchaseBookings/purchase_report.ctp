@@ -37,16 +37,16 @@
                     <thead>
                         <tr>
                             <th scope="col"><?= __('S.No') ?></th>
-                            <th scope="col">Transaction</th>
+                            <th scope="col">Transaction Date</th>
                             <th scope="col">Vendor ID</th>
-                            <th scope="col">Vendor</th>
+                            <th scope="col">Vendor Name</th>
                             <th scope="col">Contact No.</th>
                             <th scope="col">HSN Code</th>
                             <th scope="col">Gst No.</th>
                             <th scope="col">City</th>
-                            <th scope="col">Category ID</th>
+                            <th scope="col">Item Code</th>
+                            <th scope="col">Item Name</th>
                             <th scope="col">Category</th>
-                            <th scope="col">Item</th>
                             <th scope="col">Variation</th>
                             <th scope="col">Quantity</th>
                             <th scope="col">Rate</th>
@@ -75,10 +75,10 @@
                             <td><?= $purchase->item->hsn_code?></td>
                             <td><?= $purchase->purchase_booking->vendor->gst_no ?></td>
                             <td><?= $purchase->purchase_booking->vendor->city->name ?></td>
-                            <td><?= $purchase->item->item_category->id?></td>
-                            <td><?= $purchase->item->item_category->name?></td>
+                            <td><?= $purchase->item->item_code?></td>
                             <td><?= $purchase->item->name?></td>
-                            <td><?= $purchase->item_variation->quantity_variation.' '.$purchase->item_variation->unit->short_name?></td>
+                            <td><?= $purchase->item->item_category->name?></td>
+                            <td><?= $purchase->item_variation->quantity_variation.' '.$purchase->item_variation->unit->shortname?></td>
                             <td><?= $purchase->quantity ?></td>
                             <td><?= $purchase->rate ?></td>
                             <td><?= $purchase->quantity * $purchase->rate ?></td>
