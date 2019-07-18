@@ -133,24 +133,6 @@ margin-bottom: 0;
 	<table width="100%" >
 		<tr align="right">
 				<td><b>Total</b></td><td width="10%"><?=h($total)?></td></tr></table>
-	<table width="100%" class="divFooter">
-		
-			 <tr align="right">
-			 <td align="right" valign="top" width="35%">
-				<table style="margin-top:3px;">
-					<tr>
-					   <td width="15%" align="right"> 
-						<br>
-						<br>
-						 <span>Prepared By</span><br/>
-						 <span><b><?= __('Jain Thela') ?></b></span><br/>
-						</td>
-					</tr>
-				</table>
-			 </td>
-			
-		    
-		</tr>
-	</table>
+	
 </div>
 </div>
