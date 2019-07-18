@@ -90,7 +90,7 @@
 				</table>
 				<?php $i++; endforeach; } ?>
 				<div align="center">
-					<?= $this->Form->button($this->Html->tag('i') . __(' Update Sales Rate'),['class'=>'btn btn-success','id'=>'submitbtn']); ?>
+					<?= $this->Form->button($this->Html->tag('') . __(' Update Sales Rate'),['class'=>'btn btn-success','id'=>'submitbtn']); ?>
 				</div>
 			<?= $this->Form->end() ?>
 				

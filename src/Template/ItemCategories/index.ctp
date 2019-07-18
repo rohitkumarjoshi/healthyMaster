@@ -21,7 +21,7 @@
 				</div>
 				<div class="actions">
 					<?php if(!empty($updt_id)){ ?>
-						<?php echo $this->Html->link('<i class="fa fa-plus"></i> Add New',['action' => 'index'],array('escape'=>false,'class'=>'btn btn-default')); ?>
+						<?php echo $this->Html->link('Add New',['action' => 'index'],array('escape'=>false,'class'=>'btn btn-default')); ?>
 					<?php } ?>
 				</div>
 			</div>
@@ -32,7 +32,7 @@
 						<label class=" control-label">Item Category <span class="required" aria-required="true">*</span></label>
 						<?php echo $this->Form->control('name',['placeholder'=>'Item Category name','class'=>'form-control input-sm','label'=>false]); ?>
 					</div>
-					<div class="col-md-8">
+					<div class="col-md-8" style="margin-top: 10px;">
 						<label class=" control-label">Parent Category </label>
 							<?php echo $this->Form->control('parent_id', ['empty'=>'--select--','options' => $itemParent,'class'=>'form-control input-sm','label'=>false]); ?>
 						
@@ -54,10 +54,7 @@
 			<div class="portlet-title">
 				<div class="caption">
 					<i class=" fa fa-gift"></i>
-					<span class="caption-subject">Item Categories</span>
-				</div>
-				<div class="actions">
-					<input type="text" class="form-control input-sm pull-right" placeholder="Search..." id="search3"  style="width: 200px;">
+					<span class="caption-subject">ITEM CATEGORIES</span>
 				</div>
 			</div>
 			<div class="portlet-body">

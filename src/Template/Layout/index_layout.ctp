@@ -454,7 +454,7 @@
 				<!-- END SIDEBAR -->
 			<!-- BEGIN CONTENT -->
 			<div class="page-content-wrapper">
-				<div class="page-content" style="min-height:431px;width: 100%;!important">
+				<div class="page-content">
 					<div  class="page-spinner-bar hide">
 						<div class="bounce1"></div>
 						<div class="bounce2"></div>

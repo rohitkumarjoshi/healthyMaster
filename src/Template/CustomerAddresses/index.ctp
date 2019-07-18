@@ -13,7 +13,7 @@
 				</div>
 				<div class="actions">
 					 <?php if(!empty($id)){ ?>
-						<?php echo $this->Html->link('<i class="fa fa-plus"></i> Add New',['action' => 'index/'.$customer_id],array('escape'=>false,'class'=>'btn btn-default')); ?>
+						<?php echo $this->Html->link('Add New',['action' => 'index/'.$customer_id],array('escape'=>false,'class'=>'btn btn-default')); ?>
 					<?php } ?>
 				</div>
 			</div>

@@ -12,6 +12,9 @@
 			<div class="portlet-body">
 				<div class="row" style="overflow-y: scroll;height: 170px;">
 					<div class="col-md-8">
+						<label class=" control-label"> Customer ID : <?= $customers->id?></label>
+					</div>
+					<div class="col-md-8">
 						<label class=" control-label">Name : <?= $customers->name?></label>
 					</div>
 					<div class="col-md-8">
@@ -64,7 +67,7 @@
 
 							<tr>
 								<th>Sr</th>
-								<th>Order</th>
+								<th>Order No</th>
 								<th>Point</th>
 								<th>Date</th>
 								<th>Total</th>
@@ -103,7 +106,7 @@
 										<?= h(@$Order->status) ?>
 									</td>
 									<td>
-										<?= h(@$Order->online_payment_status) ?>
+										<?= h(@$Order->payment_status) ?>
 									</td>
 								</tr>
 							<?php } ?>														 

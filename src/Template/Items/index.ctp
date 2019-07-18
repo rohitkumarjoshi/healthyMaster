@@ -9,12 +9,11 @@
 			<div class="portlet-title">
 				<div class="caption">
 					<i class="font-purple-intense"></i>
-					<span class="caption-subject font-purple-intense ">
-						<i class="fa fa-plus"></i> Items
+					<span class="caption-subject font-purple-intense ">ITEMS
 					</span>
 				</div>
 				<div class="actions">
-					<?php echo $this->Html->link('<i class="fa fa-plus"></i> Add New','/Items/Add',['escape'=>false,'class'=>'btn btn-default']) ?> 
+					<?php echo $this->Html->link('Add New','/Items/Add',['escape'=>false,'class'=>'btn btn-default']) ?> 
 					
 					<?php if($status=='freeze'){
 						$class1="btn btn-xs blue";
@@ -26,8 +25,6 @@
 					 ?>
 						<?php echo $this->Html->link('Unfreeze',['controller'=>'Items','action' => 'index/unfreeze'],['escape'=>false,'class'=>$class2]); ?>
 						<?php echo $this->Html->link('Freeze',['controller'=>'Items','action' => 'index/freeze'],['escape'=>false,'class'=>$class1]); ?>&nbsp;
-						 
-						<input type="text" class="form-control input-sm pull-right" placeholder="Search..." id="search3" style="width: 200px;">
 				
 				</div>
 			</div>

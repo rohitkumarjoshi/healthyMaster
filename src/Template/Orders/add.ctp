@@ -332,8 +332,11 @@ $(document).ready(function() {
 		focusInvalid: true, // do not focus the last invalid input
 		rules: {
 				customer_id:{
-					required: true
+					required: true,
 				},
+				delivery_time_id:{
+					required :true,
+				}
 			},
 
 		errorPlacement: function (error, element) { // render error placement for each input type
@@ -688,9 +691,13 @@ function round(value, exp) {
 					var house_no=$('input[name="house_no"]').val();
 					var address=$('textarea[name="address"]').val();
 					var locality=$('input[name="locality"]').val();
-					var default_address=$('input[name="default_address"]:checked').val();
+					var pin_code=$('input[name="pin_code"]').val();
+					var apartment_name=$('input[name="apartment_name"]').val();
+					//alert(apartment_name);
+					var landmark=$('input[name="landmark"]').val();
+					var default_address= 1;
 					var url="<?php echo $this->Url->build(['controller'=>'CustomerAddresses','action'=>'saveAddress']); ?>";
-					url=url+'/'+customer_id+'/'+name+'/'+mobile+'/'+house_no+'/'+address+'/'+locality+'/'+default_address,
+					url=url+'/'+customer_id+'/'+name+'/'+mobile+'/'+house_no+'/'+address+'/'+locality+'/'+default_address+'/'+pin_code+'/'+landmark+'/'+apartment_name,
 					$.ajax({
 						url: url,
 					}).done(function(response) {
@@ -709,6 +716,7 @@ function round(value, exp) {
 							$.ajax({
 								url: url,
 							}).done(function(response) { 
+								//alert(response);
 								$('input[name="customer_address_id"]').val(response);
 							});
 							$('#address').modal('toggle');
@@ -767,9 +775,17 @@ function round(value, exp) {
 			$('#form1')[0].reset();
 			$("label.error").hide();
 			$(".error").removeClass("error");
-			validator.reset();
+			//validator.reset();
   			}else{	
  				$('textarea[name="customer_address"]').val(response);
+ 				var url="<?php echo $this->Url->build(['controller'=>'Customers','action'=>'defaultAddress1']); ?>";
+							url=url+'/'+customer_id,
+							$.ajax({
+								url: url,
+							}).done(function(response) { 
+								//alert(response);
+								$('input[name="customer_address_id"]').val(response);
+							});
 			}
 		});
 	});
@@ -795,18 +811,18 @@ function round(value, exp) {
 	// 	});
 	// });
 	///wallet
-	$('.cstmr').on("click",function() {
-		var customer_id=$('customer_id').val();
+	// $('.cstmr').on("click",function() {
+	// 	var customer_id=$('customer_id').val();
 	
-		var url="<?php echo $this->Url->build(['controller'=>'Wallets','action'=>'checksubtract']); ?>";
-		url=url+'/'+customer_id,
-			$.ajax({
-				url: url,
-				type: 'GET',
-			}).done(function(response) { 
-				$('.amount_from_wallet').attr('max',response);
-			});
-	});
+	// 	var url="<?php echo $this->Url->build(['controller'=>'Wallets','action'=>'checksubtract']); ?>";
+	// 	url=url+'/'+customer_id,
+	// 		$.ajax({
+	// 			url: url,
+	// 			type: 'GET',
+	// 		}).done(function(response) { 
+	// 			$('.amount_from_wallet').attr('max',response);
+	// 		});
+	// });
 
 });
 </script>
@@ -905,9 +921,26 @@ function selectAutoCompleted1(value) {
 						<?php echo $this->Form->input('locality',['placeholder'=>'locality','class'=>'form-control input-sm','label'=>false,'required']); ?>
 					</div>
 				</div>
+				<div class="row">
+					<div class="col-md-6">
+						<label class=" control-label">Pincode<span class="required" aria-required="true">*</span></label>
+						<?php echo $this->Form->input('pin_code',['placeholder'=>'Pincode','class'=>'form-control input-sm','label'=>false,'required']); ?>
+					</div>
+					
+					<div class="col-md-6">
+						<label class=" control-label">Landmark<span class="required" aria-required="true">*</span></label>
+						<?php echo $this->Form->input('landmark',['placeholder'=>'Address','class'=>'form-control input-sm','label'=>false,'required']); ?>
+					</div>
+					
+				</div>
 				
 				<div class="row">
-					<div class="col-md-12">
+					<div class="col-md-6">
+						<label class=" control-label">Apartment<span class="required" aria-required="true">*</span></label>
+						<?php echo $this->Form->input('apartment_name',['placeholder'=>'Apartment','class'=>'form-control input-sm','label'=>false,'required']); ?>
+					</div>
+					
+					<div class="col-md-6">
 						<label class=" control-label">Address<span class="required" aria-required="true">*</span></label>
 						<?php echo $this->Form->input('address',['placeholder'=>'Address','class'=>'form-control input-sm','label'=>false,'cols'=>1,'required']); ?>
 					</div>

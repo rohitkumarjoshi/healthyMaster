@@ -61,34 +61,38 @@
 					<?php echo $this->Form->control('item_id',['empty'=>'--Select Item--','options' => $items,'class'=>'form-control input-sm select2me customer_id cstmr chosen-select','label'=>false,'id'=>'item']); ?>
 
 				</div>
-				<dsiv class="col-md-3">
-					<label>Shipping</label>
-					<?php echo $this->Form->input('is_freeship', array('type'=>'checkbox','id'=>'freeship'));
-
-					?>
-
-				</div>
-			
-			</div>
-
-			<div class="row" style="margin-top: 10px;">
 				<div class="col-md-3">
 					<label class=" control-label">Cart Value </label>
 					<?php echo $this->Form->control('cart_value',['placeholder'=>'Cart Value','class'=>'form-control input-sm cart','id'=>'cart','label'=>false]); ?>
 				</div>
 				
+				
+			
+			</div>
+
+			<div class="row" style="margin-top: 10px;">
+				
 				<div class="col-md-3">
 					<label class=" control-label">Valid From</label>
-					<?php echo $this->Form->control('valid_from',['placeholder'=>'Valid From','class'=>'form-control input-sm date-picker','data-date-format'=>'dd-mm-yyyy','label'=>false,'type'=>'text','id'=>'start_date','onchange'=>'ValidateEndDate()']); ?>
+					<?php echo $this->Form->control('valid_from',['placeholder'=>'Valid From','class'=>'form-control input-sm date-picker','data-date-format'=>'dd-mm-yyyy','label'=>false,'type'=>'text','id'=>'start_date','onchange'=>'ValidateEndDate()','required']); ?>
 					</div>
 				<div class="col-md-3">
 					<label class=" control-label">Valid To</label>
 					
-					<?php echo $this->Form->control('valid_to',['placeholder'=>'Valid To','class'=>'form-control input-sm date-picker','data-date-format'=>'dd-mm-yyyy','label'=>false,'type'=>'text','id'=>'end_date','onchange'=>'ValidateEndDate()']); ?>
+					<?php echo $this->Form->control('valid_to',['placeholder'=>'Valid To','class'=>'form-control input-sm date-picker','data-date-format'=>'dd-mm-yyyy','label'=>false,'type'=>'text','id'=>'end_date','onchange'=>'ValidateEndDate()','required']); ?>
 					
 				</div>
+				<div class="col-md-3">
+					<label>Shipping</label>
+					
+					<select name="is_freeship" class="form-control select2 input-sm" id="freeship">
+						<option value="1" selected="selected">No</option>
+						<option value="1">Yes</option>
+					</select>
+
+				</div>
 			</div>
-			<div class="row" style="margin-top: 10px;">
+			<div class="row" style="margin-top: 20px;">
 				<div class="col-md-10">
 					<label class=" control-label">Description<span class="required" aria-required="true">*</span></label>
 					<textarea name="description" class="form-control"></textarea>
@@ -251,6 +255,7 @@ $(document).ready(function() {
 	if(radioValue == "percent")
 	{
 		$('#discount').attr('maxlength','2')
+		$('#discount').attr('max','35')
 	}
 	$('.virt').on('click',function(){
 		var radioValue = $(this). val();
@@ -259,10 +264,12 @@ $(document).ready(function() {
 		if(radioValue == "percent")
 	{
 		$('#discount').attr('maxlength','2')
+		$('#discount').attr('max','35')
 	}
 	if(radioValue == "amount")
 	{
 		$('#discount').attr('maxlength','200')
+		$('#discount').removeAttr('max','35')
 	}
 	});
 
@@ -319,7 +326,6 @@ $(document).ready(function() {
 				valid_to:{
 					required: true,
 				}
-
 			},
 
 		errorPlacement: function (error, element) { // render error placement for each input type
@@ -369,24 +375,6 @@ $(document).ready(function() {
 	});
 	//--	 END OF VALIDATION
 	
-	var $rows = $('#main_tble tbody tr');
-	$('#search3').on('keyup',function() {
-		var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
-		var v = $(this).val();
-		if(v){ 
-			$rows.show().filter(function() {
-				var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
-	
-				return !~text.indexOf(val);
-			}).hide();
-		}else{
-			$rows.show();
-		}
-	});
-});
-</script>
-<script>
-$(document).ready(function(){
 	$('.status').change(function(){
 		var status = $(this).val();
 		var status_id = $(this).closest('tr').find('td span#status_id').text();
@@ -400,10 +388,10 @@ $(document).ready(function(){
 
 		});		
     });
-	
 });
 </script>
-<script type="text/javascript">
+
+<!-- <script type="text/javascript">
     $(function()
     {
       $('[name="is_freeship"]').change(function()
@@ -418,5 +406,5 @@ $(document).ready(function(){
         };
       });
     });
-  </script>
+  </script> -->
 

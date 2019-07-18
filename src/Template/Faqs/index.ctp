@@ -29,7 +29,7 @@
                                 <?php echo $this->Form->control('answer',['placeholder'=>'Answer','class'=>'form-control input-sm','label'=>false,'required']); ?>
                             </div>
                         </div>   
-                    <?= $this->Form->button($this->Html->tag('i', '') . __(' Submit'),['class'=>'btn btn-success']); ?>
+                    <?= $this->Form->button($this->Html->tag('i', '') . __(' Submit'),['class'=>'btn btn-success','style'=>'margin-top:10px;']); ?>
                     <?= $this->Form->end() ?>
                 </div>
             </div>
