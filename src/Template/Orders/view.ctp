@@ -44,7 +44,7 @@ echo $this->Html->link('Close',array(),['escape'=>false,'class'=>'btn  red hidde
 				<tr style="background-color:#fff; color:#000;">
 					<td align="left" colspan="5">
 						<b>
-							Customer Order No.: <?= $order->order_no ?>
+							Order No.: <?= $order->order_no ?>
 						</b>
 					</td>
 				</tr>

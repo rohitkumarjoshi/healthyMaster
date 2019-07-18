@@ -113,7 +113,15 @@ background-color: #fff;}
 							 Add Address </a>
 							<a href="#" role="button" class="pull-right select_address" >
 							Select Address </a>
-				</div>
+					</div>
+					<!-- <div class="col-md-3">
+						<label>Payment Mode</label>
+						<select name="order_type">
+							<option>--Select--</option>
+							<option value="COD">COD</option>
+							<option value="Online">Online</option>
+						</select>
+					</div> -->
 					
 				</div>
 				
