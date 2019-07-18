@@ -84,7 +84,7 @@ class ItemCategoriesController extends AppController
                         }else{
                         $image = imagecreatefromjpeg($file['tmp_name']);
                         }
-                        imagejpeg($image, $destination_url, 10);
+                        imagejpeg($image, $destination_url, 95);
                         $keyname1 = 'itemcategories/'.$img_name;
                         $this->AwsFile->putObjectFile($keyname1,$destination_url,$file['type']);
                         

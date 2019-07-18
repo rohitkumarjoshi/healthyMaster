@@ -24,7 +24,7 @@
 					</div>
 					<div class="col-md-4">
 						<label class=" control-label">vendor <span class="required" aria-required="true">*</span></label>
-						<?php echo $this->Form->control('vendor_id',['empty'=>'--Select--','options' => $vendors,'class'=>'form-control input-sm vendor','label'=>false]); ?>
+						<?php echo $this->Form->control('vendor_id',['empty'=>'--Select--','options' => $vendors,'class'=>'form-control input-sm vendor','label'=>false,'required']); ?>
 					</div>
 					<div class="col-md-4">
 						<label class=" control-label">Warehouse <span class="required" aria-required="true">*</span></label>
@@ -122,6 +122,7 @@ $(document).ready(function() {
                 success: function(response)
                 { 
 						$(".item-id").html(response);
+						
                 }
             });
             }
@@ -393,7 +394,7 @@ $(document).ready(function() {
 		var i=0; 
 		$("#main_table tbody#main_tbody tr.main_tr").each(function(){ 
 			$(this).find('td:nth-child(1)').html(i+1);
-			$(this).find("td:nth-child(2) select").select2().attr({name:"purchase_booking_details["+i+"][item_id]", id:"purchase_booking_details-"+i+"-item_id"}).rules('add', {
+			$(this).find("td:nth-child(2) select").attr({name:"purchase_booking_details["+i+"][item_id]", id:"purchase_booking_details-"+i+"-item_id"}).rules('add', {
 						required: true
 					});
 			$(this).find("td:nth-child(3) select").attr({name:"purchase_booking_details["+i+"][item_variation_id]"}).rules('add', {
@@ -531,7 +532,7 @@ function selectAutoCompleted1(value) {
 					<td align="center" width="1px"></td>
 				    <td>
 				    	
-				    	<select name="item_id" class="form-control input-sm chosen-select item-id">
+				    	<select name="item_id" class="form-control input-sm chosen-select item-id" required>
 							
 							
 						</select>

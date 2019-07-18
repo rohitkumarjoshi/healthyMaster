@@ -202,7 +202,7 @@ class ItemsController extends AppController
                         }else{
                         $image = imagecreatefromjpeg($file['tmp_name']);
                         }
-                        imagejpeg($image, $destination_url, 10);
+                        imagejpeg($image, $destination_url, 95);
                         $keyname1 = 'item_images/'.$img_name;
                         $this->AwsFile->putObjectFile($keyname1,$destination_url,$file['type']);
             
@@ -327,7 +327,7 @@ class ItemsController extends AppController
                         }else{
                         $image = imagecreatefromjpeg($file['tmp_name']);
                         }
-                        imagejpeg($image, $destination_url, 10);
+                        imagejpeg($image, $destination_url, 95);
                         $keyname1 = 'item_images/'.$img_name;
                         $this->AwsFile->putObjectFile($keyname1,$destination_url,$file['type']);
             
