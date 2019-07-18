@@ -51,7 +51,8 @@ echo $this->Html->link('Close',array(),['escape'=>false,'class'=>'btn  red hidde
 				
 				<tr style="background-color:#fff; color:#000;">
 					<td align="left" colspan="5">
-					<b>Address: </b><?= h(ucwords(@$order->customer_address->name)) ?><br><?= h(@$order->customer_address->house_no) ?> &nbsp;<?= h(ucfirst(@$order->customer_address->address)) ?>,&nbsp;<br/><?= h(ucwords(@$order->customer_address->locality)) ?><br><b>Mobile:</b> <?= h(@$order->customer_address->mobile) ?>	
+					<b>Name: </b><?= h(ucwords(@$order->customer_address->name)) ?><br>
+					<b>Address</b><?= h(@$order->customer_address->house_no) ?> &nbsp;<?= h(ucfirst(@$order->customer_address->address)) ?>,&nbsp;<br/><?= h(ucwords(@$order->customer_address->locality)) ?><br><b>Mobile:</b> <?= h(@$order->customer_address->mobile) ?>	
 					</td>
 				</tr>
 			</table>

@@ -91,11 +91,11 @@
                             {
                                 echo"Yes";
                             }?></td>
-                            <td><?php if($order_detail->order->order_from == "app")
+                            <td><?php if($order_detail->order->order_from == "Android APP")
                             {
                                 echo"Yes";
                             }?></td>
-                            <td><?php if($order_detail->order->order_from == "web")
+                            <td><?php if($order_detail->order->order_from == "Ecommerce")
                             {
                                 echo"Yes";
                             }?></td>

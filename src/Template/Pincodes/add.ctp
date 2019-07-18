@@ -30,7 +30,7 @@
                     </div>
                     <div class="col-md-3">
                         <label>We Deliver</label>
-                        <select name="we_deliver" class="form-control input-sm wedeliver">
+                        <select name="we_deliver" class="form-control input-sm wedeliver"  id="delivery">
                             <option value="">--Select--</option>
                             <option value="Yes">Yes</option>
                             <option value="No">No</option>
@@ -40,17 +40,17 @@
                 <div class="row delivery_reason display-none">
                     <div class="col-md-10">
                         <label>Delivery Reason</label>
-                        <textarea name="delivery_reason" class="form-control"></textarea>
+                        <textarea name="delivery_reason" class="form-control" id="reason"></textarea>
                     </div>
                 </div>
                 <div class="row Yesbox display-none">
                     <div class="col-md-3">
                         <label>Amount</label>
-                        <input type="text" name="amount" class="form-control input-sm" value="0">
+                        <input type="text" name="amount" class="form-control input-sm" id="amt">
                     </div>
                     <div class="col-md-3">
                         <label>Delivery Charge</label>
-                        <input type="text" name="charge" class="form-control input-sm" value="0">
+                        <input type="text" name="charge" class="form-control input-sm" id="charge">
                     </div>
                     <!--<div class="col-md-3">
                         <label>Type</label>
@@ -68,6 +68,20 @@
 <?php echo $this->Html->script('/assets/global/plugins/jquery.min.js'); ?>
 <script>
 $(document).ready(function() {
+
+$(document).on('change','#delivery',function(){
+    var del=$(this).val();
+    //alert(del);
+    if(del == "No")
+    {
+        $('#reason').attr('required','required');
+    }
+    if(del == "Yes")
+    {
+        $('#charge').attr('required','required');
+        $('#amt').attr('required','required');
+    }
+});
 
 $(document).on('change','.state',function(){
     

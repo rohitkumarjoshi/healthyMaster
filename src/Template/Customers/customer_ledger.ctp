@@ -133,6 +133,7 @@
 							<thead>
 								<tr><h4 align="left">Cart</h4></tr>
 								<tr>
+									<th>Item ID</th>
 									<th>Item</th>
 									<th width="10%">Variation</th>
 									<th>quantity</th>
@@ -145,6 +146,9 @@
 									@$t++;
 										?>
 										<tr>
+											<td>
+												<?= h(@$cart->item->id) ?>
+											</td>
 											<td>
 												<?= h(@$cart->item->name) ?>
 											</td>
@@ -189,6 +193,7 @@
 							<thead>
 								<tr><h4 align="left">Wishlist</h4></tr>
 								<tr>
+									<th>Item ID</th>
 									<th>Item</th>
 									<th>Variation</th>
 									<th>Amount</th>
@@ -199,6 +204,9 @@
 								foreach($wishlists as $wishlist){
 									?>
 									<tr>
+										<td>
+												<?= h(@$cart->item->id) ?>
+											</td>
 										<td>
 											<?= h(@$wishlist->item->name) ?>
 										</td>

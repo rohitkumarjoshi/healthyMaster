@@ -111,6 +111,7 @@
 						<tr>
 							<th scope="col">Sr. No.</th>
 							<th scope="col">Order No.</th>
+							<th scope="col">Customer ID</th>
 							<th scope="col">Customer Name</th>
 							<!--<th scope="col">wallet Amount</th>-->
 							<th scope="col">Locality</th>
@@ -146,6 +147,10 @@
 							<td>
 							<?php echo $this->Html->link($order->order_no,['controller'=>'Orders','action' => 'view', $order->id, 'print'],['target'=>'_blank']); ?>
 						</td>
+							<td>
+								<?php
+								$customer_name=$order->customer->id; ?>
+							</td>
 							<td>
 							<?php
 								$customer_name=$order->customer->name;
