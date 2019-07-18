@@ -45,7 +45,7 @@ class ItemCategoriesController extends AppController
 				array_push($dynamic,$Items);
 			}
 			if($HomeScreen->layout=='Category'){
-				 $category = $this->ItemCategories->find()->where(['is_deleted'=>0]);
+				 $category =$this->ItemCategories->find()->where(['is_deleted'=>0,'id'=>1])->contain(['ChildItemCategories']);
 				
 				$Category = array("title"=>$HomeScreen->title,'layout'=>$HomeScreen->layout,'category_id'=>$HomeScreen->category_id,'item_id'=>$HomeScreen->item_id,'image'=>$HomeScreen->image,"DynamicList"=>$category);
 				array_push($dynamic,$Category);
