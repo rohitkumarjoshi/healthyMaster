@@ -47,7 +47,7 @@
 				<div class="row" style="margin-top:10px;">
 					<div class="col-md-8">
 						<label class=" control-label">Pincode<span class="required" aria-required="true">*</span></label>
-						<?php echo $this->Form->control('pincode',['placeholder'=>'Pincode','class'=>'form-control input-sm','label'=>false]); ?>
+						<?php echo $this->Form->control('pincode',['placeholder'=>'Pincode','class'=>'form-control input-sm','label'=>false,'minlength'=>6,'maxlength'=>6]); ?>
 					</div>
 				</div>
 				<div class="row" style="margin-top:10px;">
@@ -82,8 +82,14 @@
 				</div>
 				<div class="row" style="margin-top:10px;">
 					<div class="col-md-8">
-						<label class=" control-label">Locality<span class="required" aria-required="true">*</span></label>
+						<label class=" control-label">Locality</label>
 						<?php echo $this->Form->control('locality',['placeholder'=>'locality','class'=>'form-control input-sm','label'=>false]); ?>
+					</div>
+				</div>
+				<div class="row" style="margin-top:10px;">
+					<div class="col-md-8">
+						<label class=" control-label">Landmark</label>
+						<?php echo $this->Form->control('landmark',['placeholder'=>'landmark','class'=>'form-control input-sm','label'=>false]); ?>
 					</div>
 				</div>
 
