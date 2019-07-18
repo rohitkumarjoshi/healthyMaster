@@ -17,7 +17,7 @@
 			<div class="portlet-title">
 				<div class="caption">
 					<i class="font-purple-intense"></i>
-					<span class="caption-subject font-purple-intense ">ORDER</span>
+					<span class="caption-subject font-purple-intense ">ORDERS</span>
 				</div>
 				<div class="actions">
 					<?php //echo $this->Html->link('<i class="fa fa-plus"></i> Add new','/Orders/Add/Offline',['escape'=>false,'class'=>'btn btn-default']) ?>
@@ -121,8 +121,9 @@
 							<th scope="col">Order Type</th>
 							<th scope="col">Order Date</th>
 							<th scope="col">Delivery Date</th>
+							<th scope="col">Delivery Time</th>
 							<th scope="col" class="actions"><?= __('Actions') ?></th>
-							<th scope="col">Edit</th>
+							<!-- <th scope="col">Edit</th> -->
 						</tr>
 					</thead>
 					<tbody>
@@ -148,8 +149,8 @@
 							<?php echo $this->Html->link($order->order_no,['controller'=>'Orders','action' => 'view', $order->id, 'print'],['target'=>'_blank']); ?>
 						</td>
 							<td>
-								<?php
-								$customer_name=$order->customer->id; ?>
+								<?=
+								$order->customer->id; ?>
 							</td>
 							<td>
 							<?php
@@ -170,7 +171,8 @@
 							<td><?= h($order->payment_status) ?></td>
 							<td><?= h($order->order_from) ?></td>
 							<td><?php $q=explode(' ',$order->order_date); ?> <span style="font-size:11px;"><?php echo $q[0] ?></span></td>
-							<td><span style="font-size:11px;"><?= h($date_show) ?></span></td>
+							<td><span style="font-size:11px;"><?= h($delivery_date) ?></span></td>
+							<td><span style="font-size:11px;"><?= h($actual_deliver_time) ?></span></td>
 							
 							
 							<td class="actions">
@@ -208,7 +210,7 @@
 							<button class="btn btn-primary btn-xs ok" order_id="<?=$order->id ?>">Ok</button>
 						<?php } ?>
 							</td>
-							<?php  if(($status=='In Process') || ($status=='In process')){ 
+							<!-- <?php  if(($status=='In Process') || ($status=='In process')){ 
 							if(( $order_date == $current_date ) || ($order_date == $prev_date  )){?>
 								<td>
 									<?= $this->Html->link(__('Edit'), ['action' => 'edit', $order->id]) ?>
@@ -218,7 +220,7 @@
 								<td></td>
 							<?php }}else {?>
 								<td></td>
-							 <?php } ?>
+							 <?php } ?> -->
 							
 						</tr>
 						<?php endforeach; ?>
