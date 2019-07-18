@@ -64,11 +64,12 @@
 				<div class="col-md-3">
 					<label>Shipping</label>
 					
-					<select name="is_freeship" class="form-control input-sm" id="freeship" required="required">
-						<option>--Select--</option>
-						<option value="0">No</option>
-						<option value="1">Yes</option>
-					</select>
+					<?php 
+					$options=[];
+					$options[0]='NO';
+					$options[1]='Yes';
+					echo $this->Form->control('is_freeship',['empty'=>'--Select Shipping--','options' => $options,'class'=>'form-control input-sm','label'=>false,'id'=>'freeship','value'=>'']); ?>
+					
 				</div>
 				
 				

@@ -532,10 +532,9 @@ function selectAutoCompleted1(value) {
 					<td align="center" width="1px"></td>
 				    <td>
 				    	
-				    	<select name="item_id" class="form-control input-sm chosen-select item-id" required>
-							
-							
-						</select>
+					<?php 
+					$items=[];
+					echo $this->Form->control('item_id',['empty'=>'--Select Item--','options' => $items,'class'=>'form-control input-sm chosen-select item-id','label'=>false,'required'=>true]); ?>
 
 					</td>
 					<td>

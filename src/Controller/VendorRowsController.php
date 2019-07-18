@@ -20,18 +20,10 @@ class VendorRowsController extends AppController
     public function options(){
         $vendor_id=$this->request->getData('input'); 
 
-            $item=$this->VendorRows->find()->where(['VendorRows.vendor_id '=>$vendor_id])->contain(['Items']);
-            ?>
-             <select  class="form-control input-sm chosen-select item-id valid" required>
-                    <option>--Select--</option>
-                    <?php foreach($item as $show){ ?>
-                        
-                        <option value="<?= $show->item_id ?>"><?= $show->item->name ?></option>
-                    <?php } ?>
-             </select>
-            <?php
-        
-        exit;  
+        $item=$this->VendorRows->find()->where(['VendorRows.vendor_id '=>$vendor_id])->contain(['Items']);
+				
+        $this->set(compact('item'));   
+       
     }
 
     public function index()
