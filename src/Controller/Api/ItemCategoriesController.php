@@ -9,6 +9,8 @@ class ItemCategoriesController extends AppController
 		$customer_id=$this->request->query('customer_id');
 		$dynamic=[];
 		
+		$categoryList = $this->ItemCategories->find()->where(['ItemCategories.is_deleted'=>0,'ItemCategories.parent_id IS'=>NULL])->contain(['ChildItemCategories']);
+		
 		$HomeScreens=$this->ItemCategories->HomeScreens->find()->where(['HomeScreens.section_show'=>'Yes']);
 		//pr($HomeScreens->toArray()); exit;
 		
@@ -194,8 +196,8 @@ class ItemCategoriesController extends AppController
 
 		$status=true;
 		$error="Data found successfully";
-        $this->set(compact('status', 'error', 'dynamic','cart_count','wishlist_count'));
-        $this->set('_serialize', ['status', 'error','cart_count','dynamic','wishlist_count']);
+        $this->set(compact('status', 'error', 'dynamic','cart_count','wishlist_count','categoryList'));
+        $this->set('_serialize', ['status', 'error','cart_count','dynamic','wishlist_count','categoryList']);
     }
 	
 	public function categoryList()
