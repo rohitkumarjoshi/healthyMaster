@@ -51,7 +51,7 @@ class CustomerAddressesController extends AppController
         $this->set('_serialize', ['customerAddresses', 'customerAddress', 'customer_id', 'id']);
     }
 
-	public function saveAddress($customer_id,$name,$mobile,$house_no,$address,$locality,$default_address){
+	public function saveAddress($customer_id,$name,$mobile,$house_no,$address,$locality,$default_address,$pin_code,$apartment_name,$landmark){
 		
         //pr($customer_id);exit;
 		
@@ -66,15 +66,18 @@ class CustomerAddressesController extends AppController
 						->where(['customer_id' => $customer_id])
 						->execute();
 						$query = $this->CustomerAddresses->query();
-						$query->insert(['customer_id', 'name', 'mobile', 'house_no','address','locality','default_address'])
+						$query->insert(['customer_id', 'name', 'mobile', 'house_no','address','locality','default_address','pin_code','apartment_name','landmark'])
 									->values([
 										'customer_id' => $customer_id,
 										'name' => $name,
 										'mobile' => $mobile,
 										'house_no' => $house_no,
 										'address' => $address,
-										'locality' => $locality,
-										'default_address' => 1
+                                        'locality' => $locality,
+                                        'pin_code' => $pin_code,
+                                        'landmark' => $landmark,
+										'apartment_name' => $apartment_name,
+										'default_address' => $default_address
 									]);
 					$query->execute();	
 					
@@ -82,7 +85,7 @@ class CustomerAddressesController extends AppController
 		$customerAddress = $this->CustomerAddresses->newEntity();
 				  $customerAddress = $this->CustomerAddresses->patchEntity($customerAddress, $this->request->getData());
 						$query = $this->CustomerAddresses->query();
-						$query->insert(['customer_id', 'name', 'mobile', 'house_no','address','locality','default_address'])
+						$query->insert(['customer_id', 'name', 'mobile', 'house_no','address','locality','default_address','pin_code','apartment_name','landmark'])
 									->values([
 										'customer_id' => $customer_id,
 										'name' => $name,
@@ -90,9 +93,13 @@ class CustomerAddressesController extends AppController
 										'house_no' => $house_no,
 										'address' => $address,
 										'locality' => $locality,
-										'default_address' => 1
+                                        'pin_code' => $pin_code,
+                                        'landmark' => $landmark,
+                                        'apartment_name' => $apartment_name,
+										'default_address' => $default_address
 									]);
 					$query->execute();	
+                    echo $query->id;
 		}			
 				exit;
 	}

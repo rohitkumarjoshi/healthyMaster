@@ -67,7 +67,7 @@
 
 							<tr>
 								<th>Sr</th>
-								<th>Order</th>
+								<th>Order No</th>
 								<th>Point</th>
 								<th>Date</th>
 								<th>Total</th>

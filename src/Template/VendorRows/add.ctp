@@ -4,8 +4,7 @@
             <div class="portlet-title">
                 <div class="caption">
                     <i class="font-purple-intense"></i>
-                    <span class="caption-subject font-purple-intense ">
-                        <i class="fa fa-plus"></i> Add Vendor Item
+                    <span class="caption-subject font-purple-intense ">ADD VENDOR ITEM
                     </span>
                 </div>
                 <div class="actions">

@@ -9,12 +9,11 @@
             <div class="portlet-title">
                 <div class="caption">
                     <i class="font-purple-intense"></i>
-                    <span class="caption-subject font-purple-intense ">
-                        <i class="fa fa-plus"></i> Vendor Item List
+                    <span class="caption-subject font-purple-intense ">VENDOR ITEM LIST
                     </span>
                 </div>
                 <div class="actions">
-                    <?php echo $this->Html->link('<i class="fa fa-plus"></i> Add New','/VendorRows/Add',['escape'=>false,'class'=>'btn btn-default']) ?> 
+                    <?php echo $this->Html->link('Add New','/VendorRows/Add',['escape'=>false,'class'=>'btn btn-default']) ?> 
                     
                 </div>
             </div>

@@ -29,7 +29,7 @@
 				<div class="row" style="margin-top: 12px;">
 					<div class="col-md-4">
 						<label class=" control-label">GST No. <span class="required" aria-required="true">* </label>
-						<?php echo $this->Form->control('gst_no',['placeholder'=>'GST No.','class'=>'form-control input-sm gst_no','label'=>false,'required']); ?>
+						<?php echo $this->Form->control('gst_no',['placeholder'=>'GST No.','class'=>'form-control input-sm gst_no','label'=>false,'required','type'=>'text']); ?>
 					</div>
 					<div class="col-md-4">
                         <?= $this->Form->control('id',['type'=>'hidden']); ?>
@@ -88,16 +88,7 @@ $(document).ready(function() {
 				},
 				gst_no:{
 						required:true,
-						// remote :{
-						// 	url:"check-email.php",
-						// 	type:"post",
-						// 	data:{
-						// 		id: function()
-						// 		{
-						// 			return $('#regfrm :input[name="id"]').val();
-						// 		}
-						// 	}
-						// }
+						
 					},
 				city_id:{
 					required: true,					 

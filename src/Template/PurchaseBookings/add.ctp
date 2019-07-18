@@ -89,7 +89,7 @@
 				 
 				<br/>
 				<center>
-				<?= $this->Form->button($this->Html->tag('i') . __(' Submit'),['class'=>'btn btn-success']); ?>
+				<?= $this->Form->button($this->Html->tag('') . __(' Submit'),['class'=>'btn btn-success']); ?>
 				<?= $this->Form->end() ?>
 				</center>
 			</div>
@@ -105,9 +105,7 @@ $(document).ready(function() {
 		var input=$(this).val();
 
         var master = $(this); 
-         $("#main_table tbody#main_tbody tr.main_tr").each(function(){
-			$(this).find("td:nth-child(2) .item-id option ").remove();
-		});
+        
 		//alert(input);
 		if(input.length>0){
             var m_data = new FormData();
@@ -123,7 +121,6 @@ $(document).ready(function() {
                 dataType:'text',
                 success: function(response)
                 { 
-                	//alert(response);
 						$(".item-id").html(response);
                 }
             });
@@ -239,8 +236,11 @@ $(document).ready(function() {
 		errorClass: 'help-block help-block-error', // default input error message class
 		focusInvalid: true, // do not focus the last invalid input
 		rules: {
+				item_id:{
+					required:true,
+				},
 				customer_id:{
-					required: true
+					required: true,
 				},
 			},
 
