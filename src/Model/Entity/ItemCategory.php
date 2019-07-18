@@ -50,7 +50,9 @@ class ItemCategory extends Entity
      * @var array
      */
     protected $_accessible = [
-        'name' => true,
+		
+        '*' => true,
+		'name' => true,
         'is_deleted' => true,
         'jain_thela_admin_id' => true,
         'seller_id' => true,
@@ -59,6 +61,7 @@ class ItemCategory extends Entity
         'parent_id' => true,
         'lft' => true,
         'rght' => true,
+        'has_sub_category' => true,
        
     ];
 }
