@@ -197,7 +197,11 @@
 
 							<?php } ?>
 							</select>
+							<?php if($order->status!="Delivered")
+							{
+							?>
 							<button class="btn btn-primary btn-xs ok" order_id="<?=$order->id ?>">Ok</button>
+						<?php } ?>
 							</td>
 							<?php  if(($status=='In Process') || ($status=='In process')){ 
 							if(( $order_date == $current_date ) || ($order_date == $prev_date  )){?>
@@ -253,6 +257,11 @@ $(document).ready(function() {
 
 	 $(document).on('click',".ok",function(){
 		var status=$(this).closest('tr').find('.option_status').val();
+		if(status == "Delivered")
+		{
+			$(this).closest('tr').find('.ok').hide();
+		}
+		
 		var id=$(this).attr('order_id');
 		//alert(status);
 		 $.ajax({

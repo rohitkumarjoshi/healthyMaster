@@ -332,8 +332,11 @@ $(document).ready(function() {
 		focusInvalid: true, // do not focus the last invalid input
 		rules: {
 				customer_id:{
-					required: true
+					required: true,
 				},
+				delivery_time_id:{
+					required :true,
+				}
 			},
 
 		errorPlacement: function (error, element) { // render error placement for each input type

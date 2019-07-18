@@ -425,6 +425,7 @@ class OrdersController extends AppController
 		}
 		if(!empty($orderstatus)){
 			$where['Orders.status']=$orderstatus;
+
 		}
 		if(!empty($from_date)){ 
 			$where['Orders.curent_date >=']=date('Y-m-d',strtotime($from_date));
@@ -438,41 +439,62 @@ class OrdersController extends AppController
             'contain' => ['Customers']
         ];
 		
-		if($status == 'process'){ 
+		if($status == 'In Process'){ 
 							
 							$where['Orders.status']='In Process';
 							$cur_date = date('d-m-Y');
 							$orders =$this->paginate($this->Orders->find('all')
 							->where($where)
 							->order(['Orders.id'=>'DESC'])
-							->where(['jain_thela_admin_id'=>$jain_thela_admin_id])
 							->contain(['CustomerAddresses']));
 							$cur_status = 'In Process';
 							 $this->set(compact('orders','cur_status','cur_date','status'));
-		}else if($status == 'delivered'){
+		}else if($status == 'Delivered'){
 							$where['Orders.status']='Delivered';
 							$cur_date = date('d-m-Y');
 							$orders =$this->paginate($this->Orders->find('all')
 							->where($where)
 							->order(['Orders.id'=>'DESC'])
-							->where(['jain_thela_admin_id'=>$jain_thela_admin_id,'Orders.curent_date'=>$cur_date])
 							->contain(['CustomerAddresses']));
 							$cur_status = 'Delivered';
 							
 							 $this->set(compact('orders','cur_status','cur_date','status'));
-		}else
-			 if($status == 'cancel'){
-							$where['Orders.status']='Cancel';
+							}
+		else if($status == 'Packed'){
+							$where['Orders.status']='Packed';
 							$cur_date = date('d-m-Y');
 							$orders =$this->paginate($this->Orders->find('all')
 							->where($where)
 							->order(['Orders.id'=>'DESC'])
-							->where(['jain_thela_admin_id'=>$jain_thela_admin_id,'Orders.curent_date'=>$cur_date])
 							->contain(['CustomerAddresses']));
-							$cur_status = 'Cancel';
+							$cur_status = 'Packed';
+							
+							 $this->set(compact('orders','cur_status','cur_date','status'));
+							}
+		else if($status == 'Dispatch'){
+							$where['Orders.status']='Dispatch';
+							$cur_date = date('d-m-Y');
+							$orders =$this->paginate($this->Orders->find('all')
+							->where($where)
+							->order(['Orders.id'=>'DESC'])
+							->contain(['CustomerAddresses']));
+							$cur_status = 'Dispatch';
+							
+							 $this->set(compact('orders','cur_status','cur_date','status'));
+							}
+		// else if($status == 'cancel'){
+		// 					$where['Orders.status']='Cancel';
+		// 					$cur_date = date('d-m-Y');
+		// 					$orders =$this->paginate($this->Orders->find('all')
+		// 					->where($where)
+		// 					->order(['Orders.id'=>'DESC'])
+		// 					->where(['jain_thela_admin_id'=>$jain_thela_admin_id,'Orders.curent_date'=>$cur_date])
+		// 					->contain(['CustomerAddresses']));
+		// 					$cur_status = 'Cancel';
 			
-							$this->set(compact('orders','cur_status','cur_date','status'));
-		}else if($type == 'bulkorder'){ 
+		// 					$this->set(compact('orders','cur_status','cur_date','status'));
+		//}
+		else if($type == 'bulkorder'){ 
 							$where['Orders.order_type']='Bulkorder';
 							$cur_date = date('d-m-Y');
 							$orders =$this->paginate($this->Orders->find('all')
@@ -510,7 +532,7 @@ class OrdersController extends AppController
 		$order_type=[['text'=>'Bulkorder','value'=>'Bulkorder'],['text'=>'Cod','value'=>'Cod'],['text'=>'Offline','value'=>'Offline'],['text'=>'Online','value'=>'Online'],['text'=>'Wallet','value'=>'Wallet']];
 		
 		$OrderStatus=[];
-		$OrderStatus=[['text'=>'Delivered','value'=>'Delivered'],['text'=>'In Process','value'=>'In Process']];
+		$OrderStatus=[['text'=>'Delivered','value'=>'Delivered'],['text'=>'Packed','value'=>'Packed'],['text'=>'Dispatch','value'=>'Dispatch'],['text'=>'In Process','value'=>'In Process']];
         $this->set(compact('orders','Customer_data','order_type','OrderStatus','order_no','customer_id','order_types','orderstatus','from_date','to_date','status'));
         $this->set('_serialize', ['orders']);
     }
@@ -1089,7 +1111,7 @@ class OrdersController extends AppController
             $order['actual_deliver_time']=$this->request->getData('delivery_time');
             $order['cancel_id']=0;
             $order['payment_status']="Sucess";
-            $order['order_from']="app";
+            $order['order_from']="walkinsales";
             $order['order_time']='LocalDateTime.now()';
             $order['order_time']='';
             $order['online_payment_status']='';
