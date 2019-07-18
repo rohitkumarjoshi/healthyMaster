@@ -17,7 +17,7 @@
 					
 				</div>
 			</div>
-			<div class="portlet-body">
+			<div class="portlet-body" style="overflow:auto;">
 				<table class="table table-condensed table-hover table-bordered" id="main_tble">
 					<thead>
 						<tr>
@@ -57,27 +57,27 @@
 						?></td>
 							<td><?php
 								//foreach ($customer->customer_addresses as $address) {
-								echo h($customer->customer_addresses['0']->house_no);
+								echo h(@$customer->customer_addresses[0]->house_no);
 							?></td>
 							<td><?php
 								//foreach ($customer->customer_addresses as $address) {
-								echo h($customer->customer_addresses['0']->apartment);
+								echo h(@$customer->customer_addresses[0]->apartment);
 							?></td>
 							<td><?php
 								//foreach ($customer->customer_addresses as $address) {
-								echo h($customer->customer_addresses['0']->landmark);
+								echo h(@$customer->customer_addresses[0]->landmark);
 							?></td>
 							<td><?php
 								//foreach ($customer->customer_addresses as $address) {
-								echo h($customer->customer_addresses['0']->state->state_name);
+								echo h(@$customer->customer_addresses[0]->state->state_name);
 							?></td>
 							<td><?php
 								//foreach ($customer->customer_addresses as $address) {
-								echo h($customer->customer_addresses['0']->city->name);
+								echo h(@$customer->customer_addresses[0]->city->name);
 							?></td>
 							<td><?php
 								//foreach ($customer->customer_addresses as $address) {
-								echo h($customer->customer_addresses['0']->pincode);
+								echo h(@$customer->customer_addresses[0]->pincode);
 							?></td>
 							<td class="actions">
 								<?= $this->Html->link(__('Edit'), ['action' => 'edit', $customer->id]) ?>
