@@ -19,7 +19,7 @@
 					</div>
 					<div class="col-md-4">
 						<label class=" control-label">Mobile No.  <span class="required" aria-required="true">*</label>
-						<?php echo $this->Form->control('mobile',['placeholder'=>'Moble No.','class'=>'form-control input-sm','label'=>false,'oninput'=>"this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');",'required','minlength'=>10,'maxlength'=>10,'type'=>'number']); ?>
+						<?php echo $this->Form->control('mobile',['placeholder'=>'Moble No.','class'=>'form-control input-sm mobile','label'=>false,'oninput'=>"this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');",'required','minlength'=>10,'maxlength'=>10,'type'=>'number']); ?>
 					</div>
 					<div class="col-md-4">
 						<label class=" control-label">Email  <span class="required" aria-required="true">*</label>
@@ -64,7 +64,38 @@
 <script>
 $(document).ready(function() {
 
+	$(document).on('change','.mobile',function(){
+		//alert();
+		var input=$(this).val();
 
+        var master = $(this); 
+		//alert(input);
+		if(input.length>0){
+            var m_data = new FormData();
+            var url ="<?php echo $this->Url->build(["controller" => "Vendors", "action" => "checks"]); ?>";
+         //   alert(url);
+            m_data.append('input',input); 
+            $.ajax({
+                url: url,
+                data: m_data,
+                processData: false,
+                contentType: false,
+                type: 'POST',
+                dataType:'text',
+                success: function(response)
+                { 
+                	//alert(response);
+                	if(response == 1)
+                	{
+						$('.mobile').val('');
+						alert("No Already Exist");
+					}
+
+
+                }
+            });
+            }
+	});
 	var form3 = $('#form_sample_3');
 	var error3 = $('.alert-danger', form3);
 	var success3 = $('.alert-success', form3);

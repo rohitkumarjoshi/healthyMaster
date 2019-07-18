@@ -62,16 +62,25 @@
 
 				</div>
 				<div class="col-md-3">
-					<label class=" control-label">Cart Value </label>
-					<?php echo $this->Form->control('cart_value',['placeholder'=>'Cart Value','class'=>'form-control input-sm cart','id'=>'cart','label'=>false]); ?>
+					<label>Shipping</label>
+					
+					<select name="is_freeship" class="form-control input-sm" id="freeship" required="required">
+						<option>--Select--</option>
+						<option value="0">No</option>
+						<option value="1">Yes</option>
+					</select>
 				</div>
+				
 				
 				
 			
 			</div>
 
 			<div class="row" style="margin-top: 10px;">
-				
+				<div class="col-md-3">
+					<label class=" control-label">Cart Value </label>
+					<?php echo $this->Form->control('cart_value',['placeholder'=>'Cart Value','class'=>'form-control input-sm cart','id'=>'cart','label'=>false]); ?>
+				</div>
 				<div class="col-md-3">
 					<label class=" control-label">Valid From</label>
 					<?php echo $this->Form->control('valid_from',['placeholder'=>'Valid From','class'=>'form-control input-sm date-picker','data-date-format'=>'dd-mm-yyyy','label'=>false,'type'=>'text','id'=>'start_date','onchange'=>'ValidateEndDate()','required']); ?>
@@ -82,15 +91,7 @@
 					<?php echo $this->Form->control('valid_to',['placeholder'=>'Valid To','class'=>'form-control input-sm date-picker','data-date-format'=>'dd-mm-yyyy','label'=>false,'type'=>'text','id'=>'end_date','onchange'=>'ValidateEndDate()','required']); ?>
 					
 				</div>
-				<div class="col-md-3">
-					<label>Shipping</label>
-					
-					<select name="is_freeship" class="form-control select2 input-sm" id="freeship">
-						<option value="1" selected="selected">No</option>
-						<option value="1">Yes</option>
-					</select>
-
-				</div>
+				
 			</div>
 			<div class="row" style="margin-top: 20px;">
 				<div class="col-md-10">
@@ -326,6 +327,7 @@ $(document).ready(function() {
 				valid_to:{
 					required: true,
 				}
+
 			},
 
 		errorPlacement: function (error, element) { // render error placement for each input type

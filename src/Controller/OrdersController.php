@@ -518,8 +518,7 @@ class OrdersController extends AppController
 							$orders =$this->paginate($this->Orders->find()
 							->where($where)
 							->order(['Orders.id'=>'DESC'])
-							->where(['jain_thela_admin_id'=>$jain_thela_admin_id])
-							->contain(['CustomerAddresses']));
+							->contain(['CustomerAddresses','Customers']));
 		}
        
 		//pr($orders->toArray()); exit;

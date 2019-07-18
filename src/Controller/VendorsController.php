@@ -19,7 +19,18 @@ class VendorsController extends AppController
      * @return \Cake\Http\Response|null
      */
 
-   
+    public function checks()
+    {
+        //$items='0';
+         $mobile=$this->request->getData('input'); 
+         //alert($mobile);
+            if($this->Vendors->exists(['mobile'=>$mobile]))
+            {
+                echo"1";
+            }
+    
+        exit;  
+    }
 
      public function check()
     {
