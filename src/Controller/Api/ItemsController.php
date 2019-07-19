@@ -33,7 +33,10 @@ class ItemsController extends AppController
 	
 	public function itemkeyword(){
 		$item_category_id=$this->request->query('item_category_id');
+		$page=$this->request->query('page');
+		if(!$page){ $page=1;}
 		$customer_id=$this->request->query('customer_id'); 
+		$limit=10;
 		$ItemRows = $this->Items->ItemRows->find()
 		->where(['ItemRows.item_category_id'=>$item_category_id])
 		->contain(['Items'=>['ItemVariations'=>function($q) use($customer_id) {
@@ -42,7 +45,9 @@ class ItemsController extends AppController
 							function($q) use($customer_id){
 								return $q->where(['customer_id'=>$customer_id]);
 						}]);
-					}]]);
+					}]])
+					->limit($limit)
+					->page($page);
 		if($ItemRows->toArray()){
 			$status=true;
 			$error="data found";
@@ -52,9 +57,7 @@ class ItemsController extends AppController
 		}
 		$cart_count = $this->Items->Carts->find('All')->where(['Carts.customer_id'=>$customer_id])->count();
 		$this->set(compact('status', 'error','ItemRows','cart_count'));
-		$this->set('_serialize', ['status', 'error','cart_count','ItemRows']);
-		
-		
+		$this->set('_serialize', ['status', 'error','cart_count','ItemRows']); 
 	}
 	
 	
