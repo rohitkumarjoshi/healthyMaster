@@ -14,6 +14,33 @@ use App\Controller\AppController;
  */
 class OrdersController extends AppController
 {
+	
+	
+	public function Invoice($id=null){
+		
+		    $query = $this->Orders->find();
+			$invoice_nos=$query->select(['max_value' => $query->func()->max('invoice_no')])->toArray();
+			$invoice_no=$invoice_nos[0]->max_value+1;
+			$query1 = $this->Orders->query();
+			$query1->update()
+			->set(['invoice_no' =>$invoice_no,'invoice_date' =>date("Y-m-d")])
+			->where(['id' =>$id])
+			->execute();
+			echo'ok';
+			exit;
+	}
+	
+	public function newview($id=null){
+		
+		$this->viewBuilder()->layout('index_layout');
+		$order = $this->Orders->get($id, [
+			'contain' => ['Customers', 'CustomerAddresses'=>['States','Cities'], 'PromoCodes', 'OrderDetails'=>['Items'=>['GstFigures'],'ItemVariations'=>['Units']]]
+		]);
+		
+		$this->set(compact('order', 'id', 'print'));
+		$this->set('_serialize', ['order']);
+		
+	}
 
 	public function gstReports()
 	{

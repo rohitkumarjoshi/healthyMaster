@@ -209,6 +209,9 @@
 							?>
 							<button class="btn btn-primary btn-xs ok" order_id="<?=$order->id ?>">Ok</button>
 						<?php } ?>
+						<?php if(empty($order->invoice_no)){ ?>
+							<input type="button" name="generate" order_id="<?=$order->id ?>" value="Generate Invoice" class="btn btn-success btn-xs generate_invoice" >
+						<?php } ?>
 							</td>
 							<!-- <?php  if(($status=='In Process') || ($status=='In process')){ 
 							if(( $order_date == $current_date ) || ($order_date == $prev_date  )){?>
@@ -261,6 +264,25 @@ var $rows = $('#main_tble tbody tr');
 </script>
 <script>
 $(document).ready(function() {
+	$(document).on('click',".generate_invoice",function(){
+		var x =$(this);
+		var id=$(this).attr('order_id');
+		var url="<?php echo $this->Url->build(["controller" => "Orders", "action" => "Invoice"]); ?>";
+		var go_to_url="<?php echo $this->Url->build(["controller" => "Orders", "action" => "view"]); ?>";
+		go_to_url=go_to_url+'/'+id;
+		url=url+'/'+id;
+		$.ajax({
+			url: url,
+			type: 'GET',
+			dataType: 'text'
+		}).done(function(response) {
+			if(response=='ok'){
+				x.hide();
+				window.open(go_to_url, '_blank');
+			}
+			
+		});
+	});
 
 	 $(document).on('click',".ok",function(){
 		var status=$(this).closest('tr').find('.option_status').val();
