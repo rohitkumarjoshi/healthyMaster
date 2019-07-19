@@ -47,7 +47,7 @@
 							<td><?= $customer->id ?></td>
 							<td><?php echo $this->Html->link($customer->name,['controller'=>'Customers','action' => 'customerLedger', $customer->id, 'print'],['target'=>'_blank']); ?></td>
 							<td><?= h($customer->mobile) ?></td>
-							<td><?= h($customer->email) ?></td>
+							<td><?= h(@$customer->email) ?></td>
 							<td><?php
 							$a=0;
 							foreach ($customer->customer_addresses as $customeradd) { $a++;?>

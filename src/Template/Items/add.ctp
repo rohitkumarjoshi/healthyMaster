@@ -251,9 +251,9 @@ $('.gst').on('change',function(){
 				item_code:{
 					required: true,
 				},
-				alias_name:{
-					required: true,
-				}
+				// alias_name:{
+				// 	required: true,
+				// }
 			},
 
 		errorPlacement: function (error, element) { // render error placement for each input type

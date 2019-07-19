@@ -108,12 +108,12 @@ $(document).ready(function() {
 				name:{
 					required: true,					 
 				},
-				email:{
-					required: true,					 
-				},
-				mobile:{
-					required: true,					 
-				},
+				// email:{
+				// 	required: true,					 
+				// },
+				// mobile:{
+				// 	required: true,					 
+				// },
 				state_id:{
 					required: true,					 
 				},

@@ -155,12 +155,15 @@ class TransferInventoryVouchersController extends AppController
 		//pr($item_fetchs->toArray());exit;
 		
 		foreach($item_fetchs as $item_fetch){
-
-			$variation_id=$item_fetch->item_variations->id;
 			$item_name=$item_fetch->name;
-			$quantity_variation=$item_fetch->item_variations->quantity_variation;
-			$shortname=$item_fetch->item_variations->unit->shortname;
-			$items[]= ['value'=>$item_fetch->id,'text'=>$item_name." (".$quantity_variation." ".$shortname.")",'variation_id'=>$variation_id];
+			$id=$item_fetch->id;
+			foreach ($item_fetchs->item_variations as $variation) {
+			$variation_id=$variation->id;
+			
+			$quantity_variation=$variation->quantity_variation;
+			$shortname=$variation->unit->shortname;
+			$items[]= ['value'=>$id,'text'=>$item_name." (".$quantity_variation." ".$shortname.")",'variation_id'=>$variation_id];
+		}
 		}
 		
 		
