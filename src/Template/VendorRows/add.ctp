@@ -12,14 +12,18 @@
             </div>
             <div class="portlet-body">
             <?= $this->Form->create($vendorRow,['type'=>'file','id'=>'form_sample_3']) ?>
-                    
                 <div class="row">
-                        <div class="col-md-12" style="margin-top: 10px;">
+                    <div class="col-md-4">
+                        <label>Vendor</label>
+                        <?php echo $this->Form->control('vendor_id', ['empty'=>'--select--','options' => @$vendors,'class'=>'form-control','label'=>false]); ?>
+                    </div>
+                </div>   
+                <div class="row">
+                        <div class="col-md-12" style="margin-top: 20px;">
                               <table class="table table-striped table-bordered">
                                   <thead>
                                       <tr>
-                                          <th width="10%">S.No</th>
-                                          <th width="10%">Vendor</th>
+                                          <th width="5%">S.No</th>
                                           <th width="10%">Item</th>
                                           <th width="10%">Actions</th>
                                       </tr>
@@ -30,7 +34,7 @@
                               </table>
                             </div>
                         </div>
-            <?= $this->Form->button(__('Add Vendor Item'),['class'=>'btn btn-success']) ?>
+            <?= $this->Form->button(__('Save'),['class'=>'btn btn-success']) ?>
             <?= $this->Form->end() ?>
             </div>
         </div>
@@ -40,9 +44,6 @@
               <tbody id="sub-body" class="hidden">
                 <tr>
                     <td style="vertical-align: bottom;" class="index"> </td>
-                    <td style="vertical-align: bottom;"><?php echo $this->Form->control('vendor.0.vendor_id', ['empty'=>'--select--','options' => @$vendors,'class'=>'form-control vendor','label'=>false]); ?>
-                        
-                    </td>
                     <td style="vertical-align: bottom;">
                     <?php echo $this->Form->control('vendor.0.item_id', ['empty'=>'--select--','options' => @$items,'class'=>'form-control item','label'=>false]); ?>
                     </td>
@@ -86,7 +87,6 @@ add_row();
         {
             
             $(this).find('.index').html(a);
-            $(this).find('.vendor').attr('name','vendor['+i+'][vendor_id]');
             $(this).find('.item').attr('name','vendor['+i+'][item_id]');
             i++;
             a++

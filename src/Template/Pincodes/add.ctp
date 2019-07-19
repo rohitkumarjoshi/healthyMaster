@@ -45,7 +45,7 @@
                 </div>
                 <div class="row Yesbox display-none">
                     <div class="col-md-3">
-                        <label>Amount</label>
+                        <label>Minimum Amount</label>
                         <input type="text" name="amount" class="form-control input-sm" id="amt">
                     </div>
                     <div class="col-md-3">

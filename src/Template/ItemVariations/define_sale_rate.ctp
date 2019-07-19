@@ -10,7 +10,7 @@
 			<div class="portlet-title">
 				<div class="caption">
 					<i class="font-purple-intense"></i>
-					<span class="caption-subject font-purple-intense ">SALES RATE MODULE
+					<span class="caption-subject font-purple-intense ">SALES RATE UPDATE
 					</span>
 				</div>
 				<div class="actions">

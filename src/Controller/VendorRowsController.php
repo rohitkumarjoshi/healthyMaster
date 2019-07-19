@@ -60,8 +60,13 @@ class VendorRowsController extends AppController
     {
         $this->viewBuilder()->layout('index_layout');
         $vendorRow = $this->VendorRows->newEntity();
-        $datas=$this->request->getData('vendor');
+        
         if ($this->request->is('post')) {
+            $datas=$this->request->getData('vendor');
+            pr($datas);
+            foreach ($datas as $key => $data) {
+                $datas[$key]['vendor_id']=$this->request->getData('vendor_id');
+            }
              $vendorRow = $this->VendorRows->newEntities($datas);
             if ($this->VendorRows->saveMany($vendorRow)) {
                 $this->Flash->success(__('The vendor row has been saved.'));

@@ -25,13 +25,9 @@
 						<label class=" control-label">Email<span class="required" aria-required="true">*</span> </label>
 						<?php echo $this->Form->control('email',['placeholder'=>'Email','class'=>'form-control input-sm','label'=>false,'type'=>'email']); ?>
 					</div>
-					<div class="col-md-3">
-						<label class=" control-label">Bulk Booking Discount % </label>
-						<?php echo $this->Form->control('bulk_booking_discount_percent',['placeholder'=>'Discount %','class'=>'form-control input-sm','label'=>false]); ?>
-					</div>
 				</div>
 				<br/>
-				<?= $this->Form->button($this->Html->tag('i', '') . __(' Submit'),['class'=>'btn btn-success']); ?>
+				<?= $this->Form->button($this->Html->tag('i', '') . __(' Save'),['class'=>'btn btn-success']); ?>
 				<?= $this->Form->end() ?>
 			</div>
 		</div>
@@ -56,9 +52,9 @@ $(document).ready(function() {
 				name:{
 					required: true,					 
 				},
-				email:{
-					required: true,
-				},
+				// email:{
+				// 	required: true,
+				// },
 				mobile_no:{
 						required:true,
 						number:true,
