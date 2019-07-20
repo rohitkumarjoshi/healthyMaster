@@ -63,7 +63,7 @@ class VendorRowsController extends AppController
         
         if ($this->request->is('post')) {
             $datas=$this->request->getData('vendor');
-            pr($datas);
+            //pr($datas);
             foreach ($datas as $key => $data) {
                 $datas[$key]['vendor_id']=$this->request->getData('vendor_id');
             }
@@ -71,7 +71,7 @@ class VendorRowsController extends AppController
             if ($this->VendorRows->saveMany($vendorRow)) {
                 $this->Flash->success(__('The vendor row has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['action' => 'add']);
             }
             $this->Flash->error(__('The vendor row could not be saved. Please, try again.'));
         }

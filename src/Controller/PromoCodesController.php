@@ -56,7 +56,7 @@ class PromoCodesController extends AppController
 
             $this->Flash->error(__('The promo code could not be saved. Please, try again.'));
         }
-        $promoCodes = $this->PromoCodes->find();
+        $promoCodes = $this->paginate($this->PromoCodes->find());
         // foreach ($promoCodes as $promo) {
         //     $valid_to=$promo->valid_to;
         //     $today=date('Y-m-d');

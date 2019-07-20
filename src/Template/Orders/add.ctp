@@ -40,7 +40,8 @@ background-color: #fff;}
 						
 						 <div class="suggesstion-box"></div>
 					</div>
-					
+					<a href="#" role="button" class="pull-left plus" style="margin-top: 26px;" >
+							 +</a>
 						
 						<?php echo $this->Form->control('warehouse_id',['options' => $warehouses,'class'=>'form-control input-sm','id'=>'customer_id','label'=>false,'type'=>'hidden']); ?>
 					
@@ -114,14 +115,16 @@ background-color: #fff;}
 							<a href="#" role="button" class="pull-right select_address" >
 							Select Address </a>
 					</div>
-					<!-- <div class="col-md-3">
+					<div class="col-md-3">
 						<label>Payment Mode</label>
-						<select name="order_type">
+						<select name="order_type" class="form-control select2 input-sm">
 							<option>--Select--</option>
 							<option value="COD">COD</option>
-							<option value="Online">Online</option>
+							<option value="Online">Paytm</option>
+							<option value="Online">Google Pay</option>
+							<option value="Online">Credit Card</option>
 						</select>
-					</div> -->
+					</div>
 					
 				</div>
 				
@@ -683,6 +686,34 @@ function round(value, exp) {
 			//validator.reset();
 		calculate_total();	
 	});
+	$('.plus').on("click",function() {
+			
+				$('#customer').modal('show');
+				//var validator = $( "#myForm1" ).validate();
+				//$('#form1')[0].reset();
+				$("label.error").hide();
+				$(".error").removeClass("error");
+	});
+
+	$('.btnsave').on("click",function(e) {
+		$("#form2").validate({ 
+			submitHandler: function(form) {
+					$("#form2").submit(function(e) {
+						e.preventDefault();
+					});
+					
+					var mobile=$('.number_mobile').val();
+					alert(mobile);
+					var url="<?php echo $this->Url->build(['controller'=>'Customers','action'=>'save']); ?>";
+					url=url+'/'+mobile,
+					alert(url);
+					$.ajax({
+						url: url,
+					}).done(function(response) {
+						$('#customer').hide();
+					});
+		}});		
+	});
 	
 	$('.btnsubmit').on("click",function(e) {
 		$("#form1").validate({ 
@@ -695,6 +726,7 @@ function round(value, exp) {
 						alert("Please Select Customer First");
 					}
 					var name=$('input[name="name"]').val();
+					//alert(name);
 					var mobile=$('input[name="mobile"]').val();
 					var house_no=$('input[name="house_no"]').val();
 					var address=$('textarea[name="address"]').val();
@@ -966,4 +998,26 @@ function selectAutoCompleted1(value) {
 		</div>
 	</div>
 </div>
-
+<div class="modal fade y" id="customer" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">Add Customer</h4>
+			</div>
+			<form id="form2">
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-6">
+						<label class=" control-label">Mobile <span class="required" aria-required="true">*</span></label>
+							<?php echo $this->Form->input('mobile',['placeholder'=>'Mobile','class'=>'form-control input-sm number_mobile','label'=>false,'required']); ?>
+						</div>
+					</div>
+				</div>	
+				<div class="modal-footer">
+					<button type="button" class="btn default" data-dismiss="modal">Close</button>
+					<button type="submit" class="btn btn-success btnsave">Save changes</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

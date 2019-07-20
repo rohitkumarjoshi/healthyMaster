@@ -111,7 +111,7 @@ $(document).ready(function() {
 				image:{
 					required: true,					 
 				},
-				name:{
+				parent_id:{
 					required: true,
 				}
 			},

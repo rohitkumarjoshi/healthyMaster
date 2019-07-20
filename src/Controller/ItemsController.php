@@ -40,23 +40,15 @@ class ItemsController extends AppController
         $this->set(compact('gsts'));
     }
 
-    public function index($status = Null)
+    public function index()
     {
 		$this->viewBuilder()->layout('index_layout');
 		$jain_thela_admin_id=$this->Auth->User('jain_thela_admin_id');
-        $items = $this->Items->find()->contain(['ItemCategories']);
+        $items = $this->paginate($this->Items->find()->contain(['ItemCategories']));
 
         //pr($items->toArray());exit;
-		if($status==''){ $status='unfreeze'; }
-        if($status=='freeze')
-		{
-        $items = $this->Items->find()->where(['Items.freeze'=>1])->contain(['ItemCategories','ItemVariations']);
-		}
-		elseif($status=='unfreeze')
-		{
-			$where = $status;
-			$items = $this->Items->find()->where(['Items.freeze'=>0])->contain(['ItemCategories','ItemVariations']);
-		}
+		
+        $items = $this->Items->find()->contain(['ItemCategories','ItemVariations']);
 		
 		
 		
@@ -221,7 +213,7 @@ class ItemsController extends AppController
 	  // pr($Keyword_itemCategories); exit;
 		 $GstFigures= $this->Items->GstFigures->find('list');
 		
-		$itemCategories = $this->Items->ItemCategories->find('list')->where(['is_deleted'=>0]);
+		$itemCategories = $this->Items->ItemCategories->find('list')->where(['is_deleted'=>0,'parent_id !='=>'2'])->orwhere(['is_deleted'=>0,'parent_id IS'=>NULL]);
 		//pr($itemCategories->toArray()); exit;
         $units = $this->Items->ItemVariations->Units->find()->where(['is_deleted'=>0]);
         $item_fetchs = $this->Items->find('list')->where(['freeze'=>0]);
