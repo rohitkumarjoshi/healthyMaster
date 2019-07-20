@@ -281,7 +281,15 @@ Router::prefix('api', function ($routes) {
 			   'addressList' => [
 				   'action' => 'addressList',
 				   'method' => 'GET'
-			   ]
+			   ],
+			   	'statelist' => [
+				   'action' => 'state',
+				   'method' => 'GET'
+			   ],
+			   'addressDetails' => [
+				   'action' => 'addressDetails',
+				   'method' => 'GET'
+			   ],
 		   ]
 		]
 	);

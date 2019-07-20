@@ -144,6 +144,27 @@ class CustomerAddressesController extends AppController
         $this->set(compact('status', 'error','customer_addresses'));
         $this->set('_serialize', ['status', 'error', 'customer_addresses']);		
 	}
+
+	public function addressDetails()
+	{
+		$id=$this->request->query('id');
+		$customer_addresses=$this->CustomerAddresses->find()
+		->where(['CustomerAddresses.id' => $id])
+		->contain(['States','Cities'])->first();
+		
+		if(!empty($customer_addresses))
+		{
+			$status=true;
+			$error="Address found successfully";			
+		}
+		else{
+			$status=false;
+			$error="No data found";			
+		}
+
+        $this->set(compact('status', 'error','customer_addresses'));
+        $this->set('_serialize', ['status', 'error', 'customer_addresses']);		
+	}
 	
 	
 	
