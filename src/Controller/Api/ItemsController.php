@@ -57,7 +57,9 @@ class ItemsController extends AppController
 		}
 		$cart_count = $this->Items->Carts->find('All')->where(['Carts.customer_id'=>$customer_id])->count();
 		$this->set(compact('status', 'error','ItemRows','cart_count'));
-		$this->set('_serialize', ['status', 'error','cart_count','ItemRows']); 
+		$this->set('_serialize', ['status', 'error','cart_count','ItemRows']);
+		
+		
 	}
 	
 	
@@ -187,7 +189,7 @@ class ItemsController extends AppController
 									]);
 								}])
 							->autoFields(true)->first();
-				
+				$item_category_id=0;
 				if(!empty($item_description->toArray()))
 				{
 					foreach($item_description->item_variations as $item_variation)
@@ -200,10 +202,11 @@ class ItemsController extends AppController
 							$item_variation->isInWishlist = false;							
 						}
 					}
+					$item_category_id = $item_description->item_category_id;
 				}
 				
 				
-				$querys=$this->Items->ItemLedgers->find();
+				/*$querys=$this->Items->ItemLedgers->find();
 				$customer_also_bought=$querys
 					->select(['total_rows' => $querys->func()->count('ItemLedgers.id'),'item_id',])
 					->where(['inventory_transfer'=>'no','status'=>'out'])
@@ -227,7 +230,20 @@ class ItemsController extends AppController
 						])->autoFields(true);
 					}]);
 					$customer_also_bought->select(['image_url' => $customer_also_bought->func()->concat(['http://healthymaster.in'.$this->request->webroot.'img/item_images/','image' => 'identifier' ])]);
+        */ 
+        $where=['Items.item_category_id'=>$item_category_id, 'Items.is_combo'=>'no', 'Items.freeze'=>0, 'Items.ready_to_sale'=>'Yes'];
 
+					$customer_also_bought= $this->Items->find()
+							->where($where) 				
+							->contain(['ItemVariations'=>
+								function($q) use($customer_id) {
+									return $q->where(['ready_to_sale' =>'Yes'])
+									->contain(['Units','Carts'=>
+										function($q) use($customer_id){
+											return $q->where(['customer_id'=>$customer_id]);
+									}]);
+								}
+							])->limit(10);
 					$cart_count = $this->Items->Carts->find('All')->where(['Carts.customer_id'=>$customer_id])->count();
 			 
 		$status=true;

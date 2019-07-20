@@ -35,9 +35,11 @@ class CustomerAddressesController extends AppController
 		$city_id=$this->request->data('city_id');
 		$state_id=$this->request->data('state_id');
 		$customer_address_id=$this->request->data('customer_address_id');
+		$apartment_name=$this->request->data('apartment_name');
 		//$city='1';
 		
 		if($tag=='add'){
+		    
 		  $query = $this->CustomerAddresses->query();
 				$result = $query->update()
                     ->set(['default_address' => 0])
@@ -58,6 +60,7 @@ class CustomerAddressesController extends AppController
 							'address_type' =>$address_type,
 							'city_id'=>$city_id,
 							'state_id'=> $state_id,
+							'apartment_name'=> $apartment_name,
 							'default_address' => 1
 							])
 					->execute();
@@ -83,6 +86,7 @@ class CustomerAddressesController extends AppController
 							'city_id'=>$city_id,
 							'state_id'=> $state_id,
 							'address_type' =>$address_type,
+							'apartment_name'=> $apartment_name,
 							'default_address' => 1
 							])
 					->where(['id' => $customer_address_id])
@@ -144,7 +148,6 @@ class CustomerAddressesController extends AppController
         $this->set(compact('status', 'error','customer_addresses'));
         $this->set('_serialize', ['status', 'error', 'customer_addresses']);		
 	}
-
 	public function addressDetails()
 	{
 		$id=$this->request->query('id');
@@ -165,7 +168,6 @@ class CustomerAddressesController extends AppController
         $this->set(compact('status', 'error','customer_addresses'));
         $this->set('_serialize', ['status', 'error', 'customer_addresses']);		
 	}
-	
 	
 	
 	
