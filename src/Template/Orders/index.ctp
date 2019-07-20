@@ -122,7 +122,8 @@
 							<th scope="col">Order Date</th>
 							<th scope="col">Delivery Date</th>
 							<th scope="col">Delivery Time</th>
-							<th scope="col" class="actions"><?= __('Actions') ?></th>
+							<th scope="col" class="actions" width="140px"><?= __('Actions') ?></th>
+							<th scope="col" class="">Generate Invoice</th>
 							<!-- <th scope="col">Edit</th> -->
 						</tr>
 					</thead>
@@ -146,7 +147,7 @@
 						<tr <?php if(($status=='In Process') || ($status=='In process')){ ?>style="background-color:#ffe4e4; "<?php } ?> >
 							<td><?= ++$page_no ?></td>
 							<td>
-							<?php echo $this->Html->link($order->order_no,['controller'=>'Orders','action' => 'view', $order->id, 'print'],['target'=>'_blank']); ?>
+							<?php echo $this->Html->link($order->order_no,['controller'=>'Orders','action' => 'newview', $order->id],['target'=>'_blank']); ?>
 						</td>
 							<td>
 								<?=
@@ -209,9 +210,12 @@
 							?>
 							<button class="btn btn-primary btn-xs ok" order_id="<?=$order->id ?>">Ok</button>
 						<?php } ?>
-						<?php if(empty($order->invoice_no)){ ?>
-							<input type="button" name="generate" order_id="<?=$order->id ?>" value="Generate Invoice" class="btn btn-success btn-xs generate_invoice" >
-						<?php } ?>
+						
+							</td>
+							<td>
+								<?php if(empty($order->invoice_no)){ ?>
+									<input type="button" name="generate" order_id="<?=$order->id ?>" value="Generate Invoice" class="btn btn-success btn-xs generate_invoice" >
+								<?php } ?>
 							</td>
 							<!-- <?php  if(($status=='In Process') || ($status=='In process')){ 
 							if(( $order_date == $current_date ) || ($order_date == $prev_date  )){?>
@@ -268,7 +272,7 @@ $(document).ready(function() {
 		var x =$(this);
 		var id=$(this).attr('order_id');
 		var url="<?php echo $this->Url->build(["controller" => "Orders", "action" => "Invoice"]); ?>";
-		var go_to_url="<?php echo $this->Url->build(["controller" => "Orders", "action" => "view"]); ?>";
+		var go_to_url="<?php echo $this->Url->build(["controller" => "Orders", "action" => "newview"]); ?>";
 		go_to_url=go_to_url+'/'+id;
 		url=url+'/'+id;
 		$.ajax({

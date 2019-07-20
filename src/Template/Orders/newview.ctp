@@ -1,7 +1,29 @@
+<style>
+.invoice td{
+padding:5px;	
+}
+@media print{
+	.maindiv{
+		width:100% !important;
+	}	
+	.hidden-print{
+		display:none;
+	}
+}
+</style>
+<div style="border:solid 1px #c7c7c7;background-color: #FFF;padding:10px;width: 100%;font-size:14px;" class="maindiv hidden-print">
+<?php
+
+	echo $this->Html->link('Print',array(),['escape'=>false,'class'=>'btn  blue hidden-print fa fa-print','onclick'=>'javascript:window.print();']);
+
+echo $this->Html->link('Close',array(),['escape'=>false,'class'=>'btn  red hidden-print fa fa-remove pull-right','onclick'=>'javascript:window.close();']);
+
+?>
+</div>
 <?php 
-pr($order); 
-$html='<div style="background-color:#fff;">
-<table width="100%" border="1" cellspacing="10" cellpadding="10">
+//pr($order); 
+$html='<div style="background-color:#fff; ">
+<table width="100%"  border="1" cellspacing="10" cellpadding="10" class="invoice" >
 	<tr>
 		<td rowspan="3" align="center" >
 			TAX INVOICE
@@ -42,7 +64,7 @@ $html='<div style="background-color:#fff;">
 	</tr>
 	<tr>
 	<td colspan="2">
-		<table border="1" width="100%">
+		<table border="1" width="100%" style="border:none;" class="item">
 			<tr>
 				<td rowspan="2">Sr No.</td>
 				<td rowspan="2">Description & Specification of Goods</td>
@@ -67,23 +89,30 @@ $html='<div style="background-color:#fff;">
 				<td>Rs</td>
 			</tr>';
 		
-			$i=0; 
+			$i=0; $total_taxamount=0;$total_cgst=0;$total_igst=0;$total_amount=0;
 			foreach($order->order_details as $order_detail){
-				
+				$gstper=0.0;$gstper1=0.0;
 				$amount=$order_detail->amount;
-				$state_id=$order_detail->customer_address->state_id;
+				$total_amount+=$amount;
+				$state_id=@$order_detail->customer_address->state_id;
 				$gst_per=$order_detail->item->gst_figure->name;
 				$tax_percentage=$order_detail->item->gst_figure->tax_percentage;
 				$gst=(($amount*$tax_percentage)/(100+$tax_percentage));
 				$gst= round($gst,2);
+				
 				$taxbale_amount=$amount-$gst;
+				$total_taxamount+=$taxbale_amount;
 				$rate=$taxbale_amount/$order_detail->quantity;
+				
 				$cgst=0;$igst=0;
 				if($state_id==17){
 					$cgst=$gst/2;
-					
+					$total_cgst+=$cgst;
+					$gstper=$gst_per;
 				}else{
 					$igst=$gst;
+					$total_igst+=$igst;
+					$gstper1=$gst_per;
 				}
 				
 				$i++;
@@ -93,13 +122,13 @@ $html='<div style="background-color:#fff;">
 				<td>'.$order_detail->item->hsn_code.'</td>
 				<td>'.$order_detail->quantity.'</td>
 				<td>'.$order_detail->item_variation->unit->shortname.'</td>
-				<td>'.$order_detail->rate.'</td>
-				<td>'.$order_detail->amount.'</td>
-				<td>'.$gst_per.'</td>
+				<td>'.$rate.'</td>
+				<td>'.$taxbale_amount.'</td>
+				<td>'.$gstper.'</td>
 				<td>'.$cgst.'</td>
-				<td>'.$gst_per.'</td>
+				<td>'.$gstper.'</td>
 				<td>'.$cgst.'</td>
-				<td>'.$gst_per.'</td>
+				<td>'.$gstper1.'</td>
 				<td>'.$igst.'</td>
 				
 				<td>'.$order_detail->amount.'</td>
@@ -109,14 +138,14 @@ $html='<div style="background-color:#fff;">
 			$html.='<tr>
 				<td colspan="6" align="right"><b>Total</b> &nbsp;</td>
 				
-				<td>'.$i.'</td>
-				<td>'.$i.'</td>
-				<td>'.$i.'</td>
-				<td>'.$i.'</td>
-				<td>'.$i.'</td>
-				<td>'.$i.'</td>
-				<td>'.$i.'</td>
-				<td>'.$i.'</td>
+				<td>'.$total_taxamount.'</td>
+				<td></td>
+				<td>'.$total_cgst.'</td>
+				<td></td>
+				<td>'.$total_cgst.'</td>
+				<td></td>
+				<td>'.$total_igst.'</td>
+				<td>'.$total_amount.'</td>
 				
 			</tr>';
 			
@@ -128,12 +157,12 @@ $html='<div style="background-color:#fff;">
 	
 	</tr>';
 	$html.='<tr>
-				<td colspan="2"><b>RUPES:  </b></td>
+				<td colspan="2"><b>RUPES: INR '.ucwords($this->requestAction(['controller'=>'Orders', 'action'=>'convert_number_to_words'],['pass'=>array($total_amount)])).' </b></td>
 			</tr>';
 			
 	$html.='<tr>
 				<td colspan="2">
-					<table  border="1" width="100%">
+					<table  border="1" width="100%" style="border:none;">
 						<tr>
 						<td rowspan="2">HSN/SAC</td>
 						<td rowspan="2">Taxable Value</td>
@@ -150,18 +179,44 @@ $html='<div style="background-color:#fff;">
 							<td>Rate</td>
 							<td>Amount</td>
 						</tr>';
-					foreach($order->order_details as $order_detail){ 	
+						$total_taxamount=0;$total_cgst=0;$total_igst=0;$total_amount=0;
+					foreach($order->order_details as $order_detail){ 
+						$gstper=0.0;$gstper1=0.0;
+						$amount=$order_detail->amount;
+						$total_amount+=$amount;
+						$state_id=@$order_detail->customer_address->state_id;
+						$gst_per=$order_detail->item->gst_figure->name;
+						$tax_percentage=$order_detail->item->gst_figure->tax_percentage;
+						$gst=(($amount*$tax_percentage)/(100+$tax_percentage));
+						$gst= round($gst,2);
+
+						$taxbale_amount=$amount-$gst;
+						$total_taxamount+=$taxbale_amount;
+						$rate=$taxbale_amount/$order_detail->quantity;
+
+						$cgst=0;$igst=0;
+						if($state_id==17){
+							$cgst=$gst/2;
+							$total_cgst+=$cgst;
+							$gstper=$gst_per;
+						}else{
+							$igst=$gst;
+							$total_igst+=$igst;
+							$gstper1=$gst_per;
+						}
+
+					
 						$html.='
 							<tr>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
+								<td>'.$order_detail->item->hsn_code.'</td>
+								<td>'.$taxbale_amount.'</td>
+								<td>'.$gstper.'</td>
+								<td>'.$cgst.'</td>
+								<td>'.$gstper.'</td>
+								<td>'.$cgst.'</td>
+								<td>'.$gstper1.'</td>
+								<td>'.$igst.'</td>
+								<td>'.$amount.'</td>
 								
 							</tr>
 						';
@@ -169,14 +224,14 @@ $html='<div style="background-color:#fff;">
 					}
 					$html.='<tr>
 							<td><b>Total</b></td>
+							<td>'.$total_taxamount.'</td>
 							<td></td>
+							<td>'.$total_cgst.'</td>
 							<td></td>
+							<td>'.$total_cgst.'</td>
 							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
+							<td>'.$total_igst.'</td>
+							<td>'.$total_amount.'</td>
 					</tr>';
 					$html.='</table>
 				</td>
