@@ -703,10 +703,10 @@ function round(value, exp) {
 					});
 					
 					var mobile=$('.number_mobile').val();
-					alert(mobile);
+					//alert(mobile);
 					var url="<?php echo $this->Url->build(['controller'=>'Customers','action'=>'save']); ?>";
 					url=url+'/'+mobile,
-					alert(url);
+					//alert(url);
 					$.ajax({
 						url: url,
 					}).done(function(response) {
