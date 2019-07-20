@@ -18,7 +18,19 @@ class ItemVariationsController extends AppController
      *
      * @return \Cake\Http\Response|void
      */
-
+    public function item(){
+        $category_id=$this->request->getData('input'); 
+            $items=$this->ItemVariations->Items->find()->where(['Items.item_category_id '=>$category_id]);
+            ?>
+                    <option>--Select</option>
+                    <?php foreach($items as $show){ ?>
+                        
+                        <option value="<?= $show->id ?>"><?= $show->name ?></option>
+                    <?php } ?>
+            <?php
+                 
+        exit;  
+    }
     public function itemEntry()
     {
         $this->viewBuilder()->layout('index_layout');
@@ -31,25 +43,13 @@ class ItemVariationsController extends AppController
         $this->viewBuilder()->layout('index_layout');
        $item_variations=[];
         $itemvariation = $this->ItemVariations->newEntity();
-           $item_category_id=$this->request->query('item_category_id');
-            if($item_category_id!=null)
+           $item_id=$this->request->query('item');
+            if($item_id!=null)
             {
 
-                $item_variation=$this->ItemVariations->Items->find()
-                ->select('id','Items.name','ItemCategories.name','Units.shortname','ItemVariations.print_rate','ItemVariations.sales_rate')
-                ->where(['item_category_id'=>$item_category_id])
-                ->contain(['ItemVariations'=>['Units'],'ItemCategories']);
-                //pr($item_variation->toArray());exit;
-
-            //     foreach ($cat as $cats) {
-
-            //         $item_variations = $this->ItemVariations->find()
-            //         ->where(['item_id'=>$cats->id])
-            //         ->contain(['Items'=>['ItemCategories'],'Units']);
-            //     //    pr($item_variations->toArray());exit;
-                
-            // } 
-           // pr($item_variations->toArray());exit;
+                $item_variations = $this->ItemVariations->find()
+                ->where(['ItemVariations.item_id'=>$item_id])
+                ->contain(['Items'=>['ItemCategories'],'Units']);
          }
          else
          {

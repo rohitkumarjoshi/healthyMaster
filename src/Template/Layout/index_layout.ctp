@@ -376,7 +376,7 @@
 								<?php echo $this->Html->link('<i class="fa fa-bell"></i> <span>Push Notification</span>',array('controller'=>'AppNotifications','action'=>'index'),['escape'=>false]); ?>
 							</li>
 							<li>
-								<?php echo $this->Html->link('<i class=" fa-file-text"></i> <span>Feedback</span>',array('controller'=>'Feedbacks'),['escape'=>false]); ?>
+								<?php echo $this->Html->link('<i class=" fa-file-text"></i> <span>Feedback</span>',array('controller'=>'Feedbacks/add'),['escape'=>false]); ?>
 							</li>
 							<!-- <li>
 								<?php echo $this->Html->link('<i class="fa fa-chain "></i> <span>Bulk Lead</span>',array('controller'=>'BulkBookingLeads/index/open'),['escape'=>false]); ?>

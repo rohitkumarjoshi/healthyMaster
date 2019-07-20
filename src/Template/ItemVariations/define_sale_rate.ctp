@@ -13,17 +13,21 @@
 					<span class="caption-subject font-purple-intense ">SALES RATE UPDATE
 					</span>
 				</div>
-				<div class="actions">
-					<input type="text" class="form-control input-sm pull-right" placeholder="Search..." id="search3" style="width: 200px;">
-				</div>
 			</div>
 			<div class="portlet-body">
 				<form method="GET" >
 					<table width="50%" class="table table-condensed">
 						<tbody>
 							<tr>
-								<td width="2%">
-									<?php echo $this->Form->input('item_category_id', ['empty'=>'--Category--','options' => $category,'label' => false,'class' => 'form-control input-sm select2me','placeholder'=>'Category' ]); ?>
+								<td width="4%">
+									<?php echo $this->Form->input('item_category_id', ['empty'=>'--Category--','options' => $category,'label' => false,'class' => 'form-control input-sm select2me category','placeholder'=>'Category' ]); ?>
+								</td>
+								<td width="4%">
+									
+									<select name="item" class="form-control input-sm item">
+							
+							
+									</select>
 								</td>
 								<td width="10%">
 									<button type="submit" class="btn btn-success btn-sm"><i class="fa fa-filter"></i> Filter</button>
@@ -44,7 +48,7 @@
 							<th width="5%">Sr</th>
 							<th width="10%">Category</th>
 							<th width="10%">Item</th>
-							<th width="20%">Unit</th>
+							<th width="20%">Variation</th>
 							<th width="15%">Print Rate</th>
 							<th width="15%">Online Sale Rate</th>
 							<th width="15%">Item Discount %</th>
@@ -120,6 +124,33 @@ var $rows = $('#main_tble tbody tr');
 
 <script>
 $(document).ready(function(){
+	$('.category').on('change',function()
+	{
+		//alert();
+		var input=$(this).val();
+		//alert(input);
+		 var master = $(this); 
+		//alert(input);
+		if(input.length>0){
+            var m_data = new FormData();
+            var url ="<?php echo $this->Url->build(["controller" => "ItemVariations", "action" => "item"]); ?>";
+         //   alert(url);
+            m_data.append('input',input); 
+            $.ajax({
+                url: url,
+                data: m_data,
+                processData: false,
+                contentType: false,
+                type: 'POST',
+                dataType:'text',
+                success: function(response)
+                { 
+                	//alert(response);
+					$('.item').html(response);
+                }
+            });
+            }
+        });
 	
 	$(".print_rate").die().live("keyup",function(){
 		 var print_rate=$(this).val();

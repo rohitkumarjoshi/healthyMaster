@@ -89,7 +89,7 @@
 				 
 				<br/>
 				<center>
-				<?= $this->Form->button($this->Html->tag('') . __(' Submit'),['class'=>'btn btn-success']); ?>
+				<?= $this->Form->button($this->Html->tag('') . __(' Save'),['class'=>'btn btn-success']); ?>
 				<?= $this->Form->end() ?>
 				</center>
 			</div>
