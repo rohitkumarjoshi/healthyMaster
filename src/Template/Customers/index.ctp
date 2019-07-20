@@ -21,19 +21,19 @@
 				<table class="table table-condensed table-hover table-bordered" id="main_tble">
 					<thead>
 						<tr>
-							<th>Sr</th>
-							<th>Customer ID</th>
-							<th>Name</th>
-							<th>Mobile</th>
-							<th>Email</th>
-							<th>Address</th>
-							<th>Flat No.</th>
-							<th>Apartment</th>
-							<th>Landmark</th>
-							<th>State</th>
-							<th>City</th>
-							<th>Pincode</th>
-							<th scope="col" class="actions"><?= __('Actions') ?></th>
+							<th scope="col"><?= $this->Paginator->sort('Sr') ?></th>
+							<th scope="col"><?= $this->Paginator->sort('Customer ID') ?></th>
+							<th scope="col"><?= $this->Paginator->sort('Name') ?></th>
+							<th scope="col"><?= $this->Paginator->sort('Mobile')?></th>
+							<th scope="col"><?= $this->Paginator->sort('Email')?></th>
+							<th scope="col"><?= $this->Paginator->sort('Address')?></th>
+							<th scope="col"><?= $this->Paginator->sort('Flat No.')?></th>
+							<th scope="col"><?= $this->Paginator->sort('Apartment')?></th>
+							<th scope="col"><?= $this->Paginator->sort('Landmark')?></th>
+							<th scope="col"><?= $this->Paginator->sort('State')?></th>
+							<th scope="col"><?= $this->Paginator->sort('City')?></th>
+							<th scope="col"><?= $this->Paginator->sort('Pincode')?></th>
+							<th scope="col" class="actions"><?= $this->Paginator->sort('Actions') ?></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -88,7 +88,18 @@
 						<?php } ?>
 					</tbody>
 				</table>
+				<div class="paginator">
+			        <ul class="pagination">
+			            <?= $this->Paginator->first('<< ' . __('first')) ?>
+			            <?= $this->Paginator->prev('< ' . __('previous')) ?>
+			            <?= $this->Paginator->numbers() ?>
+			            <?= $this->Paginator->next(__('next') . ' >') ?>
+			            <?= $this->Paginator->last(__('last') . ' >>') ?>
+			        </ul>
+			        <p><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></p>
+			    </div>
 			</div>
+
 		</div>
 	</div>
 </div>

@@ -18,6 +18,21 @@ class CustomersController extends AppController
      *
      * @return \Cake\Http\Response|null
      */
+    public function save($mobile){
+		
+		
+		$query = $this->Customers->query();
+		$query->insert(['mobile'])
+					->values([
+						'mobile' => $mobile
+						
+					]);
+		$query->execute();	
+					
+		
+				exit;
+	}
+
     public function check()
     {
     	//$items='0';
@@ -33,7 +48,7 @@ class CustomersController extends AppController
     public function index()
     {
 		$this->viewBuilder()->layout('index_layout');
-		$customers = $this->Customers->find()->contain(['CustomerAddresses'=>['States','Cities']]);  
+		$customers = $this->paginate($this->Customers->find()->contain(['CustomerAddresses'=>['States','Cities']]));  
 		//pr($customers->toArray());exit;
         $this->set(compact('customers'));
         $this->set('_serialize', ['customers']);

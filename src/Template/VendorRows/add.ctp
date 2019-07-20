@@ -107,10 +107,10 @@ add_row();
                 name:{
                     required: true,                  
                 },
-                unit_id:{
+                item_id:{
                     required: true,
                 },
-                image:{
+                vendor_id:{
                     required: true,
                 },
                 short_description:{
@@ -122,6 +122,7 @@ add_row();
                 item_code:{
                     required: true,
                 },
+
                 alias_name:{
                     required: true,
                 }

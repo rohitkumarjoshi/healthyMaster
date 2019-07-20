@@ -14,18 +14,6 @@
 				</div>
 				<div class="actions">
 					<?php echo $this->Html->link('Add New','/Items/Add',['escape'=>false,'class'=>'btn btn-default']) ?> 
-					
-					<?php if($status=='freeze'){
-						$class1="btn btn-xs blue";
-						$class2="btn btn-default";
-					}elseif($status=='unfreeze' or $status==''){
-						$class1="btn btn-default";
-						$class2="btn btn-xs blue";
-					}
-					 ?>
-						<?php echo $this->Html->link('Unfreeze',['controller'=>'Items','action' => 'index/unfreeze'],['escape'=>false,'class'=>$class2]); ?>
-						<?php echo $this->Html->link('Freeze',['controller'=>'Items','action' => 'index/freeze'],['escape'=>false,'class'=>$class1]); ?>&nbsp;
-				
 				</div>
 			</div>
 			<div class="portlet-body">
@@ -36,7 +24,7 @@
 							<th>Name</th>
 							<th>Alias Name</th>
 							<th>Item Category</th>
-							<th>Freeze</th>
+							<th>Status</th>
 							<th>Image</th>
 							<th scope="col" class="actions"><?= __('Actions') ?></th>
 						</tr>
@@ -59,24 +47,42 @@
 							<td><?= $item->alias_name?></td>
 							<td><?= h($item->item_category->name) ?></td>
 							
-							<td><?= h($item->freeze) ?></td>
+							<td><?php if($item->freeze == 0)
+							{
+								echo"Active";
+							} 
+							if($item->freeze == 1)
+							{
+								echo"Deactive";
+							} 
+							?></td>
 							<td>
 							    
 							   <?= $this->Html->image('/img/item_images/'.$item->image, ['style'=>'width:50px; height:50px;']); ?>
 							    </td>
 							<td class="actions">
 								<?= $this->Html->link(__('Edit'), ['action' => 'edit', $item->id]) ?>
-								<?php if($status=='unfreeze' or $status==''){ ?>
-								<?= $this->Form->postLink(__('Freeze'), ['action' => 'delete', $item->id], ['confirm' => __('Are you sure you want to delete # {0}?', $item->id)]) ?>
+								<?php if($item->freeze == 0){ ?>
+								<?= $this->Form->postLink(__('Deactive'), ['action' => 'delete', $item->id], ['confirm' => __('Are you sure you want to delete # {0}?', $item->id)]) ?>
 								<?php } ?>
-								<?php if($status=='freeze' or $status==''){ ?>
-								<?= $this->Form->postLink(__('Unfreeze'), ['action' => 'delete1', $item->id], ['confirm' => __('Are you sure you want to Unfreeze # {0}?', $item->id)]) ?>
+								<?php if($item->freeze == 1){ ?>
+								<?= $this->Form->postLink(__('Active'), ['action' => 'delete1', $item->id], ['confirm' => __('Are you sure you want to Unfreeze # {0}?', $item->id)]) ?>
 								<?php } ?>
 							</td>
 						</tr>
 						<?php endforeach; ?>
 					</tbody>
 				</table>
+				<div class="paginator">
+			        <ul class="pagination">
+			            <?= $this->Paginator->first('<< ' . __('first')) ?>
+			            <?= $this->Paginator->prev('< ' . __('previous')) ?>
+			            <?= $this->Paginator->numbers() ?>
+			            <?= $this->Paginator->next(__('next') . ' >') ?>
+			            <?= $this->Paginator->last(__('last') . ' >>') ?>
+			        </ul>
+			        <p><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></p>
+			    </div>
 			</div>
 		</div>
 	</div>
