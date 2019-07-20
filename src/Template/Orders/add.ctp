@@ -71,6 +71,7 @@ background-color: #fff;}
 					<div class="col-md-1">
 						<?= $this->Form->input('delivery_time', ['class'=>'form-control','label'=>false,'type'=>'hidden','id'=>'del_time']) ?>
 					</div>
+					<button class="btn btn-primary prev pull-right">Previous</button>
 					
 				<!--<?php if(!empty($bulkorder_id)){ ?>
 					<div class="col-md-4" align="center">
@@ -109,7 +110,7 @@ background-color: #fff;}
 					<div class="col-md-6">
 						<label class="control-label">Address</label>
 							<?php echo $this->Form->input('customer_address_id', ['type'=>'hidden','label' => false,'class' => 'form-control','placeholder' => 'Address']); ?>
-							<?php echo $this->Form->input('customer_address', ['label' => false,'class' => 'form-control','placeholder' => 'Address','rows'=>'5','cols'=>'5']); ?>
+							<?php echo $this->Form->input('customer_address', ['label' => false,'class' => 'form-control','placeholder' => 'Address','rows'=>'5','cols'=>'5','readonly']); ?>
 							<a href="#" role="button" class="pull-left add_address"  >
 							 Add Address </a>
 							<a href="#" role="button" class="pull-right select_address" >
@@ -233,6 +234,17 @@ background-color: #fff;}
 <script>
 $(document).ready(function() {
 
+	$(document).on('click','.prev',function(){
+		//alert();
+		var customer_id=$('#customer_id').val();
+			//alert(customer_id);
+			if(customer_id == ""){
+				alert("Please Select Customer First");
+			}else{
+				var url = "<?php echo $this->Url->build(["controller" => "Customers", "action" => "CustomerLedger"]); ?>";
+          		$(location).attr('href',url+'/'+customer_id);
+			}
+	});
 
 	$(document).on('change','.show_quantity',function(){
 		//alert();
@@ -343,6 +355,9 @@ $(document).ready(function() {
 		focusInvalid: true, // do not focus the last invalid input
 		rules: {
 				customer_id:{
+					required: true,
+				},
+				order_type:{
 					required: true,
 				},
 				delivery_time_id:{

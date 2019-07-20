@@ -49,12 +49,7 @@ $(document).ready(function() {
 		errorClass: 'help-block help-block-error', // default input error message class
 		focusInvalid: true, // do not focus the last invalid input
 		rules: {
-				name:{
-					required: true,					 
-				},
-				// email:{
-				// 	required: true,
-				// },
+				
 				mobile_no:{
 						required:true,
 						number:true,
