@@ -104,7 +104,7 @@ class FeedbacksController extends AppController
             $feedback->jain_thela_admin_id=$jain_thela_admin_id;
              if ($this->Feedbacks->save($feedback)) {
                 $this->Flash->success(__('The feedback has been saved.'));
-                 return $this->redirect(['action' => 'index']);
+                 return $this->redirect(['action' => 'add']);
             }
             $this->Flash->error(__('The feedback could not be saved. Please, try again.'));
         }

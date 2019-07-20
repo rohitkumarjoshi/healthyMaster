@@ -54,14 +54,33 @@
 					<?php echo $this->Form->control('discount_per',['placeholder'=>'Discount','class'=>'form-control input-sm','label'=>false,'id'=>'discount']); ?>
 				</div>
 				<div class="col-md-3">
-					<?php echo $this->Form->control('item_category_id', ['empty'=>'-- select --','options' => $itemCategories,'class'=>'form-control input-sm select category select2me select2','id'=>'category']); ?>
-				</div>
+					<label class=" control-label">Valid From</label>
+					<?php echo $this->Form->control('valid_from',['placeholder'=>'Valid From','class'=>'form-control input-sm date-picker','data-date-format'=>'dd-mm-yyyy','label'=>false,'type'=>'text','id'=>'start_date','onchange'=>'ValidateEndDate()','required']); ?>
+					</div>
 				<div class="col-md-3">
+					<label class=" control-label">Valid To</label>
+					
+					<?php echo $this->Form->control('valid_to',['placeholder'=>'Valid To','class'=>'form-control input-sm date-picker','data-date-format'=>'dd-mm-yyyy','label'=>false,'type'=>'text','id'=>'end_date','onchange'=>'ValidateEndDate()','required']); ?>
+					
+				</div>
+				
+			</div>
+
+			<div class="row" style="margin-top: 10px;">
+				<div class="col-md-3  display-none cart_div">
+					<label class="control-label cart_label">Cart Value </label>
+					<?php echo $this->Form->control('cart_value',['placeholder'=>'Cart Value','class'=>'form-control input-sm cart','id'=>'cart','label'=>false]); ?>
+				</div>
+				<div class="col-md-3 display-none category_div">
+					<label class="category_label">Item Category</label>
+					<?php echo $this->Form->control('item_category_id', ['empty'=>'-- select --','options' => $itemCategories,'class'=>'form-control input-sm select category select2me select2','id'=>'category','label'=>false]); ?>
+				</div>
+				<div class="col-md-3 display-none item_div">
 					<label class=" control-label">Item</label>
 					<?php echo $this->Form->control('item_id',['empty'=>'--Select Item--','options' => $items,'class'=>'form-control input-sm select2me customer_id cstmr chosen-select','label'=>false,'id'=>'item']); ?>
 
 				</div>
-				<div class="col-md-3">
+				<div class="col-md-3 display-none ship_div">
 					<label>Shipping</label>
 					
 					<?php 
@@ -72,26 +91,6 @@
 					
 				</div>
 				
-				
-				
-			
-			</div>
-
-			<div class="row" style="margin-top: 10px;">
-				<div class="col-md-3">
-					<label class=" control-label">Cart Value </label>
-					<?php echo $this->Form->control('cart_value',['placeholder'=>'Cart Value','class'=>'form-control input-sm cart','id'=>'cart','label'=>false]); ?>
-				</div>
-				<div class="col-md-3">
-					<label class=" control-label">Valid From</label>
-					<?php echo $this->Form->control('valid_from',['placeholder'=>'Valid From','class'=>'form-control input-sm date-picker','data-date-format'=>'dd-mm-yyyy','label'=>false,'type'=>'text','id'=>'start_date','onchange'=>'ValidateEndDate()','required']); ?>
-					</div>
-				<div class="col-md-3">
-					<label class=" control-label">Valid To</label>
-					
-					<?php echo $this->Form->control('valid_to',['placeholder'=>'Valid To','class'=>'form-control input-sm date-picker','data-date-format'=>'dd-mm-yyyy','label'=>false,'type'=>'text','id'=>'end_date','onchange'=>'ValidateEndDate()','required']); ?>
-					
-				</div>
 				
 			</div>
 			<div class="row" style="margin-top: 20px;">
@@ -184,7 +183,6 @@ function ValidateEndDate() {
 <script>
 
 
-
 function myFunction(val) {
 	//alert(val);
 	if(val=="On Cart Value")
@@ -193,6 +191,11 @@ function myFunction(val) {
 		$('#item').removeAttr('required','required');
 		$('#category').removeAttr('required','required');
 		$('#freeship').removeAttr('required','required');
+
+		$('.cart_div').show();
+		$('.item_div').hide();
+		$('.category_div').hide();
+		$('.ship_div').hide();
 	}
 	if(val =="Item Wise")
 	{
@@ -200,6 +203,11 @@ function myFunction(val) {
 		$('#category').removeAttr('required','required');
 		$('#freeship').removeAttr('required','required');
 		$('#cart').removeAttr('required','required');
+
+		$('.item_div').show();
+		$('.cart_div').hide();
+		$('.category_div').hide();
+		$('.ship_div').hide();
 	}
 	if(val=="Category Wise")
 	{
@@ -207,6 +215,11 @@ function myFunction(val) {
 		$('#item').removeAttr('required','required');
 		$('#freeship').removeAttr('required','required');
 		$('#cart').removeAttr('required','required');
+		$('.category_div').show();
+		$('.item_div').hide();
+		$('.cart_div').hide();
+		$('.ship_div').hide();
+		
 	}
 	if(val=="Free Shipping")
 	{
@@ -214,6 +227,11 @@ function myFunction(val) {
 		$('#item').removeAttr('required','required');
 		$('#category').removeAttr('required','required');
 		$('#cart').removeAttr('required','required');
+
+		$('.ship_div').show();
+		$('.cart_div').hide();
+		$('.category_div').hide();
+		$('.item_div').hide();
 	}
 	
 
@@ -324,6 +342,9 @@ $(document).ready(function() {
 				},
 				title:{
 					required: true,
+				},
+				promo_code_type:{
+					required:true,
 				},
 				valid_to:{
 					required: true,

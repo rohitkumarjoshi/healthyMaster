@@ -9,12 +9,11 @@
 			<div class="portlet-title">
 				<div class="caption">
 					<i class="font-purple-intense"></i>
-					<span class="caption-subject font-purple-intense ">
-						<i class="fa fa-book"></i> Purchase Booking</span>
+					<span class="caption-subject font-purple-intense ">PURCHASE BOOKING</span>
 				</div>
 				<div class="actions">
 					<!-- <input type="text" class="form-control input-sm pull-right" placeholder="Search..." id="search3" style="width: 200px;"> -->
-					<?php echo $this->Html->link('<i class="fa fa-plus"></i> Add new','/purchaseBookings/add',['escape'=>false,'class'=>'btn btn-default']) ?>
+					<?php echo $this->Html->link('Add new','/purchaseBookings/add',['escape'=>false,'class'=>'btn btn-default']) ?>
 				</div>
 			</div>
 			<div class="portlet-body">
