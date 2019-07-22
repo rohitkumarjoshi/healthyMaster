@@ -14,6 +14,151 @@ use App\Controller\AppController;
  */
 class OrdersController extends AppController
 {
+	 public function beforeRender(Event $event)
+    {
+
+		parent::initialize();
+		$this->Auth->allow(['success','cancel','getOrderOnline']);
+		
+	}
+	
+    public function success(){
+        	$this->viewBuilder()->layout('index_layout');
+             require_once(ROOT . DS  .'vendor' . DS  .  'ccavenu'. DS  .'Crypto.php');
+			error_reporting(0);			
+			
+			$workingKey='0C001564E13B3CF90CF9E4F609FA4399'; 
+			$encResponse=$_POST["encResp"];
+			$rcvdString=decrypt($encResponse,$workingKey);
+			pr($encResponse);exit;
+			$order_status="";
+			$decryptValues=explode('&', $rcvdString);
+			$dataSize=sizeof($decryptValues);
+			$trackID = '';
+			for($i = 0; $i < $dataSize; $i++) 
+			{
+				$information=explode('=',$decryptValues[$i]);
+				if($information[0] == 'order_status') 
+				{	
+					$order_status=$information[1];
+				}					
+				if($information[0] == 'merchant_param1') 
+				{ 
+					$temp_web_order_id = $information[1]; 
+				}
+				if($information[0] == 'tracking_id') 
+				{ 
+					$trackID = $information[1]; 
+				}				
+			}
+
+			if($order_status==="Success")
+			{
+				$message = "Thank you for shopping with us. Your credit card has been charged and your transaction is successful. We will be shipping your order to you soon.";
+				
+			}
+			else if($order_status==="Aborted")
+			{
+				$message = "Thank you for shopping with us.We will keep you posted regarding the status of your order through e-mail";
+			
+			}
+			else if($order_status==="Failure")
+			{
+				$message =  "Thank you for shopping with us.However,the transaction has been declined.";
+			}
+			else
+			{
+				$message =  "Security Error. Illegal access detected";
+			}
+			
+        	$this->set(compact('message','order_status','trackID'));
+        
+    }
+    
+    public function cancel(){
+        	$this->viewBuilder()->layout('index_layout');
+       require_once(ROOT . DS  .'vendor' . DS  .  'ccavenu'. DS  .'Crypto.php');
+			error_reporting(0);
+			
+		
+			$workingKey='8F18338FC2479AEEC244603141373F9F'; 
+			
+			$encResponse=$_POST["encResp"];
+			$rcvdString=decrypt($encResponse,$workingKey);
+		
+			$order_status="";
+			$decryptValues=explode('&', $rcvdString);
+			
+			$dataSize=sizeof($decryptValues);
+			$trackID = '';
+			for($i = 0; $i < $dataSize; $i++) 
+			{
+				$information=explode('=',$decryptValues[$i]);
+				if($information[0] == 'order_status') 
+				{	
+					$order_status=$information[1];
+				}					
+				if($information[0] == 'merchant_param1') 
+				{ 
+					$temp_web_order_id = $information[1]; 
+				}
+				if($information[0] == 'tracking_id') 
+				{ 
+					$trackID = $information[1]; 
+				}				
+			}
+           
+			if($order_status==="Success")
+			{
+				$message = "Thank you for shopping with us. Your credit card has been charged and your transaction is successful. We will be shipping your order to you soon.";
+				
+			}
+			else if($order_status==="Aborted")
+			{
+				$message ="Thank you for shopping with us.However,the transaction has been declined.";
+			
+			}
+			else if($order_status==="Failure")
+			{
+				$message =  "Thank you for shopping with us.However,the transaction has been declined.";
+			}
+			else
+			{
+				$message =  "Security Error. Illegal access detected";
+			}
+			
+	 	$this->set(compact('message','order_status','trackID'));	
+        
+    }
+    
+    
+   public function getOrderOnline($id=null)
+	{		
+	
+		$this->viewBuilder()->layout('index_layout');
+	require_once(ROOT . DS  .'vendor' . DS  .  'ccavenu'. DS  .'Crypto.php');
+    	$merchant_data='';	
+    	$working_key='8F18338FC2479AEEC244603141373F9F';//Shared by CCAVENUES
+    	$access_code='AVXM85GF87AU99MXUA';//Shared by CCAVENUES	
+    	$merchant_id='221848';
+		$dataArr = array();
+	
+	
+		$tid = uniqid();
+		$order_id = uniqid();		
+		
+		$redirect_url = 'http://healthymaster.in/healthymaster/orders/success';
+		$cancel_url = 'http://healthymaster.in/healthymaster/orders/cancel';
+		
+		$dataArr = array('merchant_id' => $merchant_id,'order_id' => $order_id,'amount' =>1,'currency' =>'INR','redirect_url' =>$redirect_url,'cancel_url' => $cancel_url,'language' => 'EN','merchant_param1' =>1);
+	//	pr($dataArr);exit;
+		foreach ($dataArr as $key => $value){
+			$merchant_data.=$key.'='.$value.'&';
+		}
+		$encrypted_data=encrypt($merchant_data,$working_key); // Method for encrypting the data.		
+			//pr($encrypted_data);exit;
+		$this->set(compact('encrypted_data','working_key','access_code'));	
+	}
 	
 	function convert_number_to_words($no) {
 	
