@@ -14,39 +14,71 @@
 	header ("Content-Description: Generated Report" );
 
 ?>		
-				<table border="1">
-					<thead>
-						<tr>
-							<th>Sr</th>
-							<th>Item</th>
-							<th>Variation</th>
-							<th>Current Stock</th>
-						</tr>
-					</thead>
-					<tbody id='main_tbody' class="tab">
-						<?php foreach($itemLedgers as $itemLedger){
+				<table id="main_tble" class="table table-condensed table-bordered">
+							<thead>
+								<tr>
+									<th width="10%">
+										<label>Sr<label>
+									</th>
+									<th width="10%">
+										<label>Item Code<label>
+									</th>
+									<th width="10%">
+										<label>Item Name<label>
+									</th>
+									
+									<th width="10%">
+										<label>Variation<label>
+									</th>
+									<th width="10%">
+										<label>Opening Stock<label>
+									</th>
+									<th width="10%">
+										<label>Purchase<label>
+									</th>
+									<th width="10%">
+										<label>Wastage<label>
+									</th>
+									<th width="10%">
+										<label>Reuse<label>
+									</th>
+									<th width="10%">
+										<label>Stock For Sale<label>
+									</th>
+									<th width="10%">
+										<label>Sale Of the Day<label>
+									</th>
+									<th width="10%">
+										<label>Closing Stock<label>
+									</th>
+
+								</tr>
+							</thead>
+							<tbody id='main_tbody' class="tab">
+						<?php $i=0; foreach($ItemVariations as $ItemVariation){
 							
-								$item_freeze=$itemLedger->item->freeze;
-								if($item_freeze==1){
-									continue;
-								}
-								$driver_stock=$itemLedger->totalInDriver-$itemLedger->totalOutDriver;
-								$warehouse_stock=$itemLedger->totalInWarehouse-$itemLedger->totalOutWarehouse;
-								@$i++;
+								
+								if(@$itemVarOpeningQt[$ItemVariation->id] > 0 || @$itemPurchaseQt[$ItemVariation->id] > 0 ) { $i++;
 								?>
 									<tr class="main_tr" class="tab">
 										<td width="1px"><?= $i ?>.</td>
+										<td><?= $ItemVariation->item->item_code?></td>
 										<td>
-											<a href="#" role="button" class="stock_show" itm="<?= $itemLedger->item_id ?>"><?= $itemLedger->item->name ?></a>	
+											<a href="#" role="button" class="stock_show" itm="<?= $ItemVariation->item_id ?>"><?= $ItemVariation->item->name ?></a>	
 										</td>
 										<td>
-											<?= $itemLedger->item_variation->quantity_variation.' '.$itemLedger->item_variation->unit->shortname ?>
+											<?= $ItemVariation->quantity_variation.' '.$ItemVariation->unit->shortname ?>
 										</td>
-										<td>
-											<?= $driver_stock+$warehouse_stock.' '.$itemLedger->item_variation->unit->shortname ?>
-										</td>
+										<td><?= @$itemVarOpeningQt[$ItemVariation->id] ?></td>
+										<td><?= @$itemPurchaseQt[$ItemVariation->id] ?></td>
+										<td>-</td>
+										<td>-</td>
+										<td><?= @$itemVarOpeningQt[$ItemVariation->id]+@$itemPurchaseQt[$ItemVariation->id] ?></td>
+										<td><?= @$itemSaleQt[$ItemVariation->id] ?></td>
+										<td><?= @$itemVarOpeningQt[$ItemVariation->id]+@$itemPurchaseQt[$ItemVariation->id]-@$itemSaleQt[$ItemVariation->id] ?></td>
+										
 									</tr>
-								<?php } ?>
+								<?php } 
+								} ?>
 							</tbody>
-				</table>
-				
+						</table>

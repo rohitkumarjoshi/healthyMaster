@@ -80,8 +80,8 @@
                                       <tr>
                                           <th width="5%">S.No</th>
                                           <th width="5%">Variation</th>
-                                          <th width="10%">Unit</th>
-                                          <th width="10%">Minimum Stock</th>
+                                          <th width="10%">Unit</th><!-- 
+                                          <th width="10%">Minimum Stock</th> -->
                                           <th width="10%">Maximum Order Limit</th>
                                           <th width="8%">Print Rate</th>
                                           <th width="8%">Sales Rate</th>
@@ -93,6 +93,7 @@
                                   <tbody id="main-tbody">
                                   	<?php
                                   	$i=0;
+                                  	$j=0;
 								foreach($variations as $variation){
 									$unit=$variation->unit->id;
 									$variation_id=$variation->id;
@@ -107,10 +108,10 @@
 					                    <td style="vertical-align: bottom;">
 					                    <?php echo $this->Form->control('item_variations.0.unit_id', ['empty'=>'--select--','options' => @$units,'class'=>'form-control unit','label'=>false,'value'=>$unit]); ?>
 					                    </td>
-					                    <td style="vertical-align: bottom;"> 
+					                    <!-- Vaibhav Sir<td style="vertical-align: bottom;"> 
 					                    	<?php echo $this->Form->control('item_variations.0.minimum_stock',['class'=>'form-control minimum_stock','placeholder'=>'Minimum Stock','label'=>false,'value'=>$variation->minimum_stock]); ?>
-					                    </td>
-					                    <td style="vertical-align: bottom;"> <?php echo $this->Form->control('item_variations.0.minimum_quantity_purchase',['class'=>'form-control minimum_quantity_purchase  order_limit','placeholder'=>'Maximum Order Limit', 'label'=>false,'value'=>$variation->minimum_quantity_purchase,'max'=>$variation->minimum_stock]); ?></td>
+					                    </td> -->
+					                    <td style="vertical-align: bottom;"> <?php echo $this->Form->control('item_variations.0.minimum_quantity_purchase',['class'=>'form-control minimum_quantity_purchase  order_limit','placeholder'=>'Maximum Order Limit', 'label'=>false,'value'=>$variation->minimum_quantity_purchase]); ?></td>
 					                     <td style="vertical-align: bottom;"> 
 					                    	<?php echo $this->Form->control('item_variations.0.print_rate',['class'=>'form-control print_rate','placeholder'=>'Print Rate','label'=>false,'value'=>$variation->print_rate]); ?>
 					                    </td> 
@@ -120,7 +121,36 @@
 					                    <td style="vertical-align: bottom;"> 
 					                    	<?php echo $this->Form->control('item_variations.0.opening_stock',['class'=>'form-control opening_stock','placeholder'=>'Opening Stock','label'=>false,'value'=>$variation->opening_stock]); ?>
 					                    </td>
-					                    <td><div class="myRadio" style="display: inline-block;"></div></td>
+					                    <td>
+					                    	<?php 
+					                    		$ready_value=$variation->ready_to_sale;
+					                    	?>
+					                    	<?php 
+					                    		if($ready_value == "Yes")
+					                    		{
+						                    		echo  $this->Form->radio(
+												    'item_variations.'.$j.'.ready_to_sale',
+												    [
+												        ['value' => $ready_value, 'text' => $ready_value, 'checked' => 'checked','class'=>'form3 ready_to_sale'],
+												        ['value' => 'No', 'text' => 'No','class' => 'form3 ready_to_sale']
+												    ]
+													);
+					                    		}
+					                    		else
+					                    		{
+					                    			echo  $this->Form->radio(
+												    'item_variations.'.$j.'.ready_to_sale',
+												    [
+												        
+												        ['value' => 'Yes', 'text' => 'Yes','class' => 'form3 ready_to_sale'],
+												        ['value' => $ready_value, 'text' => $ready_value, 'checked' => 'checked','class'=>'form3 ready_to_sale'],
+												    ]
+													);
+					                    		}
+					                    	$j++;
+					                    ?>
+
+					                    </td>
 					                    <td style="vertical-align: bottom;"> <button type="button" id="plus" class="btn btn-sm green"><i class="fa fa-plus"></i></button>
 					                      <button type="button" id="minus" class="btn btn-sm red" row_id="<?= $variation_id?>"><i class="fa fa-minus"></i></button></td>
 					                </tr>
@@ -144,15 +174,18 @@
                     <td style="vertical-align: bottom;">
                     <?php echo $this->Form->control('item_variations.0.unit_id', ['empty'=>'--select--','options' => @$unit_option,'class'=>'form-control unit','label'=>false]); ?>
                     </td>
-                    <td style="vertical-align: bottom;"> 
+                   <!--Vaibhav Sir  <td style="vertical-align: bottom;"> 
                     	<?php echo $this->Form->control('item_variations.0.minimum_stock',['class'=>'form-control minimum_stock','placeholder'=>'Minimum Stock','label'=>false]); ?>
-                    </td>
+                    </td> -->
                     <td style="vertical-align: bottom;"> <?php echo $this->Form->control('item_variations.0.minimum_quantity_purchase',['class'=>'form-control minimum_quantity_purchase  order_limit','placeholder'=>'Maximum Order Limit', 'label'=>false]); ?></td>
                      <td style="vertical-align: bottom;"> 
                     	<?php echo $this->Form->control('item_variations.0.print_rate',['class'=>'form-control print_rate','placeholder'=>'Print Rate','label'=>false]); ?>
                     </td>
                      <td style="vertical-align: bottom;"> 
                     	<?php echo $this->Form->control('item_variations.0.sales_rate',['class'=>'form-control sales_rate','placeholder'=>'Sales Rate','label'=>false]); ?>
+                    </td>
+                    <td style="vertical-align: bottom;"> 
+                    	<?php echo $this->Form->control('item_variations.0.opening_stock',['class'=>'form-control opening_stock','placeholder'=>'Opening Stock','label'=>false]); ?>
                     </td>
                     <td><div class="myRadio" style="display: inline-block;"></div></td>
                     <td style="vertical-align: bottom;"> <button type="button" id="plus" class="btn btn-sm green"><i class="fa fa-plus"></i></button>
@@ -187,7 +220,7 @@ $('.gst').on('change',function(){
 	
 	rename_row();
 
-	 var radio = "<label class='radio-inline'><input type='radio' name='item_variations[0][ready_to_sale]' class='ready' value='Yes'>Yes </label><label class='radio-inline'><input type='radio' name='item_variations[0][ready_to_sale]' class='ready' value='No' checked>No </label>";
+	 var radio = "<label class='radio-inline'><input type='radio' name='item_variations[0][ready_to_sale]' class='ready' value='Yes' checked>Yes </label><label class='radio-inline'><input type='radio' name='item_variations[0][ready_to_sale]' class='ready' value='No'>No </label>";
 
    
 
@@ -258,6 +291,7 @@ $('.gst').on('change',function(){
             $(this).find('.print_rate').attr('name','item_variations['+i+'][print_rate]');
             $(this).find('.sales_rate').attr('name','item_variations['+i+'][sales_rate]');
             $(this).find('.opening_stock').attr('name','item_variations['+i+'][opening_stock]');
+            $(this).find('.ready_to_sale').attr('name','item_variations['+i+'][ready_to_sale]');
 			i++;
 			a++
           });

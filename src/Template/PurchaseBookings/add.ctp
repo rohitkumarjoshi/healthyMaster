@@ -26,10 +26,10 @@
 						<label class=" control-label">vendor <span class="required" aria-required="true">*</span></label>
 						<?php echo $this->Form->control('vendor_id',['empty'=>'--Select--','options' => $vendors,'class'=>'form-control input-sm vendor','label'=>false,'required']); ?>
 					</div>
-					<div class="col-md-4">
+					<!--Vaibhav Sir <div class="col-md-4">
 						<label class=" control-label">Warehouse <span class="required" aria-required="true">*</span></label>
 						<?php echo $this->Form->control('warehouse_id',['options' => $warehouses,'class'=>'form-control input-sm','label'=>false]); ?>
-					</div>
+					</div> -->
 				</div><br/>
 				<div class="row">
 							<div class="col-md-12">
@@ -137,32 +137,32 @@ $(document).ready(function() {
 		
 	});
 
-	$(document).on('change','.varition',function(){
-		var input=$(this).val();
+	// $(document).on('change','.varition',function(){
+	// 	var input=$(this).val();
 
-        var master = $(this); 
-		//alert(input);
-		if(input.length>0){
-            var m_data = new FormData();
-            var url ="<?php echo $this->Url->build(["controller" => "Orders", "action" => "getprice"]); ?>";
-         //   alert(url);
-            m_data.append('input',input); 
-            $.ajax({
-                url: url,
-                data: m_data,
-                processData: false,
-                contentType: false,
-                type: 'POST',
-                dataType:'text',
-                success: function(response)
-                { 
-                	//alert(response);
-					master.closest('tr').find('td:nth-child(5) .rat_value').val(response);
-                }
-            });
-            }
-			calculate_total();
-	});
+ //        var master = $(this); 
+	// 	//alert(input);
+	// 	if(input.length>0){
+ //            var m_data = new FormData();
+ //            var url ="<?php echo $this->Url->build(["controller" => "Orders", "action" => "getprice"]); ?>";
+ //         //   alert(url);
+ //            m_data.append('input',input); 
+ //            $.ajax({
+ //                url: url,
+ //                data: m_data,
+ //                processData: false,
+ //                contentType: false,
+ //                type: 'POST',
+ //                dataType:'text',
+ //                success: function(response)
+ //                { 
+ //                	//alert(response);
+	// 				master.closest('tr').find('td:nth-child(5) .rat_value').val(response);
+ //                }
+ //            });
+ //            }
+	// 		calculate_total();
+	// });
 
 	$(document).on('change','.item-id',function(){
 		var gst_figure_id = $('option:selected',this).attr('gst_figure_id');

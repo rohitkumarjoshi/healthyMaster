@@ -78,8 +78,8 @@ class PromoCodesController extends AppController
     {
         $this->viewBuilder()->layout('index_layout');
         $jain_thela_admin_id=1;
-        $promoCode = $this->PromoCodes->newEntity();
         $promoCodes = $this->PromoCodes->find()->contain(['Items', 'ItemCategories']);
+       
         if ($this->request->is('post')) {
             $datas = $this->request->getData();
             if(!empty($datas['code']))

@@ -55,7 +55,18 @@ background-color: #fff;}
 						<label class="control-label">Delivery Date<span class="required" aria-require>*</span></label>
 						<?php echo $this->Form->control('delivery_date',['placeholder'=>'dd-mm-yyyy','class'=>'form-control input-sm date-picker','data-date-format'=>'dd-mm-yyyy','label'=>false,'type'=>'text','value'=>date('d-m-Y')]); ?>
 					</div>
+
 					<div class="col-md-2">
+						<label>Payment Mode</label>
+						<select name="order_type" class="form-control select2me input-sm">
+							<option>--Select--</option>
+							<option value="COD">COD</option>
+							<option value="Online">Paytm</option>
+							<option value="Online">Google Pay</option>
+							<option value="Online">Credit Card</option>
+						</select>
+					</div>
+					<!-- Vaibhav Sir <div class="col-md-2">
 						<label class="control-label">Delivery Time <span class="required" aria-require>*</span></label>			
 						<?php
 						foreach($deliverytime_fetchs as $deliverytime_fetch){
@@ -70,7 +81,7 @@ background-color: #fff;}
 					</div>
 					<div class="col-md-1">
 						<?= $this->Form->input('delivery_time', ['class'=>'form-control','label'=>false,'type'=>'hidden','id'=>'del_time']) ?>
-					</div>
+					</div> -->
 					<button class="btn btn-primary prev pull-right">Previous</button>
 					
 				<!--<?php if(!empty($bulkorder_id)){ ?>
@@ -115,16 +126,6 @@ background-color: #fff;}
 							 Add Address </a>
 							<a href="#" role="button" class="pull-right select_address" >
 							Select Address </a>
-					</div>
-					<div class="col-md-3">
-						<label>Payment Mode</label>
-						<select name="order_type" class="form-control select2 input-sm">
-							<option>--Select--</option>
-							<option value="COD">COD</option>
-							<option value="Online">Paytm</option>
-							<option value="Online">Google Pay</option>
-							<option value="Online">Credit Card</option>
-						</select>
 					</div>
 					
 				</div>
@@ -359,9 +360,6 @@ $(document).ready(function() {
 				},
 				order_type:{
 					required: true,
-				},
-				delivery_time_id:{
-					required :true,
 				}
 			},
 
@@ -981,19 +979,14 @@ function selectAutoCompleted1(value) {
 						<label class=" control-label">Pincode<span class="required" aria-required="true">*</span></label>
 						<?php echo $this->Form->input('pin_code',['placeholder'=>'Pincode','class'=>'form-control input-sm','label'=>false,'required']); ?>
 					</div>
-					
-					<div class="col-md-6">
-						<label class=" control-label">Landmark<span class="required" aria-required="true">*</span></label>
-						<?php echo $this->Form->input('landmark',['placeholder'=>'Address','class'=>'form-control input-sm','label'=>false,'required']); ?>
-					</div>
-					
-				</div>
-				
-				<div class="row">
 					<div class="col-md-6">
 						<label class=" control-label">Apartment<span class="required" aria-required="true">*</span></label>
 						<?php echo $this->Form->input('apartment_name',['placeholder'=>'Apartment','class'=>'form-control input-sm','label'=>false,'required']); ?>
 					</div>
+				</div>
+				
+				<div class="row">
+					
 					
 					<div class="col-md-6">
 						<label class=" control-label">Address<span class="required" aria-required="true">*</span></label>

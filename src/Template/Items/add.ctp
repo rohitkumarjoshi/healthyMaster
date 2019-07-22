@@ -70,7 +70,7 @@
                                           <th width="5%">S.No</th>
                                           <th width="5%">Variation</th>
                                           <th width="10%">Unit</th>
-                                          <th width="10%">Minimum Stock</th>
+                                         <!--  <th width="10%">Minimum Stock</th> -->
                                           <th width="10%">Maximum Order Limit</th>
                                           <th width="8%">Print Rate</th>
                                           <th width="8%">Sales Rate</th>
@@ -102,9 +102,9 @@
                     <td style="vertical-align: bottom;">
                     <?php echo $this->Form->control('item_variations.0.unit_id', ['empty'=>'--select--','options' => @$unit_option,'class'=>'form-control unit','label'=>false]); ?>
                     </td>
-                    <td style="vertical-align: bottom;"> 
+                    <!-- vaibhav sir <td style="vertical-align: bottom;"> 
                     	<?php echo $this->Form->control('item_variations.0.minimum_stock',['class'=>'form-control minimum_stock','placeholder'=>'Minimum Stock','label'=>false]); ?>
-                    </td>
+                    </td> -->
                     <td style="vertical-align: bottom;"> <?php echo $this->Form->control('item_variations.0.minimum_quantity_purchase',['class'=>'form-control minimum_quantity_purchase  order_limit','placeholder'=>'Maximum Order Limit', 'label'=>false]); ?></td>
                      <td style="vertical-align: bottom;"> 
                     	<?php echo $this->Form->control('item_variations.0.print_rate',['class'=>'form-control print_rate','placeholder'=>'Print Rate','label'=>false]); ?>

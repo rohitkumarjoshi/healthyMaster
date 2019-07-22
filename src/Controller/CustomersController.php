@@ -49,6 +49,24 @@ class CustomersController extends AppController
     {
 		$this->viewBuilder()->layout('index_layout');
 		$customers = $this->paginate($this->Customers->find()->contain(['CustomerAddresses'=>['States','Cities']]));  
+		if ($this->request->is('post')) {
+            $datas = $this->request->getData();
+            if(!empty($datas['mobile']))
+            {
+                $customers->where(['Customers.mobile'=>$datas['mobile']]);
+                //pr($datas['customer_id']);
+                pr($customers->toArray());exit;
+            }
+           
+            if(!empty($datas['From'])){
+                $from_date=date("Y-m-d",strtotime($datas['From']));
+                $customers->where(['Customers.created_on >='=> $from_date]);
+            }
+            if(!empty($datas['To'])){ 
+                $to_date=date("Y-m-d",strtotime($datas['To']));
+                $customers->where(['Customers.created_on <=' => $to_date ]);
+            }
+        }
 		//pr($customers->toArray());exit;
         $this->set(compact('customers'));
         $this->set('_serialize', ['customers']);
