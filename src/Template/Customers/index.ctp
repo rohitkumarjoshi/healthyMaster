@@ -13,27 +13,52 @@
 					</span>
 				</div>
 				<div class="actions">
+
 					<?php echo $this->Html->link('Add new','/Customers/Add',['escape'=>false,'class'=>'btn btn-default']) ?>&nbsp;
+						<input type="text" class="form-control input-sm pull-right" placeholder="Search..." id="search3"  style="width: 200px;">
 					
 				</div>
 			</div>
 			<div class="portlet-body" style="overflow:auto;">
+				<!--  <form method="post">
+                        <table width="50%" class="table table-condensed">
+                    <tbody>
+                        <tr>
+                            <td width="5%">
+                                <label class=" control-label">Mobile</label>
+                                <input type="number" name="mobile" class="form-control input-sm">
+                            </td>
+                            <td width="5%">
+                                <label>From</label>
+                                <input type="text" name="From" class="form-control input-sm date-picker" placeholder="Transaction From"  data-date-format="dd-mm-yyyy">
+                            </td>   
+                            <td width="5%">
+                                <label>To</label>
+                                <input type="text" name="To" class="form-control input-sm date-picker" placeholder="Transaction To"   data-date-format="dd-mm-yyyy" >
+                            </td>
+                            <td width="10%">
+                                <button type="submit" class="btn btn-success btn-sm" style="margin-top: 23px !important;"><i class="fa fa-filter"></i> Filter</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                </form> -->
 				<table class="table table-condensed table-hover table-bordered" id="main_tble">
 					<thead>
 						<tr>
-							<th scope="col"><?= $this->Paginator->sort('Sr') ?></th>
-							<th scope="col"><?= $this->Paginator->sort('Customer ID') ?></th>
-							<th scope="col"><?= $this->Paginator->sort('Name') ?></th>
-							<th scope="col"><?= $this->Paginator->sort('Mobile')?></th>
-							<th scope="col"><?= $this->Paginator->sort('Email')?></th>
-							<th scope="col"><?= $this->Paginator->sort('Address')?></th>
-							<th scope="col"><?= $this->Paginator->sort('Flat No.')?></th>
-							<th scope="col"><?= $this->Paginator->sort('Apartment')?></th>
-							<th scope="col"><?= $this->Paginator->sort('Landmark')?></th>
-							<th scope="col"><?= $this->Paginator->sort('State')?></th>
-							<th scope="col"><?= $this->Paginator->sort('City')?></th>
-							<th scope="col"><?= $this->Paginator->sort('Pincode')?></th>
-							<th scope="col" class="actions"><?= $this->Paginator->sort('Actions') ?></th>
+							<th> Sr</th>
+							<th> Customer ID</th>
+							<th> Name</th>
+							<th> Mobile</th>
+							<th> Email</th>
+							<th> Address</th>
+							<th> Flat No.</th>
+							<th> Apartment</th>
+							<th> Landmark</th>
+							<th> State</th>
+							<th> City</th>
+							<th> Pincode</th>
+							<th> scope="col" class="actions"><?= $this->Paginator->sort('Actions') ?></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -49,11 +74,7 @@
 							<td><?= h($customer->mobile) ?></td>
 							<td><?= h(@$customer->email) ?></td>
 							<td><?php
-							$a=0;
-							foreach ($customer->customer_addresses as $customeradd) { $a++;?>
-								<label class=" control-label">Address  <?= $a?> : 
-							<?php echo $customeradd->house_no.','.$customeradd->address.','.$customeradd->locality.'  ';
-							}
+							echo @$customer->customer_addresses[0]->house_no.','.@$customer->customer_addresses[0]->address.','.@$customer->customer_addresses[0]->locality
 						?></td>
 							<td><?php
 								//foreach ($customer->customer_addresses as $address) {

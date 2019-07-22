@@ -25,10 +25,10 @@
 						<label class=" control-label">Email <span class="required" aria-required="true">*</label>
 						<?php echo $this->Form->control('email',['placeholder'=>'Email','class'=>'form-control input-sm','label'=>false,'type'=>'email']); ?>
 					</div>
-					<div class="col-md-3">
+					<!-- <div class="col-md-3">
 						<label class=" control-label">Bulk Booking Discount % </label>
 						<?php echo $this->Form->control('bulk_booking_discount_percent',['placeholder'=>'Discount %','class'=>'form-control input-sm','label'=>false]); ?>
-					</div>
+					</div> -->
 				</div>
 				<br/>
 				<?= $this->Form->button($this->Html->tag('i', '') . __(' Submit'),['class'=>'btn btn-success']); ?>

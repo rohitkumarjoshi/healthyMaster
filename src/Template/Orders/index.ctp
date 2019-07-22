@@ -117,11 +117,11 @@
 							<th scope="col">Locality</th>
 							<th scope="col">Grand Total</th>
 							<th scope="col">Mode Of Payment</th>
-							<th scope="col">Payment Status</th>
+							<!-- <th scope="col">Payment Status</th> -->
 							<th scope="col">Order Type</th>
 							<th scope="col">Order Date</th>
-							<th scope="col">Delivery Date</th>
-							<th scope="col">Delivery Time</th>
+							<!-- <th scope="col">Delivery Date</th>
+							<th scope="col">Delivery Time</th> -->
 							<th scope="col" class="actions" width="140px"><?= __('Actions') ?></th>
 							<th scope="col" class="">Generate Invoice</th>
 							<!-- <th scope="col">Edit</th> -->
@@ -169,11 +169,11 @@
 							<td><?= h(@$order->customer_address->locality) ?></td>
 							<td align="right"><?= $this->Number->format($order->grand_total) ?></td>
 							<td><?= h($order->order_type) ?></td>
-							<td><?= h($order->payment_status) ?></td>
+							<!-- Vaibhav Sir<td><?= h($order->payment_status) ?></td> -->
 							<td><?= h($order->order_from) ?></td>
 							<td><?php $q=explode(' ',$order->order_date); ?> <span style="font-size:11px;"><?php echo $q[0] ?></span></td>
-							<td><span style="font-size:11px;"><?= h($delivery_date) ?></span></td>
-							<td><span style="font-size:11px;"><?= h($actual_deliver_time) ?></span></td>
+							<!--Vaibhav Sir <td><span style="font-size:11px;"><?= h($delivery_date) ?></span></td>
+							<td><span style="font-size:11px;"><?= h($actual_deliver_time) ?></span></td> -->
 							
 							
 							<td class="actions">

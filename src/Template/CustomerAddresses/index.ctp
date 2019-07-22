@@ -21,6 +21,26 @@
 				<?= $this->Form->create($customerAddress,['id'=>'form_sample_3']) ?>
 				<div class="row" style="margin-top:10px;">
 					<div class="col-md-8">
+						<div class="form-group">
+							<label class="control-label">Address Type<span class="required" aria-required="true">*</span></label>
+							<div class="radio-list">
+								<div class="radio-inline" style="padding-left: 0px;">
+									<?php echo $this->Form->radio(
+									'address_type',
+									[
+										['value' => 'Home', 'text' => 'Home','class' => 'radio-task virt','checked' => 'checked'],
+										['value' => 'Office', 'text' => 'Office','class' => 'radio-task virt'],
+										['value' => 'Other', 'text' => 'Other','class' => 'radio-task virt']
+									]
+									); ?>
+								</div>
+                            </div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row" style="margin-top:5px;">
+					<div class="col-md-8">
 						<label class=" control-label">Name<span class="required" aria-required="true">*</span></label>
 						<?php echo $this->Form->control('name',['placeholder'=>'Name','class'=>'form-control input-sm','label'=>false]); ?>
 					</div>
@@ -29,6 +49,36 @@
 					<div class="col-md-8">
 						<label class=" control-label">Mobile <span class="required" aria-required="true">*</span></label>
 						<?php echo $this->Form->control('mobile',['placeholder'=>'Mobile','class'=>'form-control input-sm','label'=>false,'type'=>'number','minlength'=>10,'maxlength'=>10]); ?>
+					</div>
+				</div>
+				<div class="row" style="margin-top:10px;">
+					<div class="col-md-8">
+						<label class=" control-label">House no <span class="required" aria-required="true">*</span></label>
+						<?php echo $this->Form->control('house_no',['placeholder'=>'House no','class'=>'form-control input-sm','label'=>false]); ?>
+					</div>
+				</div>
+				<div class="row" style="margin-top:10px;">
+					<div class="col-md-8">
+						<label class=" control-label">Apartment Name<span class="required" aria-required="true">*</span></label>
+						<?php echo $this->Form->control('apartment_name',['placeholder'=>'Apartment Name','class'=>'form-control input-sm','label'=>false]); ?>
+					</div>
+				</div>
+				<div class="row" style="margin-top:10px;">
+					<div class="col-md-8">
+						<label class=" control-label">Address<span class="required" aria-required="true">*</span></label>
+						<?php echo $this->Form->control('address',['placeholder'=>'address','class'=>'form-control input-sm','label'=>false]); ?>
+					</div>
+				</div>
+				<div class="row" style="margin-top:10px;">
+					<div class="col-md-8">
+						<label class=" control-label">Locality</label>
+						<?php echo $this->Form->control('locality',['placeholder'=>'locality','class'=>'form-control input-sm','label'=>false]); ?>
+					</div>
+				</div>
+				<div class="row" style="margin-top:10px;">
+					<div class="col-md-8">
+						<label class=" control-label">Pincode<span class="required" aria-required="true">*</span></label>
+						<?php echo $this->Form->control('pin_code',['placeholder'=>'Pincode','class'=>'form-control input-sm','label'=>false,'minlength'=>6,'maxlength'=>6]); ?>
 					</div>
 				</div>
 				<div class="row" style="margin-top:10px;">
@@ -44,55 +94,7 @@
                             
                         </select>
                  </div>
-				<div class="row" style="margin-top:10px;">
-					<div class="col-md-8">
-						<label class=" control-label">Pincode<span class="required" aria-required="true">*</span></label>
-						<?php echo $this->Form->control('pincode',['placeholder'=>'Pincode','class'=>'form-control input-sm','label'=>false,'minlength'=>6,'maxlength'=>6]); ?>
-					</div>
-				</div>
-				<div class="row" style="margin-top:10px;">
-					<div class="col-md-8">
-						<label class=" control-label">Apartment Name<span class="required" aria-required="true">*</span></label>
-						<?php echo $this->Form->control('apartment_name',['placeholder'=>'Apartment Name','class'=>'form-control input-sm','label'=>false]); ?>
-					</div>
-				</div>
-				<div class="row" style="margin-top:10px;">
-					<div class="col-md-8">
-						<label class=" control-label">House no <span class="required" aria-required="true">*</span></label>
-						<?php echo $this->Form->control('house_no',['placeholder'=>'House no','class'=>'form-control input-sm','label'=>false]); ?>
-					</div>
-				</div>
-				<div class="row" style="margin-top:10px;">
-					<div class="col-md-8">
-						<label class=" control-label">Address<span class="required" aria-required="true">*</span></label>
-						<?php echo $this->Form->control('address',['placeholder'=>'address','class'=>'form-control input-sm','label'=>false]); ?>
-					</div>
-				</div>
-				<div class="row" style="margin-top:10px;">
-					<div class="col-md-8">
-						<label class=" control-label">Office Work</label>
-						<?php echo $this->Form->control('office_work',['placeholder'=>'Office Work','class'=>'form-control input-sm','label'=>false]); ?>
-					</div>
-				</div>
-				<div class="row" style="margin-top:10px;">
-					<div class="col-md-8">
-						<label class=" control-label">Others</label>
-						<?php echo $this->Form->control('others',['placeholder'=>'Others','class'=>'form-control input-sm','label'=>false]); ?>
-					</div>
-				</div>
-				<div class="row" style="margin-top:10px;">
-					<div class="col-md-8">
-						<label class=" control-label">Locality</label>
-						<?php echo $this->Form->control('locality',['placeholder'=>'locality','class'=>'form-control input-sm','label'=>false]); ?>
-					</div>
-				</div>
-				<div class="row" style="margin-top:10px;">
-					<div class="col-md-8">
-						<label class=" control-label">Landmark</label>
-						<?php echo $this->Form->control('landmark',['placeholder'=>'landmark','class'=>'form-control input-sm','label'=>false]); ?>
-					</div>
-				</div>
-
+				
 				 <br>
 				<div class="row" style="margin-top:10px;">
 				<div class="col-md-8">

@@ -62,7 +62,7 @@
 				<tbody>
 					<?php
 					$i=0;
-					foreach ($promoCodes as $promoCode):
+					foreach (@$promoCodes as $promoCode):
 					$i++;
 
 					?>

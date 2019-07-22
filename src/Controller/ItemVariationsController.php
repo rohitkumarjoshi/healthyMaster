@@ -51,11 +51,11 @@ class ItemVariationsController extends AppController
                 ->where(['ItemVariations.item_id'=>$item_id])
                 ->contain(['Items'=>['ItemCategories'],'Units']);
          }
-         else
-         {
-             $item_variations = $this->ItemVariations->find()
-        ->contain(['Items'=>['ItemCategories'],'Units']);
-         }
+        //--Vaibhav Sir  else
+        //  {
+        //      $item_variations = $this->ItemVariations->find()
+        // ->contain(['Items'=>['ItemCategories'],'Units']);
+        //  }
         if ($this->request->is(['post', 'put'])) {
             $item_variation=$this->request->getData();
             //pr($item_variation);exit;

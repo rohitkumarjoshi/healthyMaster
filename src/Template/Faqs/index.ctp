@@ -9,8 +9,8 @@
                         <i class="font-purple-intense"></i>
                         <span class="caption-subject font-purple-intense ">
                               <?php 
-                            if(!empty($id)){ ?> EDIT ADDRESS
-                            <?php }else{ ?> ADD ADDRESS
+                            if(!empty($id)){ ?> EDIT FAQ
+                            <?php }else{ ?> ADD FAQ
                             <?php } ?>
                         </span>
                     </div>
