@@ -21,19 +21,10 @@ class UsersController extends AppController
 	public function currentApiVersion()
 	{
 		$api_version=$this->request->query('api_version');
-		$version = $this->Users->ApiVersions->find()->first();
-		$curent_version=$version->version;
-		if($api_version==$curent_version)
-		{
-			$status=true;
-			$error="Current version found";
-			$data = $version;
-		}
-		else{
-		$status=false;
-		$error="Please Update Api Version";
-		$data = [];
-		}
+		$data = $this->Users->ApiVersions->get(1);
+		
+		$status=true;$error='Data found';
+		
 		$this->set(compact('status', 'error','data'));
 		$this->set('_serialize', ['status', 'error','data']);
 	}
