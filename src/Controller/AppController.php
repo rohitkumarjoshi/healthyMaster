@@ -63,6 +63,7 @@ class AppController extends Controller
             ],
 			'unauthorizedRedirect' => $this->referer(),
         ]);
+		$this->Auth->allow(['success','cancel','getOrderOnline']);
 		
 		$login_user_id=$this->Auth->User('id');
 		$this->set('login_user_id',$login_user_id);
