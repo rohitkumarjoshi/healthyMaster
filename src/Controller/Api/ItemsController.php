@@ -131,7 +131,9 @@ class ItemsController extends AppController
 						}]);
 					}
 				]);
-				
+				$items->Matching('ItemVariations', function($q) {
+	                return $q->where(['ItemVariations.ready_to_sale' =>'Yes']);
+	            });
 				if(!empty($priceFilter)){
 					$items->Matching('ItemVariations', function($q)use($priceFilter,$price_sort) {
 	                    return $q->where($priceFilter)->order($price_sort);

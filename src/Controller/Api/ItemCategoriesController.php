@@ -25,13 +25,24 @@ class ItemCategoriesController extends AppController
 			}
 			if($HomeScreen->layout=='CategoryItems'){
 				
-				$itemCategories = $this->ItemCategories->Items->find()->where(['Items.is_combo'=>'no', 'Items.freeze'=>0, 'Items.ready_to_sale'=>'Yes','item_category_id'=>$HomeScreen->category_id])->contain(['ItemVariations'=>['Units','Carts'=>
-        						function($q) use($customer_id){
-        							return $q->where(['customer_id'=>$customer_id]);
-        					}]]);
+				$itemCategories = $this->ItemCategories->Items->find()->where(['Items.is_combo'=>'no', 'Items.freeze'=>0, 'Items.ready_to_sale'=>'Yes','item_category_id'=>$HomeScreen->category_id])
+					/*->contain(['ItemVariations'=>['Units','Carts'=>
+						function($q) use($customer_id){
+							return $q->where(['customer_id'=>$customer_id]);
+					}]]);*/
+					->contain(['ItemVariations'=>
+						function($q) use($customer_id) {
+							return $q->where(['ready_to_sale' =>'Yes'])
+							->contain(['Units','Carts'=>
+								function($q) use($customer_id){
+									return $q->where(['customer_id'=>$customer_id]);
+							}]);
+						}
+					]);
+
 				$itemCategories->Matching('ItemVariations', function($q) {
-	                    return $q->where(['ItemVariations.ready_to_sale' =>'Yes']);
-	                });
+                    return $q->where(['ItemVariations.ready_to_sale' =>'Yes']);
+                });
 				$ItemCategories = array("title"=>$HomeScreen->title,'layout'=>$HomeScreen->layout,'category_id'=>$HomeScreen->category_id,'item_id'=>$HomeScreen->item_id,'image'=>$HomeScreen->image,"DynamicList"=>$itemCategories);
 				array_push($dynamic,$ItemCategories);
 			}
@@ -40,8 +51,8 @@ class ItemCategoriesController extends AppController
 				$items = $this->ItemCategories->Items->find()->where(['Items.is_combo'=>'no', 'Items.freeze'=>0, 'Items.ready_to_sale'=>'Yes','Items.id'=>$HomeScreen->item_id])->contain(['ItemVariations']);
 				
 				$items->Matching('ItemVariations', function($q) {
-	                    return $q->where(['ItemVariations.ready_to_sale' =>'Yes']);
-	                });
+                    return $q->where(['ItemVariations.ready_to_sale' =>'Yes']);
+                });
 					
 				$Items = array("title"=>$HomeScreen->title,'layout'=>$HomeScreen->layout,'category_id'=>$HomeScreen->category_id,'item_id'=>$HomeScreen->item_id,'image'=>$HomeScreen->image,'image_fullpath'=>'http://healthymaster.in/healthymaster/img/home_screen/'.$HomeScreen->image,"DynamicList"=>$items);
 				array_push($dynamic,$Items);
