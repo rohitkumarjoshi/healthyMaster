@@ -38,7 +38,7 @@ class ItemCategoriesController extends AppController
 									return $q->where(['customer_id'=>$customer_id]);
 							}]);
 						}
-					]);
+					])->group(['Items.id']);
 
 				$itemCategories->Matching('ItemVariations', function($q) {
                     return $q->where(['ItemVariations.ready_to_sale' =>'Yes']);

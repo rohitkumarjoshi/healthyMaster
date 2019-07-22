@@ -233,7 +233,7 @@ class ItemsController extends AppController
 					}]);
 					$customer_also_bought->select(['image_url' => $customer_also_bought->func()->concat(['http://healthymaster.in'.$this->request->webroot.'img/item_images/','image' => 'identifier' ])]);
         */ 
-        $where=['Items.item_category_id'=>$item_category_id, 'Items.is_combo'=>'no', 'Items.freeze'=>0, 'Items.ready_to_sale'=>'Yes'];
+        	$where=['Items.item_category_id'=>$item_category_id, 'Items.is_combo'=>'no', 'Items.freeze'=>0, 'Items.ready_to_sale'=>'Yes','Items.id !=' =>$item_id];
 
 					$customer_also_bought= $this->Items->find()
 							->where($where) 				
