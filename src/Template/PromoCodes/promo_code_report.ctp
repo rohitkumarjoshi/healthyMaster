@@ -7,7 +7,7 @@
 				<span class="caption-subject">Promo Codes</span>
 			</div>
 			<div class="actions">
-				<input type="text" class="form-control input-sm pull-right" placeholder="Search..." id="search3"  style="width: 200px;">
+				
 			</div>
 		</div>
 		<div class="portlet-body">
@@ -22,6 +22,14 @@
 						<td width="5%">
 							<label>Item</label>
 							<?php echo $this->Form->input('item_id', ['empty'=>'--Items--','options' => $items,'label' => false,'class' => 'form-control input-sm select2me','placeholder'=>'Select Item','value'=>@$item_id]); ?>
+						</td>
+						<td width="5%">
+							<label>Status</label>
+							<select name="status" class="form-control input-sm select2me">
+								<option>-Select-</option>
+								<option value="Active">Active</option>
+								<option value="Deactive">Deactive</option>
+							</select>
 						</td>
 						<td width="5%">
 							<label>From</label>

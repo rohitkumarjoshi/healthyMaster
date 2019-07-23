@@ -68,8 +68,8 @@
 						<tr>
 							<td><?= $i ?></td>
 							<td><?= $customer->id ?></td>
-							<td><?php echo $this->Html->link($customer->name,['controller'=>'Customers','action' => 'customerLedger', $customer->id, 'print'],['target'=>'_blank']); ?></td>
-							<td><?= h($customer->mobile) ?></td>
+							<td><?=$customer->name ?></td>
+							<td><?php echo $this->Html->link($customer->mobile,['controller'=>'Customers','action' => 'customerLedger', $customer->id, 'print'],['target'=>'_blank']); ?></td>
 							<td><?= h(@$customer->email) ?></td>
 							<td><?php
 							echo @$customer->customer_addresses[0]->house_no.','.@$customer->customer_addresses[0]->address.','.@$customer->customer_addresses[0]->locality
@@ -80,7 +80,7 @@
 							?></td>
 							<td><?php
 								//foreach ($customer->customer_addresses as $address) {
-								echo h(@$customer->customer_addresses[0]->apartment);
+								echo h(@$customer->customer_addresses[0]->apartment_name);
 							?></td>
 							<td><?php
 								//foreach ($customer->customer_addresses as $address) {

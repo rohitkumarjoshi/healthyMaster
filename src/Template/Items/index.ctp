@@ -65,10 +65,10 @@
 							<td class="actions">
 								<?= $this->Html->link(__('Edit'), ['action' => 'edit', $item->id]) ?>
 								<?php if($item->freeze == 0){ ?>
-								<?= $this->Form->postLink(__('Deactive'), ['action' => 'delete', $item->id], ['confirm' => __('Are you sure you want to delete # {0}?', $item->id)]) ?>
+								<?= $this->Form->postLink(__('Deactive'), ['action' => 'delete', $item->id], ['confirm' => __('Are you sure you want to Deactive # {0}?', $item->id)]) ?>
 								<?php } ?>
 								<?php if($item->freeze == 1){ ?>
-								<?= $this->Form->postLink(__('Active'), ['action' => 'delete1', $item->id], ['confirm' => __('Are you sure you want to Unfreeze # {0}?', $item->id)]) ?>
+								<?= $this->Form->postLink(__('Active'), ['action' => 'delete1', $item->id], ['confirm' => __('Are you sure you want to Active # {0}?', $item->id)]) ?>
 								<?php } ?>
 							</td>
 						</tr>

@@ -45,6 +45,7 @@
 						<tr>
 							<th width="5%">Sr</th>
 							<th width="10%">Category</th>
+							<th width="10%">Item Code</th>
 							<th width="10%">Item</th>
 							<th width="20%">Variation</th>
 							<th width="15%">Print Rate</th>
@@ -64,6 +65,8 @@
 							
 							</td>
 							<td><?= h(@$item_variation->item->item_category->name) ?></td>
+							<td>
+								<?= h(@$item_variation->item->item_code) ?></td>
 							<td><?php
 								$item_name=$item_variation->item->name;
 								$alias_name=$item_variation->item->alias_name;
@@ -71,7 +74,7 @@
 								<?= h(@$item_name. ' ('.$alias_name.')') ?></td>
                             
 							<td style="font-size:10px;">
-								Rate per <b style="font-size:12px;"><?= $item_variation->quantity_variation." ".h($item_variation->unit->shortname) ?></b>
+								 <b style="font-size:12px;"><?= $item_variation->quantity_variation." ".h($item_variation->unit->shortname) ?></b>
 							</td>
 							<td>
 								<?php echo  $this->Form->control('itemVariations['.$i.'][print_rate]',['class'=>'form-control input-sm  print_rate','placeholder'=>'Print Rate', 'value'=>$item_variation->print_rate,'label'=>false]); ?></td>

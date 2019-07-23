@@ -12,6 +12,11 @@
                         <table width="50%" class="table table-condensed">
                     <tbody>
                         <tr>
+                            <tr>
+                            <td width="5%">
+                            <label>Mobile</label>
+                            <?php echo $this->Form->input('mobile', ['label' => false,'class' => 'form-control input-sm','placeholder'=>'Mobile']); ?>
+                        </td>
                             <td width="5%">
                                 <label>From</label>
                                 <input type="text" name="From" class="form-control input-sm date-picker" placeholder="Transaction From"  data-date-format="dd-mm-yyyy" autocomplete="false">

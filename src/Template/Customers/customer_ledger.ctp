@@ -83,7 +83,7 @@
 								<tr>
 									<td><?= $t ?></td>
 									<td>
-										<?php echo $this->Html->link($Order->order_no,['controller'=>'Orders','action' => 'view', $Order->id, 'print'],['target'=>'_blank']); ?>
+										<?php echo $this->Html->link($Order->order_no,['controller'=>'Orders','action' => 'newview', $Order->id],['target'=>'_blank']); ?>
 									</td>
 									<td>
 										<?php if($points!=null)

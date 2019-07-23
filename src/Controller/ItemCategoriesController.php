@@ -26,6 +26,7 @@ class ItemCategoriesController extends AppController
                         ->where(['status'=>'out'])
                         ->group(['ItemLedgers.item_id','ItemLedgers.item_variation_id'])
                         ->contain(['Items'=>['ItemCategories'],'ItemVariations']);
+                        //->order(['count']);
 
             
            //pr($recently_boughts->toArray());exit;
@@ -36,12 +37,17 @@ class ItemCategoriesController extends AppController
                 $from_date=date("Y-m-d",strtotime($datas['From']));
                 $recently_boughts->where(['ItemLedgers.created_on >='=> $from_date]);
             }
+             if(!empty($datas['item_id'])){
+                $recently_boughts->where(['ItemLedgers.item_id >='=>$datas['item_id']]);
+            }
             if(!empty($datas['To'])){ 
                 $to_date=date("Y-m-d",strtotime($datas['To']));
                 $recently_boughts->where(['ItemLedgers.created_on <=' => $to_date ]);
             }
+             
         }
-        $this->set(compact('recently_boughts'));
+        $items = $this->ItemCategories->Items->find('list');
+        $this->set(compact('recently_boughts','items'));
     }
 
    	public function index($id=null)

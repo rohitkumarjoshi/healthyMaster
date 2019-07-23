@@ -73,9 +73,9 @@ class WishlistsController extends AppController
         //pr($Wishlists->toArray());exit;
         if ($this->request->is('post')) {
             $datas = $this->request->getData();
-            if(!empty($datas['customer_id']))
+            if(!empty($datas['mobile']))
             {
-                $Wishlists->where(['Wishlists.customer_id'=>$datas['customer_id']]);
+                $Wishlists->where(['Customers.mobile'=>$datas['mobile']]);
             }
              if(!empty($datas['item_id']))
             {

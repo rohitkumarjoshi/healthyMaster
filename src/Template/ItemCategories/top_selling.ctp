@@ -16,6 +16,10 @@
 					<tbody>
 						<tr>
 							<td width="5%">
+								<label>Item</label>
+								<?php echo $this->Form->input('item_id', ['empty'=>'--Items--','options' => $items,'label' => false,'class' => 'form-control input-sm select2me','placeholder'=>'Category']); ?>
+							</td>
+							<td width="5%">
 								<label>From</label>
 								<input type="text" name="From" class="form-control input-sm date-picker" placeholder="Transaction From"  data-date-format="dd-mm-yyyy" autocomplete="false">
 							</td>	

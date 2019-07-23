@@ -167,6 +167,12 @@ class CartsController extends AppController
                 //pr($datas['customer_id']);
                 //pr($Carts->toArray());exit;
             }
+            if(!empty($datas['mobile']))
+            {
+                $Carts->where(['Customers.mobile'=>$datas['mobile']]);
+                //pr($datas['customer_id']);
+                //pr($Carts->toArray());exit;
+            }
              if(!empty($datas['item_id']))
             {
                 $Carts->where(['Carts.item_id'=>$datas['item_id']]);

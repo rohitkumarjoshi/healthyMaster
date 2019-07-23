@@ -27,10 +27,14 @@ class FeedbacksController extends AppController
          if ($this->request->is('post')) {
             $datas = $this->request->getData();
            
+             if(!empty($datas['mobile'])){
+                $feedbacks->where(['Customers.mobile >='=> $datas['mobile']]);
+            }
             if(!empty($datas['From'])){
                 $from_date=date("Y-m-d",strtotime($datas['From']));
                 $feedbacks->where(['Feedbacks.created_on >='=> $from_date]);
             }
+           
             if(!empty($datas['To'])){ 
                 $to_date=date("Y-m-d",strtotime($datas['To']));
                 $feedbacks->where(['Feedbacks.created_on <=' => $to_date ]);
