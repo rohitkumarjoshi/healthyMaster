@@ -44,11 +44,15 @@ class JainCashPointsController extends AppController
         $jain_cash_point=$this->JainCashPoints->find()->contain(['Customers','Orders']);
         if ($this->request->is('post')) {
             $datas = $this->request->getData();
-            if(!empty($datas['customer_id']))
+            if(!empty($datas['mobile']))
             {
-                $jain_cash_point->where(['JainCashPoints.customer_id'=>$datas['customer_id']]);
+                $jain_cash_point->where(['Customers.mobile'=>$datas['mobile']]);
                 //pr($datas['customer_id']);
                 //pr($jain_cash_point->toArray());exit;
+            }
+             if(!empty($datas['order_no']))
+            {
+                $jain_cash_point->where(['Orders.order_no'=>$datas['order_no']]);
             }
             
             if(!empty($datas['From'])){

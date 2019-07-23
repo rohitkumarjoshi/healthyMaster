@@ -18,9 +18,6 @@ background-color: #fff;}
 					<i class=" fa fa-gift"></i>
 					<span class="caption-subject">Cart</span>
 				</div>
-				<div class="actions">
-					<input type="text" class="form-control input-sm pull-right" placeholder="Search..." id="search3"  style="width: 200px;">
-				</div>
 			</div>
 			<div class="portlet-body">
 				<form method="post">
@@ -28,13 +25,9 @@ background-color: #fff;}
 					<tbody>
 						<tr>
 							<td width="5%">
-								<label class=" control-label">Customer <span class="required" aria-required="true">*</span></label><!-- 
-						<?php echo $this->Form->control('customer_id',['empty'=>'--Select Customer--','options' => $customers,'class'=>'form-control input-sm select2me customer_id cstmr chosen-select','label'=>false]); ?> -->
-						<input type="text" name="customer" class="form-control input-sm selectedAutoCompleted autocompleted customer_id cstmr chosen-select" valueType="item_name"  autocomplete="off">
-						<input type="hidden" name="customer_id" id="customer_id">
-						
-						 <div class="suggesstion-box"></div>
-							</td>
+                            <label>Mobile</label>
+                            <?php echo $this->Form->input('mobile', ['label' => false,'class' => 'form-control input-sm','placeholder'=>'Mobile']); ?>
+                        </td>
 							
 							<td width="5%">
 								<label>Item</label>
@@ -63,6 +56,7 @@ background-color: #fff;}
 							<th>Sr</th>
 							<th>Customer ID</th>
 							<th>Customer Name</th>
+							<th>Mobile</th>
 							<!-- <th>Item Variation</th> -->
 							<th>Item Code</th>
 							<th>Item Name</th>
@@ -83,6 +77,7 @@ background-color: #fff;}
 							<td><?= $i ?></td>
 							<td><?= h(@$Cart->customer->id) ?></td>
 							<td><?= h(@$Cart->customer->name) ?></td>
+							<td><?= h(@$Cart->customer->mobile) ?></td>
 							<!-- <td><?= h(@$Cart->item_variation->name) ?></td> -->
 							<td><?= h(@$Cart->item->item_code) ?></td>
 							<td><?= h(@$Cart->item->name) ?></td>

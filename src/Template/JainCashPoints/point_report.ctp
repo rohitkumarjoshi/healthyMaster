@@ -26,9 +26,6 @@ background-color: #fff;}
 					<i class=" fa fa-gift"></i>
 					<span class="caption-subject">Customer Wallet</span>
 				</div>
-				<div class="actions">
-					<input type="text" class="form-control input-sm pull-right" placeholder="Search..." id="search3"  style="width: 200px;">
-				</div>
 			</div>
 			<div class="portlet-body">
 				<form method="post">
@@ -36,13 +33,13 @@ background-color: #fff;}
 				<tbody>
 					<tr>
 						<td width="5%">
-								<label class=" control-label">Customer <span class="required" aria-required="true">*</span></label><!-- 
-						<?php echo $this->Form->control('customer_id',['empty'=>'--Select Customer--','options' => $customers,'class'=>'form-control input-sm select2me customer_id cstmr chosen-select','label'=>false]); ?> -->
-						<input type="text" name="customer" class="form-control input-sm selectedAutoCompleted autocompleted customer_id cstmr chosen-select" valueType="item_name"  autocomplete="off">
-						<input type="hidden" name="customer_id" id="customer_id">
-						
-						 <div class="suggesstion-box"></div>
-							</td>
+                            <label>Mobile</label>
+                            <?php echo $this->Form->input('mobile', ['label' => false,'class' => 'form-control input-sm','placeholder'=>'Mobile']); ?>
+                        </td>
+                        <td width="5%">
+                                <label>Order</label>
+                                <?php echo $this->Form->input('order_no', ['label' => false,'class' => 'form-control input-sm','placeholder'=>'Order No']); ?>
+                            </td>
 						<td width="5%">
 							<label>From</label>
 							<input type="text" name="From" class="form-control input-sm date-picker" placeholder="Transaction From" value="<?php if(!empty(@$from_date)) { echo date('d-m-Y',strtotime(@$from_date)); } ?>"  data-date-format="dd-mm-yyyy">	
@@ -66,6 +63,7 @@ background-color: #fff;}
 							<th>Transaction Date</th>
 							<th>Customer ID</th>
 							<th>Customer Name</th>
+							<th>Mobile</th>
 						    <th>Total Point</th>
 							<th>Used Point</th>
 						    <th>Available Point</th>
@@ -81,9 +79,10 @@ background-color: #fff;}
 						?>
 						<tr>
 							<td><?= $i ?></td>
-					    	<td><?= h(date('d-m-Y',strtotime($point->order->created_on))) ?></td>
+					    	<td><?= h(date('d-m-Y',strtotime($point->updated_on))) ?></td>
 					    	<td><?= h(@$point->customer->id) ?></td>
 					    	<td><?= h(@$point->customer->name) ?></td>
+					    	<td><?= h(@$point->customer->mobile) ?></td>
 					    	<td><?= h(@$point->point) ?></td>
 							<td><?= h(@$point->used_point) ?></td>
 					    	<td><?= h(@$point->point)-$point->used_point ?></td>

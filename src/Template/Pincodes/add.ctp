@@ -26,7 +26,7 @@
                     </div>
                     <div class="col-md-3">
                         <label class=" control-label">Pincode </label>
-                        <?php echo $this->Form->control('pincode',['placeholder'=>'Pincode','class'=>'form-control input-sm','label'=>false,'maxlength'=>6,'required']); ?>
+                        <?php echo $this->Form->control('pincode',['placeholder'=>'Pincode','class'=>'form-control input-sm','label'=>false,'maxlength'=>6,'minlength'=>6,'required']); ?>
                     </div>
                     <div class="col-md-3">
                         <label>We Deliver</label>

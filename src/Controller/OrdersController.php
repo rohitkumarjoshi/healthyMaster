@@ -344,23 +344,29 @@ class OrdersController extends AppController
     	->contain(['PromoCodes','Customers']);
     	if ($this->request->is('post')) {
             $datas = $this->request->getData();
-            if(!empty($datas['customer_id']))
+            if(!empty($datas['mobile']))
             {
-                $used_promo->where(['Orders.customer_id'=>$datas['customer_id']]);
+                $used_promo->where(['Customers.mobile'=>$datas['mobile']]);
+                //pr($datas['customer_id']);
+                //pr($Carts->toArray());exit;
+            }
+            if(!empty($datas['code']))
+            {
+                $used_promo->where(['PromoCodes.code'=>$datas['code']]);
                 //pr($datas['customer_id']);
                 //pr($Carts->toArray());exit;
             }
              if(!empty($datas['order_no']))
             {
-                $used_promo->where(['Orders.order_no'=>$datas['item_id']]);
+                $used_promo->where(['Orders.order_no'=>$datas['order_no']]);
             }
             if(!empty($datas['From'])){
                 $from_date=date("Y-m-d",strtotime($datas['From']));
-                $used_promo->where(['Orders.created_on >='=> $from_date]);
+                $used_promo->where(['Orders.order_date >='=> $from_date]);
             }
             if(!empty($datas['To'])){ 
                 $to_date=date("Y-m-d",strtotime($datas['To']));
-                $used_promo->where(['Orders.created_on <=' => $to_date ]);
+                $used_promo->where(['Orders.order_date <=' => $to_date ]);
             }
         }
     	//pr($used_promo->toArray());exit;

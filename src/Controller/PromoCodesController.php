@@ -78,7 +78,10 @@ class PromoCodesController extends AppController
     {
         $this->viewBuilder()->layout('index_layout');
         $jain_thela_admin_id=1;
-        $promoCodes = $this->PromoCodes->find()->contain(['Items', 'ItemCategories']);
+        $promoCodes = $this->PromoCodes->find()
+        ->contain(['Items', 'ItemCategories'])
+        ->leftJoinWith('Items')
+        ->leftJoinWith('ItemCategories');
        
         if ($this->request->is('post')) {
             $datas = $this->request->getData();
@@ -86,6 +89,11 @@ class PromoCodesController extends AppController
             {
                 $promoCodes->where(['code'=>$datas['code']]);
 				$code = $datas['code'];
+            }
+             if(!empty($datas['status']))
+            {
+                $status= $datas['status'];
+                $promoCodes->where(['status'=>$status]);
             }
              if(!empty($datas['item_id']))
             {
@@ -98,7 +106,7 @@ class PromoCodesController extends AppController
             }
             if(!empty($datas['To'])){ 
                 $to_date=date("Y-m-d",strtotime($datas['To']));
-                $promoCodes->where(['valid_to <=' => $to_date ]);
+                $promoCodes->where(['valid_from <=' => $to_date ]);
             }
         }
         
@@ -107,7 +115,7 @@ class PromoCodesController extends AppController
         $items = $this->PromoCodes->Items->find('list');
         $this->set(compact('promoCode', 'promoCodes', 'itemCategories','items','code','item_id','from_date','to_date'));
         $this->set('_serialize', ['promoCode']);
-        $this->set('_serialize', ['promoCodes','code','item_id','from_date','to_date']);
+        $this->set('_serialize', ['promoCodes','code','item_id','from_date','to_date','status']);
     }
 
 	public function ajaxStatusPromoCode($status,$status_id)

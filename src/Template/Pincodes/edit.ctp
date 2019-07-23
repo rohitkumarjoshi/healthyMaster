@@ -23,7 +23,7 @@
                     </div>
                     <div class="col-md-3">
                         <label class=" control-label">Pincode <span class="required" aria-required="true">*</span></label>
-                        <?php echo $this->Form->control('pincode',['placeholder'=>'pincode','class'=>'form-control input-sm','label'=>false,'maxlength'=>6]); ?>
+                        <?php echo $this->Form->control('pincode',['placeholder'=>'pincode','class'=>'form-control input-sm','label'=>false,'maxlength'=>6,'minlength'=>6]); ?>
                     </div>
                    <div class="col-md-3">
                        

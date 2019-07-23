@@ -19,7 +19,7 @@ background-color: #fff;}
                     <span class="caption-subject">Used Promo Codes</span>
                 </div>
                 <div class="actions">
-                    <input type="text" class="form-control input-sm pull-right" placeholder="Search..." id="search3"  style="width: 200px;">
+                   
                 </div>
             </div>
             <div class="portlet-body">
@@ -28,14 +28,13 @@ background-color: #fff;}
                     <tbody>
                         <tr>
                             <td width="5%">
-                                <label class=" control-label">Customer <span class="required" aria-required="true">*</span></label><!-- 
-                        <?php echo $this->Form->control('customer_id',['empty'=>'--Select Customer--','options' => $customers,'class'=>'form-control input-sm select2me customer_id cstmr chosen-select','label'=>false]); ?> -->
-                        <input type="text" name="customer" class="form-control input-sm selectedAutoCompleted autocompleted customer_id cstmr chosen-select" valueType="item_name"  autocomplete="off">
-                        <input type="hidden" name="customer_id" id="customer_id">
-                        
-                         <div class="suggesstion-box"></div>
+                                <label>Mobile</label>
+                                <?php echo $this->Form->input('mobile', ['label' => false,'class' => 'form-control input-sm','placeholder'=>'Mobile']); ?>
                             </td>
-                            
+                            <td width="5%">
+                                <label>PromoCode</label>
+                                <?php echo $this->Form->input('code', ['label' => false,'class' => 'form-control input-sm','placeholder'=>'Mobile']); ?>
+                            </td>
                             <td width="5%">
                                 <label>Order</label>
                                 <?php echo $this->Form->input('order_no', ['label' => false,'class' => 'form-control input-sm','placeholder'=>'Order No']); ?>
@@ -65,6 +64,7 @@ background-color: #fff;}
                             <th scope="col">Order No.</th>
                             <th scope="col">Customer ID</th>
                             <th scope="col">Customer Name</th>
+                            <th scope="col">Mobile</th>
                             <th scope="col">Code</th>
                             <th scope="col">Title</th>
                             <th scope="col">Order Value</th>
@@ -83,6 +83,7 @@ background-color: #fff;}
                             <td><?= $used_promos->order_no?></td>
                             <td><?= $used_promos->customer->id?></td>
                             <td><?= $used_promos->customer->name?></td>
+                            <td><?= $used_promos->customer->mobile?></td>
                             <td><?= $used_promos->promo_code->code?></td>
                             <td><?= $used_promos->promo_code->title?></td>
                             <td><?= $used_promos->grand_total?></td>

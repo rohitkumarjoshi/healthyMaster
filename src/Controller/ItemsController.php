@@ -338,7 +338,7 @@ class ItemsController extends AppController
         $item = $this->Items->get($id);
 		    $item->freeze=1;
         if ($this->Items->save($item)) {
-            $this->Flash->success(__('The item has been freezed.'));
+            $this->Flash->success(__('The item is made Deactive.'));
         } else {
             $this->Flash->error(__('The item could not be deleted. Please, try again.'));
         }
@@ -351,7 +351,7 @@ class ItemsController extends AppController
         $item = $this->Items->get($id);
         $item->freeze=0;
         if ($this->Items->save($item)) {
-            $this->Flash->success(__('The item has been Unfreezed.'));
+            $this->Flash->success(__('The item is made Active.'));
         } else {
             $this->Flash->error(__('The item could not be unfreeze. Please, try again.'));
         }
