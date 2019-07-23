@@ -233,8 +233,58 @@ class ItemsController extends AppController
 					}]);
 					$customer_also_bought->select(['image_url' => $customer_also_bought->func()->concat(['http://healthymaster.in'.$this->request->webroot.'img/item_images/','image' => 'identifier' ])]);
         */ 
-        	$where=['Items.item_category_id'=>$item_category_id, 'Items.is_combo'=>'no', 'Items.freeze'=>0, 'Items.ready_to_sale'=>'Yes','Items.id !=' =>$item_id];
+		
+		/* if(!empty($item_name))
+		{
 
+			$searchResult = $this->Items->find()
+			->where(['Items.is_combo'=>'no', 'Items.name LIKE' =>$item_name, 'Items.freeze'=>0, 'Items.ready_to_sale'=>'Yes'])
+			->order(['name'=>'ASC'])
+					->contain(['ItemVariations'=>
+						function($q) use($customer_id) {
+							return $q->where(['ready_to_sale' =>'Yes'])
+							->contain(['Units','Carts'=>
+								function($q) use($customer_id){
+									return $q->where(['customer_id'=>$customer_id]);
+							}]);
+						}
+					])
+			->where($where);
+			if(empty($searchResult->toArray()))
+			{
+				$searchResult = $this->Items->find()
+				->where(['Items.is_combo'=>'no', 'Items.name LIKE' => '%'.$item_name.'%', 'Items.freeze'=>0, 'Items.ready_to_sale'=>'Yes'])
+				->order(['name'=>'ASC'])
+					->contain(['ItemVariations'=>
+						function($q) use($customer_id) {
+							return $q->where(['ready_to_sale' =>'Yes'])
+							->contain(['Units','Carts'=>
+								function($q) use($customer_id){
+									return $q->where(['customer_id'=>$customer_id]);
+							}]);
+						}
+					])
+				->where($where);				
+			}
+			
+			if(!empty($searchResult->toArray()))
+			{
+				foreach($searchResult as $search)
+				{
+					$search->image_url='http://healthymaster.in'.$this->request->webroot.'img/item_images/'.$search->image;
+				}				
+			}
+			
+			$totalItems = sizeof($searchResult);
+			$status=true;
+			$error="Data found successfully";			
+		}
+		 */
+		
+			$item_names=explode(' ',$item_description->name);
+		
+        	$where=['Items.name LIKE' =>'%'.$item_names[0].'%', 'Items.is_combo'=>'no', 'Items.freeze'=>0, 'Items.ready_to_sale'=>'Yes','Items.id !='=>$item_id];
+			
 					$customer_also_bought= $this->Items->find()
 							->where($where) 				
 							->contain(['ItemVariations'=>
@@ -247,7 +297,7 @@ class ItemsController extends AppController
 								}
 							])->limit(10);
 					$cart_count = $this->Items->Carts->find('All')->where(['Carts.customer_id'=>$customer_id])->count();
-			 
+			
 		$status=true;
 		$error="Item Description found successfully";
         $this->set(compact('status', 'error', 'item_description', 'customer_also_bought','cart_count'));

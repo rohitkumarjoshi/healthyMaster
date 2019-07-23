@@ -16,6 +16,30 @@ class ItemCategoriesController extends AppController
 		
 		foreach($HomeScreens as $HomeScreen){
 			
+			if($HomeScreen->title=='NEW PRODUCT'){
+				
+				$itemCategories = $this->ItemCategories->Items->find()->where(['Items.is_combo'=>'no', 'Items.freeze'=>0, 'Items.ready_to_sale'=>'Yes'])->order(['Items.id'=>'DESC'])->limit(10)
+					
+					->contain(['ItemVariations'=>
+						function($q) use($customer_id) {
+							return $q->where(['ready_to_sale' =>'Yes'])
+							->contain(['Units','Carts'=>
+								function($q) use($customer_id){
+									return $q->where(['customer_id'=>$customer_id]);
+							}]);
+						}
+					])->group(['Items.id']);;
+
+				$itemCategories->Matching('ItemVariations', function($q) {
+                    return $q->where(['ItemVariations.ready_to_sale' =>'Yes']);
+                });
+				$ItemCategories = array("title"=>$HomeScreen->title,'layout'=>$HomeScreen->layout,'category_id'=>$HomeScreen->category_id,'item_id'=>$HomeScreen->item_id,'image'=>$HomeScreen->image,"DynamicList"=>$itemCategories);
+				array_push($dynamic,$ItemCategories);
+				
+				
+			}
+			
+			
 			if($HomeScreen->layout=='Banner'){
 				
 				$banners = $this->ItemCategories->Banners->find('All')->where(['Banners.status'=>'Active']);
@@ -25,11 +49,8 @@ class ItemCategoriesController extends AppController
 			}
 			if($HomeScreen->layout=='CategoryItems'){
 				
-				$itemCategories = $this->ItemCategories->Items->find()->where(['Items.is_combo'=>'no', 'Items.freeze'=>0, 'Items.ready_to_sale'=>'Yes','item_category_id'=>$HomeScreen->category_id])
-					/*->contain(['ItemVariations'=>['Units','Carts'=>
-						function($q) use($customer_id){
-							return $q->where(['customer_id'=>$customer_id]);
-					}]]);*/
+				$itemCategories = $this->ItemCategories->Items->find()->where(['Items.is_combo'=>'no', 'Items.freeze'=>0, 'Items.ready_to_sale'=>'Yes','item_category_id'=>$HomeScreen->category_id])->order(['Items.updated_on'=>'DESC'])
+					
 					->contain(['ItemVariations'=>
 						function($q) use($customer_id) {
 							return $q->where(['ready_to_sale' =>'Yes'])
