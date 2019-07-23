@@ -107,10 +107,10 @@
 					                    </td>
 					                    <td style="vertical-align: bottom;">
 					                    <?php echo $this->Form->control('item_variations.0.unit_id', ['empty'=>'--select--','options' => @$units,'class'=>'form-control unit','label'=>false,'value'=>$unit]); ?>
-					                    </td>
-					                    <!-- Vaibhav Sir<td style="vertical-align: bottom;"> 
-					                    	<?php echo $this->Form->control('item_variations.0.minimum_stock',['class'=>'form-control minimum_stock','placeholder'=>'Minimum Stock','label'=>false,'value'=>$variation->minimum_stock]); ?>
-					                    </td> -->
+					                    
+					                    <!-- Vaibhav Sir<td style="vertical-align: bottom;"> -->
+					                    	<?php echo $this->Form->control('item_variations.0.minimum_stock',['class'=>'form-control minimum_stock','placeholder'=>'Minimum Stock','label'=>false,'value'=>$variation->minimum_stock,'type'=>'hidden']); ?>
+					                    </td> 
 					                    <td style="vertical-align: bottom;"> <?php echo $this->Form->control('item_variations.0.minimum_quantity_purchase',['class'=>'form-control minimum_quantity_purchase  order_limit','placeholder'=>'Maximum Order Limit', 'label'=>false,'value'=>$variation->minimum_quantity_purchase]); ?></td>
 					                     <td style="vertical-align: bottom;"> 
 					                    	<?php echo $this->Form->control('item_variations.0.print_rate',['class'=>'form-control print_rate','placeholder'=>'Print Rate','label'=>false,'value'=>$variation->print_rate]); ?>
@@ -159,7 +159,7 @@
                               </table>
                             </div>
                         </div>
-			<?= $this->Form->button(__('Save'),['class'=>'btn btn-success']) ?>
+			<?= $this->Form->button(__('Save'),['class'=>'btn btn-success save']) ?>
 			<?= $this->Form->end() ?>
 			</div>
 		</div>
@@ -173,10 +173,9 @@
                     <td style="vertical-align: bottom;"> <?php echo $this->Form->control('item_variations.0.quantity_variation',['class'=>'form-control quantity_variation','id'=>false,'label'=>false,'required']); ?></td>
                     <td style="vertical-align: bottom;">
                     <?php echo $this->Form->control('item_variations.0.unit_id', ['empty'=>'--select--','options' => @$unit_option,'class'=>'form-control unit','label'=>false]); ?>
+                   <!--Vaibhav Sir  <td style="vertical-align: bottom;"> -->
+                    	<?php echo $this->Form->control('item_variations.0.minimum_stock',['class'=>'form-control minimum_stock','placeholder'=>'Minimum Stock','label'=>false,'value'=>0,'type'=>'hidden']); ?>
                     </td>
-                   <!--Vaibhav Sir  <td style="vertical-align: bottom;"> 
-                    	<?php echo $this->Form->control('item_variations.0.minimum_stock',['class'=>'form-control minimum_stock','placeholder'=>'Minimum Stock','label'=>false]); ?>
-                    </td> -->
                     <td style="vertical-align: bottom;"> <?php echo $this->Form->control('item_variations.0.minimum_quantity_purchase',['class'=>'form-control minimum_quantity_purchase  order_limit','placeholder'=>'Maximum Order Limit', 'label'=>false]); ?></td>
                      <td style="vertical-align: bottom;"> 
                     	<?php echo $this->Form->control('item_variations.0.print_rate',['class'=>'form-control print_rate','placeholder'=>'Print Rate','label'=>false]); ?>
@@ -197,6 +196,9 @@
 
 <script>
 $(document).ready(function() {
+
+ 
+
 	/* var gst_apply = $('.gst').val();
 	if(gst_apply=='Yes'){
 		$('.gst_show').show();

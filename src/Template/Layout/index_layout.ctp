@@ -255,9 +255,6 @@
 										<?php echo $this->Html->link('<i class="fa fa-users"></i> Vendors','/Vendors',['escape'=>false]) ?>
 									</li>
 									<li>
-										<?php echo $this->Html->link('<i class="fa fa-users"></i> Vendor Items','/VendorRows/add',['escape'=>false]) ?>
-									</li>
-									<li>
 									<?php echo $this->Html->link('<i class="fa fa-magnet"></i> Units','/Units',['escape'=>false]) ?>
 									</li>
 									<li>

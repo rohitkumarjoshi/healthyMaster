@@ -17,6 +17,25 @@ class VendorRowsController extends AppController
      *
      * @return \Cake\Http\Response|void
      */
+     public function check()
+    {
+        //$items='0';
+         $item_id=$this->request->getData('input'); 
+         $vendor_id=$this->request->getData('vendor_id'); 
+         //alert($mobile);
+            $row=$this->VendorRows->find()
+                ->select(['item_id'])
+                ->where(['vendor_id'=>$vendor_id]);
+           
+            foreach ($row as $rows) {
+               $item=$rows->item_id;
+               if($item == $item_id)
+               {
+                echo "1";
+               }
+            }
+        exit;  
+    }
     public function options(){
         $vendor_id=$this->request->getData('input'); 
 
@@ -26,13 +45,29 @@ class VendorRowsController extends AppController
        
     }
 
-    public function index()
+    public function index($vendor_id=null)
     {
         $this->viewBuilder()->layout('index_layout');
-        
-        $vendorRows = $this->VendorRows->find()->contain(['Vendors', 'Items']);
+         $vendorRows = $this->VendorRows->newEntity();
 
-        $this->set(compact('vendorRows'));
+        if ($this->request->is('post')) {
+            $datas=$this->request->getData('vendor');
+            //pr($datas);
+            foreach ($datas as $key => $data) {
+                $datas[$key]['vendor_id']=$vendor_id;
+            }
+             $vendorRow = $this->VendorRows->newEntities($datas);
+            if ($this->VendorRows->saveMany($vendorRow)) {
+                $this->Flash->success(__('The vendor row has been saved.'));
+
+                return $this->redirect(['action' => 'index/'.$vendor_id]);
+            }
+            $this->Flash->error(__('The vendor row could not be saved. Please, try again.'));
+        }
+        $vendor_row = $this->VendorRows->find()->where(['vendor_id'=>$vendor_id])->contain(['Vendors','Items']);
+        $items = $this->VendorRows->Items->find('list')->where(['freeze'=>0]);
+
+        $this->set(compact('vendorRows','vendor_id','items','vendor_row'));
     }
 
     /**

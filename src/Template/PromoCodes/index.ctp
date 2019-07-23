@@ -17,7 +17,7 @@
 						<option value=""> Select Promo Code Type </option>
 						<option value="Item Wise"> Item Wise </option>
 						<option value="Category Wise"> Category Wise </option>
-						<option value="Free Shipping"> Free Shipping </option>
+						<!-- <option value="Free Shipping"> Free Shipping </option> -->
 						<option value="On Cart Value"> On Cart Value </option>
 					</select>
 				</div>
@@ -80,7 +80,7 @@
 					<?php echo $this->Form->control('item_id',['empty'=>'--Select Item--','options' => $items,'class'=>'form-control input-sm select2me customer_id cstmr chosen-select','label'=>false,'id'=>'item']); ?>
 
 				</div>
-				<div class="col-md-3 display-none ship_div">
+				<!-- <div class="col-md-3 display-none ship_div">
 					<label>Shipping</label>
 					
 					<?php 
@@ -89,7 +89,7 @@
 					$options[1]='Yes';
 					echo $this->Form->control('is_freeship',['empty'=>'--Select Shipping--','options' => $options,'class'=>'form-control input-sm','label'=>false,'id'=>'freeship','value'=>'']); ?>
 					
-				</div>
+				</div> -->
 				
 				
 			</div>
@@ -200,49 +200,43 @@ function myFunction(val) {
 		$('#cart').attr('required','required');
 		$('#item').removeAttr('required','required');
 		$('#category').removeAttr('required','required');
-		$('#freeship').removeAttr('required','required');
 
 		$('.cart_div').show();
 		$('.item_div').hide();
 		$('.category_div').hide();
-		$('.ship_div').hide();
 	}
 	if(val =="Item Wise")
 	{
 		$('#item').attr('required','required');
 		$('#category').removeAttr('required','required');
-		$('#freeship').removeAttr('required','required');
 		$('#cart').removeAttr('required','required');
 
 		$('.item_div').show();
 		$('.cart_div').hide();
 		$('.category_div').hide();
-		$('.ship_div').hide();
 	}
 	if(val=="Category Wise")
 	{
 		$('#category').attr('required','required');
 		$('#item').removeAttr('required','required');
-		$('#freeship').removeAttr('required','required');
 		$('#cart').removeAttr('required','required');
 		$('.category_div').show();
 		$('.item_div').hide();
 		$('.cart_div').hide();
-		$('.ship_div').hide();
 		
 	}
-	if(val=="Free Shipping")
-	{
-		$('#freeship').attr('required','required');
-		$('#item').removeAttr('required','required');
-		$('#category').removeAttr('required','required');
-		$('#cart').removeAttr('required','required');
+	// if(val=="Free Shipping")
+	// {
+	// 	$('#freeship').attr('required','required');
+	// 	$('#item').removeAttr('required','required');
+	// 	$('#category').removeAttr('required','required');
+	// 	$('#cart').removeAttr('required','required');
 
-		$('.ship_div').show();
-		$('.cart_div').hide();
-		$('.category_div').hide();
-		$('.item_div').hide();
-	}
+	// 	$('.ship_div').show();
+	// 	$('.cart_div').hide();
+	// 	$('.category_div').hide();
+	// 	$('.item_div').hide();
+	// }
 	
 
 

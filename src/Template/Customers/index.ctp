@@ -13,9 +13,7 @@
 					</span>
 				</div>
 				<div class="actions">
-
 					<?php echo $this->Html->link('Add new','/Customers/Add',['escape'=>false,'class'=>'btn btn-default']) ?>&nbsp;
-						<input type="text" class="form-control input-sm pull-right" placeholder="Search..." id="search3"  style="width: 200px;">
 					
 				</div>
 			</div>
@@ -58,7 +56,7 @@
 							<th> State</th>
 							<th> City</th>
 							<th> Pincode</th>
-							<th> scope="col" class="actions"><?= $this->Paginator->sort('Actions') ?></th>
+							<th>Actions</th>
 						</tr>
 					</thead>
 					<tbody>

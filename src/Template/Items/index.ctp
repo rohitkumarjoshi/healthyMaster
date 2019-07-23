@@ -21,6 +21,7 @@
 					<thead>
 						<tr>
 							<th>Sr</th>
+							<th>Item Code</th>
 							<th>Name</th>
 							<th>Alias Name</th>
 							<th>Item Category</th>
@@ -36,6 +37,7 @@
 							?>
 						<tr>
 							<td><?= h($i) ?></td>
+							<td><?= h($item->item_code) ?></td>
 							<?php 
 							$name=$item->name;
 							$alias_name=$item->alias_name;

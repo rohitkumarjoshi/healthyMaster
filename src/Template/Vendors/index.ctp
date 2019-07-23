@@ -25,7 +25,7 @@
 							<th>City</th>
 							<th>State</th>
 							<th>GST No</th>
-							<th scope="col" class="actions"><?= __('Actions') ?></th>
+							<th width="10%"><?= __('Actions') ?></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -44,8 +44,9 @@
 							<td><?= h($vendor->city->name) ?></td>
 							<td><?= h($vendor->state->state_name) ?></td>
 							<td><?= h($vendor->gst_no) ?></td>
-							<td class="actions">
+							<td class="actions" width="12%">
 								 <?= $this->Html->link(__('<span class="fa fa-pencil"></span>'), ['action' => 'edit', $vendor->id],['class'=>'btn btn-primary  btn-condensed btn-sm','escape'=>false]) ?>
+								 <?= $this->Html->link(__('<span class="fa fa-plus"> Item</span>'), ['controller'=>'VendorRows', 'action' => 'index', $vendor->id ],['class'=>'btn btn-primary  btn-condensed btn-sm','escape'=>false]) ?>
 							</td>
 						</tr>
 						<?php endforeach; ?>

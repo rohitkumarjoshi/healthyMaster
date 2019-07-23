@@ -13,6 +13,7 @@ use App\Controller\AppController;
 class ItemsController extends AppController
 {
 
+
     /**
      * Index method
      *
@@ -42,6 +43,7 @@ class ItemsController extends AppController
 
     public function index()
     {
+        $paginate=['limit'=>20];
 		$this->viewBuilder()->layout('index_layout');
 		$jain_thela_admin_id=$this->Auth->User('jain_thela_admin_id');
         $items = $this->paginate($this->Items->find()->contain(['ItemCategories']));
@@ -242,6 +244,9 @@ class ItemsController extends AppController
 		$old_image_name=$item->image;
         if ($this->request->is(['patch', 'post', 'put'])) {
 			
+
+            //$button_value=$this->request->data['button_value'];
+
 			$item_keywords=$this->request->data['item_keyword'];
 			
 			$file = $this->request->data['image'];	
@@ -255,42 +260,12 @@ class ItemsController extends AppController
 			}if(empty($file_name)){
 				$this->request->data['image']=$old_image_name;
 			}
-			// $unit_id=$this->request->data['unit_id'];
-			// $units_fetch_datas = $this->Items->ItemVariations->Units->find()->where(['id'=>$unit_id]);
-			// foreach($units_fetch_datas as $units_fetch_data){
-			// 	$unit_shortname=$units_fetch_data->shortname;
-			// 	$unit_name=$units_fetch_data->unit_name;	
-			// }
-
-            ///pr($this->request->getData());
             $items = $this->Items->get($id,  [
             'contain' => ['ItemVariations']]
         );
             $item = $this->Items->patchEntity($items, $this->request->getData());
-            //pr($item->toArray());exit;
+            $item->updated_on=date('Y-m-d');
             $item->jain_thela_admin_id=$jain_thela_admin_id;
-			// if($unit_name=='kg'){
-			// 	$minimum_quantity_factor=$this->request->data['minimum_quantity_factor'];
-			// 	if($minimum_quantity_factor==0.10){	
-			// 		$item->print_quantity='100 gm';
-			// 		$item->minimum_quantity_factor=$minimum_quantity_factor;	
-			// 	}
-			// 	if($minimum_quantity_factor==0.25){	
-			// 		$item->print_quantity='250 gm';
-			// 		$item->minimum_quantity_factor=$minimum_quantity_factor;	
-			// 	}
-			// 	if($minimum_quantity_factor==0.50){	
-			// 		$item->print_quantity='500 gm';
-			// 		$item->minimum_quantity_factor=$minimum_quantity_factor;	
-			// 	}
-			// 	if($minimum_quantity_factor==1){
-			// 		$item->print_quantity='1 '.$unit_shortname;
-			// 		$item->minimum_quantity_factor=$minimum_quantity_factor;
-			// 	}
-			// }else{		
-			// 		$item->print_quantity='1 '.$unit_shortname;
-			// 		$item->minimum_quantity_factor=1;
-			// }
 			if ($this->Items->save($item)) {
 				
 				if(!empty($item_keywords)){

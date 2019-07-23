@@ -113,6 +113,7 @@
 							<th scope="col">Order No.</th>
 							<th scope="col">Customer ID</th>
 							<th scope="col">Customer Name</th>
+							<th scope="col">Mobile</th>
 							<!--<th scope="col">wallet Amount</th>-->
 							<th scope="col">Locality</th>
 							<th scope="col">Grand Total</th>
@@ -163,8 +164,9 @@
 								
 								
 							?>
-								<?= h($customer_name.' ('.$customer_mobile.')') ?>
+								<?= h($customer_name) ?>
 							</td>
+							<td><?= $order->customer->mobile ?></td>
 							<!--<td align="right"><?= $this->Number->format($order->amount_from_wallet) ?></td>-->
 							<td><?= h(@$order->customer_address->locality) ?></td>
 							<td align="right"><?= $this->Number->format($order->grand_total) ?></td>

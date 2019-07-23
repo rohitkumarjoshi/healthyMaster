@@ -101,10 +101,8 @@
                     </td>
                     <td style="vertical-align: bottom;">
                     <?php echo $this->Form->control('item_variations.0.unit_id', ['empty'=>'--select--','options' => @$unit_option,'class'=>'form-control unit','label'=>false]); ?>
-                    </td>
-                    <!-- vaibhav sir <td style="vertical-align: bottom;"> 
-                    	<?php echo $this->Form->control('item_variations.0.minimum_stock',['class'=>'form-control minimum_stock','placeholder'=>'Minimum Stock','label'=>false]); ?>
-                    </td> -->
+                    <!-- vaibhav sir <td style="vertical-align: bottom;"> -->
+                    	<?php echo $this->Form->control('item_variations.0.minimum_stock',['class'=>'form-control minimum_stock','placeholder'=>'Minimum Stock','label'=>false,'value'=>0,'type'=>'hidden']); ?>
                     <td style="vertical-align: bottom;"> <?php echo $this->Form->control('item_variations.0.minimum_quantity_purchase',['class'=>'form-control minimum_quantity_purchase  order_limit','placeholder'=>'Maximum Order Limit', 'label'=>false]); ?></td>
                      <td style="vertical-align: bottom;"> 
                     	<?php echo $this->Form->control('item_variations.0.print_rate',['class'=>'form-control print_rate','placeholder'=>'Print Rate','label'=>false]); ?>
@@ -327,10 +325,10 @@ $('.gst').on('change',function(){
 			}
 	});
 
-	$(".minimum_stock").die().live('keyup',function(){
-		var minimum=$(this).val();
-		$(this).closest('tr').find('.order_limit').attr('max',minimum);
-	});
+	// $(".minimum_stock").die().live('keyup',function(){
+	// 	var minimum=$(this).val();
+	// 	$(this).closest('tr').find('.order_limit').attr('max',minimum);
+	// });
 	
 	$(".virt").die().live('click',function(){
 		var virtual = $(this).val();

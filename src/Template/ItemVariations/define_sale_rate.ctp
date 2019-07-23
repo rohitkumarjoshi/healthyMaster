@@ -19,15 +19,12 @@
 					<table width="50%" class="table table-condensed">
 						<tbody>
 							<tr>
-								<td width="4%">
+								<!-- <td width="4%">
 									<?php echo $this->Form->input('item_category_id', ['empty'=>'--Category--','options' => $category,'label' => false,'class' => 'form-control input-sm select2me category','placeholder'=>'Category' ]); ?>
-								</td>
+								</td> -->
 								<td width="4%">
 									
-									<select name="item" class="form-control input-sm item">
-							
-							
-									</select>
+									<?php echo $this->Form->input('item', ['empty'=>'--Items--','options' => $items,'label' => false,'class' => 'form-control select2me input-sm category','placeholder'=>'Category' ]); ?>
 								</td>
 								<td width="10%">
 									<button type="submit" class="btn btn-success btn-sm"><i class="fa fa-filter"></i> Filter</button>
@@ -125,33 +122,33 @@ var $rows = $('#main_tble tbody tr');
 
 <script>
 $(document).ready(function(){
-	$('.category').on('change',function()
-	{
-		//alert();
-		var input=$(this).val();
-		//alert(input);
-		 var master = $(this); 
-		//alert(input);
-		if(input.length>0){
-            var m_data = new FormData();
-            var url ="<?php echo $this->Url->build(["controller" => "ItemVariations", "action" => "item"]); ?>";
-         //   alert(url);
-            m_data.append('input',input); 
-            $.ajax({
-                url: url,
-                data: m_data,
-                processData: false,
-                contentType: false,
-                type: 'POST',
-                dataType:'text',
-                success: function(response)
-                { 
-                	//alert(response);
-					$('.item').html(response);
-                }
-            });
-            }
-        });
+	// $('.category').on('change',function()
+	// {
+	// 	//alert();
+	// 	var input=$(this).val();
+	// 	//alert(input);
+	// 	 var master = $(this); 
+	// 	//alert(input);
+	// 	if(input.length>0){
+ //            var m_data = new FormData();
+ //            var url ="<?php echo $this->Url->build(["controller" => "ItemVariations", "action" => "item"]); ?>";
+ //         //   alert(url);
+ //            m_data.append('input',input); 
+ //            $.ajax({
+ //                url: url,
+ //                data: m_data,
+ //                processData: false,
+ //                contentType: false,
+ //                type: 'POST',
+ //                dataType:'text',
+ //                success: function(response)
+ //                { 
+ //                	//alert(response);
+	// 				$('.item').html(response);
+ //                }
+ //            });
+ //            }
+ //        });
 	
 	$(".print_rate").die().live("keyup",function(){
 		 var print_rate=$(this).val();

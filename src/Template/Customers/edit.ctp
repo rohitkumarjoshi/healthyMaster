@@ -14,15 +14,15 @@
 				<?= $this->Form->create($customer,['id'=>'form_sample_3']) ?>
 				<div class="row">
 					<div class="col-md-3">
-						<label class=" control-label">Customer Name <span class="required" aria-required="true">*</span></label>
+						<label class=" control-label">Customer Name</label>
 						<?php echo $this->Form->control('name',['placeholder'=>'Customer Name','class'=>'form-control input-sm','label'=>false]); ?>
 					</div>
 					<div class="col-md-3">
 						<label class=" control-label">Mobile No. <span class="required" aria-required="true">*</span></label>
-						<?php echo $this->Form->control('mobile',['placeholder'=>'Moble No.','class'=>'form-control input-sm mobile','label'=>false,'minlength'=>10]); ?>
+						<?php echo $this->Form->control('mobile',['placeholder'=>'Moble No.','class'=>'form-control input-sm mobile','label'=>false,'minlength'=>10,'required']); ?>
 					</div>
 					<div class="col-md-3">
-						<label class=" control-label">Email <span class="required" aria-required="true">*</label>
+						<label class=" control-label">Email </label>
 						<?php echo $this->Form->control('email',['placeholder'=>'Email','class'=>'form-control input-sm','label'=>false,'type'=>'email']); ?>
 					</div>
 					<!-- <div class="col-md-3">
@@ -86,18 +86,9 @@ $(document).ready(function() {
 		errorClass: 'help-block help-block-error', // default input error message class
 		focusInvalid: true, // do not focus the last invalid input
 		rules: {
-				name:{
-					required: true,					 
-				},
-				email:{
-					required: true,
-				},
-				mobile_no:{
+				mobile:{
 						required:true,
-					},
-				address:{
-					required: true,
-				}
+					}
 			},
 
 		errorPlacement: function (error, element) { // render error placement for each input type

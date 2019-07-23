@@ -30,6 +30,7 @@
 									[
 										['value' => 'Home', 'text' => 'Home','class' => 'radio-task virt','checked' => 'checked'],
 										['value' => 'Office', 'text' => 'Office','class' => 'radio-task virt'],
+										['value' => 'Work', 'text' => 'Work','class' => 'radio-task virt'],
 										['value' => 'Other', 'text' => 'Other','class' => 'radio-task virt']
 									]
 									); ?>
@@ -129,7 +130,7 @@
 					<span class="caption-subject">ADDRESSES</span>
 				</div>
 				<div class="actions">
-					<input type="text" class="form-control input-sm pull-right" placeholder="Search..." id="search3"  style="width: 200px;">
+					<!-- <input type="text" class="form-control input-sm pull-right" placeholder="Search..." id="search3"  style="width: 200px;"> -->
 				</div>
 			</div>
 			<div class="portlet-body">
