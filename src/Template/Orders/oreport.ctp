@@ -19,6 +19,14 @@
                     <tbody>
                         <tr>
                             <td width="5%">
+                                <label>Mobile</label>
+                                <?php echo $this->Form->input('mobile', ['label' => false,'class' => 'form-control input-sm','placeholder'=>'Mobile']); ?>
+                            </td>
+                            <td width="5%">
+                                <label>Item</label>
+                                <?php echo $this->Form->input('item_id', ['empty'=>'--Items--','options' => $items,'label' => false,'class' => 'form-control input-sm select2me','placeholder'=>'Category']); ?>
+                            </td>
+                            <td width="5%">
                                 <label class=" control-label">Apartment <span class="required" aria-required="true">*</span></label>
                                 <?php echo $this->Form->input('apartment', ['empty'=>'--Apartment--','label' => false,'class' => 'form-control input-sm']); ?>
                             </td>
@@ -85,8 +93,8 @@
                             <td><?= $order_detail->order->customer_address->house_no?></td>
                             <td><?= $order_detail->order->customer_address->apartment?></td>
                             <td><?= $order_detail->order->customer_address->locality?></td>
-                            <td><?= $order_detail->order->customer_address->city->name?></td>
-                            <td><?= $order_detail->order->customer_address->state->state_name?></td>
+                            <td><?= @$order_detail->order->customer_address->city->name?></td>
+                            <td><?= @$order_detail->order->customer_address->state->state_name?></td>
                             <td><?php if($order_detail->order->order_from == "walkinsales")
                             {
                                 echo"Yes";

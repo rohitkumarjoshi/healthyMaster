@@ -18,13 +18,15 @@ class CustomersController extends AppController
      *
      * @return \Cake\Http\Response|null
      */
-    public function save($mobile){
+    public function save($mobile,$name,$email){
 		
 		
 		$query = $this->Customers->query();
-		$query->insert(['mobile'])
+		$query->insert(['mobile','name','email'])
 					->values([
-						'mobile' => $mobile
+						'mobile' => $mobile,
+						'name' => $name,
+						'email' => $email
 						
 					]);
 		$query->execute();	

@@ -49,7 +49,7 @@ class Item extends Entity
      */
     protected $_accessible = [
         '*' => true,
-        'quantity_variation' => true,
+        //'quantity_variation' => true,
         'id' => false
     ];
 }

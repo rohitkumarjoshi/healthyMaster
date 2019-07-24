@@ -25,10 +25,11 @@
 					<div class="col-md-4">
 						<label class=" control-label">vendor <span class="required" aria-required="true">*</span></label>
 						<?php echo $this->Form->control('vendor_id',['empty'=>'--Select--','options' => $vendors,'class'=>'form-control input-sm vendor','label'=>false,'required']); ?>
+						<?php echo $this->Form->control('warehouse_id',['class'=>'form-control input-sm','label'=>false,'value'=>1,'type'=>'hidden']); ?>
 					</div>
 					<!--Vaibhav Sir <div class="col-md-4">
 						<label class=" control-label">Warehouse <span class="required" aria-required="true">*</span></label>
-						<?php echo $this->Form->control('warehouse_id',['options' => $warehouses,'class'=>'form-control input-sm','label'=>false]); ?>
+						
 					</div> -->
 				</div><br/>
 				<div class="row">
@@ -52,9 +53,9 @@
 										<label>item<label>
 									</td>
 									
-									<td width="20%">
+									<!-- <td width="20%">
 										<label>Variation<label>
-									</td>
+									</td> -->
 									<td width="20%">
 										<label>Quantity<label>
 									</td>
@@ -72,10 +73,10 @@
 							</tbody>
 							<tfoot>
 								<tr>
-									<td colspan="5" style="text-align:right;">
+									<td colspan="4" style="text-align:right;">
 									<a class="btn btn-default input-sm add_row" href="#" role="button"  style="float: left;"><i class="fa fa-plus"></i> Add Row</a>Total Amount</td>
 									<td>
-									<?php echo $this->Form->input('total_amount', ['label' => false,'class' => 'form-control input-sm number cal_amount','placeholder'=>'Total Amount','type'=>'text','readonly']); ?>
+									<?php echo $this->Form->input('total_amount', ['label' => false,'class' => 'form-control input-sm number cal_amount total_amount','placeholder'=>'Total Amount','type'=>'text','readonly']); ?>
 									</td>
 									<td></td>
 									</th>
@@ -132,8 +133,8 @@ $(document).ready(function() {
 		//alert();
 		var quantity=$(this).val();
 		var master = $(this); 
-		master.closest('tr').find('td:nth-child(4) input.mains').val(quantity);
-		master.closest('tr').find('td:nth-child(4) input.mainss').val(quantity);
+		master.closest('tr').find('.mains').val(quantity);
+		master.closest('tr').find('.mainss').val(quantity);
 		
 	});
 
@@ -164,34 +165,34 @@ $(document).ready(function() {
 	// 		calculate_total();
 	// });
 
-	$(document).on('change','.item-id',function(){
-		var gst_figure_id = $('option:selected',this).attr('gst_figure_id');
+	// $(document).on('change','.item-id',function(){
+	// 	var gst_figure_id = $('option:selected',this).attr('gst_figure_id');
 		
-        var input=$(this).val();
-        var master = $(this); 
-		master.closest('tr').find(".gst_figure_id").val(gst_figure_id);
-        master.closest('tr').find("td:nth-child(3) .varition option").remove();
-        if(input.length>0){
-            var m_data = new FormData();
-            var url ="<?php echo $this->Url->build(["controller" => "Orders", "action" => "options"]); ?>";
-         //   alert(url);
-            m_data.append('input',input); 
-            $.ajax({
-                url: url,
-                data: m_data,
-                processData: false,
-                contentType: false,
-                type: 'POST',
-                dataType:'text',
-                success: function(data)
-                { 
-					master.closest('tr').find('td:nth-child(3) .varition').append(data);
-                }
-            });
-        }
+ //        var input=$(this).val();
+ //        var master = $(this); 
+	// 	master.closest('tr').find(".gst_figure_id").val(gst_figure_id);
+ //        master.closest('tr').find("td:nth-child(3) .varition option").remove();
+ //        if(input.length>0){
+ //            var m_data = new FormData();
+ //            var url ="<?php echo $this->Url->build(["controller" => "Orders", "action" => "options"]); ?>";
+ //         //   alert(url);
+ //            m_data.append('input',input); 
+ //            $.ajax({
+ //                url: url,
+ //                data: m_data,
+ //                processData: false,
+ //                contentType: false,
+ //                type: 'POST',
+ //                dataType:'text',
+ //                success: function(data)
+ //                { 
+	// 				master.closest('tr').find('td:nth-child(3) .varition').append(data);
+ //                }
+ //            });
+ //        }
 		
-		calculate_total();
-      });
+	// 	calculate_total();
+ //      });
 
 	 $(document).on('blur',".autocompleted",function(){ //alert("blur");
         $('.suggesstion-box').delay(1000).fadeOut(500);
@@ -335,57 +336,15 @@ $(document).ready(function() {
 
 
 	function calculate_total(){
-		var total=0; var gst=0; var gst_total=0;
+		var total=0; var gst=0; var display_amount=0;
 		$("#main_table tbody#main_tbody tr.main_tr").each(function(){ 
-		var tax_percentage=$(this).find('.item-id option:selected').attr('tax_percentage');
-			if($.isNumeric(tax_percentage)){
-				
-			}else{
-				tax_percentage=0;
-			}
-		var obj=$(this).closest('tr');
-		var qty=obj.find('td:nth-child(4) input').val();
-
-		// var a=obj.find('td:nth-child(4) .mains').val(qty);
-		//  alert(a);
-		//alert(qty);
-		var rate=obj.find('td:nth-child(5) input').val();
-		var amount=qty*rate;
-		//alert(amount);
-		gst=amount*tax_percentage/100;
-		gst_total=amount+gst;
-		var gs=Math.round(obj.find('td:nth-child(6) .gst_amount').val(gst));
-		Math.round(obj.find('td:nth-child(6) input').val(gst_total));
-		
-		var rate=Math.round(obj.find('td:nth-child(6) input').val(amount));
-		var total_amount=0;
-		$("#main_table tbody#main_tbody tr.main_tr").each(function(){ 
-			total_amount+=parseFloat($(this).find("td:nth-child(6) input").val());
-		});
-		var display_amount=Math.round(total_amount);
-		if($('input[name=discount_percent]').val())
-		{
-		var discount_percent=parseFloat($('input[name=discount_percent]').val());
-		var discount_amount=Math.round(total_amount*(discount_percent/100));
-		var total_amount=Math.round(total_amount-discount_amount);
-		}
-		if(total_amount<100 && total_amount>0){
-			$('input[name=delivery_charge]').val(50);
-		}else{
-			$('input[name=delivery_charge]').val(0);
-		}
-		var amount_from_wallet=parseFloat($('input[name=amount_from_wallet]').val());
-		var delivery_charge=parseFloat($('input[name=delivery_charge]').val());
-		if(!amount_from_wallet){
-		amount_from_wallet=0;
-		}
-		
-		var grand_total=Math.round(total_amount+delivery_charge);
-		var paid_amount=Math.round(grand_total-amount_from_wallet);
-		$('input[name=grand_total]').val(grand_total);
-		$('input[name=total_amount]').val(display_amount);
-		$('input[name=pay_amount]').val(paid_amount);
-		
+			var obj=$(this).closest('tr');
+			var qty=obj.find('.show_quantity').val();
+			var rate=obj.find('.rate').val();
+			var amount=qty*rate;
+			obj.find('.amount').val(amount);
+			display_amount=display_amount+amount;
+			$('input[name=total_amount]').val(display_amount);
 		});
 	}
 	
@@ -397,10 +356,10 @@ $(document).ready(function() {
 			$(this).find("td:nth-child(2) select").attr({name:"purchase_booking_details["+i+"][item_id]", id:"purchase_booking_details-"+i+"-item_id"}).rules('add', {
 						required: true
 					});
-			$(this).find("td:nth-child(3) select").attr({name:"purchase_booking_details["+i+"][item_variation_id]"}).rules('add', {
-						required: true
-					});
-			$(this).find("td:nth-child(4) input").attr({name:"purchase_booking_details["+i+"][show_quantity]", id:"purchase_booking_details-"+i+"-show_quantity"}).rules('add', {
+			// $(this).find("td:nth-child(3) select").attr({name:"purchase_booking_details["+i+"][item_variation_id]"}).rules('add', {
+			// 			required: true
+			// 		});
+			$(this).find("td:nth-child(3) input").attr({name:"purchase_booking_details["+i+"][show_quantity]", id:"purchase_booking_details-"+i+"-show_quantity"}).rules('add', {
 						required: true
 					});
 			$(this).find(".mains").attr({name:"purchase_booking_details["+i+"][quantity]", id:"purchase_booking_details-"+i+"-quantity"}).rules('add', {
@@ -409,15 +368,13 @@ $(document).ready(function() {
 			$(this).find(".mainss").attr({name:"purchase_booking_details["+i+"][invoice_quantity]", id:"purchase_booking_details-"+i+"-actual_quantity"}).rules('add', {
 						required: true
 					});
-			$(this).find("td:nth-child(5) input").attr({name:"purchase_booking_details["+i+"][rate]", id:"purchase_booking_details-"+i+"-rate"}).rules('add', {
+			$(this).find(".rate").attr({name:"purchase_booking_details["+i+"][rate]", id:"purchase_booking_details-"+i+"-rate"}).rules('add', {
 				required: true
 			});
-			$(this).find("td:nth-child(6) input").attr({name:"purchase_booking_details["+i+"][amount]", id:"purchase_booking_details-"+i+"-amount"}).rules('add', {
+			$(this).find(".amount").attr({name:"purchase_booking_details["+i+"][amount]", id:"purchase_booking_details-"+i+"-amount"}).rules('add', {
 				required: true
 			});
-			$(this).find("td:nth-child(6) .gst_amount").attr({name:"purchase_booking_details["+i+"][gst_amount]", id:"purchase_booking_details-"+i+"-gst_amount"});
-			$(this).find("td:nth-child(6) .gst_figure_id").attr({name:"purchase_booking_details["+i+"][gst_figure_id]", id:"purchase_booking_details-"+i+"-gst_figure_id"});
-			$(this).find("td:nth-child(6) .net_amount").attr({name:"purchase_booking_details["+i+"][net_amount]", id:"purchase_booking_details-"+i+"-net_amount"});
+			
 			
 			i++;
 		});
@@ -453,41 +410,6 @@ $(document).ready(function() {
 	});
 
 
-	// $(".quant").die().live('keyup',function(){
-	// 	//alert();
-	// 	var quant = parseFloat($(this).val());
-	// 	var master=$(this)
-	// 	var minimum_quantity_factor = parseFloat($(this).attr('minimum_quantity_factor'));
-	// 	var item_id =$(this).closest('tr').find('td:nth-child(2) select').val();
-	// 	var variation_id =$(this).closest('tr').find('td:nth-child(3) select').val();
- //        $.ajax({
- //            url: "<?php echo $this->Url->build(["controller" => "ItemLedgers", "action" => "ajaxQuantity"]); ?>",
- //            type: 'post',
- //            data: {item_id: item_id,variation_id:variation_id},
- //           success: function(data)   // A function to be called if request succeeds
-	// 				{
-	// 					//alert(data);
-	// 					master.closest('tr').find('span.total').html(data);
-	// 					if(quant > data)
-	// 					{
-	// 						master.closest('tr').find('.show_quantity').val('');
-	// 					}
-	// 				}	
- //            });
-
-
-
-	// // 	if(!minimum_quantity_factor){ minimum_quantity_factor=0; }
-	// // 	var unit_name = $(this).attr('unit_name');
-	// //  if(!unit_name){ unit_name=0; }
-	// // var g_total = quant*minimum_quantity_factor;
-	// // alert(g_total);
- // // $(this).closest('tr').find('.msg_shw2').html(g_total.toFixed(2));
-	// 	// //$(this).closest('tr').find('.mains').val(g_total.toFixed(2));
-	// 	// $(this).closest('tr').find('.mainss').val(g_total.toFixed(2));
-	// 	calculate_total();
-	// });
-	
 	$(document).on('keyup', '.number', function(e)
     { 
 		var mdl=$(this).val();
@@ -537,26 +459,26 @@ function selectAutoCompleted1(value) {
 					echo $this->Form->control('item_id',['empty'=>'--Select Item--','options' => $items,'class'=>'form-control input-sm chosen-select item-id','label'=>false,'required'=>true]); ?>
 
 					</td>
-					<td>
+					<!-- <td>
 						<select name="variation" class="form-control input-sm varition">
 							
 							
 						</select>
 
 						<span class="msg_shw2" style="color:blue;font-size:12px;"></span>
-					</td>
+					</td> -->
 					<td>
 						<?php echo $this->Form->input('show_quantity', ['label' => false,'class' => 'form-control input-sm number cal_amount quant show_quantity','placeholder'=>'Quantity']); ?>
 						
 						<span class="msg_shw2 total"  style="color:blue;font-size:12px;"></span>
-							<?php echo $this->Form->input('quantity', ['label' => false,'class' => 'form-control input-sm number mains quantity','value'=>0, 'type'=>'hidden']); ?>
+							<?php echo $this->Form->input('quantity', ['label' => false,'class' => 'form-control input-sm number mains quantity','value'=>0, 'type'=>'text']); ?>
 							<?php echo $this->Form->input('invoice_quantity', ['label' => false,'class' => 'form-control input-sm number mainss actual_quantity','value'=>0, 'type'=>'hidden']); ?>
 					</td>
 					<td>
-						<?php echo $this->Form->input('rate', ['label' => false,'class' => 'form-control input-sm number cal_amount rat_value']); ?>	
+						<?php echo $this->Form->input('rate', ['label' => false,'class' => 'form-control input-sm number cal_amount rat_value rate']); ?>	
 					</td>
 					<td>
-						<?php echo $this->Form->input('amount', ['label' => false,'class' => 'form-control input-sm number cal_amount show_amount','placeholder'=>'Amount','readonly','value'=>0]); ?>	
+						<?php echo $this->Form->input('amount', ['label' => false,'class' => 'form-control input-sm number cal_amount show_amount amount','placeholder'=>'Amount','readonly','value'=>0]); ?>	
 						<?php echo $this->Form->input('is_combo', ['label' => false,'class' => 'form-control input-sm is_combo','type'=>'hidden']); ?>
 						<?php echo $this->Form->input('gst_amount', ['label' => false,'class' => 'form-control input-sm number cal_amount gst_amount','readonly','type'=>'hidden']); ?>	
 						<?php echo $this->Form->input('gst_figure_id', ['label' => false,'class' => 'form-control input-sm gst_figure_id','type'=>'hidden']); ?>

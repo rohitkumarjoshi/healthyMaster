@@ -25,7 +25,7 @@
                         ?>
                         <tr>
                             <td><?= $i; $i++;?></td>
-                            <td> <?= $this->Html->image($notification->app_notification->image, ['style'=>'width:50px; height:50px;']); ?></td>
+                            <td> <?= @$this->Html->image($notification->app_notification->image, ['style'=>'width:50px; height:50px;']); ?></td>
                             <td><?php
                                 if($notification->app_notification->item_id == null)
                                 {

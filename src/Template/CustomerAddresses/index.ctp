@@ -79,7 +79,7 @@
 				<div class="row" style="margin-top:10px;">
 					<div class="col-md-8">
 						<label class=" control-label">Pincode<span class="required" aria-required="true">*</span></label>
-						<?php echo $this->Form->control('pin_code',['placeholder'=>'Pincode','class'=>'form-control input-sm','label'=>false,'minlength'=>6,'maxlength'=>6]); ?>
+						<?php echo $this->Form->control('pincode',['placeholder'=>'Pincode','class'=>'form-control input-sm','label'=>false,'minlength'=>6,'maxlength'=>6]); ?>
 					</div>
 				</div>
 				<div class="row" style="margin-top:10px;">
@@ -102,12 +102,12 @@
 								<div class="form-group">
 									<label class="control-label">Default Address<span class="required" aria-required="true">*</span></label>
 									<div class="radio-list">
-										<div class="radio-inline" style="padding-left: 0px;">
+										<div class="radio-inline default" style="padding-left: 0px;">
 											<?php echo $this->Form->radio(
 											'default_address',
 											[
-												['value' => '0', 'text' => 'No','class' => 'radio-task virt','checked' => 'checked'],
-												['value' => '1', 'text' => 'Yes','class' => 'radio-task virt']
+												['value' => '0', 'text' => 'No','class' => 'radio-task virt ','checked' => 'checked'],
+												['value' => '1', 'text' => 'Yes','class' => 'radio-task virt ']
 											]
 											); ?>
 										</div>
@@ -130,7 +130,7 @@
 					<span class="caption-subject">ADDRESSES</span>
 				</div>
 				<div class="actions">
-					<!-- <input type="text" class="form-control input-sm pull-right" placeholder="Search..." id="search3"  style="width: 200px;"> -->
+					<input id="search3"  class="form-control input-sm" type="text" placeholder="Search" >
 				</div>
 			</div>
 			<div class="portlet-body">
@@ -148,13 +148,13 @@
 								<th class="actions"><?= __('Actions') ?></th>
 							</tr>
 						</thead>
-						<tbody>
+						<tbody id="main_tbody">
 							<?php
 							$k=0;
 							foreach ($customerAddresses as $customer_details):
 								@$k++;
 							?>
-							<tr>
+							<tr class="main_tr">
 								<td><?= h($k) ?></td>
 								<td><?= h($customer_details->name) ?></td>
 								<td><?= h($customer_details->mobile) ?></td>
@@ -195,6 +195,28 @@
 <?php echo $this->Html->script('/assets/global/plugins/jquery.min.js'); ?>
 <script>
 $(document).ready(function() {
+	var rows = $("#main_tbody tr.main_tr");
+$("#search3").on("keyup",function() {
+          
+    var val = $.trim($(this).val()).replace(/ +/g, " ").toLowerCase();
+    var v = $(this).val();
+    
+    if(v){
+        rows.show().filter(function() {
+            var text = $(this).text().replace(/\s+/g, " ").toLowerCase();
+
+            return !~text.indexOf(val);
+        }).hide();
+    }else{
+        rows.show();
+    }
+});
+
+	$(document).on('click','.default',function(){
+		var default=$(this).val();
+		alert();
+	});
+
 	$(document).on('change','.state',function(){
         
         var input=$(this).val();

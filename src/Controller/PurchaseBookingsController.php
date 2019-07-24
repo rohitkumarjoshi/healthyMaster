@@ -31,6 +31,12 @@ class PurchaseBookingsController extends AppController
                 //pr($datas['customer_id']);
                 //pr($purchases->toArray());exit;
             }
+             if(!empty($datas['item_id']))
+            {
+                $purchases->where(['PurchaseBookingDetails.item_id'=>$datas['item_id']]);
+                //pr($datas['customer_id']);
+                //pr($purchases->toArray());exit;
+            }
             if(!empty($datas['From'])){
                 $from_date=date("Y-m-d",strtotime($datas['From']));
                 $purchases->where(['PurchaseBookings.transaction_date >='=> $from_date]);
@@ -41,7 +47,8 @@ class PurchaseBookingsController extends AppController
             }
         }
        $vendors=$this->PurchaseBookings->Vendors->find('list');
-        $this->set(compact('purchases','vendors'));
+        $items=$this->PurchaseBookings->PurchaseBookingDetails->Items->find('list')->where(['freeze'=>0]);
+        $this->set(compact('purchases','vendors','items'));
     }
     public function index()
     {
@@ -107,7 +114,7 @@ class PurchaseBookingsController extends AppController
 				foreach($purchaseBooking->purchase_booking_details as $purchase_booking_detail)
 				{
 					$query = $this->PurchaseBookings->ItemLedgers->query();
-					$query->insert(['jain_thela_admin_id', 'driver_id', 'grn_id', 'item_id', 'warehouse_id', 'purchase_booking_id', 'rate', 'amount', 'status', 'quantity','rate_updated', 'transaction_date','item_variation_id'])
+					$query->insert(['jain_thela_admin_id', 'driver_id', 'grn_id', 'item_id', 'warehouse_id', 'purchase_booking_id', 'rate', 'amount', 'status', 'quantity','rate_updated', 'transaction_date','item_variation_id','raw_material'])
 					->values([
 						'jain_thela_admin_id' => $jain_thela_admin_id,
 						'driver_id' => 0,
@@ -121,7 +128,8 @@ class PurchaseBookingsController extends AppController
 						'status' => 'In',
 						'quantity' => $purchase_booking_detail->quantity,
 						'rate_updated' => 'Yes',
-						'transaction_date'=>$purchaseBooking->transaction_date
+						'transaction_date'=>$purchaseBooking->transaction_date,
+                        'raw_material' => 'Yes'
 					]);
 					$query->execute();
 				}
