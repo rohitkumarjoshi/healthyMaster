@@ -352,7 +352,8 @@ class CartsController extends AppController
 								}
 								else if($promoCodeLists->amount_type == 'amount' && $cart_data->total > $promoCodeLists->discount_per)
 								{
-									$discount_amount =  $cart_data->total - $promoCodeLists->discount_per;
+									//$discount_amount =  $cart_data->total - $promoCodeLists->discount_per;
+									$discount_amount =  $promoCodeLists->discount_per;
 								}						
 							}
 						}
@@ -370,7 +371,8 @@ class CartsController extends AppController
 							}
 							else if($promoCodeLists->amount_type == 'amount' && $cat_item_total > $promoCodeLists->discount_per)
 							{
-								$discount_amount =  $cat_item_total - $promoCodeLists->discount_per;
+								//$discount_amount =  $cat_item_total - $promoCodeLists->discount_per;
+								$discount_amount =  $promoCodeLists->discount_per;
 							}						
 						} 			
 					} 
@@ -398,7 +400,8 @@ class CartsController extends AppController
 							}
 							else if($promoCodeLists->amount_type == 'amount' && $grand_total > $promoCodeLists->discount_per)
 							{
-								$discount_amount =  $grand_total - $promoCodeLists->discount_per;
+								//$discount_amount =  $grand_total - $promoCodeLists->discount_per;
+								$discount_amount = $promoCodeLists->discount_per;
 							}					
 						}				
 					}	
