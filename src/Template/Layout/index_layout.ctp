@@ -276,9 +276,9 @@
 									<i class="fa fa-reorder" ></i>Reports <i class="fa fa-angle-down"></i>
 								</a>
 								<ul class="sub-menu" >
-									<li>
+									<!--<li>
 										<?php echo $this->Html->link('<i class="fa  fa-file"></i> Stock Report','/itemLedgers/report_show',['escape'=>false]) ?>
-									</li>
+									</li>-->
 									<li>
 										<?php echo $this->Html->link('<i class="fa  fa-file"></i> Push Notification','/AppNotifications/notification_report',['escape'=>false]) ?>
 									</li>
