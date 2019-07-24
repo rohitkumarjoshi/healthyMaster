@@ -89,11 +89,11 @@ class AppNotificationsController extends AppController
 				$ext = substr(strtolower(strrchr($file['name'], '.')), 1); //get the extension
 				$arr_ext = array('jpg', 'jpeg', 'png'); //set allowed extensions
 				$setNewFileName = uniqid();
-				$appNotification->image = 'http://healthymaster.in'.$this->request->webroot.'Notify_images/'.$setNewFileName . '.' .$ext;
+				$appNotification->image = 'http://healthymaster.in'.$this->request->webroot.'img/Notify_images/'.$setNewFileName . '.' .$ext;
 				$img_name= $setNewFileName.'.'.$ext;
 				
 				if (in_array($ext, $arr_ext)) {
-                         $destination_url = WWW_ROOT . 'Notify_images/'.$img_name;
+                         $destination_url = WWW_ROOT . 'img/Notify_images/'.$img_name;
                         if($ext=='png'){
                         $image = imagecreatefrompng($file['tmp_name']);
                         }else{
@@ -108,9 +108,9 @@ class AppNotificationsController extends AppController
 			}
 
 			else{
-					$appNotification->image = 'http://healthymaster.in'.$this->request->webroot.'Notify_images/healthy.png';
+					$appNotification->image = '';
 			}
-			
+			//pr($appNotification); exit;
 			if($deepLinks!=null)
 			{
 				$appNotification->app_link = $deepLinks->link_url;
