@@ -250,6 +250,12 @@ class OrdersController extends AppController
                 //pr($datas['customer_id']);
                 //pr($Carts->toArray());exit;
             }
+            if(!empty($datas['invoice_no']))
+            {
+                $gsts->where(['Orders.invoice_no'=>$datas['invoice_no']]);
+                //pr($datas['customer_id']);
+                //pr($Carts->toArray());exit;
+            }
              if(!empty($datas['From'])){
                 $from_date=date("Y-m-d",strtotime($datas['From']));
                 $gsts->where(['Orders.invoice_date >='=> $from_date]);
@@ -276,6 +282,18 @@ class OrdersController extends AppController
                 //pr($datas['customer_id']);
                 //pr($Carts->toArray());exit;
             }
+             if(!empty($datas['item_id']))
+            {
+                $orders->where(['OrderDetails.item_id'=>$datas['item_id']]);
+                //pr($datas['customer_id']);
+                //pr($Carts->toArray());exit;
+            }
+             if(!empty($datas['mobile']))
+            {
+                $orders->where(['Customers.mobile'=>$datas['mobile']]);
+                //pr($datas['customer_id']);
+                //pr($Carts->toArray());exit;
+            }
            
             if(!empty($datas['From'])){
                 $from_date=date("Y-m-d",strtotime($datas['From']));
@@ -286,7 +304,8 @@ class OrdersController extends AppController
                 $orders->where(['Orders.order_date <=' => $to_date ]);
             }
         }
-        $this->set(compact('orders'));
+        $items=$this->Orders->OrderDetails->Items->find('list')->where(['freeze'=>0]);
+        $this->set(compact('orders','items'));
     }
 	public function initialize()
 	{
@@ -571,6 +590,7 @@ class OrdersController extends AppController
 		        $packed->status="Delivered";
 		        if($this->Orders->save($packed))
 		        {
+		        	//alert();
 					
 					$Ordersdatas=$this->Orders->get($id,['contain'=>['OrderDetails'=>['Items'=>['GstFigures']]]]);
 					//pr($Ordersdatas);
@@ -595,10 +615,11 @@ class OrdersController extends AppController
 					
 					
 		        	$order_id=$packed->id;
+		        	//pr($order_id);
 		        	$order_detail=$this->Orders->OrderDetails->find()->where(['order_id'=>$order_id]);
 					foreach ($order_detail as $detail) {
 						$query = $this->Orders->ItemLedgers->query();
-                    $query->insert(['jain_thela_admin_id', 'driver_id', 'grn_id', 'item_id', 'warehouse_id','order_id', 'purchase_booking_id', 'rate', 'amount', 'status', 'quantity','rate_updated','item_variation_id'])
+                    $query->insert(['jain_thela_admin_id', 'driver_id','item_id', 'warehouse_id','order_id', 'purchase_booking_id', 'rate', 'amount', 'status', 'quantity','rate_updated','item_variation_id'])
                     ->values([
                         'jain_thela_admin_id' => 1,
                         'driver_id' => 0,
@@ -615,11 +636,7 @@ class OrdersController extends AppController
                         'rate_updated' => 'OK'
                     ]);
                     $query->execute();	        		
-					}		        	
-		        	// $item_ledger=$this->Orders->ItemLedgers->newEntity();
-		        	// $ledger=$this->Orders->ItemLedgers->patchEntity($item_ledger,$packed);
-		        	// $ledger->status="Out";
-		        	// $this->Orders->ItemLedgers->save($ledger);
+					}		 
 		        }
            }
            exit;
@@ -643,8 +660,8 @@ class OrdersController extends AppController
 		if(!empty($order_no)){
 			$orders =$this->paginate($this->Orders->find()->where(['Orders.order_no Like'=>'%'.$order_no.'%'])->order(['Orders.id'=>'DESC'])->contain(['CustomerAddresses','Customers']));
 		}
-		if(!empty($customer_id)){
-			$orders =$this->paginate($this->Orders->find()->where(['Orders.customer_id'=>$customer_id])->order(['Orders.id'=>'DESC'])->contain(['CustomerAddresses','Customers']));
+		if(!empty($mobile)){
+			$orders =$this->paginate($this->Orders->find()->where(['Customers.mobile'=>$mobile])->order(['Orders.id'=>'DESC'])->contain(['CustomerAddresses','Customers']));
 			
 		}
 		if(!empty($order_types)){

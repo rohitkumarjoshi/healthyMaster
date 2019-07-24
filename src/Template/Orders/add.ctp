@@ -54,6 +54,7 @@ background-color: #fff;}
 					<div class="col-md-2">
 						<label class="control-label">Delivery Date<span class="required" aria-require>*</span></label>
 						<?php echo $this->Form->control('delivery_date',['placeholder'=>'dd-mm-yyyy','class'=>'form-control input-sm date-picker','data-date-format'=>'dd-mm-yyyy','label'=>false,'type'=>'text','value'=>date('d-m-Y')]); ?>
+						<?php echo $this->Form->control('delivery_time',['class'=>'form-control input-sm','label'=>false,'type'=>'hidden','value'=>date("G:i a")]); ?>
 					</div>
 
 					<div class="col-md-2">
@@ -1019,6 +1020,13 @@ function selectAutoCompleted1(value) {
 						<label class=" control-label">Mobile <span class="required" aria-required="true">*</span></label>
 							<?php echo $this->Form->input('mobile',['placeholder'=>'Mobile','class'=>'form-control input-sm number_mobile','label'=>false,'required']); ?>
 						</div>
+						<div class="col-md-6">
+						<label class=" control-label">Name <span class="required" aria-required="true">*</span></label>
+							<?php echo $this->Form->input('name',['placeholder'=>'Name','class'=>'form-control input-sm name','label'=>false,'required']); ?>
+						</div>
+					</div>
+					<div class="row">
+						
 					</div>
 				</div>	
 				<div class="modal-footer">

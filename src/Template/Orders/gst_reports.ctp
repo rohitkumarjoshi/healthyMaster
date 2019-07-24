@@ -20,6 +20,10 @@
 								<?php echo $this->Form->input('item_id', ['empty'=>'--Items--','options' => $items,'label' => false,'class' => 'form-control input-sm select2me','placeholder'=>'Category']); ?>
 							</td>
 							<td width="5%">
+	                            <label>Invoice No</label>
+	                            <?php echo $this->Form->input('invoice_no', ['label' => false,'class' => 'form-control input-sm','placeholder'=>'Invoice No']); ?>
+	                        </td>
+							<td width="5%">
 								<label>From</label>
 								<input type="text" name="From" class="form-control input-sm date-picker" placeholder="Transaction From"  data-date-format="dd-mm-yyyy">
 							</td>	
@@ -59,7 +63,7 @@
 							</thead>
 							<tbody id='main_tbody' class="tab">
 						<?php $i=1;foreach($gsts as $gst){
-                            $state_id=$gst->order->customer_address->state->id;
+                            @$state_id=$gst->order->customer_address->state->id;
 							$amount=$gst->amount;
 	                        $gst_per=$gst->item->gst_figure->name;
 	                        $tx=100+$gst_per;

@@ -31,6 +31,12 @@ class PurchaseBookingsController extends AppController
                 //pr($datas['customer_id']);
                 //pr($purchases->toArray());exit;
             }
+             if(!empty($datas['item_id']))
+            {
+                $purchases->where(['PurchaseBookingDetails.item_id'=>$datas['item_id']]);
+                //pr($datas['customer_id']);
+                //pr($purchases->toArray());exit;
+            }
             if(!empty($datas['From'])){
                 $from_date=date("Y-m-d",strtotime($datas['From']));
                 $purchases->where(['PurchaseBookings.transaction_date >='=> $from_date]);
@@ -41,7 +47,8 @@ class PurchaseBookingsController extends AppController
             }
         }
        $vendors=$this->PurchaseBookings->Vendors->find('list');
-        $this->set(compact('purchases','vendors'));
+        $items=$this->PurchaseBookings->PurchaseBookingDetails->Items->find('list')->where(['freeze'=>0]);
+        $this->set(compact('purchases','vendors','items'));
     }
     public function index()
     {

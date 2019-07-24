@@ -41,12 +41,12 @@
 					<tbody>
 						<tr>
 							<td width="7%">
-								<?php echo $this->Form->input('status', ['type'=>'hidden','label' => false,'class' => 'form-control input-sm','placeholder'=>'Order No','value'=> h(@$status) ]); ?>
+								<!-- <?php echo $this->Form->input('status', ['type'=>'hidden','label' => false,'class' => 'form-control input-sm','placeholder'=>'Order No','value'=> h(@$status) ]); ?> -->
 								<?php echo $this->Form->input('order_no', ['type'=>'text','label' => false,'class' => 'form-control input-sm','placeholder'=>'Order No','value'=> h(@$order_no) ]); ?>
 							</td>
-							<td width="2%">
-								<?php echo $this->Form->input('customer', ['empty'=>'--Customers--','options' => $Customer_data,'label' => false,'class' => 'form-control input-sm select2me','placeholder'=>'Category','value'=> h(@$customer_id) ]); ?>
-							</td>
+							<td width="5%">
+                                <?php echo $this->Form->input('mobile', ['label' => false,'class' => 'form-control input-sm','placeholder'=>'Mobile']); ?>
+                            </td>
 							<!-- <?php if(@$cur_type){ ?>
 								<td width="2%">
 									<?php echo $this->Form->input('order_type', ['empty'=>'--Type--','options' => $order_type,'label' => false,'class' => 'form-control input-sm select2me','placeholder'=>'Category','value'=> h(@$cur_type) ]); ?>
@@ -75,7 +75,7 @@
 							<?php } ?>	
 							<?php if(@$cur_date){ ?>
 							<td width="5%">
-								<input type="text" name="From" class="form-control input-sm date-picker" placeholder="Order From"  data-date-format="dd-mm-yyyy">
+								<input type="text" name="From" class="form-control input-sm date-picker" placeholder="Order From"  data-date-format="dd-mm-yyyy" autocomplete="false">
 							</td>	
 							<td width="5%">
 								<input type="text" name="To" class="form-control input-sm date-picker" placeholder="Order To"   data-date-format="dd-mm-yyyy" >
@@ -121,8 +121,8 @@
 							<!-- <th scope="col">Payment Status</th> -->
 							<th scope="col">Order Type</th>
 							<th scope="col">Order Date</th>
-							<!-- <th scope="col">Delivery Date</th>
-							<th scope="col">Delivery Time</th> -->
+							<th scope="col">Delivery Date</th>
+							<th scope="col">Delivery Time</th>
 							<th scope="col" class="actions" width="140px"><?= __('Actions') ?></th>
 							<th scope="col" class="">Generate Invoice</th>
 							<!-- <th scope="col">Edit</th> -->
@@ -176,6 +176,8 @@
 							<td><?php $q=explode(' ',$order->order_date); ?> <span style="font-size:11px;"><?php echo $q[0] ?></span></td>
 							<!--Vaibhav Sir <td><span style="font-size:11px;"><?= h($delivery_date) ?></span></td>
 							<td><span style="font-size:11px;"><?= h($actual_deliver_time) ?></span></td> -->
+							<td><?= $order->delivery_date ?></td>
+							<td><?= $order->delivery_time ?></td>
 							
 							
 							<td class="actions">
@@ -304,6 +306,7 @@ $(document).ready(function() {
             type: 'post',
             data: {status: status,id:id},
            success: function (data) {
+           		alert(data);
                alert("ok");
                }
             });
