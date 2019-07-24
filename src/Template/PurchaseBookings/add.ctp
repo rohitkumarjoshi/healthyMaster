@@ -133,8 +133,8 @@ $(document).ready(function() {
 		//alert();
 		var quantity=$(this).val();
 		var master = $(this); 
-		master.closest('tr').find('td:nth-child(4) input.mains').val(quantity);
-		master.closest('tr').find('td:nth-child(4) input.mainss').val(quantity);
+		master.closest('tr').find('.mains').val(quantity);
+		master.closest('tr').find('.mainss').val(quantity);
 		
 	});
 
@@ -471,7 +471,7 @@ function selectAutoCompleted1(value) {
 						<?php echo $this->Form->input('show_quantity', ['label' => false,'class' => 'form-control input-sm number cal_amount quant show_quantity','placeholder'=>'Quantity']); ?>
 						
 						<span class="msg_shw2 total"  style="color:blue;font-size:12px;"></span>
-							<?php echo $this->Form->input('quantity', ['label' => false,'class' => 'form-control input-sm number mains quantity','value'=>0, 'type'=>'hidden']); ?>
+							<?php echo $this->Form->input('quantity', ['label' => false,'class' => 'form-control input-sm number mains quantity','value'=>0, 'type'=>'text']); ?>
 							<?php echo $this->Form->input('invoice_quantity', ['label' => false,'class' => 'form-control input-sm number mainss actual_quantity','value'=>0, 'type'=>'hidden']); ?>
 					</td>
 					<td>

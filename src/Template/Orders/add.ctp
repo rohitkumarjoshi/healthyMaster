@@ -717,13 +717,16 @@ function round(value, exp) {
 					});
 					
 					var mobile=$('.number_mobile').val();
-					//alert(mobile);
+					var name=$('.name').val();
+					var email=$('.emails').val();
+					//alert(email);
 					var url="<?php echo $this->Url->build(['controller'=>'Customers','action'=>'save']); ?>";
-					url=url+'/'+mobile,
+					url=url+'/'+mobile+'/'+name+'/'+email,
 					//alert(url);
 					$.ajax({
 						url: url,
 					}).done(function(response) {
+						//alert(response);
 						$('#customer').hide();
 					});
 		}});		
@@ -957,6 +960,24 @@ function selectAutoCompleted1(value) {
 			<div class="modal-body">
 				<div class="row">
 					<div class="col-md-6">
+						<div class="form-group">
+							<label class="control-label">Address Type<span class="required" aria-required="true">*</span></label>
+							<div class="radio-list">
+								<div class="radio-inline" style="padding-left: 0px;">
+									<?php echo $this->Form->radio(
+									'address_type',
+									[
+										['value' => 'Home', 'text' => 'Home','class' => 'radio-task virt','checked' => 'checked'],
+										['value' => 'Office', 'text' => 'Office','class' => 'radio-task virt'],
+										['value' => 'Work', 'text' => 'Work','class' => 'radio-task virt'],
+										['value' => 'Other', 'text' => 'Other','class' => 'radio-task virt']
+									]
+									); ?>
+								</div>
+                            </div>
+						</div>
+					</div>
+					<div class="col-md-6">
 						<label class=" control-label">Name<span class="required" aria-required="true">*</span></label>
 						<?php echo $this->Form->input('name',['placeholder'=>'Name','class'=>'form-control input-sm','label'=>false,'required']); ?>
 					</div>
@@ -1021,12 +1042,15 @@ function selectAutoCompleted1(value) {
 							<?php echo $this->Form->input('mobile',['placeholder'=>'Mobile','class'=>'form-control input-sm number_mobile','label'=>false,'required']); ?>
 						</div>
 						<div class="col-md-6">
-						<label class=" control-label">Name <span class="required" aria-required="true">*</span></label>
-							<?php echo $this->Form->input('name',['placeholder'=>'Name','class'=>'form-control input-sm name','label'=>false,'required']); ?>
+							<label class=" control-label">Name <span class="required" aria-required="true">*</span></label>
+								<?php echo $this->Form->input('name',['placeholder'=>'Name','class'=>'form-control input-sm name','label'=>false]); ?>
 						</div>
 					</div>
 					<div class="row">
-						
+						<div class="col-md-6">
+							<label class=" control-label">Email <span class="required" aria-required="true">*</span></label>
+								<?php echo $this->Form->input('email',['placeholder'=>'Email','class'=>'form-control input-sm emails','label'=>false,'type'=>'email']); ?>
+						</div>
 					</div>
 				</div>	
 				<div class="modal-footer">

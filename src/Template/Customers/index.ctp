@@ -13,7 +13,8 @@
 					</span>
 				</div>
 				<div class="actions">
-					<?php echo $this->Html->link('Add new','/Customers/Add',['escape'=>false,'class'=>'btn btn-default']) ?>&nbsp;
+					<?php echo $this->Html->link('Add new','/Customers/Add',['escape'=>false,'class'=>'btn btn-default ']) ?>&nbsp;
+					<input id="search3"  class="form-control input-sm pull-right" type="text" placeholder="Search"  style="width: 200px;">
 					
 				</div>
 			</div>
@@ -59,13 +60,13 @@
 							<th>Actions</th>
 						</tr>
 					</thead>
-					<tbody>
+					<tbody id="main_tbody">
 						<?php $i=0;
 						foreach ($customers as $customer){
 						$i++;
 						
 						?>
-						<tr>
+						<tr class="main_tr">
 							<td><?= $i ?></td>
 							<td><?= $customer->id ?></td>
 							<td><?=$customer->name ?></td>
@@ -124,18 +125,20 @@
 </div>
 <?php echo $this->Html->script('/assets/global/plugins/jquery.min.js'); ?>
 <script>
-var $rows = $('#main_tble tbody tr');
-	$('#search3').on('keyup',function() {
-		var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
-		var v = $(this).val();
-		if(v){ 
-			$rows.show().filter(function() {
-				var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
-	
-				return !~text.indexOf(val);
-			}).hide();
-		}else{
-			$rows.show();
-		}
-	});
+var rows = $("#main_tbody tr.main_tr");
+$("#search3").on("keyup",function() {
+          
+    var val = $.trim($(this).val()).replace(/ +/g, " ").toLowerCase();
+    var v = $(this).val();
+    
+    if(v){
+        rows.show().filter(function() {
+            var text = $(this).text().replace(/\s+/g, " ").toLowerCase();
+
+            return !~text.indexOf(val);
+        }).hide();
+    }else{
+        rows.show();
+    }
+});
 </script>

@@ -68,10 +68,10 @@ class PurchaseBookingDetailsTable extends Table
             ->requirePresence('quantity', 'create')
             ->notEmpty('quantity');
 
-        $validator
-            ->decimal('invoice_quantity')
-            ->requirePresence('invoice_quantity', 'create')
-            ->notEmpty('invoice_quantity');
+        // $validator
+        //     ->decimal('invoice_quantity')
+        //     ->requirePresence('invoice_quantity', 'create')
+        //     ->notEmpty('invoice_quantity');
 
         $validator
             ->decimal('rate')
