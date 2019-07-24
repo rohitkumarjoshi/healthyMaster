@@ -45,7 +45,17 @@ class ItemLedgersController extends AppController
     		}
     	exit;
     }
-
+	
+	public function options(){
+       // $item_id=$this->request->getData('input'); 
+		//$item_id=$this->request->data['itm_val'];
+		$item_id = $this->request->query('itm_val');
+        $items=$this->ItemLedgers->ItemVariations->find()->where(['ItemVariations.item_id '=>$item_id])->contain(['Units','Items']);
+           foreach($items as $show){ 
+				$opt[]=['value'=>$show->id  ,'text'=>$show->quantity_variation." ".$show->unit->shortname];
+			}
+        $this->set(compact('opt'));
+	}
     public function index()
     {
         $this->paginate = [
@@ -402,7 +412,7 @@ class ItemLedgersController extends AppController
 		$warehouse_id=$this->request->data['ware_house'];
 		$jain_thela_admin_id=$this->Auth->User('jain_thela_admin_id');
 		 
- 			$query = $this->ItemLedgers->find();
+ 		$query = $this->ItemLedgers->find();
 		$totalInCase = $query->newExpr()
 			->addCase(
 				$query->newExpr()->add(['status' => 'In']),
@@ -419,7 +429,7 @@ class ItemLedgersController extends AppController
 			'total_in' => $query->func()->sum($totalInCase),
 			'total_out' => $query->func()->sum($totalOutCase),'id','item_id'
 		])
-		->where(['ItemLedgers.warehouse_id' => $warehouse_id, 'ItemLedgers.item_id' => $item_id])
+		->where(['ItemLedgers.warehouse_id' => $warehouse_id, 'ItemLedgers.item_id' => $item_id, 'ItemLedgers.raw_meterial' =>'Yes'])
 		->group('item_id')
 		->autoFields(true)
 		->contain(['Items'])
@@ -613,6 +623,137 @@ class ItemLedgersController extends AppController
 
 		//pr($itemLedgers->toArray());exit;
 		$this->set(compact('itemLedgers','url','itemVarOpeningQt','ItemVariations','itemPurchaseQt','itemSaleQt'));
+    }
+	
+	public function stockReport()
+    {
+		$url=$this->request->here();
+		$url=parse_url($url,PHP_URL_QUERY);
+		
+		$jain_thela_admin_id=$this->Auth->User('jain_thela_admin_id');
+		$this->viewBuilder()->layout('index_layout');
+		
+		//Closing
+		$transaction_date=date('Y-m-d');
+		//$transaction_date='2019-07-17';
+		$ItemLedgersData = $this->ItemLedgers->find()->select(['item_id','item_variation_id','status','quantity','transaction_date'])
+		->where(['ItemLedgers.transaction_date < '=>$transaction_date,'ItemLedgers.raw_meterial'=>'Yes']);
+		$ItemLedgersData->select(['total_op_qt' => $ItemLedgersData->func()->sum('ItemLedgers.quantity')])
+       ->group(['ItemLedgers.item_id','ItemLedgers.status'])
+        ;
+
+        $openingQty=[];
+        foreach($ItemLedgersData as $data){ 
+        	if($data->status=="In"){
+        		@$openingQty[$data->item_id]+=$data->total_op_qt;
+        	}else{
+        		@$openingQty[$data->item_id]-=$data->total_op_qt;
+        	}
+        }
+		//pr($openingQty); exit;
+
+		//Transaction
+		$ItemLedgersData = $this->ItemLedgers->find()->select(['item_id','item_variation_id','status','quantity','transaction_date'])
+		->where(['ItemLedgers.transaction_date'=>$transaction_date,'ItemLedgers.raw_meterial'=>'Yes']);
+		$ItemLedgersData->select(['total_op_qt' => $ItemLedgersData->func()->sum('ItemLedgers.quantity')])
+       ->group(['ItemLedgers.item_id','ItemLedgers.status'])
+        ;
+		$TransferIn=[]; $TransferOut=[];
+        foreach($ItemLedgersData as $data){ 
+        	if($data->status=="In"){
+        		@$TransferIn[$data->item_id]+=$data->total_op_qt;
+        	}else{
+        		@$TransferOut[$data->item_id]+=$data->total_op_qt;
+        	}
+        }
+		
+		//Closing
+		$transaction_date=date('Y-m-d');
+		//$transaction_date='2019-07-17';
+		$ItemLedgersData = $this->ItemLedgers->find()->select(['item_id','item_variation_id','status','quantity','transaction_date'])
+		->where(['ItemLedgers.transaction_date < '=>$transaction_date])
+		->orWhere(['ItemLedgers.transaction_date'=>$transaction_date,'ItemLedgers.raw_meterial'=>'Yes']);
+		$ItemLedgersData->select(['total_op_qt' => $ItemLedgersData->func()->sum('ItemLedgers.quantity')])
+       ->group(['ItemLedgers.item_id','ItemLedgers.status'])
+        ;
+
+        $closingQty=[];
+        foreach($ItemLedgersData as $data){ 
+        	if($data->status=="In"){
+        		@$closingQty[$data->item_id]+=$data->total_op_qt;
+        	}else{
+        		@$closingQty[$data->item_id]-=$data->total_op_qt;
+        	}
+        }
+		//pr($closingQty); exit;
+		$ItemData = $this->ItemLedgers->Items->find();
+		
+		$this->set(compact('openingQty','TransferIn','TransferOut','closingQty','ItemData'));
+    }
+	public function stockReportVarWise()
+    {
+		$url=$this->request->here();
+		$url=parse_url($url,PHP_URL_QUERY);
+		
+		$jain_thela_admin_id=$this->Auth->User('jain_thela_admin_id');
+		$this->viewBuilder()->layout('index_layout');
+
+		//Closing
+		$transaction_date=date('Y-m-d');
+		//$transaction_date='2019-07-17';
+		$ItemLedgersData = $this->ItemLedgers->find()->select(['item_id','item_variation_id','status','quantity','transaction_date'])
+		->where(['ItemLedgers.transaction_date < '=>$transaction_date,'ItemLedgers.raw_meterial'=>'No']);
+		$ItemLedgersData->select(['total_op_qt' => $ItemLedgersData->func()->sum('ItemLedgers.quantity')])
+       ->group(['ItemLedgers.item_variation_id','ItemLedgers.status'])
+        ;
+
+        $openingQty=[];
+        foreach($ItemLedgersData as $data){ 
+        	if($data->status=="In"){
+        		@$openingQty[$data->item_variation_id]+=$data->total_op_qt;
+        	}else{
+        		@$openingQty[$data->item_variation_id]-=$data->total_op_qt;
+        	}
+        }
+		
+
+		//Transaction
+		$ItemLedgersData = $this->ItemLedgers->find()->select(['item_id','item_variation_id','status','quantity','transaction_date'])
+		->where(['ItemLedgers.transaction_date'=>$transaction_date,'ItemLedgers.raw_meterial'=>'No']);
+		$ItemLedgersData->select(['total_op_qt' => $ItemLedgersData->func()->sum('ItemLedgers.quantity')])
+       ->group(['ItemLedgers.item_variation_id','ItemLedgers.status'])
+        ;
+		$TransferIn=[]; $TransferOut=[];
+        foreach($ItemLedgersData as $data){ 
+        	if($data->status=="In"){
+        		@$TransferIn[$data->item_variation_id]+=$data->total_op_qt;
+        	}else{
+        		@$TransferOut[$data->item_variation_id]+=$data->total_op_qt;
+        	}
+        }
+		//pr($TransferIn); pr($TransferOut);  exit;
+		//Closing
+		$transaction_date=date('Y-m-d');
+		//$transaction_date='2019-07-17';
+		$ItemLedgersData = $this->ItemLedgers->find()->select(['item_id','item_variation_id','status','quantity','transaction_date'])
+		->where(['ItemLedgers.transaction_date < '=>$transaction_date])
+		->orWhere(['ItemLedgers.transaction_date'=>$transaction_date,'ItemLedgers.raw_meterial'=>'No']);
+		$ItemLedgersData->select(['total_op_qt' => $ItemLedgersData->func()->sum('ItemLedgers.quantity')])
+       ->group(['ItemLedgers.item_variation_id','ItemLedgers.status'])
+        ;
+//pr($ItemLedgersData->toArray()); exit;
+        $closingQty=[];
+        foreach($ItemLedgersData as $data){ 
+        	if($data->status=="In"){
+        		@$closingQty[$data->item_variation_id]+=$data->total_op_qt;
+        	}else{
+        		@$closingQty[$data->item_variation_id]-=$data->total_op_qt;
+        	}
+        }
+		
+		$ItemData = $this->ItemLedgers->Items->ItemVariations->find()->contain(['Items','Units']);
+		//
+		$this->set(compact('openingQty','TransferIn','TransferOut','closingQty','ItemData'));
     }
 
 	public function exportExcelStk(){
