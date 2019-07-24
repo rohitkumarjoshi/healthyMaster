@@ -45,6 +45,10 @@ class TransferInventoryVoucherRowsTable extends Table
             'foreignKey' => 'item_id',
             'joinType' => 'INNER'
         ]);
+		$this->belongsTo('ItemVariations', [
+            'foreignKey' => 'ItemVariations',
+            'joinType' => 'INNER'
+        ]);
     }
 
     /**

@@ -88,25 +88,26 @@ class TransferInventoryVouchersController extends AppController
 			}
 			$transferInventoryVoucher->jain_thela_admin_id=$jain_thela_admin_id;
 			$transferInventoryVoucher->created_on=date('Y-m-d');
-			
+			//pr($transferInventoryVoucher); exit;
             if ($inventory_data=$this->TransferInventoryVouchers->save($transferInventoryVoucher)) {
 				$transfer_inventory_voucher_id=$inventory_data->id;
 				$inventory_quantity=$inventory_data->quantity;
 				$warehouse_id=$inventory_data->warehouse_id;
 				$inventory_created_on=$inventory_data->created_on;
 				$item_id=$inventory_data->item_id;
-				$waste_quantity=$inventory_data->waste_quantity;
 				
-					$query = $this->TransferInventoryVouchers->ItemLedgers->query();
-				$query->insert(['warehouse_id', 'transaction_date', 'item_id', 'quantity','status','jain_thela_admin_id', 'inventory_transfer', 'transfer_inventory_voucher_id'])
+				
+				$query = $this->TransferInventoryVouchers->ItemLedgers->query();
+				$query->insert(['warehouse_id', 'transaction_date', 'item_id', 'quantity','status','jain_thela_admin_id', 'inventory_transfer', 'transfer_inventory_voucher_id','raw_meterial'])
 						->values([
 						'warehouse_id' => $warehouse_id,
 						'transaction_date' => $inventory_created_on,
 						'item_id' => $item_id,
 						'quantity' => $inventory_quantity,
-						'status' => 'out',
+						'status' => 'Out',
 						'jain_thela_admin_id' => $jain_thela_admin_id,
 						'inventory_transfer' => 'yes',
+						'raw_meterial' => 'Yes',
 						'transfer_inventory_voucher_id' => $transfer_inventory_voucher_id
 						])
 				->execute();
@@ -117,11 +118,12 @@ class TransferInventoryVouchersController extends AppController
 					$transfer_inventory_voucher_id=$transfer_data->transfer_inventory_voucher_id;
 
 					$query = $this->TransferInventoryVouchers->ItemLedgers->query();
-					$query->insert(['warehouse_id', 'transaction_date', 'item_id', 'quantity','status','jain_thela_admin_id', 'inventory_transfer', 'transfer_inventory_voucher_id'])
+					$query->insert(['warehouse_id', 'transaction_date', 'item_id', 'quantity','status','jain_thela_admin_id', 'inventory_transfer', 'transfer_inventory_voucher_id','item_variation_id'])
 							->values([
 							'warehouse_id' => $warehouse_id,
 							'transaction_date' => $inventory_created_on,
 							'item_id' => $transfer_item_id,
+							'item_variation_id' => $transfer_data->item_variation_id,
 							'quantity' => $transfer_quantity,
 							'status' => 'In',
 							'jain_thela_admin_id' => $jain_thela_admin_id,
@@ -130,41 +132,19 @@ class TransferInventoryVouchersController extends AppController
 							])
 							->execute();
 				}
-					if($waste_quantity>0){
-						$query = $this->TransferInventoryVouchers->ItemLedgers->query();
-						$query->insert(['warehouse_id', 'transaction_date', 'item_id', 'quantity','status','jain_thela_admin_id', 'inventory_transfer', 'transfer_inventory_voucher_id', 'wastage'])
-								->values([
-								'warehouse_id' => 0,
-								'transaction_date' => $inventory_created_on,
-								'item_id' => $item_id,
-								'quantity' => $waste_quantity,
-								'status' => 'Out',
-								'jain_thela_admin_id' => $jain_thela_admin_id,
-								'inventory_transfer' => 'yes',
-								'transfer_inventory_voucher_id' => $transfer_inventory_voucher_id,
-								'wastage' => 1
-								])
-								->execute();
-					}
+				
                 $this->Flash->success(__('The transfer inventory voucher has been saved.'));
                 return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('The transfer inventory voucher could not be saved. Please, try again.'));
         }
-		$item_fetchs = $this->TransferInventoryVouchers->Items->find()->where(['Items.is_combo'=>'no', 'Items.is_virtual'=>'real', 'Items.freeze !='=>1])->contain(['ItemVariations'=>['Units']]);
-		//pr($item_fetchs->toArray());exit;
-		
+		$item_fetchs = $this->TransferInventoryVouchers->Items->find()->where(['Items.is_combo'=>'no', 'Items.is_virtual'=>'real', 'Items.freeze !='=>1]);
+		$items=[];
 		foreach($item_fetchs as $item_fetch){
 			$item_name=$item_fetch->name;
-			$id=$item_fetch->id;
-			foreach ($item_fetchs->item_variations as $variation) {
-			$variation_id=$variation->id;
-			
-			$quantity_variation=$variation->quantity_variation;
-			$shortname=$variation->unit->shortname;
-			$items[]= ['value'=>$id,'text'=>$item_name." (".$quantity_variation." ".$shortname.")",'variation_id'=>$variation_id];
+			$items[]= ['value'=>$item_fetch->id,'text'=>$item_name];
 		}
-		}
+		
 		
 		
         $warehouses = $this->TransferInventoryVouchers->Warehouses->find('list')->where(['jain_thela_admin_id' => $jain_thela_admin_id]);
@@ -185,8 +165,13 @@ class TransferInventoryVouchersController extends AppController
  		$jain_thela_admin_id=$this->Auth->User('jain_thela_admin_id');
 		
         $transferInventoryVoucher = $this->TransferInventoryVouchers->get($id, [
-            'contain' => ['TransferInventoryVoucherRows'=>['Items'=>['Units']]]
+            'contain' => ['TransferInventoryVoucherRows'=>['Items']]
         ]);
+		
+		$ItemVariations=$this->TransferInventoryVouchers->TransferInventoryVoucherRows->ItemVariations->find()->where(['ItemVariations.item_id '=>$transferInventoryVoucher->item_id])->contain(['Units','Items']);
+           foreach($ItemVariations as $show){ 
+				$opts[]=['value'=>$show->id  ,'text'=>$show->quantity_variation." ".$show->unit->shortname];
+			}
 		 
         if ($this->request->is(['patch', 'post', 'put'])) {
             $transferInventoryVoucher = $this->TransferInventoryVouchers->patchEntity($transferInventoryVoucher, $this->request->getData());
@@ -204,76 +189,57 @@ class TransferInventoryVouchersController extends AppController
 					->where(['transfer_inventory_voucher_id' => $transfer_inventory_voucher_id])
 					->execute();
 					 
-					$query = $this->TransferInventoryVouchers->ItemLedgers->query();
-				$query->insert(['warehouse_id', 'transaction_date', 'item_id', 'quantity','status','jain_thela_admin_id', 'inventory_transfer', 'transfer_inventory_voucher_id'])
+				$query = $this->TransferInventoryVouchers->ItemLedgers->query();
+				$query->insert(['warehouse_id', 'transaction_date', 'item_id', 'quantity','status','jain_thela_admin_id', 'inventory_transfer', 'transfer_inventory_voucher_id','raw_meterial'])
 						->values([
 						'warehouse_id' => $warehouse_id,
 						'transaction_date' => $inventory_created_on,
 						'item_id' => $item_id,
 						'quantity' => $inventory_quantity,
-						'status' => 'out',
+						'status' => 'Out',
 						'jain_thela_admin_id' => $jain_thela_admin_id,
 						'inventory_transfer' => 'yes',
+						'raw_meterial' => 'Yes',
 						'transfer_inventory_voucher_id' => $transfer_inventory_voucher_id
 						])
 				->execute();
-				 
-				foreach($transferInventoryVoucher->transfer_inventory_voucher_rows as $transfer_data){
-					
+				
+				foreach($transferInventoryVoucher->transfer_inventory_voucher_rows as $transfer_data){			
 					$transfer_item_id=$transfer_data->item_id;
 					$transfer_quantity=$transfer_data->quantity;
 					$transfer_inventory_voucher_id=$transfer_data->transfer_inventory_voucher_id;
-					
-						$query = $this->TransferInventoryVouchers->ItemLedgers->query();
-				$query->insert(['warehouse_id', 'transaction_date', 'item_id', 'quantity','status','jain_thela_admin_id', 'inventory_transfer', 'transfer_inventory_voucher_id'])
-						->values([
-						'warehouse_id' => $warehouse_id,
-						'transaction_date' => $inventory_created_on,
-						'item_id' => $transfer_item_id,
-						'quantity' => $transfer_quantity,
-						'status' => 'In',
-						'jain_thela_admin_id' => $jain_thela_admin_id,
-						'inventory_transfer' => 'yes',
-						'transfer_inventory_voucher_id' => $transfer_inventory_voucher_id
-						])
-				->execute();
-					
+
+					$query = $this->TransferInventoryVouchers->ItemLedgers->query();
+					$query->insert(['warehouse_id', 'transaction_date', 'item_id', 'quantity','status','jain_thela_admin_id', 'inventory_transfer', 'transfer_inventory_voucher_id','item_variation_id'])
+							->values([
+							'warehouse_id' => $warehouse_id,
+							'transaction_date' => $inventory_created_on,
+							'item_id' => $transfer_item_id,
+							'item_variation_id' => $transfer_data->item_variation_id,
+							'quantity' => $transfer_quantity,
+							'status' => 'In',
+							'jain_thela_admin_id' => $jain_thela_admin_id,
+							'inventory_transfer' => 'yes',
+							'transfer_inventory_voucher_id' => $transfer_inventory_voucher_id
+							])
+							->execute();
 				}
 				
-				if($waste_quantity>0){
-						$query = $this->TransferInventoryVouchers->ItemLedgers->query();
-						$query->insert(['warehouse_id', 'transaction_date', 'item_id', 'quantity','status','jain_thela_admin_id', 'inventory_transfer', 'transfer_inventory_voucher_id', 'wastage'])
-								->values([
-								'warehouse_id' => 0,
-								'transaction_date' => $inventory_created_on,
-								'item_id' => $item_id,
-								'quantity' => $waste_quantity,
-								'status' => '',
-								'jain_thela_admin_id' => $jain_thela_admin_id,
-								'inventory_transfer' => 'yes',
-								'transfer_inventory_voucher_id' => $transfer_inventory_voucher_id,
-								'wastage' => 1
-								])
-								->execute();
-					}
                 $this->Flash->success(__('The transfer inventory voucher has been saved.'));
 
                 return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('The transfer inventory voucher could not be saved. Please, try again.'));
         }
-		$item_fetchs = $this->TransferInventoryVouchers->Items->find()->where(['Items.jain_thela_admin_id' => $jain_thela_admin_id, 'Items.is_combo'=>'no', 'Items.is_virtual'=>'no', 'Items.freeze !='=>1])->contain(['Units']);
+		$item_fetchs = $this->TransferInventoryVouchers->Items->find()->where(['Items.is_combo'=>'no', 'Items.is_virtual'=>'real', 'Items.freeze !='=>1]);
+		$items=[];
 		foreach($item_fetchs as $item_fetch){
 			$item_name=$item_fetch->name;
-			$alias_name=$item_fetch->alias_name;
-			$print_quantity=$item_fetch->print_quantity;
-			$unit_name=$item_fetch->unit->unit_name;
-			$minimum_quantity_factor=$item_fetch->minimum_quantity_factor;
-			$items[]= ['value'=>$item_fetch->id,'text'=>$item_name."(".$alias_name.")", 'print_quantity'=>$print_quantity, 'minimum_quantity_factor'=>$minimum_quantity_factor, 'unit_name'=>$unit_name];
+			$items[]= ['value'=>$item_fetch->id,'text'=>$item_name];
 		}
  		$warehouses = $this->TransferInventoryVouchers->Warehouses->find('list')->where(['jain_thela_admin_id' => $jain_thela_admin_id]);
 		$transferInventoryVoucherRows= $this->TransferInventoryVouchers->transferInventoryVoucherRows->find()->where(['transfer_inventory_voucher_id' => $id]);
-        $this->set(compact('transferInventoryVoucher', 'items', 'warehouses', 'transferInventoryVoucherRows'));
+        $this->set(compact('transferInventoryVoucher', 'items', 'warehouses', 'transferInventoryVoucherRows','opts'));
         $this->set('_serialize', ['transferInventoryVoucher']);
     }
 
