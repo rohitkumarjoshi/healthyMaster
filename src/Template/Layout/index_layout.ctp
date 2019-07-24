@@ -286,6 +286,12 @@
 										<?php echo $this->Html->link('<i class="fa  fa-file"></i>Purchase Report','/PurchaseBookings/purchase_report',['escape'=>false]) ?>
 									</li>
 									<li>
+										<?php echo $this->Html->link('<i class="fa  fa-file"></i> Variation Stock','/ItemLedgers/stockReport',['escape'=>false]) ?>
+									</li>
+									<li>
+										<?php echo $this->Html->link('<i class="fa  fa-file"></i> Material Stock','/ItemLedgers/stockReportVarWise',['escape'=>false]) ?>
+									</li>
+									<li>
 										<?php echo $this->Html->link('<i class="fa  fa-file"></i>GST Report','/Orders/gst_reports',['escape'=>false]) ?>
 									</li>
 
@@ -371,6 +377,9 @@
 							</li>
 							<li>
 								<?php echo $this->Html->link('<i class="fa fa-bell"></i> <span>Push Notification</span>',array('controller'=>'AppNotifications','action'=>'index'),['escape'=>false]); ?>
+							</li>
+							<li>
+								<?php echo $this->Html->link('<i class="fa fa-bell"></i> <span>Stock Conversion</span>',array('controller'=>'TransferInventoryVouchers','action'=>'add'),['escape'=>false]); ?>
 							</li>
 							<li>
 								<?php echo $this->Html->link('<i class=" fa-file-text"></i> <span>Feedback</span>',array('controller'=>'Feedbacks/add'),['escape'=>false]); ?>
