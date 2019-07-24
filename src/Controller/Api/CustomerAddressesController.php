@@ -47,7 +47,7 @@ class CustomerAddressesController extends AppController
                     ->execute();
 					 
 			$query = $this->CustomerAddresses->query();
-					$query->insert(['customer_id', 'name', 'mobile', 'house_no', 'address', 'locality', 'default_address','landmark','pincode','address_type','city_id','state_id'])
+					$query->insert(['customer_id', 'name', 'mobile', 'house_no', 'address', 'locality', 'default_address','landmark','pincode','address_type','city_id','state_id','apartment_name'])
 							->values([
 							'customer_id' => $customer_id,
 							'name' => $name,
