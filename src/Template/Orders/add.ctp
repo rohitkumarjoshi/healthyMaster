@@ -717,13 +717,23 @@ function round(value, exp) {
 					});
 					
 					var mobile=$('.number_mobile').val();
-					//alert(mobile);
+					var name=$('.name').val();
+					if(name == null)
+					{
+						var name="null";
+					}
+					var email=$('.emails').val();
+					if(email == null)
+					{
+						var email="null";
+					}
 					var url="<?php echo $this->Url->build(['controller'=>'Customers','action'=>'save']); ?>";
-					url=url+'/'+mobile,
-					//alert(url);
+					url=url+'/'+mobile+'/'+name+'/'+email,
+					alert(url);
 					$.ajax({
 						url: url,
 					}).done(function(response) {
+						//alert(response);
 						$('#customer').hide();
 					});
 		}});		
@@ -747,11 +757,12 @@ function round(value, exp) {
 					var locality=$('input[name="locality"]').val();
 					var pin_code=$('input[name="pin_code"]').val();
 					var apartment_name=$('input[name="apartment_name"]').val();
+					var address_type=$('input[name="address_type"]').val();
 					//alert(apartment_name);
 					var landmark=$('input[name="landmark"]').val();
 					var default_address= 1;
 					var url="<?php echo $this->Url->build(['controller'=>'CustomerAddresses','action'=>'saveAddress']); ?>";
-					url=url+'/'+customer_id+'/'+name+'/'+mobile+'/'+house_no+'/'+address+'/'+locality+'/'+default_address+'/'+pin_code+'/'+landmark+'/'+apartment_name,
+					url=url+'/'+customer_id+'/'+name+'/'+mobile+'/'+house_no+'/'+address+'/'+locality+'/'+default_address+'/'+pin_code+'/'+landmark+'/'+apartment_name+'/'+address_type,
 					$.ajax({
 						url: url,
 					}).done(function(response) {
@@ -762,7 +773,7 @@ function round(value, exp) {
 						$.ajax({
 							url: url,
 						}).done(function(response) { 
-							//alert(respose);
+							alert(respose);
 							$('textarea[name="customer_address"]').val(response);
 							var customer_id=$('#customer_id').val();
 							var url="<?php echo $this->Url->build(['controller'=>'Customers','action'=>'defaultAddress1']); ?>";
@@ -956,6 +967,26 @@ function selectAutoCompleted1(value) {
 			</div><form id="form1">
 			<div class="modal-body">
 				<div class="row">
+					<div class="col-md-8">
+						<div class="form-group">
+							<label class="control-label">Address Type<span class="required" aria-required="true">*</span></label>
+							<div class="radio-list">
+								<div class="radio-inline" style="padding-left: 0px;">
+									<?php echo $this->Form->radio(
+									'address_type',
+									[
+										['value' => 'Home', 'text' => 'Home','class' => 'radio-task virt address','checked' => 'checked'],
+										['value' => 'Office', 'text' => 'Office','class' => 'radio-task virt address'],
+										['value' => 'Work', 'text' => 'Work','class' => 'radio-task virt address'],
+										['value' => 'Other', 'text' => 'Other','class' => 'radio-task virt address']
+									]
+									); ?>
+								</div>
+                            </div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
 					<div class="col-md-6">
 						<label class=" control-label">Name<span class="required" aria-required="true">*</span></label>
 						<?php echo $this->Form->input('name',['placeholder'=>'Name','class'=>'form-control input-sm','label'=>false,'required']); ?>
@@ -1021,12 +1052,15 @@ function selectAutoCompleted1(value) {
 							<?php echo $this->Form->input('mobile',['placeholder'=>'Mobile','class'=>'form-control input-sm number_mobile','label'=>false,'required']); ?>
 						</div>
 						<div class="col-md-6">
-						<label class=" control-label">Name <span class="required" aria-required="true">*</span></label>
-							<?php echo $this->Form->input('name',['placeholder'=>'Name','class'=>'form-control input-sm name','label'=>false,'required']); ?>
+							<label class=" control-label">Name <span class="required" aria-required="true">*</span></label>
+								<?php echo $this->Form->input('name',['placeholder'=>'Name','class'=>'form-control input-sm name','label'=>false]); ?>
 						</div>
 					</div>
 					<div class="row">
-						
+						<div class="col-md-6">
+							<label class=" control-label">Email <span class="required" aria-required="true">*</span></label>
+								<?php echo $this->Form->input('email',['placeholder'=>'Email','class'=>'form-control input-sm emails','label'=>false,'type'=>'email']); ?>
+						</div>
 					</div>
 				</div>	
 				<div class="modal-footer">

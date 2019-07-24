@@ -83,7 +83,9 @@ class VendorsController extends AppController
 			$vendor = $this->Vendors->newEntity();
 		}
        if ($this->request->is(['post'])) {
+        //pr($this->request->data);
             $vendor = $this->Vendors->patchEntity($vendor, $this->request->data);
+            //pr($vendor->toArray());exit;
 			$vendor->jain_thela_admin_id=$jain_thela_admin_id;
 			if ($vendors_data=$this->Vendors->save($vendor)) { 
 				  $vendor_id=$vendors_data->id;
