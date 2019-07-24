@@ -15,7 +15,7 @@
 					<!-- BEGIN FORM-->
 							<div class="row">
 								<div class="col-md-6">
-									<h4 align="center">OUT</h4>
+									<h4 align="center">Material Stock Out</h4>
 									<div class="col-md-12" style="display:none">
 										<?= $this->Form->input('warehouse_id',array('options' => $warehouses,'class'=>'ware_house form-control input-sm','value'=>1)) ?>
 									</div>
@@ -26,17 +26,17 @@
 									</div>
 									
 									<div class="col-md-3">
-										<label class="control-label">Available <span class="required" aria-require>*</span></label>
+										<label class="control-label">Available Qty<span class="required" aria-require>*</span></label>
 										 <div id="set"></div>
 									</div>
 									<div class="col-md-3">
-										<label class="control-label">Quantity<span class="required" aria-require>*</span></label>
+										<label class="control-label">Out Quantity<span class="required" aria-require>*</span></label>
 										<?php echo $this->Form->control('quantity',['placeholder'=>'quantity','class'=>'form-control input-sm valid main_quantity calculation_amount','label'=>false,'type'=>'text']); ?>
 										<span class="msg_shw3" style="color:blue;font-size:10px;"></span>
 									</div>
 								 </div>
 								 <div class="col-md-6">
-								   <h4 align="center">IN</h4>
+								   <h4 align="center">Variation Stock In</h4>
 									<table id="main_table" class="table table-condensed table-bordered">
 										<thead>
 											<tr align="center">

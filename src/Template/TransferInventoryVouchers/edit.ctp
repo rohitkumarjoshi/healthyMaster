@@ -15,7 +15,7 @@
 					<!-- BEGIN FORM-->
 							<div class="row">
 								<div class="col-md-6">
-									<h4 align="center">OUT</h4>
+									<h4 align="center">Material Stock Out</h4>
 									<div class="col-md-12" style="display:none">
 										<label class="col-md-6 control-label">Warehouse <span class="required" 	aria-required="true">*</span></label>
 										<?= $this->Form->input('warehouse_id',array('options' => $warehouses,'class'=>'ware_house form-control input-sm','label'=>false, 'value'=>$transferInventoryVoucher->warehouse_id)) ?>
@@ -27,16 +27,16 @@
 									</div>
 									
 									<div class="col-md-2">
-										<label class="control-label">Available <span class="required" aria-require>*</span></label>
+										<label class="control-label">Available Qty<span class="required" aria-require>*</span></label>
 										 <div id="set"></div>
 									</div>
 									<div class="col-md-2">
-										<label class="control-label">Quantity<span class="required" aria-require>*</span></label>
+										<label class="control-label">Out Quantity<span class="required" aria-require>*</span></label>
 										<?php echo $this->Form->control('quantity',['placeholder'=>'quantity','class'=>'form-control input-sm valid main_quantity calculation_amount','label'=>false,'type'=>'text', 'value'=>$transferInventoryVoucher->quantity]); ?>
 									</div>
 								 </div>
 								 <div class="col-md-6">
-								   <h4 align="center">IN</h4>
+								   <h4 align="center">Variation Stock In</h4>
 									<table id="main_table" class="table table-condensed table-bordered">
 										<thead>
 											<tr align="center">
