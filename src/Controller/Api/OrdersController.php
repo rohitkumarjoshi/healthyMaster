@@ -123,7 +123,7 @@ class OrdersController extends AppController
 			foreach($orders_data as $data)
 			{
 				$data->created_date=date('D M j, Y H:i a', strtotime($data->order_date));
-				$data->order_date=date('D M j, Y H:i a', strtotime($data->order_date));
+				$data->order_date=date('D M j, Y', strtotime($data->order_date));
 				$data->delivery_date=date('D M j, Y H:i a', strtotime($data->delivery_date)); 
 			}
 							
