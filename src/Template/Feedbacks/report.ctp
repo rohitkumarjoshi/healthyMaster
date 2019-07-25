@@ -8,7 +8,7 @@
                 </div>
             </div>
             <div class="portlet-body">
-                <form method="post">
+                <!--<form method="post">
                         <table width="50%" class="table table-condensed">
                     <tbody>
                         <tr>
@@ -31,16 +31,21 @@
                         </tr>
                     </tbody>
                 </table>
-                </form>
+                </form>-->
                 <table class="table table-striped table-hover table-bordered" id="sample_editable_1">
                     <thead>
                         <tr>
                             <th scope="col"><?= __('S.No') ?></th>
-                            <th scope="col">Customer ID</th>
+                           <!-- <th scope="col">Customer ID</th>-->
                             <th scope="col">Customer Name</th>
+                            <th scope="col">Customer Email</th>
                             <th scope="col">Mobile</th>
-                            <th scope="col">Message</th>
-                            <th scope="col">Posting Date</th>
+                          
+                            <th scope="col">Quality Experience</th>
+                            <th scope="col">Deliver Experience</th>
+                            <th scope="col">Over All Experience</th>
+							  <th scope="col">Message</th>
+							 <th scope="col">Posting Date</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -50,9 +55,13 @@
                         ?>
                         <tr>
                             <td><?php echo $i; $i++;?></td>
-                            <td><?= $feedback->customer->id?></td>
-                            <td><?= $feedback->customer->name?></td>
-                            <td><?= $feedback->customer->mobile?></td>
+                       
+                            <td><?= $feedback->name?></td>
+                            <td><?= $feedback->email?></td>
+                            <td><?= $feedback->mobile?></td>
+                            <td><?= $feedback->quality_exp?></td>
+                            <td><?= $feedback->deliver_exp?></td>
+                            <td><?= $feedback->overall_exp?></td>
                             <td><?= $feedback->comments?></td>
                             <td><?= date('d-m-Y',strtotime($feedback->created_on))?></td>
                         </tr>

@@ -23,8 +23,11 @@ class FeedbacksController extends AppController
     {
         $this->viewBuilder()->layout('index_layout'); 
         $feedback=$this->Feedbacks->newEntity();
-        $feedbacks=$this->Feedbacks->find()->contain(['Customers']);
-         if ($this->request->is('post')) {
+        
+		$feedbacks=$this->Feedbacks->find();
+        /*  
+		$feedbacks=$this->Feedbacks->find()->contain(['Customers']);
+		if ($this->request->is('post')) {
             $datas = $this->request->getData();
            
              if(!empty($datas['mobile'])){
@@ -39,7 +42,7 @@ class FeedbacksController extends AppController
                 $to_date=date("Y-m-d",strtotime($datas['To']));
                 $feedbacks->where(['Feedbacks.created_on <=' => $to_date ]);
             }
-        }
+        } */
         $this->set(compact('feedback','feedbacks'));
     }
 
