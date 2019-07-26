@@ -711,13 +711,6 @@ function round(value, exp) {
 
 	$('.btnsave').on("click",function(e) {
 		$("#form2").validate({ 
-			 // rules: {
-                
-    //             mobile:{
-    //                 maxlength: 10,
-    //                 minlength: 10,
-    //             }
-    //         },
 			submitHandler: function(form) {
 					$("#form2").submit(function(e) {
 						e.preventDefault();
@@ -751,18 +744,18 @@ function round(value, exp) {
 					$.ajax({
 						url: url,
 					}).done(function(response) {
-						alert(response);
+						//alert(response);
 						$('#customer').hide();
 						$('#customer_id').val(response);
 						var cus_id=response;
-						alert(cus_id);
+						//alert(cus_id);
 						var url="<?php echo $this->Url->build(['controller'=>'Customers','action'=>'lastinsertmobile']); ?>";
 						url=url+'/'+cus_id,
-						alert(url);
+						//alert(url);
 						$.ajax({
 							url: url,
 						}).done(function(response) {
-							alert(response);
+							//alert(response);
 							$('#mobile').val(response);
 						});
 
@@ -794,11 +787,11 @@ function round(value, exp) {
 					var default_address= 1;
 					var url="<?php echo $this->Url->build(['controller'=>'CustomerAddresses','action'=>'saveAddress']); ?>";
 					url=url+'/'+customer_id+'/'+name+'/'+mobile+'/'+house_no+'/'+address+'/'+locality+'/'+default_address+'/'+pincode+'/'+apartment_name+'/'+address_type,
-					alert(url);
+					//alert(url);
 					$.ajax({
 						url: url,
 					}).done(function(response) {
-						alert(response);
+						//alert(response);
 						$('#address').hide();
 						var customer_id=$('#customer_id').val();
 						var url="<?php echo $this->Url->build(['controller'=>'Customers','action'=>'defaultAddress']); ?>";
@@ -806,7 +799,7 @@ function round(value, exp) {
 						$.ajax({
 							url: url,
 						}).done(function(response) { 
-							alert(response);
+							//alert(response);
 							$('textarea[name="customer_address"]').val(response);
 							var customer_id=$('#customer_id').val();
 							var url="<?php echo $this->Url->build(['controller'=>'Customers','action'=>'defaultAddress1']); ?>";

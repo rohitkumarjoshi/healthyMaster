@@ -45,22 +45,23 @@ class ItemVariationsController extends AppController
         $itemvariation = $this->ItemVariations->newEntity();
            $item_id=$this->request->query('item');
             $item_variations = $this->ItemVariations->find();
-		    $item_category_id=$this->request->query('item_category_id');
-		   if($item_category_id or $item_id)
-		   {
-		    $item_variations = $this->ItemVariations->find();
-		   }
             if($item_id!=null)
             {
 
                
                 $item_variations->where(['ItemVariations.item_id'=>$item_id])
                 ->contain(['Items'=>['ItemCategories'],'Units']);
+         } 
+         
+         $item_category_id=$this->request->query('item_category_id');
+         
             if($item_category_id!=null)
             {
 
                 $item_variations
                 ->contain(['Items'=>['ItemCategories'],'Units'])->where(['Items.item_category_id'=>$item_category_id]);
+         }
+         
         //--Vaibhav Sir  else
         //  {
         //      $item_variations = $this->ItemVariations->find()
@@ -95,7 +96,6 @@ class ItemVariationsController extends AppController
         $this->set(compact('item_variations','ItemVariation','itemvariation', 'itemCategories', 'units','items'));
         $this->set('_serialize', ['items']);
     }
-
     public function index()
     {
         $this->paginate = [
