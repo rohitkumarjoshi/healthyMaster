@@ -78,10 +78,7 @@ class CustomersTable extends Table
             ->integer('id')
             ->allowEmpty('id', 'create');
 
-        $validator
-            ->requirePresence('name', 'create')
-            ->notEmpty('name');
-
+       
         $validator
             ->requirePresence('mobile', 'create')
             ->notEmpty('mobile')

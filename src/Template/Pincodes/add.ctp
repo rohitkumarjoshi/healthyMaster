@@ -15,6 +15,7 @@
                 <div class="row">
                     <div class="col-md-3">
                         <?= $this->Form->control('id',['type'=>'hidden']); ?>
+                        <label>State</label>
                         <?php echo $this->Form->control('state_id', ['empty'=>'-- select --','options' => $states,'class'=>'form-control input-sm select select2me select2 state','required','label'=>false]); ?>
                     </div>
                     <div class="col-md-3">
@@ -40,7 +41,7 @@
                 <div class="row delivery_reason display-none">
                     <div class="col-md-10">
                         <label>Delivery Reason<span class="required" aria-required="true">*</span></label>
-                        <textarea name="delivery_reason" class="form-control" id="reason"></textarea>
+                        <textarea name="delivery_reason" class="form-control" id="reason" ><?= @$pincode->delivery_reason?></textarea>
                     </div>
                 </div>
                 <div class="row Yesbox display-none">
