@@ -711,6 +711,26 @@ function round(value, exp) {
 
 	$('.btnsave').on("click",function(e) {
 		$("#form2").validate({ 
+				rules: {
+			      mobile:{
+						required:true,
+						remote :{
+							url:"Customers/checks",
+							type:"post",
+							data:{
+								'input':$('.modal_mobile').val()
+							},
+							success: function(data) {
+			                    if (data.input == 'true')
+			                    {
+			                        message: {
+			                            username: 'The Mobile is already in use!'
+			                        }
+			                    }
+			                }
+						}
+					}
+				},
 			submitHandler: function(form) {
 					$("#form2").submit(function(e) {
 						e.preventDefault();
@@ -782,11 +802,13 @@ function round(value, exp) {
 					var locality=$('input[name="locality"]').val();
 					var pincode=$('input[name="pin_code"]').val();
 					var apartment_name=$('input[name="apartment_name"]').val();
+					var state_id=$('input[name="state_id"]').val();
+					var city_id=$('input[name="city_id"]').val();
 					var address_type=$('input[name="address_type"]:checked').val();
 					//alert(apartment_name);
 					var default_address= 1;
 					var url="<?php echo $this->Url->build(['controller'=>'CustomerAddresses','action'=>'saveAddress']); ?>";
-					url=url+'/'+customer_id+'/'+name+'/'+mobile+'/'+house_no+'/'+address+'/'+locality+'/'+default_address+'/'+pincode+'/'+apartment_name+'/'+address_type,
+					url=url+'/'+customer_id+'/'+name+'/'+mobile+'/'+house_no+'/'+address+'/'+locality+'/'+default_address+'/'+pincode+'/'+apartment_name+'/'+address_type+'/'+state_id+'/'+city_id,
 					//alert(url);
 					$.ajax({
 						url: url,
@@ -914,6 +936,7 @@ function round(value, exp) {
 	// 			$('.amount_from_wallet').attr('max',response);
 	// 		});
 	// });
+
 	$(document).on('change','.state',function(){
         
         var input=$(this).val();
@@ -1067,7 +1090,7 @@ function selectAutoCompleted1(value) {
 				</div>
 				<div class="row">
 					<div class="col-md-6">
-						<?php echo $this->Form->control('state_id', ['empty'=>'-- select --','options' => $states,'class'=>'form-control input-sm select select2me select2 state','required']); ?>
+						<?php echo $this->Form->control('state_id', ['empty'=>'-- select --','options' => $statesdata,'class'=>'form-control input-sm select select2me select2 state','required']); ?>
 					</div>
 					<div class="col-md-6">
                        <label class=" control-label">City <span class="required" aria-required="true">* </label>
@@ -1110,7 +1133,7 @@ function selectAutoCompleted1(value) {
 					<div class="row">
 						<div class="col-md-6">
 						<label class=" control-label">Mobile <span class="required" aria-required="true">*</span></label>
-							<?php echo $this->Form->input('mobile',['placeholder'=>'Mobile','class'=>'form-control input-sm number_mobile','label'=>false,'required','maxlength'=>10,'minlength'=>10]); ?>
+							<?php echo $this->Form->input('mobile',['placeholder'=>'Mobile','class'=>'form-control input-sm number_mobile modal_mobile','label'=>false,'required','maxlength'=>10,'minlength'=>10]); ?>
 						</div>
 						<div class="col-md-6">
 							<label class=" control-label">Name</label>

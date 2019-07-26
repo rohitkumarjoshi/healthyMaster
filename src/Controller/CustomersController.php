@@ -81,6 +81,22 @@ class CustomersController extends AppController
 	
         exit;  
     }
+     public function checks($input)
+    {
+    	//$items='0';
+    	 $input=$this->request->getData('input'); 
+    	 //alert($mobile);
+            if($this->Customers->exists(['mobile'=>$input]))
+            {
+            	return true;
+            }
+            else
+            {
+            	return false;
+            }
+	
+        exit;  
+    }
     public function index()
     {
 		$this->viewBuilder()->layout('index_layout');

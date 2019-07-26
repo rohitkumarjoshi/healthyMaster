@@ -97,6 +97,7 @@ $(document).ready(function() {
       });
     
       var deliver_value= $('.wedeliver').val();
+      alert(deliver_value);
        if(deliver_value == "No")
        {
             $('.delivery_reason').show();
