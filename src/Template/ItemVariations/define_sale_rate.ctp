@@ -19,9 +19,9 @@
 					<table width="50%" class="table table-condensed">
 						<tbody>
 							<tr>
-								<!-- <td width="4%">
-									<?php echo $this->Form->input('item_category_id', ['empty'=>'--Category--','options' => $category,'label' => false,'class' => 'form-control input-sm select2me category','placeholder'=>'Category' ]); ?>
-								</td> -->
+								<td width="4%">
+									<?php echo $this->Form->input('item_category_id', ['empty'=>'--Category--','options' =>$itemCategories,'label' => false,'class' => 'form-control input-sm select2me category','placeholder'=>'Category' ]); ?>
+								</td>
 								<td width="4%">
 									
 									<?php echo $this->Form->input('item', ['empty'=>'--Items--','options' => $items,'label' => false,'class' => 'form-control select2me input-sm category','placeholder'=>'Category' ]); ?>
@@ -38,26 +38,27 @@
 				{?>
 				<?= $this->Form->create($itemvariation,['id'=>'form_sample_3']) ?>
 				
-				<?php
-				foreach ($item_variations as $item_variation): ?>	
+			
 				<table class="table table-condensed table-hover table-bordered" id="main_tble">
 					<thead>
 						<tr>
 							<th width="5%">Sr</th>
 							<th width="10%">Category</th>
 							<th width="10%">Item Code</th>
-							<th width="10%">Item</th>
-							<th width="20%">Variation</th>
-							<th width="15%">Print Rate</th>
-							<th width="15%">Online Sale Rate</th>
+							<th width="15%">Item</th>
+							<th width="10%">Variation</th>
+							<th width="10%">Print Rate</th>
+							<th width="12%">Online Sale Rate</th>
 							<th width="15%">Item Discount %</th>
-							<th width="20%">
+							<th width="15%">
 								Ready to Sale
 								<!-- <?php echo  $this->Form->control('rts',['class'=>'form-control input-sm all','options'=>['empty'=>'--All--', 'Yes'=>'Yes','No'=>'No'], 'label'=>false]); ?>
  -->							</th>
 							
 						</tr>
 					</thead>
+						<?php
+				foreach ($item_variations as $item_variation): ?>	
 					<tbody id="main_tbody">
 						<tr class="main_tr">
 							<td><?php echo ++$i; $i--; ?>
@@ -71,7 +72,7 @@
 								$item_name=$item_variation->item->name;
 								$alias_name=$item_variation->item->alias_name;
 								?>
-								<?= h(@$item_name. ' ('.$alias_name.')') ?></td>
+								<?= h(@$item_name) ?></td>
                             
 							<td style="font-size:10px;">
 								 <b style="font-size:12px;"><?= $item_variation->quantity_variation." ".h($item_variation->unit->shortname) ?></b>
@@ -92,8 +93,9 @@
 						
 						
 					</tbody>
+					<?php $i++; endforeach;  ?>
 				</table>
-				<?php $i++; endforeach;  ?>
+				
 				<div align="center">
 					<?= $this->Form->button($this->Html->tag('') . __(' Update Sales Rate'),['class'=>'btn btn-success','id'=>'submitbtn']); ?>
 				</div>

@@ -41,20 +41,25 @@ class ItemVariationsTable extends Table
         $this->belongsTo('Items', [
             'foreignKey' => 'item_id',
             'joinType' => 'INNER'
+        ]); 
+        
+        $this->belongsTo('ItemCategories', [
+            'foreignKey' => 'item_id',
+            'joinType' => 'INNER'
         ]);
         $this->belongsTo('Units', [
             'foreignKey' => 'unit_id',
             'joinType' => 'INNER'
         ]);
-		
-		$this->hasOne('Wishlists', [
+        
+        $this->hasOne('Wishlists', [
             'foreignKey' => 'item_variation_id'
         ]);
-		
-		$this->hasOne('Carts', [
+        
+        $this->hasOne('Carts', [
             'foreignKey' => 'item_variation_id'
         ]);
-		
+        
     }
 
     /**

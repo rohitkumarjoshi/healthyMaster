@@ -107,7 +107,7 @@ class PincodesController extends AppController
     {
         $this->viewBuilder()->layout('index_layout');
         $pincode = $this->Pincodes->get($id, [
-            'contain' => ['DeliveryCharges']
+            'contain' => ['DeliveryCharges','Cities']
         ]);
         //pr($this->request->getData());
         if ($this->request->is(['patch', 'post', 'put'])) {
@@ -136,10 +136,24 @@ class PincodesController extends AppController
     {
         $this->request->allowMethod(['post', 'delete']);
         $pincode = $this->Pincodes->get($id);
-        if ($this->Pincodes->delete($pincode)) {
-            $this->Flash->success(__('The pincode has been deleted.'));
+        $pincode->is_deleted=1;
+        if ($this->Pincodes->save($pincode)) {
+            $this->Flash->success(__('The pincode is made deactive.'));
         } else {
-            $this->Flash->error(__('The pincode could not be deleted. Please, try again.'));
+            $this->Flash->error(__('The pincode is not made deactive'));
+        }
+
+        return $this->redirect(['action' => 'index']);
+    }
+     public function delete1($id = null)
+    {
+        $this->request->allowMethod(['post', 'delete']);
+        $pincode = $this->Pincodes->get($id);
+        $pincode->is_deleted=0;
+        if ($this->Pincodes->save($pincode)) {
+            $this->Flash->success(__('The pincode is made active.'));
+        } else {
+            $this->Flash->error(__('The pincode is not made active'));
         }
 
         return $this->redirect(['action' => 'index']);

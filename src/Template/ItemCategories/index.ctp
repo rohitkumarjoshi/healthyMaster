@@ -84,6 +84,16 @@
 								</td>
 								<td class="actions">
 								<?php echo $this->Html->link('<i class="fa fa-pencil"></i>',['action' => 'index', $itemCategory->id],['escape'=>false,'class'=>'btn btn-xs blue']); ?>
+								<?php 
+									if($itemCategory->is_deleted == 0)
+									{ ?>
+									<?= $this->Form->postLink(__('Deactive'), ['action' => 'delete', $itemCategory->id], ['confirm' => __('Are you sure you want to Deactive # {0}?', $itemCategory->name),'class'=>'btn btn-xs green']) ?> 
+									<?php }
+									if($itemCategory->is_deleted == 1)
+									{ ?>
+										<?= $this->Form->postLink(__('Active'), ['action' => 'delete1', $itemCategory->id], ['confirm' => __('Are you sure you want to Active # {0}?', $itemCategory->name),'class'=>'btn btn-xs green']) ?>
+									<?php }
+								?>
 								</td>
 							</tr>
 							<?php endforeach; ?>

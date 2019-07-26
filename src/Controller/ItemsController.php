@@ -43,10 +43,10 @@ class ItemsController extends AppController
 
     public function index()
     {
-        $paginate=['limit'=>20];
+        //$paginate=['limit'=>20];
 		$this->viewBuilder()->layout('index_layout');
 		$jain_thela_admin_id=$this->Auth->User('jain_thela_admin_id');
-        $items = $this->paginate($this->Items->find()->contain(['ItemCategories']));
+        $items = $this->Items->find()->contain(['ItemCategories']);
 
         //pr($items->toArray());exit;
 		

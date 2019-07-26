@@ -18,6 +18,10 @@ class CustomersController extends AppController
      *
      * @return \Cake\Http\Response|null
      */
+     public function testing()
+    {
+    	$this->viewBuilder()->layout('index_layout');
+    }
     public function save($mobile,$name,$email){
 		
 		
@@ -30,9 +34,39 @@ class CustomersController extends AppController
 						
 					]);
 		$query->execute();	
-					
-		
+		$result=$this->Customers->find('all')->last();
+		echo $result->id;
 				exit;
+	}
+	public function defaultAddress($id = null)
+    { 
+		$this->viewBuilder()->layout('');
+		//pr($id);exit;
+		if(empty($id)){
+			echo ''; exit;
+		}
+		$defaultAddress = $this->Customers->CustomerAddresses->find('all')->where(['customer_id' => $id,'default_address' => 1])->order(['CustomerAddresses.id'=>'DESC'])->first();
+		if(!empty($defaultAddress)){
+			echo $defaultAddress->house_no.$defaultAddress->address." - ".$defaultAddress->locality." - ".$defaultAddress->apartment_name;
+			exit;
+		}else{
+			echo " ";   exit;
+		}
+    }
+	public function lastinsertmobile($id = null)
+	{
+		if(empty($id)){
+			echo ''; exit;
+		}
+		$customer=$this->Customers->find('all')->where(['id'=>$id])->order(['Customers.id'=>'DESC'])->first();
+		if(!empty($customer))
+		{
+			echo $customer->mobile;
+			exit;
+		}
+		else{
+			echo " ";   exit;
+		}
 	}
 
     public function check()
@@ -50,7 +84,7 @@ class CustomersController extends AppController
     public function index()
     {
 		$this->viewBuilder()->layout('index_layout');
-		$customers = $this->paginate($this->Customers->find()->contain(['CustomerAddresses'=>['States','Cities']]));
+		$customers = $this->Customers->find()->contain(['CustomerAddresses'=>['States','Cities']]);
 		//pr($customers->toArray());exit;
         $this->set(compact('customers'));
         $this->set('_serialize', ['customers']);
@@ -293,21 +327,7 @@ class CustomersController extends AppController
     }
 
 
-	public function defaultAddress($id = null)
-    { 
-		$this->viewBuilder()->layout('');
-		//pr($id);exit;
-		if(empty($id)){
-			echo ''; exit;
-		}
-		$defaultAddress = $this->Customers->CustomerAddresses->find('all')->where(['customer_id' => $id,'default_address' => 1])->order(['CustomerAddresses.id'=>'DESC'])->first();
-		if(!empty($defaultAddress)){
-			echo $defaultAddress->house_no.$defaultAddress->address." - ".$defaultAddress->locality." - ".$defaultAddress->apartment_name;
-			exit;
-		}else{
-			echo " ";   exit;
-		}
-    }
+	
 	
 	public function defaultAddress1($id = null)
     { 

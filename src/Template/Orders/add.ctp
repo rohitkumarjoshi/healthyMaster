@@ -35,10 +35,10 @@ background-color: #fff;}
 				<div class="row">
 					<div class="col-md-3">
 						<label class=" control-label">Mobile No <span class="required" aria-required="true">*</span></label>
-						<input type="number" name="customer" class="form-control input-sm selectedAutoCompleted autocompleted customer_id cstmr chosen-select" valueType="item_name" >
+						<input type="number" name="customer" class="form-control input-sm selectedAutoCompleted autocompleted customer_id cstmr chosen-select" valueType="item_name" id="mobile">
 						<input type="hidden" name="customer_id" id="customer_id">
 						
-						 <div class="suggesstion-box"></div>
+						 <div class="suggesstion-box box"></div>
 					</div>
 					<a href="#" role="button" class="pull-left plus" style="margin-top: 26px;" >
 							 +</a>
@@ -83,7 +83,7 @@ background-color: #fff;}
 					<div class="col-md-1">
 						<?= $this->Form->input('delivery_time', ['class'=>'form-control','label'=>false,'type'=>'hidden','id'=>'del_time']) ?>
 					</div> -->
-					<button class="btn btn-primary prev pull-right">Previous</button>
+					<button class="btn btn-primary prev pull-right">Previous History</button>
 					
 				<!--<?php if(!empty($bulkorder_id)){ ?>
 					<div class="col-md-4" align="center">
@@ -244,7 +244,7 @@ $(document).ready(function() {
 				alert("Please Select Customer First");
 			}else{
 				var url = "<?php echo $this->Url->build(["controller" => "Customers", "action" => "CustomerLedger"]); ?>";
-          		$(location).attr('href',url+'/'+customer_id);
+          		 window.open(url+'/'+customer_id, '_blank');
 			}
 	});
 
@@ -711,32 +711,64 @@ function round(value, exp) {
 
 	$('.btnsave').on("click",function(e) {
 		$("#form2").validate({ 
+			 // rules: {
+                
+    //             mobile:{
+    //                 maxlength: 10,
+    //                 minlength: 10,
+    //             }
+    //         },
 			submitHandler: function(form) {
 					$("#form2").submit(function(e) {
 						e.preventDefault();
 					});
 					
 					var mobile=$('.number_mobile').val();
-					var name=$('.name').val();
-					if(name == null)
+					var name_val=$('.name').val();
+					//alert(name_val);
+					if(name_val == '')
 					{
 						var name="null";
 					}
-					var email=$('.emails').val();
-					if(email == null)
+					else
+					{
+						var name=$('.name').val();
+					}
+					//alert(name);
+					var email_val=$('.emails').val();
+					if(email_val == '')
 					{
 						var email="null";
 					}
+					else
+					{
+						var email=$('.emails').val();
+					}
+					//alert(email);
 					var url="<?php echo $this->Url->build(['controller'=>'Customers','action'=>'save']); ?>";
 					url=url+'/'+mobile+'/'+name+'/'+email,
-					alert(url);
+					//alert(url);
 					$.ajax({
 						url: url,
 					}).done(function(response) {
-						//alert(response);
+						alert(response);
 						$('#customer').hide();
+						$('#customer_id').val(response);
+						var cus_id=response;
+						alert(cus_id);
+						var url="<?php echo $this->Url->build(['controller'=>'Customers','action'=>'lastinsertmobile']); ?>";
+						url=url+'/'+cus_id,
+						alert(url);
+						$.ajax({
+							url: url,
+						}).done(function(response) {
+							alert(response);
+							$('#mobile').val(response);
+						});
+
 					});
-		}});		
+		}		
+	});
 	});
 	
 	$('.btnsubmit').on("click",function(e) {
@@ -755,17 +787,18 @@ function round(value, exp) {
 					var house_no=$('input[name="house_no"]').val();
 					var address=$('textarea[name="address"]').val();
 					var locality=$('input[name="locality"]').val();
-					var pin_code=$('input[name="pin_code"]').val();
+					var pincode=$('input[name="pin_code"]').val();
 					var apartment_name=$('input[name="apartment_name"]').val();
-					var address_type=$('input[name="address_type"]').val();
+					var address_type=$('input[name="address_type"]:checked').val();
 					//alert(apartment_name);
-					var landmark=$('input[name="landmark"]').val();
 					var default_address= 1;
 					var url="<?php echo $this->Url->build(['controller'=>'CustomerAddresses','action'=>'saveAddress']); ?>";
-					url=url+'/'+customer_id+'/'+name+'/'+mobile+'/'+house_no+'/'+address+'/'+locality+'/'+default_address+'/'+pin_code+'/'+landmark+'/'+apartment_name+'/'+address_type,
+					url=url+'/'+customer_id+'/'+name+'/'+mobile+'/'+house_no+'/'+address+'/'+locality+'/'+default_address+'/'+pincode+'/'+apartment_name+'/'+address_type,
+					alert(url);
 					$.ajax({
 						url: url,
 					}).done(function(response) {
+						alert(response);
 						$('#address').hide();
 						var customer_id=$('#customer_id').val();
 						var url="<?php echo $this->Url->build(['controller'=>'Customers','action'=>'defaultAddress']); ?>";
@@ -773,7 +806,7 @@ function round(value, exp) {
 						$.ajax({
 							url: url,
 						}).done(function(response) { 
-							alert(respose);
+							alert(response);
 							$('textarea[name="customer_address"]').val(response);
 							var customer_id=$('#customer_id').val();
 							var url="<?php echo $this->Url->build(['controller'=>'Customers','action'=>'defaultAddress1']); ?>";
@@ -823,7 +856,7 @@ function round(value, exp) {
     });
 	
 	
-	$('textarea[name="customer_address"]').on("focus",function() {
+	$('.box').on("click",function() {
 		//alert();
 		var customer_id=$('#customer_id').val();
 		//alert(customer_id);
@@ -1049,16 +1082,16 @@ function selectAutoCompleted1(value) {
 					<div class="row">
 						<div class="col-md-6">
 						<label class=" control-label">Mobile <span class="required" aria-required="true">*</span></label>
-							<?php echo $this->Form->input('mobile',['placeholder'=>'Mobile','class'=>'form-control input-sm number_mobile','label'=>false,'required']); ?>
+							<?php echo $this->Form->input('mobile',['placeholder'=>'Mobile','class'=>'form-control input-sm number_mobile','label'=>false,'required','maxlength'=>10,'minlength'=>10]); ?>
 						</div>
 						<div class="col-md-6">
-							<label class=" control-label">Name <span class="required" aria-required="true">*</span></label>
+							<label class=" control-label">Name</label>
 								<?php echo $this->Form->input('name',['placeholder'=>'Name','class'=>'form-control input-sm name','label'=>false]); ?>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-md-6">
-							<label class=" control-label">Email <span class="required" aria-required="true">*</span></label>
+							<label class=" control-label">Email</label>
 								<?php echo $this->Form->input('email',['placeholder'=>'Email','class'=>'form-control input-sm emails','label'=>false,'type'=>'email']); ?>
 						</div>
 					</div>

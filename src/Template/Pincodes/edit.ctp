@@ -19,7 +19,9 @@
                     </div>
 					<div class="col-md-3">
                         <label class=" control-label">City <span class="required" aria-required="true">*</span></label>
-                        <?php echo $this->Form->control('city_id',['placeholder'=>'City','class'=>'form-control input-sm city','label'=>false]); ?>
+                        <select name="city_id" class="form-control input-sm city">
+                            <option value="<?= @$pincode->city_id?>"><?= $pincode->city->name?></option>
+                        </select>
                     </div>
                     <div class="col-md-3">
                         <label class=" control-label">Pincode <span class="required" aria-required="true">*</span></label>

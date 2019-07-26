@@ -114,12 +114,14 @@ $(document).on('change','.state',function(){
        if(deliver_value == "No")
        {
             $('.delivery_reason').show();
+            $('.delivery_reason').attr('required','required');
             $('.Yesbox').hide();
        }
        if(deliver_value == "Yes")
        {
             $('.delivery_reason').hide();
             $('.Yesbox').show();
+            $('.Yesbox').attr('required','required');
        }
     });
     
@@ -140,6 +142,9 @@ $(document).on('change','.state',function(){
                     required: true,
                 },
                 mobile:{
+                    required: true,
+                },
+                we_deliver:{
                     required: true,
                 },
                 address:{

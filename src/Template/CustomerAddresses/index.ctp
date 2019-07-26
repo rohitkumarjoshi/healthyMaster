@@ -92,6 +92,7 @@
                        <label class=" control-label">City <span class="required" aria-required="true">* </label>
                         <select name="city_id" class="form-control input-sm city select2" required>
                             
+                            <option value="<?= @$customerAddress->city_id?>"><?= $customerAddress->city->name?></option>
                             
                         </select>
                  </div>
