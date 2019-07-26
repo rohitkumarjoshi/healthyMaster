@@ -282,11 +282,22 @@ class ItemsController extends AppController
 		 */
 		
 			$item_names=explode(' ',$item_description->name);
+    	    if(!empty($item_names[0])){
+    	       $where=['Items.name LIKE' =>'%'.$item_names[0].'%', 'Items.is_combo'=>'no', 'Items.freeze'=>0, 'Items.ready_to_sale'=>'Yes','Items.id !='=>$item_id]; 
+    	    }
+        	if(!empty($item_names[1])){
+        	    $where1=['Items.name LIKE' =>'%'.$item_names[1].'%', 'Items.is_combo'=>'no', 'Items.freeze'=>0, 'Items.ready_to_sale'=>'Yes','Items.id !='=>$item_id];
+        	}
+        	if(!empty($item_names[2])){
+        	    $where2=['Items.name LIKE' =>'%'.$item_names[2].'%', 'Items.is_combo'=>'no', 'Items.freeze'=>0, 'Items.ready_to_sale'=>'Yes','Items.id !='=>$item_id];
+        	}
+			
 		
-        	$where=['Items.name LIKE' =>'%'.$item_names[0].'%', 'Items.is_combo'=>'no', 'Items.freeze'=>0, 'Items.ready_to_sale'=>'Yes','Items.id !='=>$item_id];
 			
 					$customer_also_bought= $this->Items->find()
-							->where($where) 				
+							->where($where) 
+							->orwhere($where1)
+							->orwhere($where2)
 							->contain(['ItemVariations'=>
 								function($q) use($customer_id) {
 									return $q->where(['ready_to_sale' =>'Yes'])

@@ -58,6 +58,8 @@
 						</tr>
 					</thead>
 						<?php
+						
+						if(!empty($item_variations->toArray())){
 				foreach ($item_variations as $item_variation): ?>	
 					<tbody id="main_tbody">
 						<tr class="main_tr">
@@ -93,7 +95,7 @@
 						
 						
 					</tbody>
-					<?php $i++; endforeach;  ?>
+						<?php $i++; endforeach; } ?>
 				</table>
 				
 				<div align="center">

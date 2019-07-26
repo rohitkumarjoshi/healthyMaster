@@ -42,8 +42,9 @@ class ItemVariationsTable extends Table
             'foreignKey' => 'item_id',
             'joinType' => 'INNER'
         ]); 
-        
-        $this->belongsTo('ItemCategories', [
+
+		
+		$this->belongsTo('ItemCategories', [
             'foreignKey' => 'item_id',
             'joinType' => 'INNER'
         ]);
