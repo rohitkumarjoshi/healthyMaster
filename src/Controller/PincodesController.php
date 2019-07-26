@@ -36,7 +36,7 @@ class PincodesController extends AppController
     {
         $this->viewBuilder()->layout('index_layout');
         
-        $pincodes = $this->paginate($this->Pincodes->find()->contain(['States','Cities','DeliveryCharges']));
+        $pincodes =$this->Pincodes->find()->contain(['States','Cities','DeliveryCharges']);
         //pr($pincodes->toArray());exit;
 
         $this->set(compact('pincodes'));

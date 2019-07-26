@@ -5,7 +5,7 @@
 </style>
 <div class="row">
 	<div class="col-md-12">
-		<div class="portlet light bordered">
+		<div class="portlet box grey-cascade">
 			<div class="portlet-title">
 				<div class="caption">
 					<i class="font-purple-intense"></i>
@@ -37,13 +37,13 @@
 							?>
 						<tr class="main_tr">
 							<td><?= $i ?></td>
-							<td><?= $item->item_code ?></td>
+							<td><?= @$item->item_code ?></td>
 							<?php 
 							$name=$item->name;
 							$alias_name=$item->alias_name;
 							?>
-								<td><?= h($name) ?></td> 
-							<td><?= $item->item_category->name ?></td>
+								<td><?= @$name ?></td> 
+							<td><?= @$item->item_category->name ?></td>
 							
 							<td><?php if($item->freeze == 0)
 							{

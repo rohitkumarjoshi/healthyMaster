@@ -96,7 +96,7 @@ $(document).ready(function() {
         
       });
     
-     var deliver_value= $('.wedeliver').val();
+      var deliver_value= $('.wedeliver').val();
        if(deliver_value == "No")
        {
             $('.delivery_reason').show();
@@ -113,12 +113,14 @@ $(document).ready(function() {
        if(deliver_value == "No")
        {
             $('.delivery_reason').show();
+            $('.delivery_reason').attr('required','required');
             $('.Yesbox').hide();
        }
        if(deliver_value == "Yes")
        {
             $('.delivery_reason').hide();
             $('.Yesbox').show();
+            $('.Yesbox').attr('required','required');
        }
     });
     
@@ -193,20 +195,7 @@ $(document).ready(function() {
     });
     //--     END OF VALIDATION
     
-    var $rows = $('#main_tble tbody tr');
-    $('#search3').on('keyup',function() {
-        var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
-        var v = $(this).val();
-        if(v){ 
-            $rows.show().filter(function() {
-                var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
     
-                return !~text.indexOf(val);
-            }).hide();
-        }else{
-            $rows.show();
-        }
-    });
 });
 </script>
 

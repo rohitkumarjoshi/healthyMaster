@@ -280,7 +280,7 @@ class ItemsController extends AppController
 			$error="Data found successfully";			
 		}
 		 */
-		
+		   
 			$item_names=explode(' ',$item_description->name);
     	    if(!empty($item_names[0])){
     	       $where=['Items.name LIKE' =>'%'.$item_names[0].'%', 'Items.is_combo'=>'no', 'Items.freeze'=>0, 'Items.ready_to_sale'=>'Yes','Items.id !='=>$item_id]; 

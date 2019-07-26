@@ -169,8 +169,7 @@ class CartsController extends AppController
 			->where(['CustomerAddresses.customer_id'=>$customer_id,'CustomerAddresses.default_address'=>1])
 			->contain(['States','Cities'])->first();
 			
-		if(empty($pincode)){
-			
+		if(!empty($CustomerAddresses)){ 
 			$pincode=$CustomerAddresses->pincode;
 		}
 		
@@ -352,8 +351,8 @@ class CartsController extends AppController
 								}
 								else if($promoCodeLists->amount_type == 'amount' && $cart_data->total > $promoCodeLists->discount_per)
 								{
-									//$discount_amount =  $cart_data->total - $promoCodeLists->discount_per;
-									$discount_amount =  $promoCodeLists->discount_per;
+							    	//$discount_amount =  $cart_data->total - $promoCodeLists->discount_per;
+							    	$discount_amount =  $promoCodeLists->discount_per;
 								}						
 							}
 						}
@@ -372,7 +371,7 @@ class CartsController extends AppController
 							else if($promoCodeLists->amount_type == 'amount' && $cat_item_total > $promoCodeLists->discount_per)
 							{
 								//$discount_amount =  $cat_item_total - $promoCodeLists->discount_per;
-								$discount_amount =  $promoCodeLists->discount_per;
+								 $discount_amount =  $promoCodeLists->discount_per;
 							}						
 						} 			
 					} 

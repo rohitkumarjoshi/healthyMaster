@@ -49,7 +49,7 @@
             <tr>
                 <td style="vertical-align: bottom;" class="index"> </td>
                 <td style="vertical-align: bottom;">
-                <?php echo $this->Form->control('vendor.0.item_id', ['empty'=>'--select--','options' => @$items,'class'=>'form-control item','label'=>false]); ?>
+                <?php echo $this->Form->control('vendor.0.item_id', ['empty'=>'--select--','options' => @$items,'class'=>'form-control item','label'=>false,'required']); ?>
                 </td>
                 
                 <td style="vertical-align: bottom;"> <button type="button" id="plus" class="btn btn-sm green"><i class="fa fa-plus"></i></button>
@@ -71,7 +71,8 @@
                 </div> -->
             </div>
             <div class="portlet-body">
-                <table class="table table-condensed table-hover table-bordered" id="main_tble">
+                <div style="overflow-y: scroll;height: 400px;">
+                    <table class="table table-condensed table-hover table-bordered" id="main_tble">
                     <thead>
                         <tr>
 
@@ -112,6 +113,7 @@
                         <?php endforeach; ?>
                     </tbody>
                 </table>
+                </div>
             </div>
         </div>
     </div>

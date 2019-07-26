@@ -914,7 +914,30 @@ function round(value, exp) {
 	// 			$('.amount_from_wallet').attr('max',response);
 	// 		});
 	// });
-
+	$(document).on('change','.state',function(){
+        
+        var input=$(this).val();
+        var master = $(this); 
+        $(".city option").remove();
+        if(input.length>0){
+            var m_data = new FormData();
+            var url ="<?php echo $this->Url->build(["controller" => "Pincodes", "action" => "options"]); ?>";
+         //   alert(url);
+            m_data.append('input',input); 
+            $.ajax({
+                url: url,
+                data: m_data,
+                processData: false,
+                contentType: false,
+                type: 'POST',
+                dataType:'text',
+                success: function(data)
+                { 
+                    $('.city').append(data);
+                }
+            });
+        }
+});
 });
 </script>
 <script>
@@ -1042,7 +1065,19 @@ function selectAutoCompleted1(value) {
 						<?php echo $this->Form->input('apartment_name',['placeholder'=>'Apartment','class'=>'form-control input-sm','label'=>false,'required']); ?>
 					</div>
 				</div>
-				
+				<div class="row">
+					<div class="col-md-6">
+						<?php echo $this->Form->control('state_id', ['empty'=>'-- select --','options' => $states,'class'=>'form-control input-sm select select2me select2 state','required']); ?>
+					</div>
+					<div class="col-md-6">
+                       <label class=" control-label">City <span class="required" aria-required="true">* </label>
+                        <select name="city_id" class="form-control input-sm city select2" required>
+                            
+                           
+                            
+                        </select>
+                 	</div>
+				</div>
 				<div class="row">
 					
 					

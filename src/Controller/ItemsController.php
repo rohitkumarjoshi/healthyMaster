@@ -167,7 +167,7 @@ class ItemsController extends AppController
                     if(($variation->opening_stock != 0 )|| ($variation->opening_stock != null))
                     { 
                         $query = $this->Items->ItemLedgers->query();
-                        $query->insert(['jain_thela_admin_id', 'driver_id', 'grn_id', 'item_id', 'warehouse_id', 'purchase_booking_id', 'rate', 'amount', 'status', 'quantity','rate_updated', 'transaction_date','item_variation_id','opening_stock'])
+                        $query->insert(['jain_thela_admin_id', 'driver_id', 'grn_id', 'item_id', 'warehouse_id', 'purchase_booking_id', 'rate', 'amount', 'status', 'quantity','rate_updated', 'transaction_date','item_variation_id'])
                         ->values([
                             'jain_thela_admin_id' => 1,
                             'driver_id' => 0,
@@ -179,7 +179,6 @@ class ItemsController extends AppController
                             'item_variation_id' => $variation->id,
                             'amount' => 0,
                             'status' => 'In',
-                            'opening_stock' => 'Yes',
                             'quantity' => $variation->opening_stock,
                             'rate_updated' => 'ok',
                             'transaction_date'=>date('Y-m-d')

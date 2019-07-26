@@ -104,7 +104,7 @@ class ItemCategoriesController extends AppController
             $this->Flash->error(__('The item category could not be saved. Please, try again.'));
         }
 		
-        $itemCategories = $this->ItemCategories->find()->where(['ItemCategories.is_deleted'=>0])->contain(['ParentItemCategories']);
+        $itemCategories = $this->ItemCategories->find()->contain(['ParentItemCategories']);
 		//pr($itemCategories->toArray()); exit;
 		$itemParent = $this->ItemCategories->find('list')->where(['parent_id IS'=>NULL]);
 

@@ -47,7 +47,7 @@ class VendorsController extends AppController
 		
 		$this->viewBuilder()->layout('index_layout');
 		$jain_thela_admin_id=$this->Auth->User('jain_thela_admin_id');
-		$vendors = $this->paginate($this->Vendors->find()->contain(['States','Cities']));  
+		$vendors = $this->Vendors->find()->contain(['States','Cities']);  
 		//$franchises = $this->Vendors->Franchises->find('list', ['limit' => 200]);
         $this->set(compact('vendors'));
         $this->set('_serialize', ['vendors']);

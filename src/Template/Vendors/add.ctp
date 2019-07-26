@@ -33,7 +33,6 @@
 					</div>
 					<div class="col-md-4">
                         <?= $this->Form->control('id',['type'=>'hidden']); ?>
-                         <span class="required" aria-required="true">
                         <?php echo $this->Form->control('state_id', ['empty'=>'-- select --','options' => $states,'class'=>'form-control input-sm select select2me select2 state','required']); ?>
                     </div>
                     <!--<div class="col-md-4">
@@ -108,12 +107,6 @@ $(document).ready(function() {
 				name:{
 					required: true,					 
 				},
-				// email:{
-				// 	required: true,					 
-				// },
-				// mobile:{
-				// 	required: true,					 
-				// },
 				state_id:{
 					required: true,					 
 				},

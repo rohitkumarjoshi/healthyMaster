@@ -387,9 +387,9 @@
 							<li>
 								<?php echo $this->Html->link('<i class="fa fa-bell"></i> <span>Stock Conversion</span>',array('controller'=>'TransferInventoryVouchers','action'=>'add'),['escape'=>false]); ?>
 							</li>
-							<li>
+							<!-- <li>
 								<?php echo $this->Html->link('<i class=" fa-file-text"></i> <span>Feedback</span>',array('controller'=>'Feedbacks/add'),['escape'=>false]); ?>
-							</li>
+							</li> -->
 							<!-- <li>
 								<?php echo $this->Html->link('<i class="fa fa-chain "></i> <span>Bulk Lead</span>',array('controller'=>'BulkBookingLeads/index/open'),['escape'=>false]); ?>
 							</li> -->

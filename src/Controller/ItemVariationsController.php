@@ -44,7 +44,11 @@ class ItemVariationsController extends AppController
        $item_variations=[];
         $itemvariation = $this->ItemVariations->newEntity();
            $item_id=$this->request->query('item');
+            $item_category_id=$this->request->query('item_category_id');
+           if($item_category_id or $item_id)
+           {
             $item_variations = $this->ItemVariations->find();
+           }
             if($item_id!=null)
             {
 
@@ -53,7 +57,7 @@ class ItemVariationsController extends AppController
                 ->contain(['Items'=>['ItemCategories'],'Units']);
          } 
          
-         $item_category_id=$this->request->query('item_category_id');
+        
          
             if($item_category_id!=null)
             {
