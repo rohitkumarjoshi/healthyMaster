@@ -575,6 +575,45 @@ class ItemLedgersController extends AppController
 		$this->set(compact('item_ledgers','from','to', 'drivers', 'items','driver_id','item_id'));
 	}
 	
+	
+	public function NewReport()
+    {
+		$url=$this->request->here();
+		$url=parse_url($url,PHP_URL_QUERY);
+		
+		$jain_thela_admin_id=$this->Auth->User('jain_thela_admin_id');
+		$this->viewBuilder()->layout('index_layout');
+
+		$transaction_date=date('Y-m-d');
+		//$transaction_date='2019-07-17';
+		$ItemLedgersData = $this->ItemLedgers->find()->select(['item_id','item_variation_id','status','quantity','transaction_date'])
+		->contain(['ItemVariations'=>['UnitVariations']])
+		->where(['ItemLedgers.transaction_date'=>$transaction_date])->autoFields(true);
+		
+		$ItemLedgersData->select(['total_op_qt' => $ItemLedgersData->func()->sum('ItemLedgers.quantity')])
+       ->group(['ItemLedgers.item_variation_id','ItemLedgers.status'])
+        ;
+        
+		$QuantityTotalStock=[];$availableItem=[];
+		foreach($ItemLedgersData as $data){
+			if($data->status=="In"){
+				@$QuantityTotalStock[$data->item_id]+=@$data->item_variation->unit_variation->quantity_factor*$data->total_op_qt;
+			}else{
+				@$QuantityTotalStock[$data->item_id]-=@$data->item_variation->unit_variation->quantity_factor*$data->total_op_qt;
+			}
+		}
+		
+		/* $itemVariations=[];
+		foreach($QuantityTotalStock as $key=>$dat){
+			$itemVariations[$key]=
+		} */
+		
+		$Items = $this->ItemLedgers->Items->find()->contain(['ItemVariations'=>['UnitVariations']]);
+       
+		$this->set(compact('QuantityTotalStock','Items'));
+    }
+	
+	
 	public function reportShow()
     {
 		$url=$this->request->here();

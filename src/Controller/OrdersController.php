@@ -336,6 +336,20 @@ class OrdersController extends AppController
         
         exit;  
     }
+	public function optionsnew(){
+        $item_id=$this->request->getData('input'); 
+
+            $items=$this->Orders->OrderDetails->ItemVariations->find()->where(['ItemVariations.item_id '=>$item_id])->contain(['UnitVariations']);
+            ?>
+                    <option>--Select--</option>
+                    <?php foreach($items as $show){ ?>
+                        
+                        <option class="item_variation_id" value="<?= $show->id ?>"><?= $show->unit_variation->name ?></option>
+                    <?php } ?>
+            <?php
+        
+        exit;  
+    }
 
     public function readyPacked($id=null,$temp_id=null)
     {

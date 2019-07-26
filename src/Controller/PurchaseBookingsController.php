@@ -107,14 +107,20 @@ class PurchaseBookingsController extends AppController
 			// $purchaseBooking->vendor_id=$grn->vendor_id;
 			// $purchaseBooking->grn_id=$grn->id;
 			
-			//pr($purchaseBooking);exit;
+			
+			
+			//pr($ItemVariationdata->unit_variation_id);exit;
+			
             if ($this->PurchaseBookings->save($purchaseBooking)) {
 				
 				//$this->PurchaseBookings->ItemLedgers->deleteAll(['grn_id' => $grn_id]);
 				foreach($purchaseBooking->purchase_booking_details as $purchase_booking_detail)
 				{
+					$ItemVariationdata = $this->PurchaseBookings->ItemLedgers->ItemVariations->find()->select(['unit_variation_id'])->where(['id'=>$purchase_booking_detail->item_variation_id])->first();
+					
+					
 					$query = $this->PurchaseBookings->ItemLedgers->query();
-					$query->insert(['jain_thela_admin_id', 'driver_id', 'grn_id', 'item_id', 'warehouse_id', 'purchase_booking_id', 'rate', 'amount', 'status', 'quantity','rate_updated', 'transaction_date','item_variation_id','raw_material'])
+					$query->insert(['jain_thela_admin_id', 'driver_id', 'grn_id', 'item_id', 'warehouse_id', 'purchase_booking_id', 'rate', 'amount', 'status', 'quantity','rate_updated', 'transaction_date','item_variation_id','unit_variation_id'])
 					->values([
 						'jain_thela_admin_id' => $jain_thela_admin_id,
 						'driver_id' => 0,
@@ -129,9 +135,12 @@ class PurchaseBookingsController extends AppController
 						'quantity' => $purchase_booking_detail->quantity,
 						'rate_updated' => 'Yes',
 						'transaction_date'=>$purchaseBooking->transaction_date,
-                        'raw_material' => 'Yes'
-					]);
+						'unit_variation_id'=>$ItemVariationdata->unit_variation_id,
+                   ]);
 					$query->execute();
+					
+					
+					 
 				}
 					
 				// $query=$this->PurchaseBookings->Grns->query();

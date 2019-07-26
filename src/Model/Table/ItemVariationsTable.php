@@ -51,7 +51,7 @@ class ItemVariationsTable extends Table
             'foreignKey' => 'unit_id',
             'joinType' => 'INNER'
         ]);
-        
+        $this->belongsTo('UnitVariations');
         $this->hasOne('Wishlists', [
             'foreignKey' => 'item_variation_id'
         ]);

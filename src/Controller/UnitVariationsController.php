@@ -17,11 +17,35 @@ class UnitVariationsController extends AppController
      *
      * @return \Cake\Http\Response|void
      */
-    public function index()
+    public function index($id=null)
     {
+		$this->viewBuilder()->layout('index_layout');
+		
+		$jain_thela_admin_id=$this->Auth->User('jain_thela_admin_id');
+		if(!$id){
+			$unitVariation = $this->UnitVariations->newEntity();
+		}else{
+			$unitVariation = $this->UnitVariations->get($id, [
+				'contain' => []
+			]);
+		}
+		
+		 if ($this->request->is(['patch', 'post', 'put'])) {
+            $unitVariation = $this->UnitVariations->patchEntity($unitVariation, $this->request->getData());
+			$unitVariation->created_date=date('Y-m-d');
+			//pr($unitVariation); exit;
+            if ($this->UnitVariations->save($unitVariation)) {
+                $this->Flash->success(__('The unit variation has been saved.'));
+
+                return $this->redirect(['action' => 'index']);
+            }
+            $this->Flash->error(__('The unit variation could not be saved. Please, try again.'));
+        }
+		
+		
         $unitVariations = $this->paginate($this->UnitVariations);
 
-        $this->set(compact('unitVariations'));
+        $this->set(compact('unitVariations','unitVariation','id'));
     }
 
     /**
