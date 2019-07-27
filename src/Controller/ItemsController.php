@@ -291,6 +291,16 @@ class ItemsController extends AppController
 					
 					}
 				}
+				foreach($item->item_variations as $variation)
+                {
+					$UnitVariationdata = $this->Items->ItemVariations->UnitVariations->find()->where(['id'=>$variation->unit_variation_id])->first();
+					  $query = $this->Items->ItemVariations->query();
+						$query->update()
+                            ->set([
+                            'quantity_variation' => $UnitVariationdata->name,'unit_variation_id' => $variation->unit_variation_id])
+                            ->where(['id'=>$variation->id])
+						->execute();
+				}
 				
 				
 				if(!empty($file_name)){
@@ -327,8 +337,10 @@ class ItemsController extends AppController
 		// 	$unit_name=$unit_data->unit_name;
 		// 	$unit_option[]= ['value'=>$unit_data->id,'text'=>$unit_data->shortname,'unit_name'=>$unit_name];
 		// }
-        $variations = $this->Items->ItemVariations->find()->where(['item_id'=>$id])->contain(['Units','Items']);
-        $this->set(compact('item', 'itemCategories', 'units','item_fetchs','variations','GstFigures','keywords'));
+        $variations = $this->Items->ItemVariations->find()->where(['item_id'=>$id])->contain(['UnitVariations','Items']);
+		//pr($variations->toArray()); exit;
+		$UnitVariations = $this->Items->ItemVariations->UnitVariations->find('list');
+        $this->set(compact('item', 'itemCategories', 'units','item_fetchs','variations','GstFigures','keywords','UnitVariations'));
         $this->set('_serialize', ['item']);
     }
 
