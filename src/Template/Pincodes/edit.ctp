@@ -25,7 +25,7 @@
                     </div>
                     <div class="col-md-3">
                         <label class=" control-label">Pincode <span class="required" aria-required="true">*</span></label>
-                        <?php echo $this->Form->control('pincode',['placeholder'=>'pincode','class'=>'form-control input-sm','label'=>false,'maxlength'=>6,'minlength'=>6]); ?>
+                        <?php echo $this->Form->control('pincode',['placeholder'=>'pincode','class'=>'form-control input-sm','label'=>false,'oninput'=>"this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');",'maxlength'=>6,'type'=>'text','required']); ?>
                     </div>
                    <div class="col-md-3">
                        
@@ -50,11 +50,11 @@
                     <div class="col-md-3">
                         <label>Amount</label>
                         <input type="hidden" name="delivery_charge[pincode_id]" value="<?= @$pincode->id ?>">
-                        <input type="text" name="delivery_charge[amount]" class="form-control input-sm" value="<?php echo @$pincode->delivery_charge->amount; ?>">
+                        <input type="text" name="delivery_charge[amount]" class="form-control input-sm" value="<?php echo @$pincode->delivery_charge->amount; ?>" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="10">
                     </div>
                     <div class="col-md-3">
                         <label>Delivery Charge</label>
-                        <input type="text" name="delivery_charge[charge]" class="form-control input-sm" value="<?php echo @$pincode->delivery_charge->charge; ?>">
+                        <input type="text" name="delivery_charge[charge]" class="form-control input-sm" value="<?php echo @$pincode->delivery_charge->charge; ?>" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="10">
                     </div>
                 </div>
                 <br/>
@@ -146,7 +146,13 @@ $(document).ready(function() {
                 },
                 address:{
                     required: true,
-                }
+                },
+				pincode:{
+						required:true,
+						number:true,
+						minlength:6,
+						maxlength:6
+					}
             },
 
         errorPlacement: function (error, element) { // render error placement for each input type
