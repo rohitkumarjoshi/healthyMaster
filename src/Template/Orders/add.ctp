@@ -800,7 +800,7 @@ function round(value, exp) {
 					var city_id=$('.city').val();
 					var address_type=$('input[name="address_type"]:checked').val();
 					var default_address=$('input[name="default_address"]:checked').val();
-					alert(default_address);
+					//alert(default_address);
 					var url="<?php echo $this->Url->build(['controller'=>'CustomerAddresses','action'=>'saveAddress']); ?>";
 					url=url+'/'+customer_id+'/'+name+'/'+mobile+'/'+house_no+'/'+address+'/'+locality+'/'+default_address+'/'+pincode+'/'+apartment_name+'/'+address_type+'/'+state_id+'/'+city_id,
 					//alert(url);
