@@ -200,13 +200,18 @@ class ItemVariationsController extends AppController
         {
             $success = 0;
             $id = $this->request->getData('id');
-            pr($id);exit;
+            //pr($id);exit;
             $itemVariation = $this->ItemVariations->get($id);
+
             if ($this->ItemVariations->delete($itemVariation)) {
-               $success = 1;
+                if($this->ItemVariations->ItemLedgers->delete($itemVariation)->where(['opening_stock'=>'Yes']));
+                {
+                    $success = 1;
+                    echo $success;
+                }
             }
         }
-        $this->set(compact('success','response'));
-        $this->set('_serialize',['success','response']);
+        exit;
     }
 }
+

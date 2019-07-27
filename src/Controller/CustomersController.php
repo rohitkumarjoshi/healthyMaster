@@ -53,6 +53,23 @@ class CustomersController extends AppController
 			echo " ";   exit;
 		}
     }
+    public function lastinsertname($id = null)
+	{
+		if(empty($id)){
+			echo ''; exit;
+		}
+		$customer=$this->Customers->find('all')->where(['id'=>$id])->order(['Customers.id'=>'DESC'])->first();
+		if(!empty($customer))
+		{
+			echo $customer->name;
+			exit;
+		}
+		else{
+			echo " ";   exit;
+		}
+	}
+
+    
 	public function lastinsertmobile($id = null)
 	{
 		if(empty($id)){

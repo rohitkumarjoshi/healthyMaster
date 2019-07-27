@@ -128,6 +128,10 @@ background-color: #fff;}
 							<a href="#" role="button" class="pull-right select_address" >
 							Select Address </a>
 					</div>
+					<div class="col-md-3">
+						<label class="control-label">Customer Name<span class="required" aria-require>*</span></label>
+						<?php echo $this->Form->control('customer_name',['class'=>'form-control input-sm customer_name','label'=>false,'type'=>'text']); ?>
+					</div>
 					
 				</div>
 				
@@ -711,26 +715,6 @@ function round(value, exp) {
 
 	$('.btnsave').on("click",function(e) {
 		$("#form2").validate({ 
-				// rules: {
-			 //      mobile:{
-				// 		required:true,
-				// 		remote :{
-				// 			url:"Customers/checks",
-				// 			type:"post",
-				// 			data:{
-				// 				'input':$('.modal_mobile').val()
-				// 			},
-				// 			success: function(data) {
-			 //                    if (data.input == 'true')
-			 //                    {
-			 //                        message: {
-			 //                            username: 'The Mobile is already in use!'
-			 //                        }
-			 //                    }
-			 //                }
-				// 		}
-				// 	}
-				// },
 			submitHandler: function(form) {
 					$("#form2").submit(function(e) {
 						e.preventDefault();
@@ -777,6 +761,15 @@ function round(value, exp) {
 						}).done(function(response) {
 							//alert(response);
 							$('#mobile').val(response);
+							var url="<?php echo $this->Url->build(['controller'=>'Customers','action'=>'lastinsertname']); ?>";
+						url=url+'/'+cus_id,
+						//alert(url);
+						$.ajax({
+							url: url,
+						}).done(function(response) {
+							//alert(response);
+							$('.customer_name').val(response);
+						});
 						});
 
 					});
@@ -900,6 +893,15 @@ function round(value, exp) {
 								$('input[name="customer_address_id"]').val(response);
 							});
 			}
+			var url="<?php echo $this->Url->build(['controller'=>'Customers','action'=>'lastinsertname']); ?>";
+			url=url+'/'+customer_id,
+			//alert(url);
+			$.ajax({
+				url: url,
+			}).done(function(response) { 
+				//alert(response)
+				$('.customer_name').val(response);
+			});
 		});
 	});
 	// $('.customer_id').on("change",function() {
