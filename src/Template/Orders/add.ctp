@@ -35,10 +35,10 @@ background-color: #fff;}
 				<div class="row">
 					<div class="col-md-3">
 						<label class=" control-label">Mobile No <span class="required" aria-required="true">*</span></label>
-						<input type="number" name="customer" class="form-control input-sm selectedAutoCompleted autocompleted customer_id cstmr chosen-select" valueType="item_name" id="mobile">
+						<input type="number" name="customer" class="form-control input-sm selectedAutoCompleted autocompleted customer_id cstmr chosen-select" valueType="item_name" id="mobile" autocomplete="off">
 						<input type="hidden" name="customer_id" id="customer_id">
 						
-						 <div class="suggesstion-box box"></div>
+						 <div class="suggesstion-box box"  autocomplete="off"></div>
 					</div>
 					<a href="#" role="button" class="pull-left plus" style="margin-top: 26px;" >
 							 +</a>
@@ -711,26 +711,26 @@ function round(value, exp) {
 
 	$('.btnsave').on("click",function(e) {
 		$("#form2").validate({ 
-				rules: {
-			      mobile:{
-						required:true,
-						remote :{
-							url:"Customers/checks",
-							type:"post",
-							data:{
-								'input':$('.modal_mobile').val()
-							},
-							success: function(data) {
-			                    if (data.input == 'true')
-			                    {
-			                        message: {
-			                            username: 'The Mobile is already in use!'
-			                        }
-			                    }
-			                }
-						}
-					}
-				},
+				// rules: {
+			 //      mobile:{
+				// 		required:true,
+				// 		remote :{
+				// 			url:"Customers/checks",
+				// 			type:"post",
+				// 			data:{
+				// 				'input':$('.modal_mobile').val()
+				// 			},
+				// 			success: function(data) {
+			 //                    if (data.input == 'true')
+			 //                    {
+			 //                        message: {
+			 //                            username: 'The Mobile is already in use!'
+			 //                        }
+			 //                    }
+			 //                }
+				// 		}
+				// 	}
+				// },
 			submitHandler: function(form) {
 					$("#form2").submit(function(e) {
 						e.preventDefault();
@@ -802,10 +802,11 @@ function round(value, exp) {
 					var locality=$('input[name="locality"]').val();
 					var pincode=$('input[name="pin_code"]').val();
 					var apartment_name=$('input[name="apartment_name"]').val();
-					var state_id=$('input[name="state_id"]').val();
-					var city_id=$('input[name="city_id"]').val();
+					var state_id=$('select#modal_state option').filter(":selected").val();
+					var city_id=$('.city').val();
 					var address_type=$('input[name="address_type"]:checked').val();
-					//alert(apartment_name);
+					//alert(state_id);
+					//alert(city_id);
 					var default_address= 1;
 					var url="<?php echo $this->Url->build(['controller'=>'CustomerAddresses','action'=>'saveAddress']); ?>";
 					url=url+'/'+customer_id+'/'+name+'/'+mobile+'/'+house_no+'/'+address+'/'+locality+'/'+default_address+'/'+pincode+'/'+apartment_name+'/'+address_type+'/'+state_id+'/'+city_id,
@@ -813,7 +814,6 @@ function round(value, exp) {
 					$.ajax({
 						url: url,
 					}).done(function(response) {
-						//alert(response);
 						$('#address').hide();
 						var customer_id=$('#customer_id').val();
 						var url="<?php echo $this->Url->build(['controller'=>'Customers','action'=>'defaultAddress']); ?>";
@@ -1090,10 +1090,10 @@ function selectAutoCompleted1(value) {
 				</div>
 				<div class="row">
 					<div class="col-md-6">
-						<?php echo $this->Form->control('state_id', ['empty'=>'-- select --','options' => $statesdata,'class'=>'form-control input-sm select select2me select2 state','required']); ?>
+						<?php echo $this->Form->control('state_id', ['empty'=>'-- select --','options' => $statesdata,'class'=>'form-control input-sm select select2me select2 state','required','id'=>'modal_state','required']); ?>
 					</div>
 					<div class="col-md-6">
-                       <label class=" control-label">City <span class="required" aria-required="true">* </label>
+                       <label class="control-label">City <span class="required" aria-required="true">* </label>
                         <select name="city_id" class="form-control input-sm city select2" required>
                             
                            
@@ -1133,7 +1133,7 @@ function selectAutoCompleted1(value) {
 					<div class="row">
 						<div class="col-md-6">
 						<label class=" control-label">Mobile <span class="required" aria-required="true">*</span></label>
-							<?php echo $this->Form->input('mobile',['placeholder'=>'Mobile','class'=>'form-control input-sm number_mobile modal_mobile','label'=>false,'required','maxlength'=>10,'minlength'=>10]); ?>
+							<?php echo $this->Form->input('mobile',['placeholder'=>'Mobile','class'=>'form-control input-sm number_mobile modal_mobile','label'=>false,'required','maxlength'=>10,'minlength'=>10,'type'=>'number']); ?>
 						</div>
 						<div class="col-md-6">
 							<label class=" control-label">Name</label>

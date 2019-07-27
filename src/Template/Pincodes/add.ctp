@@ -41,7 +41,7 @@
                 <div class="row delivery_reason display-none">
                     <div class="col-md-10">
                         <label>Delivery Reason<span class="required" aria-required="true">*</span></label>
-                        <textarea name="delivery_reason" class="form-control" id="reason" ><?= @$pincode->delivery_reason?></textarea>
+                        <textarea name="delivery_reason" class="form-control" id="reason" ></textarea>
                     </div>
                 </div>
                 <div class="row Yesbox display-none">

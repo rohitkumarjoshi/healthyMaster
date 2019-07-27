@@ -43,7 +43,7 @@
                 <div class="row delivery_reason display-none">
                     <div class="col-md-10">
                         <label>Delivery Reason</label>
-                        <textarea name="delivery_reason" class="form-control"></textarea>
+                        <textarea name="delivery_reason" class="form-control"><?= @$pincode->delivery_reason?></textarea>
                     </div>
                 </div>
                 <div class="row Yesbox display-none">

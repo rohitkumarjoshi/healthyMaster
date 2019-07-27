@@ -44,6 +44,7 @@
 					<div class="col-md-8">
 						<label class=" control-label">Name<span class="required" aria-required="true">*</span></label>
 						<?php echo $this->Form->control('name',['placeholder'=>'Name','class'=>'form-control input-sm','label'=>false]); ?>
+						<input type="hidden" name="customer_id" id="customer_id" value="<?= $customer_id?>">
 					</div>
 				</div>
 				<div class="row" style="margin-top:10px;">
@@ -92,7 +93,7 @@
                        <label class=" control-label">City <span class="required" aria-required="true">* </label>
                         <select name="city_id" class="form-control input-sm city select2" required>
                             
-                            <option value="<?= @$customerAddress->city_id?>"><?= $customerAddress->city->name?></option>
+                            <option value="<?= @$customerAddress->city_id?>"><?= @$customerAddress->city->name?></option>
                             
                         </select>
                  </div>
@@ -213,10 +214,25 @@ $("#search3").on("keyup",function() {
     }
 });
 
-	$(document).on('click','.default',function(){
-		var default=$(this).val();
-		alert();
+	$('input[name="default_address"]').on('click',function()
+	{
+		var default_address=$(this).val();
+		if(default_address == "1")
+		{
+			var customer_id=$('#customer_id').val();
+			var url="<?php echo $this->Url->build(['controller'=>'CustomerAddresses','action'=>'defaultcheck']); ?>";
+						url=url+'/'+customer_id,
+
+			//alert(url);	
+						$.ajax({
+							url: url,
+						}).done(function(response) { 
+							//alert(response);
+						});
+		}
 	});
+
+	
 
 	$(document).on('change','.state',function(){
         
