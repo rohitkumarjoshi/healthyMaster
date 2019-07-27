@@ -109,7 +109,7 @@ class PincodesController extends AppController
         $pincode = $this->Pincodes->get($id, [
             'contain' => ['DeliveryCharges','Cities']
         ]);
-        pr($this->request->getData());exit;
+        //pr($pincode);exit;
         if ($this->request->is(['patch', 'post', 'put'])) {
             $pincode = $this->Pincodes->patchEntity($pincode, $this->request->getData());
             //pr($pincode);exit;

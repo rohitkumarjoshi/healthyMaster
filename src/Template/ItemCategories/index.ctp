@@ -30,7 +30,7 @@
 				<div class="row">
 					<div class="col-md-8">
 						<label class=" control-label">Item Category <span class="required" aria-required="true">*</span></label>
-						<?php echo $this->Form->control('name',['placeholder'=>'Item Category name','class'=>'form-control input-sm','label'=>false]); ?>
+						<?php echo $this->Form->control('name',['placeholder'=>'Item Category name','class'=>'form-control input-sm','label'=>false,'maxlength'=>50]); ?>
 					</div>
 					<div class="col-md-8" style="margin-top: 10px;">
 						<label class=" control-label">Parent Category </label>

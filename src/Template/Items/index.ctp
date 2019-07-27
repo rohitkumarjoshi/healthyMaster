@@ -64,7 +64,7 @@
 								<?= $this->Form->postLink(__('Deactive'), ['action' => 'delete', $item->id], ['confirm' => __('Are you sure you want to Deactive # {0}?', $item->name),'class'=>'btn btn-xs green']) ?>
 								<?php } ?>
 								<?php if($item->freeze == 1){ ?>
-								<?= $this->Form->postLink(__('Active'), ['action' => 'delete1', $item->name], ['confirm' => __('Are you sure you want to Active # {0}?', $item->id),'class'=>'btn btn-xs green']) ?>
+								<?= $this->Form->postLink(__('Active'), ['action' => 'delete1', $item->id], ['confirm' => __('Are you sure you want to Active # {0}?', $item->name),'class'=>'btn btn-xs green']) ?>
 								<?php } ?>
 							</td>
 						</tr>

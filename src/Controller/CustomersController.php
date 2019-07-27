@@ -53,6 +53,38 @@ class CustomersController extends AppController
 			echo " ";   exit;
 		}
     }
+    public function defaultAddress1($id = null)
+    { 
+		$this->viewBuilder()->layout('');
+		//pr($id);
+		if(empty($id)){
+			echo ''; exit;
+		}
+		$defaultAddress = $this->Customers->CustomerAddresses->find('all')->where(['customer_id' => $id,'default_address' => 1])->order(['CustomerAddresses.id'=>'DESC'])->first();
+		if(!empty($defaultAddress)){
+			echo $defaultAddress->id;			
+			exit;
+		}else{
+			echo " ";   exit;
+		}
+    }
+    public function lastinsertname($id = null)
+	{
+		if(empty($id)){
+			echo ''; exit;
+		}
+		$customer=$this->Customers->find('all')->where(['id'=>$id])->order(['Customers.id'=>'DESC'])->first();
+		if(!empty($customer))
+		{
+			echo $customer->name;
+			exit;
+		}
+		else{
+			echo " ";   exit;
+		}
+	}
+
+    
 	public function lastinsertmobile($id = null)
 	{
 		if(empty($id)){
@@ -345,21 +377,7 @@ class CustomersController extends AppController
 
 	
 	
-	public function defaultAddress1($id = null)
-    { 
-		$this->viewBuilder()->layout('');
-		//pr($id);
-		if(empty($id)){
-			echo ''; exit;
-		}
-		$defaultAddress = $this->Customers->CustomerAddresses->find('all')->where(['customer_id' => $id,'default_address' => 1])->order(['CustomerAddresses.id'=>'DESC'])->first();
-		if(!empty($defaultAddress)){
-			echo $defaultAddress->id;			
-			exit;
-		}else{
-			echo " ";   exit;
-		}
-    }
+	
 	
 	public function addressList($id = null)
     {

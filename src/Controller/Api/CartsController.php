@@ -677,7 +677,7 @@ class CartsController extends AppController
 			$PincodesData=$this->Pincodes->find()->select('id')->where(['pincode' => $pincode])->order(['id' =>'DESC'])->first();
 			
 			$pincode_id=0;
-			if($PincodesData->id>0){
+			if(@$PincodesData->id>0){
 				$pincode_id = $PincodesData->id;
 			}
 			$this->loadModel('DeliveryCharges');

@@ -27,7 +27,7 @@
                     </div>
                     <div class="col-md-3">
                         <label class=" control-label">Pincode<span class="required" aria-required="true">*</span> </label>
-                        <?php echo $this->Form->control('pincode',['placeholder'=>'Pincode','class'=>'form-control input-sm','label'=>false,'maxlength'=>6,'minlength'=>6,'required']); ?>
+                        <?php echo $this->Form->control('pincode',['placeholder'=>'Pincode','class'=>'form-control input-sm','label'=>false,'oninput'=>"this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');",'maxlength'=>6,'type'=>'text','required']); ?>
                     </div>
                     <div class="col-md-3">
                         <label>We Deliver<span class="required" aria-required="true">*</span></label>
@@ -41,17 +41,17 @@
                 <div class="row delivery_reason display-none">
                     <div class="col-md-10">
                         <label>Delivery Reason<span class="required" aria-required="true">*</span></label>
-                        <textarea name="delivery_reason" class="form-control" id="reason" ><?= @$pincode->delivery_reason?></textarea>
+                        <textarea name="delivery_reason" class="form-control" id="reason" ></textarea>
                     </div>
                 </div>
                 <div class="row Yesbox display-none">
                     <div class="col-md-3">
                         <label>Minimum Amount<span class="required" aria-required="true">*</span></label>
-                        <input type="text" name="amount" class="form-control input-sm" id="amt">
+                        <input type="text" name="amount" class="form-control input-sm" id="amt" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="10"  >
                     </div>
                     <div class="col-md-3">
                         <label>Delivery Charge<span class="required" aria-required="true">*</span></label>
-                        <input type="text" name="charge" class="form-control input-sm" id="charge">
+                        <input type="text" name="charge" class="form-control input-sm" id="charge" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="10">
                     </div>
                     <!--<div class="col-md-3">
                         <label>Type</label>
@@ -150,7 +150,13 @@ $(document).on('change','.state',function(){
                 },
                 address:{
                     required: true,
-                }
+                },
+				pincode:{
+						required:true,
+						number:true,
+						minlength:6,
+						maxlength:6
+					}
             },
 
         errorPlacement: function (error, element) { // render error placement for each input type

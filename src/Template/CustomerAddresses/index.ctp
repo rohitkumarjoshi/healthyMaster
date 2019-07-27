@@ -43,48 +43,50 @@
 				<div class="row" style="margin-top:5px;">
 					<div class="col-md-8">
 						<label class=" control-label">Name<span class="required" aria-required="true">*</span></label>
-						<?php echo $this->Form->control('name',['placeholder'=>'Name','class'=>'form-control input-sm','label'=>false]); ?>
+						<?php echo $this->Form->control('name',['placeholder'=>'Name','class'=>'form-control input-sm','label'=>false,'maxlength'=>'50']); ?>
+						<input type="hidden" name="customer_id" id="customer_id"  value="<?= $customer_id?>">
 					</div>
 				</div>
 				<div class="row" style="margin-top:10px;">
 					<div class="col-md-8">
 						<label class=" control-label">Mobile <span class="required" aria-required="true">*</span></label>
-						<?php echo $this->Form->control('mobile',['placeholder'=>'Mobile','class'=>'form-control input-sm','label'=>false,'type'=>'number','minlength'=>10,'maxlength'=>10]); ?>
+						<?php echo $this->Form->control('mobile',['placeholder'=>'Mobile','class'=>'form-control input-sm','label'=>false,'oninput'=>"this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');",'minlength'=>10]); ?>
 					</div>
 				</div>
 				<div class="row" style="margin-top:10px;">
 					<div class="col-md-8">
 						<label class=" control-label">House no <span class="required" aria-required="true">*</span></label>
-						<?php echo $this->Form->control('house_no',['placeholder'=>'House no','class'=>'form-control input-sm','label'=>false]); ?>
+						<?php echo $this->Form->control('house_no',['placeholder'=>'House no','class'=>'form-control input-sm','label'=>false,'maxlength'=>'50']); ?>
 					</div>
 				</div>
 				<div class="row" style="margin-top:10px;">
 					<div class="col-md-8">
-						<label class=" control-label">Apartment Name<span class="required" aria-required="true">*</span></label>
-						<?php echo $this->Form->control('apartment_name',['placeholder'=>'Apartment Name','class'=>'form-control input-sm','label'=>false]); ?>
+						<label class=" control-label">Apartment Name</label>
+						<?php echo $this->Form->control('apartment_name',['placeholder'=>'Apartment Name','class'=>'form-control input-sm','label'=>false,'maxlength'=>'50']); ?>
 					</div>
 				</div>
 				<div class="row" style="margin-top:10px;">
 					<div class="col-md-8">
-						<label class=" control-label">Address<span class="required" aria-required="true">*</span></label>
-						<?php echo $this->Form->control('address',['placeholder'=>'address','class'=>'form-control input-sm','label'=>false]); ?>
+						<label class=" control-label">Landmark<span class="required" aria-required="true">*</span></label>
+						<?php echo $this->Form->control('address',['placeholder'=>'Landmark','class'=>'form-control input-sm','label'=>false,'maxlength'=>'150']); ?>
 					</div>
 				</div>
 				<div class="row" style="margin-top:10px;">
 					<div class="col-md-8">
 						<label class=" control-label">Locality</label>
-						<?php echo $this->Form->control('locality',['placeholder'=>'locality','class'=>'form-control input-sm','label'=>false]); ?>
+						<?php echo $this->Form->control('locality',['placeholder'=>'locality','class'=>'form-control input-sm','label'=>false,'maxlength'=>'50']); ?>
 					</div>
 				</div>
 				<div class="row" style="margin-top:10px;">
 					<div class="col-md-8">
 						<label class=" control-label">Pincode<span class="required" aria-required="true">*</span></label>
-						<?php echo $this->Form->control('pincode',['placeholder'=>'Pincode','class'=>'form-control input-sm','label'=>false,'minlength'=>6,'maxlength'=>6]); ?>
+						<?php echo $this->Form->control('pincode',['placeholder'=>'Pincode','class'=>'form-control input-sm','label'=>false,'oninput'=>"this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');",'maxlength'=>6,'type'=>'text','required']); ?>
 					</div>
 				</div>
 				<div class="row" style="margin-top:10px;">
-					<div class="col-md-8"><span class="required" aria-required="true"></span>
-						<?php echo $this->Form->control('state_id', ['empty'=>'-- select --','options' => $states,'class'=>'form-control input-sm select select2me select2 state','required']); ?>
+					<div class="col-md-8">
+						<label class=" control-label">State<span class="required" aria-required="true">*</span></label>
+						<?php echo $this->Form->control('state_id', ['empty'=>'-- select --','options' => $states,'class'=>'form-control input-sm select select2me select2 state','required','label'=>false]); ?>
 					</div>
 				</div>
 				
@@ -92,14 +94,14 @@
                        <label class=" control-label">City <span class="required" aria-required="true">* </label>
                         <select name="city_id" class="form-control input-sm city select2" required>
                             
-                            <option value="<?= @$customerAddress->city_id?>"><?= $customerAddress->city->name?></option>
+                            <option value="<?= @$customerAddress->city_id?>"><?= @$customerAddress->city->name?></option>
                             
                         </select>
                  </div>
 				
 				 <br>
 				<div class="row" style="margin-top:10px;">
-				<div class="col-md-8">
+					<div class="col-md-8">
 								<div class="form-group">
 									<label class="control-label">Default Address<span class="required" aria-required="true">*</span></label>
 									<div class="radio-list">
@@ -213,10 +215,38 @@ $("#search3").on("keyup",function() {
     }
 });
 
-	$(document).on('click','.default',function(){
-		var default=$(this).val();
-		alert();
+	$('input[name="default_address"]').on('click',function()
+	{
+		var default_address=$(this).val();
+		if(default_address == "1")
+		{
+			var customer_id=$('#customer_id').val();
+			var url="<?php echo $this->Url->build(['controller'=>'CustomerAddresses','action'=>'defaultcheck']); ?>";
+						url=url+'/'+customer_id,
+
+			//alert(url);	
+						$.ajax({
+							url: url,
+						}).done(function(response) { 
+							//alert(response);
+						});
+		}
+		// if(default_address == "0")
+		// {
+		// 	var customer_id=$('#customer_id').val();
+		// 	var url="<?php echo $this->Url->build(['controller'=>'CustomerAddresses','action'=>'defaultcheck1']); ?>";
+		// 				url=url+'/'+customer_id,
+
+		// 	//alert(url);	
+		// 				$.ajax({
+		// 					url: url,
+		// 				}).done(function(response) { 
+		// 					//alert(response);
+		// 				});
+		// }
 	});
+
+	
 
 	$(document).on('change','.state',function(){
         
@@ -270,6 +300,12 @@ $("#search3").on("keyup",function() {
 						number:true,
 						minlength:10,
 						maxlength:10
+					},
+					pincode:{
+						required:true,
+						number:true,
+						minlength:6,
+						maxlength:6
 					}
 			},
 

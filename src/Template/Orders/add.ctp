@@ -33,12 +33,12 @@ background-color: #fff;}
 				}
 					?>
 				<div class="row">
-					<div class="col-md-3">
+					<div class="col-md-2">
 						<label class=" control-label">Mobile No <span class="required" aria-required="true">*</span></label>
-						<input type="number" name="customer" class="form-control input-sm selectedAutoCompleted autocompleted customer_id cstmr chosen-select" valueType="item_name" id="mobile">
+						<input type="number" name="customer" class="form-control input-sm selectedAutoCompleted autocompleted customer_id cstmr chosen-select" valueType="item_name" id="mobile" autocomplete="off">
 						<input type="hidden" name="customer_id" id="customer_id">
 						
-						 <div class="suggesstion-box box"></div>
+						 <div class="suggesstion-box box"  autocomplete="off"></div>
 					</div>
 					<a href="#" role="button" class="pull-left plus" style="margin-top: 26px;" >
 							 +</a>
@@ -46,16 +46,11 @@ background-color: #fff;}
 						<?php echo $this->Form->control('warehouse_id',['options' => $warehouses,'class'=>'form-control input-sm','id'=>'customer_id','label'=>false,'type'=>'hidden']); ?>
 					
 					
-					<div class="col-md-3">
-						<label class="control-label">Order Date <span class="required" aria-require>*</span></label>
-						<?php echo $this->Form->control('order_date1',['placeholder'=>'dd-mm-yyyy','class'=>'form-control input-sm date-picker','data-date-format'=>'dd-mm-yyyy','label'=>false,'type'=>'text','value'=>date('d-m-Y')]); ?>
+					<div class="col-md-2">
+						<label class="control-label">Customer Name<span class="required" aria-require>*</span></label>
+						<?php echo $this->Form->control('customer_name',['class'=>'form-control input-sm customer_name','label'=>false,'type'=>'text']); ?>
 					</div>
 					
-					<div class="col-md-2">
-						<label class="control-label">Delivery Date<span class="required" aria-require>*</span></label>
-						<?php echo $this->Form->control('delivery_date',['placeholder'=>'dd-mm-yyyy','class'=>'form-control input-sm date-picker','data-date-format'=>'dd-mm-yyyy','label'=>false,'type'=>'text','value'=>date('d-m-Y')]); ?>
-						<?php echo $this->Form->control('delivery_time',['class'=>'form-control input-sm','label'=>false,'type'=>'hidden','value'=>date("G:i a")]); ?>
-					</div>
 
 					<div class="col-md-2">
 						<label>Payment Mode</label>
@@ -66,6 +61,15 @@ background-color: #fff;}
 							<option value="Online">Google Pay</option>
 							<option value="Online">Credit Card</option>
 						</select>
+					</div>
+					<div class="col-md-2">
+						<label class="control-label">Order Date <span class="required" aria-require>*</span></label>
+						<?php echo $this->Form->control('order_date1',['placeholder'=>'dd-mm-yyyy','class'=>'form-control input-sm date-picker','data-date-format'=>'dd-mm-yyyy','label'=>false,'type'=>'text','value'=>date('d-m-Y')]); ?>
+					</div>
+					<div class="col-md-2">
+						<label class="control-label">Delivery Date<span class="required" aria-require>*</span></label>
+						<?php echo $this->Form->control('delivery_date',['placeholder'=>'dd-mm-yyyy','class'=>'form-control input-sm date-picker','data-date-format'=>'dd-mm-yyyy','label'=>false,'type'=>'text','value'=>date('d-m-Y')]); ?>
+						<?php echo $this->Form->control('delivery_time',['class'=>'form-control input-sm','label'=>false,'type'=>'hidden','value'=>date("G:i a")]); ?>
 					</div>
 					<!-- Vaibhav Sir <div class="col-md-2">
 						<label class="control-label">Delivery Time <span class="required" aria-require>*</span></label>			
@@ -98,7 +102,7 @@ background-color: #fff;}
 				-->
 				</div><br/>
 				<div class="row">
-					<?php if($order_type=="Bulkorder"){ ?>
+					<!-- <?php if($order_type=="Bulkorder"){ ?>
 				
 					<div class="col-md-3">
 						<div class="form-group">
@@ -118,7 +122,7 @@ background-color: #fff;}
 					</div>
 			
 				<?php } ?>
-					
+				 -->
 					<div class="col-md-6">
 						<label class="control-label">Address</label>
 							<?php echo $this->Form->input('customer_address_id', ['type'=>'hidden','label' => false,'class' => 'form-control','placeholder' => 'Address']); ?>
@@ -128,6 +132,7 @@ background-color: #fff;}
 							<a href="#" role="button" class="pull-right select_address" >
 							Select Address </a>
 					</div>
+					
 					
 				</div>
 				
@@ -714,26 +719,6 @@ function round(value, exp) {
 
 	$('.btnsave').on("click",function(e) {
 		$("#form2").validate({ 
-				rules: {
-			      mobile:{
-						required:true,
-						remote :{
-							url:"Customers/checks",
-							type:"post",
-							data:{
-								'input':$('.modal_mobile').val()
-							},
-							success: function(data) {
-			                    if (data.input == 'true')
-			                    {
-			                        message: {
-			                            username: 'The Mobile is already in use!'
-			                        }
-			                    }
-			                }
-						}
-					}
-				},
 			submitHandler: function(form) {
 					$("#form2").submit(function(e) {
 						e.preventDefault();
@@ -780,6 +765,15 @@ function round(value, exp) {
 						}).done(function(response) {
 							//alert(response);
 							$('#mobile').val(response);
+							var url="<?php echo $this->Url->build(['controller'=>'Customers','action'=>'lastinsertname']); ?>";
+						url=url+'/'+cus_id,
+						//alert(url);
+						$.ajax({
+							url: url,
+						}).done(function(response) {
+							//alert(response);
+							$('.customer_name').val(response);
+						});
 						});
 
 					});
@@ -805,18 +799,17 @@ function round(value, exp) {
 					var locality=$('input[name="locality"]').val();
 					var pincode=$('input[name="pin_code"]').val();
 					var apartment_name=$('input[name="apartment_name"]').val();
-					var state_id=$('input[name="state_id"]').val();
-					var city_id=$('input[name="city_id"]').val();
+					var state_id=$('select#modal_state option').filter(":selected").val();
+					var city_id=$('.city').val();
 					var address_type=$('input[name="address_type"]:checked').val();
-					//alert(apartment_name);
-					var default_address= 1;
+					var default_address=$('input[name="default_address"]:checked').val();
+					//alert(default_address);
 					var url="<?php echo $this->Url->build(['controller'=>'CustomerAddresses','action'=>'saveAddress']); ?>";
 					url=url+'/'+customer_id+'/'+name+'/'+mobile+'/'+house_no+'/'+address+'/'+locality+'/'+default_address+'/'+pincode+'/'+apartment_name+'/'+address_type+'/'+state_id+'/'+city_id,
 					//alert(url);
 					$.ajax({
 						url: url,
 					}).done(function(response) {
-						//alert(response);
 						$('#address').hide();
 						var customer_id=$('#customer_id').val();
 						var url="<?php echo $this->Url->build(['controller'=>'Customers','action'=>'defaultAddress']); ?>";
@@ -836,8 +829,8 @@ function round(value, exp) {
 								$('input[name="customer_address_id"]').val(response);
 							});
 							$('#address').modal('toggle');
-							$('#address input').val('');
-							$('#address textarea').val('');
+							//$('#address input').val('');
+							//$('#address textarea').val('');
 						});
 					});
 		}});		
@@ -858,20 +851,20 @@ function round(value, exp) {
 	}
 	
 	
-	$('.insert_address').die().live("click",function() { 
-		var addr=$(this).text();
-		var addr_id=$(this).attr('addressid');
-		$('textarea[name="customer_address"]').val(addr);
-		$('input[name="customer_address_id"]').val(addr_id);
-		$("#myModal1").hide();
-		var customer_id=$('#customer_id').val();
-		var url="<?php echo $this->Url->build(['controller'=>'CustomerAddresses','action'=>'adddefaultAddress']); ?>";
-		url=url+'/'+customer_id+'/'+addr_id,
-		$.ajax({
-			url: url,
-		}).done(function(response) { 
-		});
-    });
+	// $('.insert_address').die().live("click",function() { 
+	// 	var addr=$(this).text();
+	// 	var addr_id=$(this).attr('addressid');
+	// 	$('textarea[name="customer_address"]').val(addr);
+	// 	$('input[name="customer_address_id"]').val(addr_id);
+	// 	$("#myModal1").hide();
+	// 	var customer_id=$('#customer_id').val();
+	// 	var url="<?php echo $this->Url->build(['controller'=>'CustomerAddresses','action'=>'adddefaultAddress']); ?>";
+	// 	url=url+'/'+customer_id+'/'+addr_id,
+	// 	$.ajax({
+	// 		url: url,
+	// 	}).done(function(response) { 
+	// 	});
+ //    });
 	
 	
 	$('.box').on("click",function() {
@@ -903,6 +896,15 @@ function round(value, exp) {
 								$('input[name="customer_address_id"]').val(response);
 							});
 			}
+			var url="<?php echo $this->Url->build(['controller'=>'Customers','action'=>'lastinsertname']); ?>";
+			url=url+'/'+customer_id,
+			//alert(url);
+			$.ajax({
+				url: url,
+			}).done(function(response) { 
+				//alert(response)
+				$('.customer_name').val(response);
+			});
 		});
 	});
 	// $('.customer_id').on("change",function() {
@@ -939,7 +941,37 @@ function round(value, exp) {
 	// 			$('.amount_from_wallet').attr('max',response);
 	// 		});
 	// });
+	$(document).on('change','.modal_mobile',function(){
+		var input=$(this).val();
 
+        var master = $(this); 
+		//alert(input);
+		if(input.length>0){
+            var m_data = new FormData();
+            var url ="<?php echo $this->Url->build(["controller" => "Customers", "action" => "check"]); ?>";
+         //   alert(url);
+            m_data.append('input',input); 
+            $.ajax({
+                url: url,
+                data: m_data,
+                processData: false,
+                contentType: false,
+                type: 'POST',
+                dataType:'text',
+                success: function(response)
+                { 
+                	//alert(response);
+                	if(response == 1)
+                	{
+						$('.modal_mobile').val('');
+						alert("Mobile No Already Exists")
+					}
+
+
+                }
+            });
+            }
+	});
 	$(document).on('change','.state',function(){
         
         var input=$(this).val();
@@ -964,6 +996,36 @@ function round(value, exp) {
             });
         }
 });
+	$('input[name="default_address"]').on('click',function()
+	{
+		var default_address=$(this).val();
+		if(default_address == "1")
+		{
+			var customer_id=$('#customer_id').val();
+			var url="<?php echo $this->Url->build(['controller'=>'CustomerAddresses','action'=>'defaultcheck']); ?>";
+						url=url+'/'+customer_id,
+
+			//alert(url);	
+						$.ajax({
+							url: url,
+						}).done(function(response) { 
+							//alert(response);
+						});
+		}
+		// if(default_address == "0")
+		// {
+		// 	var customer_id=$('#customer_id').val();
+		// 	var url="<?php echo $this->Url->build(['controller'=>'CustomerAddresses','action'=>'defaultcheck1']); ?>";
+		// 				url=url+'/'+customer_id,
+
+		// 	//alert(url);	
+		// 				$.ajax({
+		// 					url: url,
+		// 				}).done(function(response) { 
+		// 					//alert(response);
+		// 				});
+		// }
+	});
 });
 </script>
 <script>
@@ -1068,7 +1130,7 @@ function selectAutoCompleted1(value) {
 					</div>
 					<div class="col-md-6">
 					<label class=" control-label">Mobile <span class="required" aria-required="true">*</span></label>
-						<?php echo $this->Form->input('mobile',['placeholder'=>'Mobile','class'=>'form-control input-sm','label'=>false,'required']); ?>
+						<?php echo $this->Form->input('mobile',['placeholder'=>'Mobile','class'=>'form-control input-sm','label'=>false,'required','type'=>'number','maxlength'=>10,'minlength'=>10]); ?>
 					</div>
 				</div>
 				<div class="row">
@@ -1084,7 +1146,7 @@ function selectAutoCompleted1(value) {
 				<div class="row">
 					<div class="col-md-6">
 						<label class=" control-label">Pincode<span class="required" aria-required="true">*</span></label>
-						<?php echo $this->Form->input('pin_code',['placeholder'=>'Pincode','class'=>'form-control input-sm','label'=>false,'required']); ?>
+						<?php echo $this->Form->input('pin_code',['placeholder'=>'Pincode','class'=>'form-control input-sm','label'=>false,'required','minlength'=>6,'maxlength'=>6]); ?>
 					</div>
 					<div class="col-md-6">
 						<label class=" control-label">Apartment<span class="required" aria-required="true">*</span></label>
@@ -1093,10 +1155,10 @@ function selectAutoCompleted1(value) {
 				</div>
 				<div class="row">
 					<div class="col-md-6">
-						<?php echo $this->Form->control('state_id', ['empty'=>'-- select --','options' => $statesdata,'class'=>'form-control input-sm select select2me select2 state','required']); ?>
+						<?php echo $this->Form->control('state_id', ['empty'=>'-- select --','options' => $statesdata,'class'=>'form-control input-sm select select2me select2 state','required','id'=>'modal_state','required']); ?>
 					</div>
 					<div class="col-md-6">
-                       <label class=" control-label">City <span class="required" aria-required="true">* </label>
+                       <label class="control-label">City <span class="required" aria-required="true">* </label>
                         <select name="city_id" class="form-control input-sm city select2" required>
                             
                            
@@ -1105,13 +1167,29 @@ function selectAutoCompleted1(value) {
                  	</div>
 				</div>
 				<div class="row">
-					
-					
 					<div class="col-md-6">
 						<label class=" control-label">Address<span class="required" aria-required="true">*</span></label>
 						<?php echo $this->Form->input('address',['placeholder'=>'Address','class'=>'form-control input-sm','label'=>false,'cols'=>1,'required']); ?>
 					</div>
-					
+				
+				</div>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="control-label">Default Address<span class="required" aria-required="true">*</span></label>
+							<div class="radio-list">
+								<div class="radio-inline default" style="padding-left: 0px;">
+									<?php echo $this->Form->radio(
+									'default_address',
+									[
+										['value' => '0', 'text' => 'No','class' => 'radio-task virt ','checked' => 'checked'],
+										['value' => '1', 'text' => 'Yes','class' => 'radio-task virt ']
+									]
+									); ?>
+								</div>
+                            </div>
+						</div>
+					</div>
 				</div>
 				
 				
@@ -1136,11 +1214,11 @@ function selectAutoCompleted1(value) {
 					<div class="row">
 						<div class="col-md-6">
 						<label class=" control-label">Mobile <span class="required" aria-required="true">*</span></label>
-							<?php echo $this->Form->input('mobile',['placeholder'=>'Mobile','class'=>'form-control input-sm number_mobile modal_mobile','label'=>false,'required','maxlength'=>10,'minlength'=>10]); ?>
+							<?php echo $this->Form->input('mobile',['placeholder'=>'Mobile','class'=>'form-control input-sm number_mobile modal_mobile','label'=>false,'required','maxlength'=>10,'minlength'=>10,'type'=>'number']); ?>
 						</div>
 						<div class="col-md-6">
 							<label class=" control-label">Name</label>
-								<?php echo $this->Form->input('name',['placeholder'=>'Name','class'=>'form-control input-sm name','label'=>false]); ?>
+								<?php echo $this->Form->input('name',['placeholder'=>'Name','class'=>'form-control input-sm name','label'=>false,'lettersonly'=>true]); ?>
 						</div>
 					</div>
 					<div class="row">

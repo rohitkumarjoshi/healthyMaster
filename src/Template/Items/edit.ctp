@@ -14,14 +14,14 @@
 			<?= $this->Form->create($item,['type'=>'file','id'=>'form_sample_3']) ?>
 				<div class="row">
 					<div class="col-md-3">
-						<?php echo $this->Form->control('item_code',['class'=>'form-control input-sm itemcode','placeholder'=>'Item Code','type'=>'text']); ?>
+						<?php echo $this->Form->control('item_code',['class'=>'form-control input-sm itemcode','placeholder'=>'Item Code','type'=>'text','maxlength'=>50]); ?>
 					</div>
 					<div class="col-md-3">
-						<?php echo $this->Form->control('name',['class'=>'form-control input-sm','placeholder'=>'Item Name']); ?>
+						<?php echo $this->Form->control('name',['class'=>'form-control input-sm','placeholder'=>'Item Name','maxlength'=>50]); ?>
 						<input type="hidden" name="id" value="<?= $item->id ?>">
 					</div>
 					<div class="col-md-3">
-						<?php echo $this->Form->control('alias_name',['class'=>'form-control input-sm','placeholder'=>'Alias Name']); ?>
+						<?php echo $this->Form->control('alias_name',['class'=>'form-control input-sm','placeholder'=>'Alias Name','maxlength'=>50]); ?>
 					</div>
 					<!-- <div class="col-md-3">
 						<?php echo $this->Form->control('unit_id', ['empty'=>'--select--','options' => $unit_option,'class'=>'form-control input-sm attribute']); ?>
@@ -41,14 +41,14 @@
 				</div><br/>
 				<div class="row" style="margin-top: 15px;">
 					<div class="col-md-3">
-						<?php echo $this->Form->control('description', ['class'=>'form-control input-sm','placeholder'=>'Description']); ?>
+						<?php echo $this->Form->control('description', ['class'=>'form-control input-sm','placeholder'=>'Description','maxlength'=>250]); ?>
 						<input type="hidden" name="is_virtual" value="real">
 					</div>
 					<div class="col-md-3">
-						<?php echo $this->Form->control('short_description', ['class'=>'form-control input-sm','placeholder'=>'Short Description']); ?>
+						<?php echo $this->Form->control('short_description', ['class'=>'form-control input-sm','placeholder'=>'Short Description','maxlength'=>250]); ?>
 					</div>
 					<div class="col-md-3">
-						<?php echo $this->Form->control('benefit', ['class'=>'form-control input-sm','placeholder'=>'Benefits']); ?>
+						<?php echo $this->Form->control('benefit', ['class'=>'form-control input-sm','placeholder'=>'Benefits','maxlength'=>250]); ?>
 					</div>
 
 					<div class="col-md-3">
@@ -106,15 +106,15 @@
 					                     <?php echo $this->Form->control('item_variations.0.unit_id', ['empty'=>'--select--','options' => @$UnitVariations,'class'=>'form-control unit_variation_id','label'=>false,'value'=>@$variation->unit_variation->id]); ?>
 					                   
 					                    </td> 
-					                    <td style="vertical-align: bottom;"> <?php echo $this->Form->control('item_variations.0.minimum_quantity_purchase',['class'=>'form-control minimum_quantity_purchase  order_limit','placeholder'=>'Maximum Order Limit', 'label'=>false,'value'=>$variation->minimum_quantity_purchase]); ?></td>
+					                    <td style="vertical-align: bottom;"> <?php echo $this->Form->control('item_variations.0.minimum_quantity_purchase',['class'=>'form-control minimum_quantity_purchase  order_limit','placeholder'=>'Maximum Order Limit', 'label'=>false,'value'=>$variation->minimum_quantity_purchase,'oninput'=>"this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');",'maxlength'=>10,'type'=>'text']); ?></td>
 					                     <td style="vertical-align: bottom;"> 
-					                    	<?php echo $this->Form->control('item_variations.0.print_rate',['class'=>'form-control print_rate','placeholder'=>'Print Rate','label'=>false,'value'=>$variation->print_rate]); ?>
+					                    	<?php echo $this->Form->control('item_variations.0.print_rate',['class'=>'form-control print_rate','placeholder'=>'Print Rate','label'=>false,'value'=>$variation->print_rate,'oninput'=>"this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');",'maxlength'=>10,'type'=>'text']); ?>
 					                    </td> 
 					                    <td style="vertical-align: bottom;"> 
-					                    	<?php echo $this->Form->control('item_variations.0.sales_rate',['class'=>'form-control sales_rate','placeholder'=>'Sales Rate','label'=>false,'value'=>$variation->sales_rate]); ?>
+					                    	<?php echo $this->Form->control('item_variations.0.sales_rate',['class'=>'form-control sales_rate','placeholder'=>'Sales Rate','label'=>false,'value'=>$variation->sales_rate,'oninput'=>"this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');",'maxlength'=>10,'type'=>'text']); ?>
 					                    </td>
 					                    <td style="vertical-align: bottom;"> 
-					                    	<?php echo $this->Form->control('item_variations.0.opening_stock',['class'=>'form-control opening_stock','placeholder'=>'Opening Stock','label'=>false,'value'=>$variation->opening_stock]); ?>
+					                    	<?php echo $this->Form->control('item_variations.0.opening_stock',['class'=>'form-control opening_stock','placeholder'=>'Opening Stock','label'=>false,'value'=>$variation->opening_stock,'oninput'=>"this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');",'maxlength'=>10,'type'=>'text']); ?>
 					                    </td>
 					                    
 					                    <td style="vertical-align: bottom;"> <button type="button" id="plus" class="btn btn-sm green"><i class="fa fa-plus"></i></button>
@@ -140,17 +140,17 @@
                     <?php echo $this->Form->control('item_variations.0.unit_id', ['empty'=>'--select--','options' => @$UnitVariations,'class'=>'form-control unit_variation_id','label'=>false]); ?>
                    </td>
 				   
-                    <td style="vertical-align: bottom;"> <?php echo $this->Form->control('item_variations.0.minimum_quantity_purchase',['class'=>'form-control minimum_quantity_purchase  order_limit','placeholder'=>'Maximum Order Limit', 'label'=>false]); ?></td>
+                    <td style="vertical-align: bottom;"> <?php echo $this->Form->control('item_variations.0.minimum_quantity_purchase',['class'=>'form-control minimum_quantity_purchase  order_limit','placeholder'=>'Maximum Order Limit', 'label'=>false,'oninput'=>"this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');",'maxlength'=>10,'type'=>'text']); ?></td>
 					
                      <td style="vertical-align: bottom;"> 
-                    	<?php echo $this->Form->control('item_variations.0.print_rate',['class'=>'form-control print_rate','placeholder'=>'Print Rate','label'=>false]); ?>
+                    	<?php echo $this->Form->control('item_variations.0.print_rate',['class'=>'form-control print_rate','placeholder'=>'Print Rate','label'=>false,'oninput'=>"this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');",'maxlength'=>10,'type'=>'text']); ?>
                     </td>
 					
                     <td style="vertical-align: bottom;"> 
-                    	<?php echo $this->Form->control('item_variations.0.sales_rate',['class'=>'form-control sales_rate','placeholder'=>'Sales Rate','label'=>false]); ?>
+                    	<?php echo $this->Form->control('item_variations.0.sales_rate',['class'=>'form-control sales_rate','placeholder'=>'Sales Rate','label'=>false,'oninput'=>"this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');",'maxlength'=>10,'type'=>'text']); ?>
                     </td>
                     <td style="vertical-align: bottom;"> 
-                    	<?php echo $this->Form->control('item_variations.0.opening_stock',['class'=>'form-control opening_stock','placeholder'=>'Opening Stock','label'=>false]); ?>
+                    	<?php echo $this->Form->control('item_variations.0.opening_stock',['class'=>'form-control opening_stock','placeholder'=>'Opening Stock','label'=>false,'oninput'=>"this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');",'maxlength'=>10,'type'=>'text']); ?>
                     </td>
                     <td style="vertical-align: bottom;"> <button type="button" id="plus" class="btn btn-sm green"><i class="fa fa-plus"></i></button>
                       <button type="button" id="minus" class="btn btn-sm red"><i class="fa fa-minus"></i></button></td>
@@ -213,6 +213,7 @@ $('.gst').on('change',function(){
                             type: 'post',
                             data: {id: id},
                             success: function (success) {
+                            	//alert(success);
                                 if(success == 1)
                                 {
                                     

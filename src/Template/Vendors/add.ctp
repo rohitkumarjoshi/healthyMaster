@@ -15,11 +15,11 @@
 				<div class="row">
 					<div class="col-md-4">
 						<label class=" control-label">Name <span class="required" aria-required="true">*</span></label>
-						<?php echo $this->Form->control('name',['placeholder'=>'Vendor Name','class'=>'form-control input-sm','label'=>false]); ?>
+						<?php echo $this->Form->control('name',['placeholder'=>'Vendor Name','class'=>'form-control input-sm','label'=>false,'maxlength'=>50]); ?>
 					</div>
 					<div class="col-md-4">
 						<label class=" control-label">Mobile No.  </label>
-						<?php echo $this->Form->control('mobile',['placeholder'=>'Moble No.','class'=>'form-control input-sm mobile','label'=>false,'oninput'=>"this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');",'minlength'=>10,'maxlength'=>10,'type'=>'number']); ?>
+						<?php echo $this->Form->control('mobile',['placeholder'=>'Moble No.','class'=>'form-control input-sm mobile','label'=>false,'oninput'=>"this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');",'minlength'=>10,'maxlength'=>10,'type'=>'text']); ?>
 					</div>
 					<div class="col-md-4">
 						<label class=" control-label">Email  </label>
@@ -49,7 +49,7 @@
 				<div class="row" style="margin-top: 12px;">
 					<div class="col-md-6">
 						<label class=" control-label">Address <span class="required" aria-required="true">* </label>
-						<?php echo $this->Form->control('address',['placeholder'=>'Address','class'=>'form-control input-sm','label'=>false, 'rows'=>'2']); ?>
+						<?php echo $this->Form->control('address',['placeholder'=>'Address','class'=>'form-control input-sm','label'=>false, 'rows'=>'2','maxlength'=>150]); ?>
 					</div>
 				</div>
 				<br/>
