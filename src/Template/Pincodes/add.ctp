@@ -15,21 +15,22 @@
                 <div class="row">
                     <div class="col-md-3">
                         <?= $this->Form->control('id',['type'=>'hidden']); ?>
-                        <?php echo $this->Form->control('state_id', ['empty'=>'-- select --','options' => $states,'class'=>'form-control input-sm select select2me select2 state','required']); ?>
+                        <label>State</label>
+                        <?php echo $this->Form->control('state_id', ['empty'=>'-- select --','options' => $states,'class'=>'form-control input-sm select select2me select2 state','required','label'=>false]); ?>
                     </div>
                     <div class="col-md-3">
-                       <label class=" control-label">City </label>
+                       <label class=" control-label">City<span class="required" aria-required="true">*</span> </label>
                         <select name="city_id" class="form-control input-sm city" required>
                             
                             
                         </select>
                     </div>
                     <div class="col-md-3">
-                        <label class=" control-label">Pincode </label>
+                        <label class=" control-label">Pincode<span class="required" aria-required="true">*</span> </label>
                         <?php echo $this->Form->control('pincode',['placeholder'=>'Pincode','class'=>'form-control input-sm','label'=>false,'maxlength'=>6,'minlength'=>6,'required']); ?>
                     </div>
                     <div class="col-md-3">
-                        <label>We Deliver</label>
+                        <label>We Deliver<span class="required" aria-required="true">*</span></label>
                         <select name="we_deliver" class="form-control input-sm wedeliver"  id="delivery">
                             <option value="">--Select--</option>
                             <option value="Yes">Yes</option>
@@ -39,17 +40,17 @@
                 </div><br>
                 <div class="row delivery_reason display-none">
                     <div class="col-md-10">
-                        <label>Delivery Reason</label>
-                        <textarea name="delivery_reason" class="form-control" id="reason"></textarea>
+                        <label>Delivery Reason<span class="required" aria-required="true">*</span></label>
+                        <textarea name="delivery_reason" class="form-control" id="reason" ></textarea>
                     </div>
                 </div>
                 <div class="row Yesbox display-none">
                     <div class="col-md-3">
-                        <label>Minimum Amount</label>
+                        <label>Minimum Amount<span class="required" aria-required="true">*</span></label>
                         <input type="text" name="amount" class="form-control input-sm" id="amt">
                     </div>
                     <div class="col-md-3">
-                        <label>Delivery Charge</label>
+                        <label>Delivery Charge<span class="required" aria-required="true">*</span></label>
                         <input type="text" name="charge" class="form-control input-sm" id="charge">
                     </div>
                     <!--<div class="col-md-3">
@@ -114,12 +115,14 @@ $(document).on('change','.state',function(){
        if(deliver_value == "No")
        {
             $('.delivery_reason').show();
+            $('.delivery_reason').attr('required','required');
             $('.Yesbox').hide();
        }
        if(deliver_value == "Yes")
        {
             $('.delivery_reason').hide();
             $('.Yesbox').show();
+            $('.Yesbox').attr('required','required');
        }
     });
     
@@ -140,6 +143,9 @@ $(document).on('change','.state',function(){
                     required: true,
                 },
                 mobile:{
+                    required: true,
+                },
+                we_deliver:{
                     required: true,
                 },
                 address:{

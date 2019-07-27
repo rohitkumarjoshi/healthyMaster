@@ -104,7 +104,7 @@ class ItemCategoriesController extends AppController
             $this->Flash->error(__('The item category could not be saved. Please, try again.'));
         }
 		
-        $itemCategories = $this->ItemCategories->find()->where(['ItemCategories.is_deleted'=>0])->contain(['ParentItemCategories']);
+        $itemCategories = $this->ItemCategories->find()->contain(['ParentItemCategories']);
 		//pr($itemCategories->toArray()); exit;
 		$itemParent = $this->ItemCategories->find('list')->where(['parent_id IS'=>NULL]);
 
@@ -192,10 +192,24 @@ class ItemCategoriesController extends AppController
     {
         $this->request->allowMethod(['post', 'delete']);
         $itemCategory = $this->ItemCategories->get($id);
-        if ($this->ItemCategories->delete($itemCategory)) {
-            $this->Flash->success(__('The item category has been deleted.'));
+        $itemCategory->is_deleted=1;
+        if ($this->ItemCategories->save($itemCategory)) {
+            $this->Flash->success(__('The item category is made deactive.'));
         } else {
-            $this->Flash->error(__('The item category could not be deleted. Please, try again.'));
+            $this->Flash->error(__('The item category is not made deactive'));
+        }
+
+        return $this->redirect(['action' => 'index']);
+    }
+    public function delete1($id = null)
+    {
+        $this->request->allowMethod(['post', 'delete']);
+        $itemCategory = $this->ItemCategories->get($id);
+        $itemCategory->is_deleted=0;
+        if ($this->ItemCategories->save($itemCategory)) {
+            $this->Flash->success(__('The item category is made active.'));
+        } else {
+            $this->Flash->error(__('The item category is not made active'));
         }
 
         return $this->redirect(['action' => 'index']);

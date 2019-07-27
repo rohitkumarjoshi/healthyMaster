@@ -19,7 +19,9 @@
                     </div>
 					<div class="col-md-3">
                         <label class=" control-label">City <span class="required" aria-required="true">*</span></label>
-                        <?php echo $this->Form->control('city_id',['placeholder'=>'City','class'=>'form-control input-sm city','label'=>false]); ?>
+                        <select name="city_id" class="form-control input-sm city">
+                            <option value="<?= @$pincode->city_id?>"><?= $pincode->city->name?></option>
+                        </select>
                     </div>
                     <div class="col-md-3">
                         <label class=" control-label">Pincode <span class="required" aria-required="true">*</span></label>
@@ -41,7 +43,7 @@
                 <div class="row delivery_reason display-none">
                     <div class="col-md-10">
                         <label>Delivery Reason</label>
-                        <textarea name="delivery_reason" class="form-control"></textarea>
+                        <textarea name="delivery_reason" class="form-control"><?= @$pincode->delivery_reason?></textarea>
                     </div>
                 </div>
                 <div class="row Yesbox display-none">
@@ -94,7 +96,8 @@ $(document).ready(function() {
         
       });
     
-     var deliver_value= $('.wedeliver').val();
+      var deliver_value= $('.wedeliver').val();
+      alert(deliver_value);
        if(deliver_value == "No")
        {
             $('.delivery_reason').show();
@@ -111,12 +114,14 @@ $(document).ready(function() {
        if(deliver_value == "No")
        {
             $('.delivery_reason').show();
+            $('.delivery_reason').attr('required','required');
             $('.Yesbox').hide();
        }
        if(deliver_value == "Yes")
        {
             $('.delivery_reason').hide();
             $('.Yesbox').show();
+            $('.Yesbox').attr('required','required');
        }
     });
     
@@ -191,20 +196,7 @@ $(document).ready(function() {
     });
     //--     END OF VALIDATION
     
-    var $rows = $('#main_tble tbody tr');
-    $('#search3').on('keyup',function() {
-        var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
-        var v = $(this).val();
-        if(v){ 
-            $rows.show().filter(function() {
-                var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
     
-                return !~text.indexOf(val);
-            }).hide();
-        }else{
-            $rows.show();
-        }
-    });
 });
 </script>
 

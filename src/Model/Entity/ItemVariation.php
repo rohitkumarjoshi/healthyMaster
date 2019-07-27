@@ -41,6 +41,7 @@ class ItemVariation extends Entity
         'sales_rate' => true,
         'out_of_stock' => true,
         'opening_stock' => true,
+        'unit_variation_id' => true,
         'minimum_quantity_purchase' => true,
         'item' => true,
         'unit' => true

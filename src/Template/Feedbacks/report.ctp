@@ -38,12 +38,12 @@
                             <th scope="col"><?= __('S.No') ?></th>
                            <!-- <th scope="col">Customer ID</th>-->
                             <th scope="col">Customer Name</th>
-                            <th scope="col">Customer Email</th>
+                            <th scope="col">Email ID</th>
                             <th scope="col">Mobile</th>
                           
-                            <th scope="col">Quality Experience</th>
-                            <th scope="col">Deliver Experience</th>
-                            <th scope="col">Over All Experience</th>
+                            <th scope="col">Quality</th>
+                            <th scope="col">Deliver</th>
+                            <th scope="col">Over All</th>
 							  <th scope="col">Message</th>
 							 <th scope="col">Posting Date</th>
                         </tr>

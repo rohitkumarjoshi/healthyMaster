@@ -336,6 +336,20 @@ class OrdersController extends AppController
         
         exit;  
     }
+	public function optionsnew(){
+        $item_id=$this->request->getData('input'); 
+
+            $items=$this->Orders->OrderDetails->ItemVariations->find()->where(['ItemVariations.item_id '=>$item_id])->contain(['UnitVariations']);
+            ?>
+                    <option>--Select--</option>
+                    <?php foreach($items as $show){ ?>
+                        
+                        <option class="item_variation_id" value="<?= $show->id ?>"><?= $show->unit_variation->name ?></option>
+                    <?php } ?>
+            <?php
+        
+        exit;  
+    }
 
     public function readyPacked($id=null,$temp_id=null)
     {
@@ -1547,7 +1561,9 @@ class OrdersController extends AppController
         $bulk_Details = $this->BulkBookingLeads->find()->where(['id' => $bulkorder_id])->toArray();
 		$warehouses = $this->Orders->Warehouses->find('list')->where(['jain_thela_admin_id' => $jain_thela_admin_id]);
 		$item = $this->Orders->items->find('list')->where(['Items.freeze'=>0]);
-        $this->set(compact('order', 'customers', 'items', 'order_type', 'bulk_Details', 'bulkorder_id','deliverytime_fetchs','tax', 'warehouses','item'));
+		$statesdata = $this->Orders->Customers->CustomerAddresses->States->find('list')->where(['country_id'=>'101'])->toArray();
+		//pr($states);exit;
+        $this->set(compact('order', 'customers', 'items', 'order_type', 'bulk_Details', 'bulkorder_id','deliverytime_fetchs','tax', 'warehouses','item','statesdata'));
         $this->set('_serialize', ['order', 'warehouses']);
     }
 	/**

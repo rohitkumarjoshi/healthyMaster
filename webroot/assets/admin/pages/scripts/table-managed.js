@@ -9,10 +9,10 @@ var TableManaged = function () {
 
             // Internationalisation. For more info refer to http://datatables.net/manual/i18n
             "language": {
-                "aria": {
-                    "sortAscending": ": activate to sort column ascending",
-                    "sortDescending": ": activate to sort column descending"
-                },
+                // "aria": {
+                //     "sortAscending": ": activate to sort column ascending",
+                //     "sortDescending": ": activate to sort column descending"
+                // },
                 "emptyTable": "No data available in table",
                 "info": "Showing _START_ to _END_ of _TOTAL_ entries",
                 "infoEmpty": "No entries found",
@@ -29,25 +29,13 @@ var TableManaged = function () {
 
             "bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
 
-            "columns": [{
-                "orderable": false
-            }, {
-                "orderable": true
-            }, {
-                "orderable": false
-            }, {
-                "orderable": false
-            }, {
-                "orderable": true
-            }, {
-                "orderable": false
-            }],
+            
             "lengthMenu": [
                 [5, 15, 20, -1],
                 [5, 15, 20, "All"] // change per page values here
             ],
             // set the initial value
-            "pageLength": 5,            
+            "pageLength": 20,            
             "pagingType": "bootstrap_full_number",
             "language": {
                 "search": "My search: ",
@@ -60,15 +48,15 @@ var TableManaged = function () {
                 }
             },
             "columnDefs": [{  // set default column settings
-                'orderable': false,
+                //'orderable': false,
                 'targets': [0]
             }, {
                 "searchable": false,
                 "targets": [0]
-            }],
-            "order": [
-                [1, "asc"]
-            ] // set first column as a default sort by asc
+            }]
+            // "order": [
+            //     [1, "asc"]
+            // ] // set first column as a default sort by asc
         });
 
         var tableWrapper = jQuery('#sample_1_wrapper');
