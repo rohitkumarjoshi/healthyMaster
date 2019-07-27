@@ -51,7 +51,9 @@ class ItemsTable extends Table
         $this->belongsTo('Franchises', [
             'foreignKey' => 'franchise_id',
             'joinType' => 'INNER'
-        ]);
+        ]); 
+		
+		$this->belongsTo('UnitVariations');
 		
 		$this->hasMany('ItemLedgers', [
             'foreignKey' => 'item_id'

@@ -69,14 +69,11 @@
                                       <tr>
                                           <th width="5%">S.No</th>
                                           <th width="5%">Variation</th>
-                                          <th width="10%">Unit</th>
-                                         <!--  <th width="10%">Minimum Stock</th> -->
-                                          <th width="10%">Maximum Order Limit</th>
+										<th width="10%">Maximum Order Limit</th>
                                           <th width="8%">Print Rate</th>
                                           <th width="8%">Sales Rate</th>
                                           <th width="8%">Opening Stock</th>
-                                          <th width="15%">Ready To Sale</th>
-                                          <th width="8%">Actions</th>
+                                         <th width="8%">Actions</th>
                                       </tr>
                                   </thead>
                                   <tbody id="main-tbody">
@@ -95,25 +92,23 @@
               <tbody id="sub-body" class="hidden">
                 <tr>
                     <td style="vertical-align: bottom;" class="index"> </td>
-                    <td style="vertical-align: bottom;"> <?php echo $this->Form->control('item_variations.0.quantity_variation',['class'=>'form-control quantity_variation','id'=>false,'label'=>false,'required']); ?>
-                    <?php echo $this->Form->control('item_variations.0.default',['class'=>'form-control default','id'=>false,'label'=>false,'type'=>'hidden']); ?>
-                    	
-                    </td>
+                    
                     <td style="vertical-align: bottom;">
-                    <?php echo $this->Form->control('item_variations.0.unit_id', ['empty'=>'--select--','options' => @$unit_option,'class'=>'form-control unit','label'=>false]); ?>
-                    <!-- vaibhav sir <td style="vertical-align: bottom;"> -->
-                    	<?php echo $this->Form->control('item_variations.0.minimum_stock',['class'=>'form-control minimum_stock','placeholder'=>'Minimum Stock','label'=>false,'value'=>0,'type'=>'hidden']); ?>
+                    <?php echo $this->Form->control('item_variations.0.unit_id', ['empty'=>'--select--','options' => @$UnitVariations,'class'=>'form-control unit_variation_id','label'=>false]); ?>
+                   </td>
+				   
                     <td style="vertical-align: bottom;"> <?php echo $this->Form->control('item_variations.0.minimum_quantity_purchase',['class'=>'form-control minimum_quantity_purchase  order_limit','placeholder'=>'Maximum Order Limit', 'label'=>false]); ?></td>
+					
                      <td style="vertical-align: bottom;"> 
                     	<?php echo $this->Form->control('item_variations.0.print_rate',['class'=>'form-control print_rate','placeholder'=>'Print Rate','label'=>false]); ?>
                     </td>
+					
                     <td style="vertical-align: bottom;"> 
                     	<?php echo $this->Form->control('item_variations.0.sales_rate',['class'=>'form-control sales_rate','placeholder'=>'Sales Rate','label'=>false]); ?>
                     </td>
                     <td style="vertical-align: bottom;"> 
                     	<?php echo $this->Form->control('item_variations.0.opening_stock',['class'=>'form-control opening_stock','placeholder'=>'Opening Stock','label'=>false]); ?>
                     </td>
-                    <td><div class="myRadio" style="display: inline-block;"></div></td>
                     <td style="vertical-align: bottom;"> <button type="button" id="plus" class="btn btn-sm green"><i class="fa fa-plus"></i></button>
                       <button type="button" id="minus" class="btn btn-sm red"><i class="fa fa-minus"></i></button></td>
                 </tr>
@@ -205,11 +200,8 @@ $('.gst').on('change',function(){
         {
             
             $(this).find('.index').html(a);
-            $(this).find('.quantity_variation').attr('name','item_variations['+i+'][quantity_variation]');
-            $(this).find('.default').attr('name','item_variations['+i+'][default]');
-            $(this).find('.unit').attr('name','item_variations['+i+'][unit_id]');
-            $(this).find('.ready').attr('name','item_variations['+i+'][ready_to_sale]');
-            $(this).find('.minimum_stock').attr('name','item_variations['+i+'][minimum_stock]');
+            $(this).find('.unit_variation_id').attr('name','item_variations['+i+'][unit_variation_id]');
+            
             $(this).find('.minimum_quantity_purchase').attr('name','item_variations['+i+'][minimum_quantity_purchase]');
 
             $(this).find('.print_rate').attr('name','item_variations['+i+'][print_rate]');

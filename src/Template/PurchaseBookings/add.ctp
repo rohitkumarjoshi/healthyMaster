@@ -53,9 +53,9 @@
 										<label>item<label>
 									</td>
 									
-									<!-- <td width="20%">
+									<td width="20%">
 										<label>Variation<label>
-									</td> -->
+									</td>
 									<td width="20%">
 										<label>Quantity<label>
 									</td>
@@ -138,61 +138,36 @@ $(document).ready(function() {
 		
 	});
 
-	// $(document).on('change','.varition',function(){
-	// 	var input=$(this).val();
+	$(document).on('change','.item-id',function(){
+			var gst_figure_id = $('option:selected',this).attr('gst_figure_id');
+			
+		   var input=$(this).val();
+		   var master = $(this);
+			master.closest('tr').find(".gst_figure_id").val(gst_figure_id);
+		   master.closest('tr').find("td:nth-child(3) .varition option").remove();
+		   if(input.length>0){
+			   var m_data = new FormData();
+			   var url ="<?php echo $this->Url->build(["controller" => "Orders", "action" => "optionsnew"]); ?>";
+			//   alert(url);
+			   m_data.append('input',input);
+			   $.ajax({
+				   url: url,
+				   data: m_data,
+				   processData: false,
+				   contentType: false,
+				   type: 'POST',
+				   dataType:'text',
+				   success: function(data)
+				   {
+						master.closest('tr').find('td:nth-child(3) .varition').append(data);
+				   }
+			   });
+		   }
+			
+			calculate_total();
+		 });
 
- //        var master = $(this); 
-	// 	//alert(input);
-	// 	if(input.length>0){
- //            var m_data = new FormData();
- //            var url ="<?php echo $this->Url->build(["controller" => "Orders", "action" => "getprice"]); ?>";
- //         //   alert(url);
- //            m_data.append('input',input); 
- //            $.ajax({
- //                url: url,
- //                data: m_data,
- //                processData: false,
- //                contentType: false,
- //                type: 'POST',
- //                dataType:'text',
- //                success: function(response)
- //                { 
- //                	//alert(response);
-	// 				master.closest('tr').find('td:nth-child(5) .rat_value').val(response);
- //                }
- //            });
- //            }
-	// 		calculate_total();
-	// });
-
-	// $(document).on('change','.item-id',function(){
-	// 	var gst_figure_id = $('option:selected',this).attr('gst_figure_id');
-		
- //        var input=$(this).val();
- //        var master = $(this); 
-	// 	master.closest('tr').find(".gst_figure_id").val(gst_figure_id);
- //        master.closest('tr').find("td:nth-child(3) .varition option").remove();
- //        if(input.length>0){
- //            var m_data = new FormData();
- //            var url ="<?php echo $this->Url->build(["controller" => "Orders", "action" => "options"]); ?>";
- //         //   alert(url);
- //            m_data.append('input',input); 
- //            $.ajax({
- //                url: url,
- //                data: m_data,
- //                processData: false,
- //                contentType: false,
- //                type: 'POST',
- //                dataType:'text',
- //                success: function(data)
- //                { 
-	// 				master.closest('tr').find('td:nth-child(3) .varition').append(data);
- //                }
- //            });
- //        }
-		
-	// 	calculate_total();
- //      });
+	
 
 	 $(document).on('blur',".autocompleted",function(){ //alert("blur");
         $('.suggesstion-box').delay(1000).fadeOut(500);
@@ -339,7 +314,7 @@ $(document).ready(function() {
 		var total=0; var gst=0; var display_amount=0;
 		$("#main_table tbody#main_tbody tr.main_tr").each(function(){ 
 			var obj=$(this).closest('tr');
-			var qty=obj.find('.show_quantity').val();
+			var qty=obj.find('.quantity').val();
 			var rate=obj.find('.rate').val();
 			var amount=qty*rate;
 			obj.find('.amount').val(amount);
@@ -356,18 +331,14 @@ $(document).ready(function() {
 			$(this).find("td:nth-child(2) select").attr({name:"purchase_booking_details["+i+"][item_id]", id:"purchase_booking_details-"+i+"-item_id"}).rules('add', {
 						required: true
 					});
-			// $(this).find("td:nth-child(3) select").attr({name:"purchase_booking_details["+i+"][item_variation_id]"}).rules('add', {
-			// 			required: true
-			// 		});
-			$(this).find("td:nth-child(3) input").attr({name:"purchase_booking_details["+i+"][show_quantity]", id:"purchase_booking_details-"+i+"-show_quantity"}).rules('add', {
+			 $(this).find(".varition").attr({name:"purchase_booking_details["+i+"][item_variation_id]"}).rules('add', {
 						required: true
 					});
-			$(this).find(".mains").attr({name:"purchase_booking_details["+i+"][quantity]", id:"purchase_booking_details-"+i+"-quantity"}).rules('add', {
+			
+			$(this).find(".quantity").attr({name:"purchase_booking_details["+i+"][quantity]", id:"purchase_booking_details-"+i+"-quantity"}).rules('add', {
 						required: true
 					});
-			$(this).find(".mainss").attr({name:"purchase_booking_details["+i+"][invoice_quantity]", id:"purchase_booking_details-"+i+"-actual_quantity"}).rules('add', {
-						required: true
-					});
+			
 			$(this).find(".rate").attr({name:"purchase_booking_details["+i+"][rate]", id:"purchase_booking_details-"+i+"-rate"}).rules('add', {
 				required: true
 			});
@@ -381,34 +352,10 @@ $(document).ready(function() {
 		//calculate_total();
 	}
 	$(document).on('keyup','.cal_amount',function(){ 
-	calculate_total();
-		
-	});
-
-	$(".attribute").die().live('change',function(){
-		var raw_attr_name = $('option:selected', this).attr('print_quantity');
-		var raw_attr_rates = $('option:selected', this).attr('sales_rate');
-		var raw_attr_unit_name3 = $('option:selected', this).attr('unit_name');
-		var raw_attr_minimum_quantity_factor = $('option:selected', this).attr('minimum_quantity_factor');
-		var raw_attr_minimum_quantity_purchase = $('option:selected', this).attr('minimum_quantity_purchase');
-		var amount=raw_attr_minimum_quantity_factor*raw_attr_rates;
-		var is_combo=$('option:selected', this).attr('is_combo');
-		
-		$(this).closest('tr').find('.msg_shw').html("selling factor in : "+ raw_attr_minimum_quantity_factor +" "+ raw_attr_unit_name3);
-		$(this).closest('tr').find('.is_combo').val(is_combo);
-		$(this).closest('tr').find('.rat_value').val(raw_attr_rates);
-		$(this).closest('tr').find('.quant').val(1);
-		
-		$(this).closest('tr').find('.msg_shw2').html(raw_attr_minimum_quantity_factor+" "+raw_attr_unit_name3);
-		//$(this).closest('tr').find('.mains').val(raw_attr_minimum_quantity_factor);
-		$(this).closest('tr').find('.mainss').val(raw_attr_minimum_quantity_factor);
-		$(this).closest('tr').find('.quant').attr('minimum_quantity_factor', +raw_attr_minimum_quantity_factor);
-		$(this).closest('tr').find('.quant').attr('unit_name', ''+raw_attr_unit_name3+'');
-		$(this).closest('tr').find('.show_amount').val(amount);
-		//$(this).closest('tr').find('.quant').attr('max', +raw_attr_minimum_quantity_purchase);
 		calculate_total();
 	});
 
+	
 
 	$(document).on('keyup', '.number', function(e)
     { 
@@ -424,30 +371,11 @@ $(document).ready(function() {
 		}
     });
 	
-	$("#delivery_id").die().live('change',function(){
-		var raw_time_name = $('option:selected', this).text();
-		$('#del_time').val(raw_time_name);
-		//$(this).closest('tr').find('.quant').attr('max', +raw_attr_minimum_quantity_purchase);
-	});
-	
-	
-	
 	
 	
 });
 </script>
-<script>
-function selectAutoCompleted(ids,value) { 
-	
-    $('.selectedAutoCompleted').val(value);
-    $('#customer_id').val(ids);
-    $(".suggesstion-box").hide();     
-}
-function selectAutoCompleted1(value) {  
-    $('.selectedAutoCompleted1').val(value);
-    $(".suggesstion-box").hide();     
-}
-</script>
+
 <table id="sample_table" style="display:none;" >
 			<tbody>
 				<tr class="main_tr" class="tab">
@@ -459,30 +387,23 @@ function selectAutoCompleted1(value) {
 					echo $this->Form->control('item_id',['empty'=>'--Select Item--','options' => $items,'class'=>'form-control input-sm chosen-select item-id','label'=>false,'required'=>true]); ?>
 
 					</td>
-					<!-- <td>
+					 <td>
 						<select name="variation" class="form-control input-sm varition">
 							
 							
 						</select>
-
 						<span class="msg_shw2" style="color:blue;font-size:12px;"></span>
-					</td> -->
+					</td>
 					<td>
-						<?php echo $this->Form->input('show_quantity', ['label' => false,'class' => 'form-control input-sm number cal_amount quant show_quantity','placeholder'=>'Quantity']); ?>
+						<?php echo $this->Form->input('quantity', ['label' => false,'class' => 'form-control input-sm number cal_amount quant quantity','placeholder'=>'Quantity']); ?>
 						
-						<span class="msg_shw2 total"  style="color:blue;font-size:12px;"></span>
-							<?php echo $this->Form->input('quantity', ['label' => false,'class' => 'form-control input-sm number mains quantity','value'=>0, 'type'=>'hidden']); ?>
-							<?php echo $this->Form->input('invoice_quantity', ['label' => false,'class' => 'form-control input-sm number mainss actual_quantity','value'=>0, 'type'=>'hidden']); ?>
+						
 					</td>
 					<td>
-						<?php echo $this->Form->input('rate', ['label' => false,'class' => 'form-control input-sm number cal_amount rat_value rate']); ?>	
+						<?php echo $this->Form->input('rate', ['label' => false,'class' => 'form-control input-sm number cal_amount  rate']); ?>	
 					</td>
 					<td>
-						<?php echo $this->Form->input('amount', ['label' => false,'class' => 'form-control input-sm number cal_amount show_amount amount','placeholder'=>'Amount','readonly','value'=>0]); ?>	
-						<?php echo $this->Form->input('is_combo', ['label' => false,'class' => 'form-control input-sm is_combo','type'=>'hidden']); ?>
-						<?php echo $this->Form->input('gst_amount', ['label' => false,'class' => 'form-control input-sm number cal_amount gst_amount','readonly','type'=>'hidden']); ?>	
-						<?php echo $this->Form->input('gst_figure_id', ['label' => false,'class' => 'form-control input-sm gst_figure_id','type'=>'hidden']); ?>
-						<?php echo $this->Form->input('net_amount', ['label' => false,'class' => 'form-control input-sm number cal_amount net_amount','readonly','type'=>'hidden']); ?>	
+						<?php echo $this->Form->input('amount', ['label' => false,'class' => 'form-control input-sm number   amount','placeholder'=>'Amount','readonly','value'=>0]); ?>	
 					</td>
                     <td>
 						<a class="btn btn-default delete-tr input-sm" href="#" role="button" ><i class="fa fa-times"></i></a>

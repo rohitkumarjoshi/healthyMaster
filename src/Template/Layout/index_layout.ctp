@@ -169,7 +169,7 @@
 									<?php echo $this->Html->link('<i class="fa fa-users"></i> Vendors','/Vendors',['escape'=>false]) ?>
 								</li>
 								<li>
-								<?php echo $this->Html->link('<i class="fa fa-magnet"></i> Units','/Units',['escape'=>false]) ?>
+								<?php echo $this->Html->link('<i class="fa fa-magnet"></i> UnitVariations','/UnitVariations',['escape'=>false]) ?>
 								</li>
 								<li>
 									<?php echo $this->Html->link('<i class="fa fa-sitemap"></i> Item Categories','/Item-Categories',['escape'=>false]) ?>
@@ -261,7 +261,7 @@
 										<?php echo $this->Html->link('<i class="fa fa-users"></i> Vendors','/Vendors',['escape'=>false]) ?>
 									</li>
 									<li>
-									<?php echo $this->Html->link('<i class="fa fa-magnet"></i> Units','/Units',['escape'=>false]) ?>
+									<?php echo $this->Html->link('<i class="fa fa-magnet"></i> Unit Variations','/UnitVariations',['escape'=>false]) ?>
 									</li>
 									<li>
 										<?php echo $this->Html->link('<i class="fa fa-sitemap"></i> Item Categories','/Item-Categories',['escape'=>false]) ?>
@@ -291,11 +291,14 @@
 									<li>
 										<?php echo $this->Html->link('<i class="fa  fa-file"></i>Purchase Report','/PurchaseBookings/purchase_report',['escape'=>false]) ?>
 									</li>
-									<li>
+									<!--<li>
 										<?php echo $this->Html->link('<i class="fa  fa-file"></i> Variation Stock','/ItemLedgers/stockReport',['escape'=>false]) ?>
 									</li>
 									<li>
 										<?php echo $this->Html->link('<i class="fa  fa-file"></i> Material Stock','/ItemLedgers/stockReportVarWise',['escape'=>false]) ?>
+									</li>-->
+									<li>
+										<?php echo $this->Html->link('<i class="fa  fa-file"></i> Stock Report','/ItemLedgers/NewReport',['escape'=>false]) ?>
 									</li>
 									<li>
 										<?php echo $this->Html->link('<i class="fa  fa-file"></i>GST Report','/Orders/gst_reports',['escape'=>false]) ?>
