@@ -213,6 +213,7 @@ $('.gst').on('change',function(){
                             type: 'post',
                             data: {id: id},
                             success: function (success) {
+                            	//alert(success);
                                 if(success == 1)
                                 {
                                     
