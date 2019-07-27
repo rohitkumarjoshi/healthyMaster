@@ -22,8 +22,17 @@ class CustomerAddressesController extends AppController
      public function defaultcheck($customer_id){
         $query = $this->CustomerAddresses->query();
                 $query->update()
-                        ->set(['default_address' => 0])
+                        ->set(['default_address' => 0,'others'=>'Yes'])
                         ->where(['customer_id'=>$customer_id])
+                        ->execute();
+                        echo $query;
+                        exit;
+                    }
+    public function defaultcheck1($customer_id){
+        $query = $this->CustomerAddresses->query();
+                $query->update()
+                        ->set(['default_address' => 1,'others'=>NULL])
+                        ->where(['customer_id'=>$customer_id,'others'=>'Yes'])
                         ->execute();
                         echo $query;
                         exit;
@@ -70,11 +79,11 @@ class CustomerAddressesController extends AppController
 		if(sizeof($customerAddressexists->toArray())>0){
 			$customerAddress = $this->CustomerAddresses->newEntity();
 				  $customerAddress = $this->CustomerAddresses->patchEntity($customerAddress, $this->request->getData());
-						$query = $this->CustomerAddresses->query();
-					$query->update()
-						->set(['default_address' => 0])
-						->where(['customer_id' => $customer_id])
-						->execute();
+					// 	$query = $this->CustomerAddresses->query();
+					// $query->update()
+					// 	->set(['default_address' => 0])
+					// 	->where(['customer_id' => $customer_id])
+					// 	->execute();
 						$query = $this->CustomerAddresses->query();
 						$query->insert(['customer_id', 'name', 'mobile', 'house_no','address','locality','default_address','pincode','apartment_name','address_type','state_id','city_id'])
 									->values([
@@ -119,20 +128,20 @@ class CustomerAddressesController extends AppController
 	}
 	
 	
-	public function adddefaultAddress($customer_id,$address_id){
-		$query = $this->CustomerAddresses->query();
-				$query->update()
-						->set(['default_address' => 0])
-						->where(['customer_id'=>$customer_id])
-						->execute();
+	// public function adddefaultAddress($customer_id,$address_id){
+	// 	$query = $this->CustomerAddresses->query();
+	// 			$query->update()
+	// 					->set(['default_address' => 0])
+	// 					->where(['customer_id'=>$customer_id])
+	// 					->execute();
 						
-		$query = $this->CustomerAddresses->query();
-					$query->update()
-						->set(['default_address' => 1])
-						->where(['id'=>$address_id])
-						->execute();
-						exit;
-	}
+	// 	$query = $this->CustomerAddresses->query();
+	// 				$query->update()
+	// 					->set(['default_address' => 1])
+	// 					->where(['id'=>$address_id])
+	// 					->execute();
+	// 					exit;
+	// }
 
 
     /**

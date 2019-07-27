@@ -101,7 +101,7 @@
 				
 				 <br>
 				<div class="row" style="margin-top:10px;">
-				<div class="col-md-8">
+					<div class="col-md-8">
 								<div class="form-group">
 									<label class="control-label">Default Address<span class="required" aria-required="true">*</span></label>
 									<div class="radio-list">
@@ -231,6 +231,19 @@ $("#search3").on("keyup",function() {
 							//alert(response);
 						});
 		}
+		// if(default_address == "0")
+		// {
+		// 	var customer_id=$('#customer_id').val();
+		// 	var url="<?php echo $this->Url->build(['controller'=>'CustomerAddresses','action'=>'defaultcheck1']); ?>";
+		// 				url=url+'/'+customer_id,
+
+		// 	//alert(url);	
+		// 				$.ajax({
+		// 					url: url,
+		// 				}).done(function(response) { 
+		// 					//alert(response);
+		// 				});
+		// }
 	});
 
 	
