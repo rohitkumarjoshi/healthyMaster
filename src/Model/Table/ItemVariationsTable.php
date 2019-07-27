@@ -117,7 +117,7 @@ class ItemVariationsTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->existsIn(['item_id'], 'Items'));
-        $rules->add($rules->existsIn(['unit_id'], 'Units'));
+        //$rules->add($rules->existsIn(['unit_id'], 'Units'));
 
         return $rules;
     }

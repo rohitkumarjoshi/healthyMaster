@@ -109,14 +109,14 @@ class PurchaseBookingsController extends AppController
 			
 			
 			
-			//pr($ItemVariationdata->unit_variation_id);exit;
+			//pr($purchaseBooking);exit;
 			
             if ($this->PurchaseBookings->save($purchaseBooking)) {
 				
 				//$this->PurchaseBookings->ItemLedgers->deleteAll(['grn_id' => $grn_id]);
 				foreach($purchaseBooking->purchase_booking_details as $purchase_booking_detail)
 				{
-					$ItemVariationdata = $this->PurchaseBookings->ItemLedgers->ItemVariations->find()->select(['unit_variation_id'])->where(['id'=>$purchase_booking_detail->item_variation_id])->first();
+					/* $ItemVariationdata = $this->PurchaseBookings->ItemLedgers->ItemVariations->find()->select(['unit_variation_id'])->where(['id'=>$purchase_booking_detail->item_variation_id])->first(); */
 					
 					
 					$query = $this->PurchaseBookings->ItemLedgers->query();
@@ -135,7 +135,7 @@ class PurchaseBookingsController extends AppController
 						'quantity' => $purchase_booking_detail->quantity,
 						'rate_updated' => 'Yes',
 						'transaction_date'=>$purchaseBooking->transaction_date,
-						'unit_variation_id'=>$ItemVariationdata->unit_variation_id,
+						'unit_variation_id'=>$purchase_booking_detail->unit_variation_id,
                    ]);
 					$query->execute();
 					
@@ -219,8 +219,9 @@ class PurchaseBookingsController extends AppController
         }
 		//pr($grn);
 		//exit;
-       
-        $this->set(compact('purchaseBooking', 'grn','vendors','warehouses','items'));
+		$UnitVariations=$this->PurchaseBookings->PurchaseBookingDetails->Items->ItemVariations->UnitVariations->find('list')->toArray();;
+		//pr($UnitVariations); exit;
+        $this->set(compact('purchaseBooking', 'grn','vendors','warehouses','items','UnitVariations'));
         $this->set('_serialize', ['purchaseBooking']);
     }
 
@@ -272,8 +273,9 @@ class PurchaseBookingsController extends AppController
         //$details = $this->PurchaseBookings->PurchaseBookingDetails->find()->where(['purchase_booking_id'=>$id])->contain(['Items','ItemVariations'=>['Units']]);
         $vendors = $this->PurchaseBookings->Vendors->find('list', ['limit' => 200]);
           $warehouses = $this->PurchaseBookings->ItemLedgers->Warehouses->find('list')->where(['jain_thela_admin_id'=>$jain_thela_admin_id]);
+		 $UnitVariations=$this->PurchaseBookings->PurchaseBookingDetails->Items->ItemVariations->UnitVariations->find('list')->toArray();;
         $jainThelaAdmins = $this->PurchaseBookings->JainThelaAdmins->find('list', ['limit' => 200]);
-        $this->set(compact('purchaseBooking', 'vendors', 'jainThelaAdmins','warehouses','items'));
+        $this->set(compact('purchaseBooking', 'vendors', 'jainThelaAdmins','warehouses','items','UnitVariations'));
         $this->set('_serialize', ['purchaseBooking']);
     }
 

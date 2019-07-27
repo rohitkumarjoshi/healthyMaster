@@ -277,6 +277,8 @@ $(document).ready(function() {
                 { 
                 	//alert(response);
 					master.closest('tr').find('td:nth-child(5) .rat_value').val(response);
+					master.closest('tr').find('td:nth-child(4) .show_quantity').val(0);
+					master.closest('tr').find('span.total').html('');
                 }
             });
             }
@@ -292,7 +294,7 @@ $(document).ready(function() {
         master.closest('tr').find("td:nth-child(3) .varition option").remove();
         if(input.length>0){
             var m_data = new FormData();
-            var url ="<?php echo $this->Url->build(["controller" => "Orders", "action" => "options"]); ?>";
+            var url ="<?php echo $this->Url->build(["controller" => "Orders", "action" => "optionsnew"]); ?>";
          //   alert(url);
             m_data.append('input',input); 
             $.ajax({
@@ -305,6 +307,7 @@ $(document).ready(function() {
                 success: function(data)
                 { 
 					master.closest('tr').find('td:nth-child(3) .varition').append(data);
+					master.closest('tr').find('span.total').html('');
                 }
             });
         }
@@ -629,7 +632,7 @@ function round(value, exp) {
 		var item_id =$(this).closest('tr').find('td:nth-child(2) select').val();
 		var variation_id =$(this).closest('tr').find('td:nth-child(3) select').val();
         $.ajax({
-            url: "<?php echo $this->Url->build(["controller" => "ItemLedgers", "action" => "ajaxQuantity"]); ?>",
+            url: "<?php echo $this->Url->build(["controller" => "ItemLedgers", "action" => "ajaxQuantityNew"]); ?>",
             type: 'post',
             data: {item_id: item_id,variation_id:variation_id},
            success: function(data)   // A function to be called if request succeeds

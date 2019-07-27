@@ -404,6 +404,9 @@
 							<li>
 								<?php echo $this->Html->link('<i class="fa  fa-book"></i> Purchase Booking','/PurchaseBookings',['escape'=>false]) ?>
 							</li>
+							<li>
+								<?php echo $this->Html->link('<i class="fa  fa-book"></i> Wastage Reuse','/WastageReuseVouchers/add',['escape'=>false]) ?>
+							</li>
 							<!-- <li>
 								<?php echo $this->Html->link('<i class="fa fa-puzzle-piece"></i> Transfer Inventory','/TransferInventoryVouchers/',['escape'=>false]) ?>
 							</li> -->

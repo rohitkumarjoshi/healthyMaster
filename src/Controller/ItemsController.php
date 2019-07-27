@@ -32,7 +32,25 @@ class ItemsController extends AppController
         exit;  
     }
 
-    public function gstReport()
+    public function VarUpdate()
+    {
+       $Items = $this->Items->find()->toArray();
+	   $i=0;
+	   foreach($Items as $data){ $i++;
+		   $ItemVariations = $this->Items->ItemVariations->newEntity();
+		   $ItemVariations->item_id = $data->id;
+		   $ItemVariations->unit_variation_id = 1;
+		   $ItemVariations->quantity_variation = '1 Kg';
+		   //$ItemVariations->unit_id = '';
+		   $ItemVariations->minimum_stock = 0;
+		   $ItemVariations->ready_to_sale = 'No'; 
+			//$this->Items->ItemVariations->save($ItemVariations);
+	   }
+	  echo $i; exit;
+	   
+    }
+	
+ public function gstReport()
     {
        $this->viewBuilder()->layout('index_layout');
        $gsts=$this->Items->ItemVariations->find()

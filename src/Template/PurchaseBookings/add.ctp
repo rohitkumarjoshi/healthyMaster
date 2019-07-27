@@ -138,14 +138,13 @@ $(document).ready(function() {
 		
 	});
 
-	$(document).on('change','.item-id',function(){
-			var gst_figure_id = $('option:selected',this).attr('gst_figure_id');
-			
+	/* $(document).on('change','.item-id',function(){
+		var gst_figure_id = $('option:selected',this).attr('gst_figure_id');
 		   var input=$(this).val();
 		   var master = $(this);
 			master.closest('tr').find(".gst_figure_id").val(gst_figure_id);
 		   master.closest('tr').find("td:nth-child(3) .varition option").remove();
-		   if(input.length>0){
+		    if(input.length>0){
 			   var m_data = new FormData();
 			   var url ="<?php echo $this->Url->build(["controller" => "Orders", "action" => "optionsnew"]); ?>";
 			//   alert(url);
@@ -159,14 +158,14 @@ $(document).ready(function() {
 				   dataType:'text',
 				   success: function(data)
 				   {
-						master.closest('tr').find('td:nth-child(3) .varition').append(data);
+						//master.closest('tr').find('td:nth-child(3) .varition').append(data);
 				   }
 			   });
-		   }
+		   } 
 			
 			calculate_total();
 		 });
-
+*/
 	
 
 	 $(document).on('blur',".autocompleted",function(){ //alert("blur");
@@ -331,7 +330,7 @@ $(document).ready(function() {
 			$(this).find("td:nth-child(2) select").attr({name:"purchase_booking_details["+i+"][item_id]", id:"purchase_booking_details-"+i+"-item_id"}).rules('add', {
 						required: true
 					});
-			 $(this).find(".varition").attr({name:"purchase_booking_details["+i+"][item_variation_id]"}).rules('add', {
+			 $(this).find(".varition").attr({name:"purchase_booking_details["+i+"][unit_variation_id]"}).rules('add', {
 						required: true
 					});
 			
@@ -388,11 +387,9 @@ $(document).ready(function() {
 
 					</td>
 					 <td>
-						<select name="variation" class="form-control input-sm varition">
-							
-							
-						</select>
-						<span class="msg_shw2" style="color:blue;font-size:12px;"></span>
+						<?php 
+						
+						echo $this->Form->control('unit_variation_id',['empty'=>'--Select Variation--','options' => $UnitVariations,'class'=>'form-control input-sm chosen-select varition','label'=>false,'required'=>true]); ?>
 					</td>
 					<td>
 						<?php echo $this->Form->input('quantity', ['label' => false,'class' => 'form-control input-sm number cal_amount quant quantity','placeholder'=>'Quantity']); ?>

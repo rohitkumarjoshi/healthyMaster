@@ -45,6 +45,52 @@ class ItemLedgersController extends AppController
     		}
     	exit;
     }
+
+	public function ajaxQuantityNew()
+    {
+    	$item_id=$this->request->getData('item_id');
+    	$variation_id=$this->request->getData('variation_id');
+		$item_id=1;
+		$variation_id=2;
+		$transaction_date=date('Y-m-d');
+		//$transaction_date='2019-07-17';
+		
+		$ItemLedgersData = $this->ItemLedgers->find()->select(['item_id','item_variation_id','status','quantity','transaction_date','unit_variation_id'])
+		->contain(['UnitVariations'])
+		->where(['ItemLedgers.transaction_date'=>$transaction_date,'item_id'=>$item_id])->autoFields(true);
+		
+		$ItemLedgersData->select(['total_op_qt' => $ItemLedgersData->func()->sum('ItemLedgers.quantity')])
+       ->group(['ItemLedgers.unit_variation_id','ItemLedgers.item_id','ItemLedgers.status',])
+        ;
+		
+		$QuantityTotalStock=0;
+		foreach($ItemLedgersData as $data){
+			if($data->status=="In"){ 
+				//@$QuantityTotalStock[$data->item_id]+=@$data->item_variation->unit_variation->quantity_factor*$data->total_op_qt;
+				@$QuantityTotalStock+=@$data->unit_variation->quantity_factor*$data->total_op_qt;
+			}else{
+				//@$QuantityTotalStock[$data->item_id]-=@$data->item_variation->unit_variation->quantity_factor*$data->total_op_qt;
+				@$QuantityTotalStock-=@$data->unit_variation->quantity_factor*$data->total_op_qt;
+			}
+		}
+		
+		$Orders = $this->ItemLedgers->Orders->find()->contain(['OrderDetails'=>['ItemVariations'=>['UnitVariations']]])->where(['Orders.status NOT IN'=>['Delivered','Cancel']])->toArray();
+		foreach($Orders as $Order){
+			foreach($Order->order_details as $order_detail){
+				if($order_detail->item_id==$item_id){
+				@$QuantityTotalStock-=@$order_detail->item_variation->unit_variation->quantity_factor*$order_detail->quantity;
+				}
+			}
+		}
+		
+		
+		$ItemVariations=$this->ItemLedgers->ItemVariations->find()->where(['ItemVariations.id'=>$variation_id])->contain(['UnitVariations'])->first();
+		
+		pr($QuantityTotalStock); pr($ItemVariations->unit_variation->quantity_factor); exit;
+    	$rem=floor($QuantityTotalStock/$ItemVariations->unit_variation->quantity_factor);
+		echo $rem;
+    	exit;
+    }
 	
 	public function options(){
        // $item_id=$this->request->getData('input'); 
@@ -585,28 +631,44 @@ class ItemLedgersController extends AppController
 		$this->viewBuilder()->layout('index_layout');
 
 		$transaction_date=date('Y-m-d');
-		//$transaction_date='2019-07-17';
-		$ItemLedgersData = $this->ItemLedgers->find()->select(['item_id','item_variation_id','status','quantity','transaction_date'])
-		->contain(['ItemVariations'=>['UnitVariations']])
-		->where(['ItemLedgers.transaction_date'=>$transaction_date])->autoFields(true);
 		
+		/* //$transaction_date='2019-07-17';
+		 $ItemLedgersData = $this->ItemLedgers->find()->select(['item_id','item_variation_id','status','quantity','transaction_date','unit_variation_id'])
+		->contain(['ItemVariations'=>['UnitVariations']])
+		->where(['ItemLedgers.transaction_date <= '=>$transaction_date])->autoFields(true);
+		//pr(@$ItemLedgersData->toArray()); exit;
 		$ItemLedgersData->select(['total_op_qt' => $ItemLedgersData->func()->sum('ItemLedgers.quantity')])
        ->group(['ItemLedgers.item_variation_id','ItemLedgers.status'])
+        ;  */
+		//pr(@$ItemLedgersData->toArray()); exit;
+		
+		 $ItemLedgersData = $this->ItemLedgers->find()->select(['item_id','item_variation_id','status','quantity','transaction_date','unit_variation_id'])
+		->contain(['UnitVariations'])
+		->where(['ItemLedgers.transaction_date'=>$transaction_date])->autoFields(true);
+		//pr(@$ItemLedgersData->toArray()); exit;
+		
+		$ItemLedgersData->select(['total_op_qt' => $ItemLedgersData->func()->sum('ItemLedgers.quantity')])
+       ->group(['ItemLedgers.unit_variation_id','ItemLedgers.item_id','ItemLedgers.status',])
         ;
-        
+		//pr(@$ItemLedgersData->toArray()); exit;
 		$QuantityTotalStock=[];$availableItem=[];
 		foreach($ItemLedgersData as $data){
-			if($data->status=="In"){
-				@$QuantityTotalStock[$data->item_id]+=@$data->item_variation->unit_variation->quantity_factor*$data->total_op_qt;
+			if($data->status=="In"){ 
+				//@$QuantityTotalStock[$data->item_id]+=@$data->item_variation->unit_variation->quantity_factor*$data->total_op_qt;
+				@$QuantityTotalStock[$data->item_id]+=@$data->unit_variation->quantity_factor*$data->total_op_qt;
 			}else{
-				@$QuantityTotalStock[$data->item_id]-=@$data->item_variation->unit_variation->quantity_factor*$data->total_op_qt;
+				//@$QuantityTotalStock[$data->item_id]-=@$data->item_variation->unit_variation->quantity_factor*$data->total_op_qt;
+				@$QuantityTotalStock[$data->item_id]-=@$data->unit_variation->quantity_factor*$data->total_op_qt;
+			}
+		}
+		//pr(@$QuantityTotalStock); exit;
+		$Orders = $this->ItemLedgers->Orders->find()->contain(['OrderDetails'=>['ItemVariations'=>['UnitVariations']]])->where(['Orders.status NOT IN'=>['Delivered','Cancel']])->toArray();
+		foreach($Orders as $Order){
+			foreach($Order->order_details as $order_detail){
+				@$QuantityTotalStock[$order_detail->item_id]-=@$order_detail->unit_variation->quantity_factor*$order_detail->quantity;
 			}
 		}
 		
-		/* $itemVariations=[];
-		foreach($QuantityTotalStock as $key=>$dat){
-			$itemVariations[$key]=
-		} */
 		
 		$Items = $this->ItemLedgers->Items->find()->contain(['ItemVariations'=>['UnitVariations']]);
        

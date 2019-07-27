@@ -64,6 +64,7 @@ class ItemLedgersTable extends Table
             'foreignKey' => 'walkin_sales_id',
             'joinType' => 'LEFT'
         ]);
+		$this->belongsTo('UnitVariations');
 		$this->belongsTo('Orders');
 		$this->belongsTo('TransferInventoryVouchers');
 		$this->belongsTo('PurchaseOutwards');
@@ -115,7 +116,7 @@ class ItemLedgersTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->existsIn(['jain_thela_admin_id'], 'JainThelaAdmins'));
+        //$rules->add($rules->existsIn(['jain_thela_admin_id'], 'JainThelaAdmins'));
         $rules->add($rules->existsIn(['driver_id'], 'Drivers'));
         $rules->add($rules->existsIn(['item_id'], 'Items'));
         $rules->add($rules->existsIn(['warehouse_id'], 'Warehouses'));
