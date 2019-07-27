@@ -23,13 +23,13 @@
 				<div class="row">
 					<div class="col-md-8" style="margin-top: 10px;">
 						<label class=" control-label">Short Name <span class="required" aria-required="true">*</span></label>
-						<?php echo $this->Form->control('shortname',['placeholder'=>'Short Name','class'=>'form-control input-sm shortname','label'=>false]); ?>
+						<?php echo $this->Form->control('shortname',['placeholder'=>'Short Name','class'=>'form-control input-sm shortname','label'=>false,'maxlength'=>50]); ?>
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-md-8">
 						<label class=" control-label">Long Name <span class="required" aria-required="true">*</span></label>
-						<?php echo $this->Form->control('longname',['placeholder'=>'Long Name','class'=>'form-control input-sm','label'=>false]); ?>
+						<?php echo $this->Form->control('longname',['placeholder'=>'Long Name','class'=>'form-control input-sm','label'=>false,'maxlength'=>50]); ?>
 					</div>
 				</div>
 				<br/>
