@@ -15,11 +15,11 @@
 				<div class="row">
 					<div class="col-md-4">
 						<label class=" control-label">Name <span class="required" aria-required="true">*</span></label>
-						<?php echo $this->Form->control('name',['placeholder'=>'Vendor Name','class'=>'form-control input-sm','label'=>false]); ?>
+						<?php echo $this->Form->control('name',['placeholder'=>'Vendor Name','class'=>'form-control input-sm','label'=>false,'maxlength'=>50]); ?>
 					</div>
 					<div class="col-md-4">
 						<label class=" control-label">Mobile No.  </label>
-						<?php echo $this->Form->control('mobile',['placeholder'=>'Moble No.','class'=>'form-control input-sm','label'=>false,'oninput'=>"this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');",'minlength'=>10,'maxlength'=>10,'type'=>'number']); ?>
+						<?php echo $this->Form->control('mobile',['placeholder'=>'Moble No.','class'=>'form-control input-sm','label'=>false,'oninput'=>"this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');",'minlength'=>10,'maxlength'=>10,'type'=>'text']); ?>
 					</div>
 					<div class="col-md-4">
 						<label class=" control-label">Email </label>
@@ -29,7 +29,7 @@
 				<div class="row" style="margin-top: 12px;">
 					<div class="col-md-4">
 						<label class=" control-label">GST No.</label>
-						<?php echo $this->Form->control('gst_no',['placeholder'=>'GST No.','class'=>'form-control input-sm gst_no','label'=>false]); ?>
+						<?php echo $this->Form->control('gst_no',['placeholder'=>'GST No.','class'=>'form-control input-sm gst_no','label'=>false,'type'=>'text','minlength'=>15,'maxlength'=>15]); ?>
 					</div>
 					<div class="col-md-4">
                         <?= $this->Form->control('id',['type'=>'hidden']); ?>
@@ -42,7 +42,7 @@
 				<div class="row">
 					<div class="col-md-6">
 						<label class=" control-label">Addres <span class="required" aria-required="true">*</label>
-						<?php echo $this->Form->control('address',['placeholder'=>'Address','class'=>'form-control input-sm','label'=>false, 'rows'=>'2']); ?>
+						<?php echo $this->Form->control('address',['placeholder'=>'Address','class'=>'form-control input-sm','label'=>false, 'rows'=>'2','maxlength'=>150]); ?>
 					</div>
 				</div>
 				<br/>
