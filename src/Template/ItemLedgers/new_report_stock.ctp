@@ -74,11 +74,15 @@
 										<td style="text-align:center"><?= @$TodayPurchaseStock[$Item->id]; ?></td>
 										<td style="text-align:center"><?= @$TodayWastageStock[$Item->id]; ?></td>
 										<td style="text-align:center"><?= @$TodayReuseStock[$Item->id]; ?></td>
+										<?php 
+										$todayReadyStok=0;
+										$todayReadyStok=@$QuantityOpeningStock[$Item->id]+@$TodayPurchaseStock[$Item->id]-@$TodayWastageStock[$Item->id]-@$TodayReuseStock[$Item->id];
 										
-										<td style="text-align:center"><?= @$QuantityOpeningStock[$Item->id]+@$TodayPurchaseStock[$Item->id]-@$TodayWastageStock[$Item->id]-@$TodayReuseStock[$Item->id]; ?></td>
+										?>
+										<td style="text-align:center"><?= @$todayReadyStok; ?></td>
 										<td style="text-align:center"><?= @$todaySales[$Item->id]; ?></td>
 										
-										<td style="text-align:center"><?php echo $QuantityTotalStock[$Item->id]; ?></td>
+										<td style="text-align:center"><?php echo @$todayReadyStok-@$todaySales[$Item->id]; ?></td>
 									</tr>
 								<?php }  } ?>
 							</tbody>

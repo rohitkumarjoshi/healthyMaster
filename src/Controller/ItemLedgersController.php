@@ -635,7 +635,7 @@ class ItemLedgersController extends AppController
 		//Opening Stock Start
 		$ItemLedgersData = $this->ItemLedgers->find()->select(['item_id','item_variation_id','status','quantity','transaction_date','unit_variation_id'])
 		->contain(['UnitVariations'])
-		->where(['ItemLedgers.transaction_date <'=>$transaction_date])
+		->where(['ItemLedgers.transaction_date < '=>$transaction_date])
 		->orWhere(['ItemLedgers.opening_stock'=>'Yes','ItemLedgers.transaction_date'=>$transaction_date])
 		->autoFields(true);
 		$ItemLedgersData->select(['total_op_qt' => $ItemLedgersData->func()->sum('ItemLedgers.quantity')])
@@ -650,12 +650,15 @@ class ItemLedgersController extends AppController
 				@$QuantityOpeningStock[$data->item_id]-=@$data->unit_variation->quantity_factor*$data->total_op_qt;
 			}
 		}
-		/* $Orders = $this->ItemLedgers->Orders->find()->contain(['OrderDetails'=>['ItemVariations'=>['UnitVariations']]])->where(['Orders.status NOT IN'=>['Delivered','Cancel']])->toArray();
+		
+		$Orders = $this->ItemLedgers->Orders->find()->contain(['OrderDetails'=>['ItemVariations'=>['UnitVariations']]])->where(['Orders.status NOT IN'=>['Delivered','Cancel'],'Orders.curent_date < '=>$transaction_date])->toArray();
 		foreach($Orders as $Order){
 			foreach($Order->order_details as $order_detail){
-				@$QuantityOpeningStock[$order_detail->item_id]-=@$order_detail->unit_variation->quantity_factor*$order_detail->quantity;
+				@$QuantityOpeningStock[$order_detail->item_id]-=@$order_detail->item_variation->unit_variation->quantity_factor*$order_detail->quantity;
+				
 			}
-		} */
+		} 
+		
 		//Opening stock End
 		
 		
@@ -702,19 +705,19 @@ class ItemLedgersController extends AppController
 			}
 		}
 		
-		$Orders = $this->ItemLedgers->Orders->find()->contain(['OrderDetails'=>['ItemVariations'=>['UnitVariations']]])->where(['Orders.status NOT IN'=>['Delivered','Cancel']])->toArray();
+		/*$Orders = $this->ItemLedgers->Orders->find()->contain(['OrderDetails'=>['ItemVariations'=>['UnitVariations']]])->where(['Orders.status NOT IN'=>['Delivered','Cancel']])->toArray();
 		
-		foreach($Orders as $Order){
+		 foreach($Orders as $Order){
 			foreach($Order->order_details as $order_detail){
 				@$QuantityTotalStock[$order_detail->item_id]-=@$order_detail->item_variation->unit_variation->quantity_factor*$order_detail->quantity;
 			}
-		}
+		} */
 		//	pr($QuantityTotalStock);exit;
 		//closing stock End
 		
 		//Today Sale Start\
 		
-		$Orders = $this->ItemLedgers->Orders->find()->contain(['OrderDetails'=>['ItemVariations'=>['UnitVariations']]])->where(['Orders.status NOT IN'=>['Delivered','Cancel']])->toArray();
+		$Orders = $this->ItemLedgers->Orders->find()->contain(['OrderDetails'=>['ItemVariations'=>['UnitVariations']]])->where(['Orders.status NOT IN'=>['Cancel'],'Orders.curent_date '=>$transaction_date])->toArray();
 		$todaySales=[];
 		foreach($Orders as $Order){
 			foreach($Order->order_details as $order_detail){

@@ -1614,12 +1614,12 @@ class OrdersController extends AppController
     {
 		$this->viewBuilder()->layout('index_layout');
 		$jain_thela_admin_id=$this->Auth->User('jain_thela_admin_id');
-		$curent_date=date('Y-m-d');
+		
 		
         $order = $this->Orders->get($id, [
             'contain' => ['Customers'=>['CustomerAddresses']]
         ]);
-
+		//$curent_date=$order
         $data=$this->request->getData();
         //pr($data['order_details']);exit;
 
