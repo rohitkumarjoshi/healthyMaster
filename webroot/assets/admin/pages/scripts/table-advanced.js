@@ -34,7 +34,7 @@ var TableAdvanced = function () {
                 "infoFiltered": "(filtered1 from _MAX_ total entries)",
                 "lengthMenu": "Show _MENU_ entries",
                 "search": "Search:",
-                "zeroRecords": "No matching records found"
+                "zeroRecords": "No records found"
             },
 
             "order": [

@@ -19,7 +19,7 @@
 				<!-- BEGIN FORM-->
 				<div class="row">
 					<div class="col-md-12">
-						<table id="main_tble" class="table table-condensed table-bordered">
+						<table class="table table-striped table-bordered table-hover dataTable no-footer" id="sample_1">
 							<thead>
 								<tr>
 									<td  width="3%" style="text-align:center" >
