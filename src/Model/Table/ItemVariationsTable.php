@@ -49,7 +49,7 @@ class ItemVariationsTable extends Table
         ]);
         $this->belongsTo('Units', [
             'foreignKey' => 'unit_id',
-            'joinType' => 'INNER'
+            'joinType' => 'LEFT'
         ]);
         $this->belongsTo('UnitVariations');
         $this->hasOne('Wishlists', [

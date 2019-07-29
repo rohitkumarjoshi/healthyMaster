@@ -637,10 +637,13 @@ class OrdersController extends AppController
 					
 		        	$order_id=$packed->id;
 		        	//pr($order_id);
-		        	$order_detail=$this->Orders->OrderDetails->find()->where(['order_id'=>$order_id]);
-					foreach ($order_detail as $detail) {
-						$query = $this->Orders->ItemLedgers->query();
-                    $query->insert(['jain_thela_admin_id', 'driver_id','item_id', 'warehouse_id','order_id', 'purchase_booking_id', 'rate', 'amount', 'status', 'quantity','rate_updated','item_variation_id'])
+		        	$order_detail=$this->Orders->OrderDetails->find()->where(['order_id'=>$order_id])->contain(['ItemVariations']);
+					
+					foreach ($order_detail as $detail) { 
+					$unit_variation_id=$detail->item_variation->unit_variation_id; 
+					
+					$query = $this->Orders->ItemLedgers->query();
+                    $query->insert(['jain_thela_admin_id', 'driver_id','item_id', 'warehouse_id','order_id', 'purchase_booking_id', 'rate', 'amount', 'status', 'quantity','rate_updated','item_variation_id','unit_variation_id'])
                     ->values([
                         'jain_thela_admin_id' => 1,
                         'driver_id' => 0,
@@ -654,7 +657,8 @@ class OrdersController extends AppController
                         'amount' => $detail->amount,
                         'status' => 'Out',
                         'quantity' => $detail->quantity,
-                        'rate_updated' => 'OK'
+                        'rate_updated' => 'OK',
+						'unit_variation_id'=>$unit_variation_id
                     ]);
                     $query->execute();	        		
 					}		 

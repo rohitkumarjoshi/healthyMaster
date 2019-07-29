@@ -312,7 +312,9 @@ class CartsController extends AppController
 				foreach($cart_data->item->item_variations as $item_variation)
 				{
 					$saleRate = $item_variation->sales_rate;
-					$count  = $cart_data->cart_count;
+					$count  = $cart_data->quantity;
+					//$count  = $cart_data->cart_count;
+					//$item_variation->total_varitaion_amount = $saleRate * $count;
 					$item_variation->total_varitaion_amount = $saleRate * $count;
 					$cart_data->total += $item_variation->total_varitaion_amount;
 				}
