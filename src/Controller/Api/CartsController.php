@@ -313,10 +313,16 @@ class CartsController extends AppController
 				{
 					$saleRate = $item_variation->sales_rate;
 					$count  = $cart_data->quantity;
+					$stockmax=$this->currentStock($cart_data->item_id,$item_variation->id);
 					//$count  = $cart_data->cart_count;
 					//$item_variation->total_varitaion_amount = $saleRate * $count;
 					$item_variation->total_varitaion_amount = $saleRate * $count;
 					$cart_data->total += $item_variation->total_varitaion_amount;
+					$item_variation->stock_max=$stockmax;
+					if($item_variation->minimum_quantity_purchase > $item_variation->stock_max){
+						$item_variation->minimum_quantity_purchase=$item_variation->stock_max;
+					}
+					
 				}
 				
 				$grand_total1+=$cart_data->total;
