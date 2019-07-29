@@ -185,7 +185,6 @@ class ItemsController extends AppController
                         ->values([
                             'jain_thela_admin_id' => 1,
                             'driver_id' => 0,
-                            //'grn_id' => $grn_id,
                             'item_id' => $item->id,
                             'warehouse_id' => 1,
                             'purchase_booking_id' => 0,
@@ -292,6 +291,7 @@ class ItemsController extends AppController
             $item = $this->Items->patchEntity($items, $this->request->getData());
             $item->updated_on=date('Y-m-d');
             $item->jain_thela_admin_id=$jain_thela_admin_id;
+			//pr($item);exit;
 			if ($this->Items->save($item)) {
 				
 				if(!empty($item_keywords)){
@@ -343,8 +343,7 @@ class ItemsController extends AppController
                             'quantity_variation' => $UnitVariationdata->name,'unit_variation_id' => $variation->unit_variation_id])
                             ->where(['id'=>$variation->id])
                         ->execute();
-                      
-                }
+                 }
 				
 				
 				

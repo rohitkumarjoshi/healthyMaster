@@ -200,18 +200,27 @@ class ItemVariationsController extends AppController
         {
             $success = 0;
             $id = $this->request->getData('id');
-            //pr($id);exit;
+            pr($id);exit;
             $itemVariation = $this->ItemVariations->get($id);
+			
+			$query=$this->ItemVariations->query();
+			$result = $query->update()
+			->set(['ready_to_sale' => 'No'])
+			->where(['id' => $itemVariation->id])
+			->execute();
 
-            if ($this->ItemVariations->delete($itemVariation)) {
+			$success = 1;
+			echo $success;
+			exit;
+         /*    if ($this->ItemVariations->delete($itemVariation)) {
                 if($this->ItemVariations->ItemLedgers->delete($itemVariation)->where(['opening_stock'=>'Yes']));
                 {
                     $success = 1;
                     echo $success;
                 }
             }
-        }
-        exit;
+        } */
+		 
     }
 }
 

@@ -109,9 +109,9 @@ class PurchaseBookingsController extends AppController
 			
 			
 			
-			//pr($purchaseBooking);exit;
 			
-            if ($this->PurchaseBookings->save($purchaseBooking)) {
+			
+            if ($this->PurchaseBookings->save($purchaseBooking)) { 
 				
 				//$this->PurchaseBookings->ItemLedgers->deleteAll(['grn_id' => $grn_id]);
 				foreach($purchaseBooking->purchase_booking_details as $purchase_booking_detail)
@@ -139,7 +139,11 @@ class PurchaseBookingsController extends AppController
                    ]);
 					$query->execute();
 					
-					
+					$query=$this->PurchaseBookings->PurchaseBookingDetails->query();
+					$result = $query->update()
+					->set(['unit_variation_id' => $purchase_booking_detail->unit_variation_id])
+					->where(['id' => $purchase_booking_detail->id])
+					->execute();
 					 
 				}
 					

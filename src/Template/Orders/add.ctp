@@ -282,7 +282,7 @@ $(document).ready(function() {
                 { 
 					var nameArr = response.split(',');
                 	var rte=(nameArr[0]);
-                	var mxx=(nameArr[1]);   
+                	var mxx=(nameArr[1]);  alert(response);
 					master.closest('tr').find('td:nth-child(5) .rat_value').val(rte);
 					master.closest('tr').find('td:nth-child(4) .show_quantity').val(0);
 					master.closest('tr').find('span.total').html(mxx);

@@ -118,7 +118,7 @@
 					                    </td>
 					                    
 					                    <td style="vertical-align: bottom;"> <button type="button" id="plus" class="btn btn-sm green"><i class="fa fa-plus"></i></button>
-					                      <button type="button" id="minus" class="btn btn-sm red" row_id="<?= $variation_id?>"><i class="fa fa-minus"></i></button></td>
+					                   <!-- <button type="button" id="minus" class="btn btn-sm red" row_id="<?= $variation_id?>"><i class="fa fa-minus"></i></button></td>-->
 					                </tr>
 					            <?php } ?>
 					                                  </tbody>
@@ -153,7 +153,8 @@
                     	<?php echo $this->Form->control('item_variations.0.opening_stock',['class'=>'form-control opening_stock','placeholder'=>'Opening Stock','label'=>false,'oninput'=>"this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');",'maxlength'=>10,'type'=>'text']); ?>
                     </td>
                     <td style="vertical-align: bottom;"> <button type="button" id="plus" class="btn btn-sm green"><i class="fa fa-plus"></i></button>
-                      <button type="button" id="minus" class="btn btn-sm red"><i class="fa fa-minus"></i></button></td>
+                      <button type="button" id="minus" class="btn btn-sm red"><i class="fa fa-minus"></i></button>
+					</td>
                 </tr>
               </tbody>
             </table>
@@ -205,7 +206,7 @@ $('.gst').on('change',function(){
                 var id = $(this).attr('row_id');
                 if(id)
                 {
-                    var confirms = confirm('Are you sure you want to delete ?');
+                    var confirms = confirm('Are you sure you want to Deactive this Variation ?');
                     if(confirms)
                     {
                         $.ajax({
@@ -213,7 +214,7 @@ $('.gst').on('change',function(){
                             type: 'post',
                             data: {id: id},
                             success: function (success) {
-                            	//alert(success);
+                            	alert(success);
                                 if(success == 1)
                                 {
                                     
