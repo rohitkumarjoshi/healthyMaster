@@ -33,10 +33,11 @@ class WastageReuseVouchersController extends AppController
      */
     public function view($id = null)
     {
+		$this->viewBuilder()->layout('index_layout');
         $wastageReuseVoucher = $this->WastageReuseVouchers->get($id, [
-            'contain' => ['WastageReuseVoucherRows']
+            'contain' => ['WastageReuseVoucherRows'=>['Items','UnitVariations']]
         ]);
-
+		//pr($wastageReuseVoucher); exit;
         $this->set('wastageReuseVoucher', $wastageReuseVoucher);
     }
 

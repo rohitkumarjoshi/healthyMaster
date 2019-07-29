@@ -269,7 +269,7 @@ $(document).ready(function() {
 		if(input.length>0){
             var m_data = new FormData();
             var url ="<?php echo $this->Url->build(["controller" => "Orders", "action" => "getprice"]); ?>";
-         //   alert(url);
+         // alert(input);
             m_data.append('input',input); 
             $.ajax({
                 url: url,
@@ -280,10 +280,12 @@ $(document).ready(function() {
                 dataType:'text',
                 success: function(response)
                 { 
-                	//alert(response);
-					master.closest('tr').find('td:nth-child(5) .rat_value').val(response);
+					var nameArr = response.split(',');
+                	var rte=(nameArr[0]);
+                	var mxx=(nameArr[1]);   
+					master.closest('tr').find('td:nth-child(5) .rat_value').val(rte);
 					master.closest('tr').find('td:nth-child(4) .show_quantity').val(0);
-					master.closest('tr').find('span.total').html('');
+					master.closest('tr').find('span.total').html(mxx);
                 }
             });
             }

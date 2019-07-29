@@ -317,8 +317,15 @@ class OrdersController extends AppController
 
 	public function getPrice(){
         $item_variation_id=$this->request->getData('input'); 
-            $items=$this->Orders->OrderDetails->ItemVariations->find()->where(['ItemVariations.id '=>$item_variation_id])->first();
-            	echo $items->sales_rate;	
+        //$item_variation_id=32; 
+        $items=$this->Orders->OrderDetails->ItemVariations->find()->where(['ItemVariations.id '=>$item_variation_id])->first();
+        $temp=[];
+        $temp[]=$items->sales_rate;	
+		$maxQt=$this->currentStock($items->item_id,$item_variation_id);
+		$temp[]=$maxQt;	
+		
+		//$temp1[]= implode(",",$temp); 
+		echo implode(",",$temp);
         exit;  
     }
 

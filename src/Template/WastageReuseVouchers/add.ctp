@@ -95,6 +95,7 @@
 								<td><?= h($unit->created_date) ?></td>
 								
 								<td class="actions">
+								<?php echo $this->Html->link('View',['action' => 'View', $unit->id],['escape'=>false,'class'=>'btn btn-sm blue']); ?>
 								
 								</td>
 								
