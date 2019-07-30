@@ -85,28 +85,30 @@ class PromoCodesController extends AppController
        
         if ($this->request->is('post')) {
             $datas = $this->request->getData();
+
             if(!empty($datas['code']))
-            {
-                $promoCodes->where(['code'=>$datas['code']]);
+            {  //pr($promoCodes->toArray());
+                $promoCodes->where(['PromoCodes.code'=>$datas['code']]);
+                
 				$code = $datas['code'];
             }
              if(!empty($datas['status']))
             {
                 $status= $datas['status'];
-                $promoCodes->where(['status'=>$status]);
-            }
+                $promoCodes->where(['PromoCodes.status'=>$status]);
+            } 
              if(!empty($datas['item_id']))
             {
-                $promoCodes->where(['item_id'=>$datas['item_id']]);
+                $promoCodes->where(['PromoCodes.item_id'=>$datas['item_id']]);
 				$item_id = $datas['item_id'];
             }
            if(!empty($datas['From'])){
                 $from_date=date("Y-m-d",strtotime($datas['From']));
-                $promoCodes->where(['valid_from >='=> $from_date]);
+                $promoCodes->where(['PromoCodes.valid_from >='=> $from_date]);
             }
             if(!empty($datas['To'])){ 
                 $to_date=date("Y-m-d",strtotime($datas['To']));
-                $promoCodes->where(['valid_from <=' => $to_date ]);
+                $promoCodes->where(['PromoCodes.valid_from <=' => $to_date ]);
             }
         }
         

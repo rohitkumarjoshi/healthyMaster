@@ -35,7 +35,7 @@
 				<div class="row">
 							<div class="col-md-12">
 									<div class="form-group">
-										<label class="col-md-6 control-label">Additional Note<span class="required" 	aria-required="true">*</span></label>
+										<label class="col-md-6 control-label">Additional Note</label>
 										 <?= $this->Form->input('additional_note',['class'=>'form-control input-sm','id'=>'msg','label'=>false,'placeholder'=>'','rows'=>'3','style'=>'resize: none;']) ?>
 									</div>	 
 								</div>

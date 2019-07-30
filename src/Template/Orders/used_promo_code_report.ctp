@@ -19,7 +19,7 @@ background-color: #fff;}
                     <span class="caption-subject">Used Promo Codes</span>
                 </div>
                 <div class="actions">
-                   
+                   <button class="btn btn-sm yellow" id="btnExport" onclick="fnExcelReport();"> Export </button>&nbsp;
                 </div>
             </div>
             <div class="portlet-body">
@@ -29,24 +29,24 @@ background-color: #fff;}
                         <tr>
                             <td width="5%">
                                 <label>Mobile</label>
-                                <?php echo $this->Form->input('mobile', ['label' => false,'class' => 'form-control input-sm','placeholder'=>'Mobile']); ?>
+                                <?php echo $this->Form->input('mobile', ['label' => false,'class' => 'form-control input-sm','placeholder'=>'Mobile','autocomplete'=>false]); ?>
                             </td>
                             <td width="5%">
                                 <label>PromoCode</label>
-                                <?php echo $this->Form->input('code', ['label' => false,'class' => 'form-control input-sm','placeholder'=>'Mobile']); ?>
+                                <?php echo $this->Form->input('code', ['label' => false,'class' => 'form-control input-sm','placeholder'=>'Mobile','autocomplete'=>'off']); ?>
                             </td>
                             <td width="5%">
                                 <label>Order</label>
-                                <?php echo $this->Form->input('order_no', ['label' => false,'class' => 'form-control input-sm','placeholder'=>'Order No']); ?>
+                                <?php echo $this->Form->input('order_no', ['label' => false,'class' => 'form-control input-sm','placeholder'=>'Order No','autocomplete'=>'off']); ?>
                             </td>
                             
                             <td width="5%">
                                 <label>From</label>
-                                <input type="text" name="From" class="form-control input-sm date-picker" placeholder="Transaction From"  data-date-format="dd-mm-yyyy">
+                                <input type="text" name="From" class="form-control input-sm date-picker" placeholder="Transaction From"  data-date-format="dd-mm-yyyy" autocomplete="off">
                             </td>   
                             <td width="5%">
                                 <label>To</label>
-                                <input type="text" name="To" class="form-control input-sm date-picker" placeholder="Transaction To"   data-date-format="dd-mm-yyyy" >
+                                <input type="text" name="To" class="form-control input-sm date-picker" placeholder="Transaction To"   data-date-format="dd-mm-yyyy" autocomplete="off">
                             </td>
                             <td width="10%">
                                 <button type="submit" class="btn btn-success btn-sm" style="margin-top: 23px !important;"><i class="fa fa-filter"></i> Filter</button>
@@ -56,7 +56,7 @@ background-color: #fff;}
                 </table>
                 </form>
                 <div>
-                     <table class="table table-striped table-hover table-bordered" id="sample_editable_1">
+                     <table class="table table-striped table-bordered table-hover dataTable no-footer" id="sample_1">
                     <thead>
                         <tr>
                             <th scope="col"><?= __('S.No') ?></th>
@@ -142,6 +142,39 @@ $(document).ready(function() {
             });
         }
     });
+     function fnExcelReport()
+    {
+        var tab_text='<table border=\'2px\'><tr bgcolor=\'#87AFC6\'>';
+        var textRange; var j=0;
+        tab = document.getElementById('sample_1'); // id of table
+
+        for(j = 0 ; j < tab.rows.length ; j++) 
+        {     
+            tab_text=tab_text+tab.rows[j].innerHTML+'</tr>';
+            //tab_text=tab_text+'</tr>';
+        }
+
+        tab_text=tab_text+'</table>';
+        tab_text= tab_text.replace(/<A[^>]*>|<\/A>/g, '');//remove if u want links in your table
+        tab_text= tab_text.replace(/<img[^>]*>/gi,''); // remove if u want images in your table
+        tab_text= tab_text.replace(/<input[^>]*>|<\/input>/gi, ''); // reomves input params
+
+        var ua = window.navigator.userAgent;
+        var msie = ua.indexOf('MSIE '); 
+
+        if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./))      // If Internet Explorer
+        {
+            txtArea1.document.open('txt/html','replace');
+            txtArea1.document.write(tab_text);
+            txtArea1.document.close();
+            txtArea1.focus(); 
+            sa=txtArea1.document.execCommand('SaveAs',true,'Say Thanks to Sumit.xls');
+        }  
+        else                 //other browser not tested on IE 11
+            sa = window.open('data:application/vnd.ms-excel,' + encodeURIComponent(tab_text));  
+
+        return (sa);
+    }
 });
 
 </script>

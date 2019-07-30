@@ -17,23 +17,33 @@
                         <tr>
                             <td width="5%">
                                 <label>Mobile</label>
-                                <?php echo $this->Form->input('mobile', ['label' => false,'class' => 'form-control input-sm','placeholder'=>'Mobile']); ?>
+                                <?php echo $this->Form->input('mobile', ['label' => false,'class' => 'form-control input-sm','placeholder'=>'Mobile','autocomplete'=>'anyrandomstring','autocomplete'=>'off']); ?>
                             </td>
                             <td width="5%">
                                 <label>Item</label>
                                 <?php echo $this->Form->input('item_id', ['empty'=>'--Items--','options' => $items,'label' => false,'class' => 'form-control input-sm select2me','placeholder'=>'Category']); ?>
                             </td>
                             <td width="5%">
-                                <label class=" control-label">Apartment <span class="required" aria-required="true">*</span></label>
-                                <?php echo $this->Form->input('apartment', ['empty'=>'--Apartment--','label' => false,'class' => 'form-control input-sm']); ?>
+                                <label class=" control-label">Apartment </label>
+                                <?php echo $this->Form->input('apartment_name', ['empty'=>'--Apartment--','label' => false,'class' => 'form-control input-sm','autocomplete'=>'off']); ?>
+                            </td>
+                            <td width="5%">
+                                <label class=" control-label">Status </label>
+                                <select name="status" class="form-control select2me input-sm">
+                                    <option value="">--Select--</option>
+                                    <option value="In Process">In Process</option>
+                                    <option value="Packed">Packed</option>
+                                    <option value="Dispatch">Dispatch</option>
+                                    <option value="Delivered">Delivered</option>
+                                </select>
                             </td>
                             <td width="5%">
                                 <label>From</label>
-                                <input type="text" name="From" class="form-control input-sm date-picker" placeholder="Transaction From"  data-date-format="dd-mm-yyyy">
+                                <input type="text" name="From" class="form-control input-sm date-picker" placeholder="Transaction From"  data-date-format="dd-mm-yyyy" autocomplete="off">
                             </td>   
                             <td width="5%">
                                 <label>To</label>
-                                <input type="text" name="To" class="form-control input-sm date-picker" placeholder="Transaction To"   data-date-format="dd-mm-yyyy" >
+                                <input type="text" name="To" class="form-control input-sm date-picker" placeholder="Transaction To"   data-date-format="dd-mm-yyyy" autocomplete="off">
                             </td>
                             <td width="10%">
                                 <button type="submit" class="btn btn-success btn-sm" style="margin-top: 23px !important;"><i class="fa fa-filter"></i> Filter</button>
@@ -42,7 +52,7 @@
                     </tbody>
                 </table>
                 </form>
-                <table class="table table-striped table-hover table-bordered" id="main-table">
+                <table class="table table-striped table-bordered table-hover dataTable no-footer" id="sample_1">
                     <thead>
                         <tr>
                             <th scope="col"><?= __('S.No') ?></th>
@@ -88,7 +98,7 @@
                             <td><?= @$order_detail->order->customer->name?></td>
                             <td><?= @$order_detail->order->customer->mobile?></td>
                             <td><?= @$order_detail->order->customer_address->house_no?></td>
-                            <td><?= @$order_detail->order->customer_address->apartment?></td>
+                            <td><?= @$order_detail->order->customer_address->apartment_name?></td>
                             <td><?= @$order_detail->order->customer_address->locality?></td>
                             <td><?= @$order_detail->order->customer_address->city->name?></td>
                             <td><?= @$order_detail->order->customer_address->state->state_name?></td>
@@ -105,7 +115,7 @@
                                 echo"Yes";
                             }?></td>
                             <td><?= @$order_detail->order->order_type ?></td>
-                            <td><?= @$order_detail->item_variation->quantity_variation.' '.$order_detail->item_variation->unit->shortname?></td>
+                            <td><?= @$order_detail->item_variation->quantity_variation?></td>
                             <td><?= @$order_detail->rate?></td>
                             <td><?= @$order_detail->quantity?></td>
                             <td><?= @$order_detail->amount?></td>
@@ -122,20 +132,7 @@
 </div>
 <?php echo $this->Html->script('/assets/global/plugins/jquery.min.js'); ?>
 <script>
-var $rows = $('#main_tble tbody tr');
-    $('#search3').on('keyup',function() {
-        var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
-        var v = $(this).val();
-        if(v){ 
-            $rows.show().filter(function() {
-                var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
-    
-                return !~text.indexOf(val);
-            }).hide();
-        }else{
-            $rows.show();
-        }
-    });
+
      function fnExcelReport()
     {
         var tab_text='<table border=\'2px\'><tr bgcolor=\'#87AFC6\'>';
@@ -169,20 +166,5 @@ var $rows = $('#main_tble tbody tr');
 
         return (sa);
     }
-</script>
-<script  type="text/javascript">
-$(document).ready(function() {
-jQuery('#Export to excel').bind("click", function() {
-var target = $(this).attr('id');
-switch(target) {
-    case 'export-to-excel' :
-    $('#hidden-type').val(target);
-    //alert($('#hidden-type').val());
-    $('#export-form').submit();
-    $('#hidden-type').val('');
-    break
-}
-});
-    });
 </script>
 

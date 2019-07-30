@@ -644,7 +644,6 @@ function round(value, exp) {
             data: {item_id: item_id,variation_id:variation_id},
            success: function(data)   // A function to be called if request succeeds
 					{
-						//alert(data);
 						master.closest('tr').find('span.total').html(data);
 						if(quant > data)
 						{
