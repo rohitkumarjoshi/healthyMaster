@@ -12,18 +12,14 @@
 					</span>
 				</div>
 				<div class="actions"> 
-					<?php echo $this->Html->link( '<i class="fa fa-file-excel-o"></i> Excel', '/ItemLedgers/Export-Excel-Stk/'.@$url_excel.'',['class' =>'btn btn-sm green tooltips pull-right','target'=>'_blank','escape'=>false,'data-original-title'=>'Download as excel']); ?>
-
-
-					
-					
+					<button class="btn btn-sm yellow" id="btnExport" onclick="fnExcelReport();"> Export </button>&nbsp;
 				</div>
 			</div>
 			<div class="portlet-body">
 				<!-- BEGIN FORM-->
 				<div class="row">
 					<div class="col-md-12">
-						<table id="main_tble" class="table table-condensed table-bordered">
+						<table id="main-table" class="table table-condensed table-bordered">
 							<thead>
 								<tr>
 									<th width="10%">
@@ -125,6 +121,39 @@ var $rows = $('#main_tble tbody tr');
 			$rows.show();
 		}
 	});
+	 function fnExcelReport()
+    {
+        var tab_text='<table border=\'2px\'><tr bgcolor=\'#87AFC6\'>';
+        var textRange; var j=0;
+        tab = document.getElementById('main-table'); // id of table
+
+        for(j = 0 ; j < tab.rows.length ; j++) 
+        {     
+            tab_text=tab_text+tab.rows[j].innerHTML+'</tr>';
+            //tab_text=tab_text+'</tr>';
+        }
+
+        tab_text=tab_text+'</table>';
+        tab_text= tab_text.replace(/<A[^>]*>|<\/A>/g, '');//remove if u want links in your table
+        tab_text= tab_text.replace(/<img[^>]*>/gi,''); // remove if u want images in your table
+        tab_text= tab_text.replace(/<input[^>]*>|<\/input>/gi, ''); // reomves input params
+
+        var ua = window.navigator.userAgent;
+        var msie = ua.indexOf('MSIE '); 
+
+        if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./))      // If Internet Explorer
+        {
+            txtArea1.document.open('txt/html','replace');
+            txtArea1.document.write(tab_text);
+            txtArea1.document.close();
+            txtArea1.focus(); 
+            sa=txtArea1.document.execCommand('SaveAs',true,'Say Thanks to Sumit.xls');
+        }  
+        else                 //other browser not tested on IE 11
+            sa = window.open('data:application/vnd.ms-excel,' + encodeURIComponent(tab_text));  
+
+        return (sa);
+    }
 </script>
 
 

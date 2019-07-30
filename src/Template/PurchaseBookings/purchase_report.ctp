@@ -81,7 +81,7 @@
                             <td><?= $purchase->item->item_code?></td>
                             <td><?= $purchase->item->name?></td>
                             <td><?= $purchase->item->item_category->name?></td>
-                            <td><?= $purchase->item_variation->quantity_variation.' '.$purchase->item_variation->unit->shortname?></td>
+                            <td><?= $purchase->item_variation->quantity_variation?></td>
                             <td><?= $purchase->quantity ?></td>
                             <td><?= $purchase->rate ?></td>
                             <td><?= $purchase->quantity * $purchase->rate ?></td>

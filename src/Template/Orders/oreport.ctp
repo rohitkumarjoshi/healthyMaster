@@ -7,10 +7,7 @@
                     <span class="caption-subject"><?= __('ORDER/SALES REPORT') ?></span>
                 </div>
                 <div class="actions"> 
-                    <div><a href="javascript:void(0)" id="export-to-excel">Export to excel</a></div>
-                        <form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="post" id="export-form">
-                        <input type="hidden" value='' id='hidden-type' name='ExportType'/>
-                      </form>
+                    <button class="btn btn-sm yellow" id="btnExport" onclick="fnExcelReport();"> Export </button>&nbsp;
                 </div>
             </div>
             <div class="portlet-body" style="overflow: auto;!important">
@@ -45,7 +42,7 @@
                     </tbody>
                 </table>
                 </form>
-                <table class="table table-striped table-hover table-bordered" id="sample_editable_1">
+                <table class="table table-striped table-hover table-bordered" id="main-table">
                     <thead>
                         <tr>
                             <th scope="col"><?= __('S.No') ?></th>
@@ -82,17 +79,17 @@
                         ?>
                         <tr>
                             <td><?php echo $i; $i++;?></td>
-                            <td><?= date('d-m-Y',strtotime($order_detail->order->order_date))?></td>
-                            <td><?= $order_detail->order->order_no?></td>
-                            <td><?= $order_detail->item->item_code?></td>
-                            <td><?= $order_detail->item->name?></td>
-                            <td><?= $order_detail->item->item_category->name?></td>
-                            <td><?= $order_detail->order->customer->id?></td>
-                            <td><?= $order_detail->order->customer->name?></td>
-                            <td><?= $order_detail->order->customer->mobile?></td>
-                            <td><?= $order_detail->order->customer_address->house_no?></td>
-                            <td><?= $order_detail->order->customer_address->apartment?></td>
-                            <td><?= $order_detail->order->customer_address->locality?></td>
+                            <td><?= @date('d-m-Y',strtotime($order_detail->order->order_date))?></td>
+                            <td><?= @$order_detail->order->order_no?></td>
+                            <td><?= @$order_detail->item->item_code?></td>
+                            <td><?= @$order_detail->item->name?></td>
+                            <td><?= @$order_detail->item->item_category->name?></td>
+                            <td><?= @$order_detail->order->customer->id?></td>
+                            <td><?= @$order_detail->order->customer->name?></td>
+                            <td><?= @$order_detail->order->customer->mobile?></td>
+                            <td><?= @$order_detail->order->customer_address->house_no?></td>
+                            <td><?= @$order_detail->order->customer_address->apartment?></td>
+                            <td><?= @$order_detail->order->customer_address->locality?></td>
                             <td><?= @$order_detail->order->customer_address->city->name?></td>
                             <td><?= @$order_detail->order->customer_address->state->state_name?></td>
                             <td><?php if($order_detail->order->order_from == "walkinsales")
@@ -107,14 +104,14 @@
                             {
                                 echo"Yes";
                             }?></td>
-                            <td><?= $order_detail->order->order_type ?></td>
-                            <td><?= $order_detail->item_variation->quantity_variation.' '.$order_detail->item_variation->unit->shortname?></td>
-                            <td><?= $order_detail->rate?></td>
-                            <td><?= $order_detail->quantity?></td>
-                            <td><?= $order_detail->amount?></td>
-                            <td><?= $order_detail->order->amount_from_promo_code ?></td>
-                            <td><?= $order_detail->amount - $order_detail->order->amount_from_promo_code?></td>
-                            <td><?= $order_detail->order->status?></td>
+                            <td><?= @$order_detail->order->order_type ?></td>
+                            <td><?= @$order_detail->item_variation->quantity_variation.' '.$order_detail->item_variation->unit->shortname?></td>
+                            <td><?= @$order_detail->rate?></td>
+                            <td><?= @$order_detail->quantity?></td>
+                            <td><?= @$order_detail->amount?></td>
+                            <td><?= @$order_detail->order->amount_from_promo_code ?></td>
+                            <td><?= @$order_detail->amount - $order_detail->order->amount_from_promo_code?></td>
+                            <td><?= @$order_detail->order->status?></td>
                         </tr>
                         <?php endforeach;  ?>
                     </tbody>
@@ -139,6 +136,39 @@ var $rows = $('#main_tble tbody tr');
             $rows.show();
         }
     });
+     function fnExcelReport()
+    {
+        var tab_text='<table border=\'2px\'><tr bgcolor=\'#87AFC6\'>';
+        var textRange; var j=0;
+        tab = document.getElementById('main-table'); // id of table
+
+        for(j = 0 ; j < tab.rows.length ; j++) 
+        {     
+            tab_text=tab_text+tab.rows[j].innerHTML+'</tr>';
+            //tab_text=tab_text+'</tr>';
+        }
+
+        tab_text=tab_text+'</table>';
+        tab_text= tab_text.replace(/<A[^>]*>|<\/A>/g, '');//remove if u want links in your table
+        tab_text= tab_text.replace(/<img[^>]*>/gi,''); // remove if u want images in your table
+        tab_text= tab_text.replace(/<input[^>]*>|<\/input>/gi, ''); // reomves input params
+
+        var ua = window.navigator.userAgent;
+        var msie = ua.indexOf('MSIE '); 
+
+        if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./))      // If Internet Explorer
+        {
+            txtArea1.document.open('txt/html','replace');
+            txtArea1.document.write(tab_text);
+            txtArea1.document.close();
+            txtArea1.focus(); 
+            sa=txtArea1.document.execCommand('SaveAs',true,'Say Thanks to Sumit.xls');
+        }  
+        else                 //other browser not tested on IE 11
+            sa = window.open('data:application/vnd.ms-excel,' + encodeURIComponent(tab_text));  
+
+        return (sa);
+    }
 </script>
 <script  type="text/javascript">
 $(document).ready(function() {

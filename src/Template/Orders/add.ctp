@@ -35,8 +35,8 @@ background-color: #fff;}
 				<div class="row">
 					<div class="col-md-2">
 						<label class=" control-label">Mobile No <span class="required" aria-required="true">*</span></label>
-						<input type="number" name="customer" class="form-control input-sm selectedAutoCompleted autocompleted customer_id cstmr chosen-select" valueType="item_name" id="mobile" autocomplete="off">
-						<input type="hidden" name="customer_id" id="customer_id">
+						<input type="number" name="customer" class="form-control input-sm selectedAutoCompleted autocompleted customer_id cstmr chosen-select" valueType="item_name" id="mobile" autocomplete="off" required maxlength="10" minlength="10">
+						<input type="hidden" name="customer_id" id="customer_id" required>
 						
 						 <div class="suggesstion-box box"  autocomplete="off"></div>
 					</div>
@@ -47,14 +47,14 @@ background-color: #fff;}
 					
 					
 					<div class="col-md-2">
-						<label class="control-label">Customer Name<span class="required" aria-require>*</span></label>
-						<?php echo $this->Form->control('customer_name',['class'=>'form-control input-sm customer_name','label'=>false,'type'=>'text']); ?>
+						<label class="control-label">Customer Name</label>
+						<?php echo $this->Form->control('customer_name',['class'=>'form-control input-sm customer_name','label'=>false,'type'=>'text','readonly']); ?>
 					</div>
 					
 
 					<div class="col-md-2">
 						<label>Payment Mode</label>
-						<select name="order_type" class="form-control select2me input-sm">
+						<select name="order_type" class="form-control select2me input-sm" required="">
 							<option>--Select--</option>
 							<option value="COD">COD</option>
 							<option value="Online">Paytm</option>
@@ -775,6 +775,7 @@ function round(value, exp) {
 						}).done(function(response) {
 							//alert(response);
 							$('.customer_name').val(response);
+							$('#customer-address').val('');
 						});
 						});
 
