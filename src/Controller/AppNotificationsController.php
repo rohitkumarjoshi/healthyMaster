@@ -51,31 +51,13 @@ class AppNotificationsController extends AppController
     {
 		$this->viewBuilder()->layout('index_layout');
         $appNotification = $this->AppNotifications->newEntity();
-		$customers = $this->AppNotifications->Customers->find();
+		
 		$page = $this->request->getQuery('page');
 		if($page=="home")
 		{
 		$deepLinks = $this->AppNotifications->DeepLinks->find()->where(['id'=>1])->first();
 		}
-		if($page=="bulkbooking")
-		{
-		
-		$deepLinks = $this->AppNotifications->DeepLinks->find()->where(['id'=>2])->first();}
-		if($page=="referfriend")
-		{
-		$deepLinks = $this->AppNotifications->DeepLinks->find()->where(['id'=>3])->first();}
-		if($page=="addmoney")
-		{
-		
-		$deepLinks = $this->AppNotifications->DeepLinks->find()->where(['id'=>4])->first();}
-		if($page=="viewcart")
-		{
-		
-			$deepLinks = $this->AppNotifications->DeepLinks->find()->where(['id'=>5])->first();}
-		if($page=="specialoffers")
-		{
-			$deepLinks = $this->AppNotifications->DeepLinks->find()->where(['id'=>6])->first();
-		}
+	
 		
         if ($this->request->is('post'))
 		{
@@ -83,6 +65,23 @@ class AppNotificationsController extends AppController
 				$appNotification->user_id= $this->Auth->User('id');
 				$file = $this->request->data['image'];
 				$file_name=$file['name'];
+				
+				if(!empty($appNotification->city_id)){
+					@$customers = $this->AppNotifications->Customers->find();
+					
+					/* ->find()->contain(['CustomerAddressesData'=>function($q) use($appNotification){
+						return $q->where(['CustomerAddressesData.city_id'=>@$appNotification->city_id]);
+					}]); */
+					
+					$customers->innerJoinWith('CustomerAddresses')
+					->matching('CustomerAddresses', function ($q) use($appNotification) {
+											return $q->where(['CustomerAddresses.city_id'=>@$appNotification->city_id]);
+							});
+				}else{
+					$customers = $this->AppNotifications->Customers->find();
+				}
+				//pr($appNotification->city_id);
+				//pr($customers->toArray()); exit;
 				
 			if(!empty($file_name))
 			{
@@ -110,63 +109,43 @@ class AppNotificationsController extends AppController
 			else{
 					$appNotification->image = '';
 			}
-			//pr($appNotification); exit;
-			if($deepLinks!=null)
-			{
-				$appNotification->app_link = $deepLinks->link_url;
-				$appNotification->screen_type = $deepLinks->link_name; 
-			}
 			
-			//pr($appNotification);exit;
 			
+			
+			$appNotification->screen_type="Sent All";
 			if ($push_data=$this->AppNotifications->save($appNotification))
 			{
-				  if($page=="viewcart")
-				  {
-				  $this->loadModel('Carts');
-				  $customerscart = $this->Carts->find()
-				   ->select(['customer_id'])
-				  ->group(['customer_id'])
-				  ->autoFields(true);
-				  if(!empty($customerscart->toArray()))
-					{
-						foreach($customerscart as $customer1)
-						{
-							$appNotificationCustomer = $this->AppNotifications->AppNotificationCustomers->newEntity(); 
-							$appNotificationCustomer->customer_id =$customer1->customer_id;
-							$appNotificationCustomer->app_notification_id =$push_data->id;
-							$this->AppNotifications->AppNotificationCustomers->save($appNotificationCustomer);
-						}
-						$id=$appNotification->id;
-						$this->Flash->success(__('The push notification saved.'));
-						$this->redirect(['action' => 'sendProgress/' . $id]);
-					}
-				  else{
-				$this->Flash->error(__('Right now no customers who added items in their cart.'));
-				  }
 				  
-				  }
-				  else
-				  {
-			    foreach($customers as $customer)
+				  
+			  foreach($customers as $customer)
 				 {
-					$appNotificationCustomer = $this->AppNotifications->AppNotificationCustomers->newEntity(); 
-					$appNotificationCustomer->customer_id =$customer->id;
-					$appNotificationCustomer->app_notification_id =$push_data->id;
-					$this->AppNotifications->AppNotificationCustomers->save($appNotificationCustomer);
+					 if(!empty($customer->device_token))
+                            {
+								$appNotificationCustomer = $this->AppNotifications->AppNotificationCustomers->newEntity(); 
+								$appNotificationCustomer->customer_id =$customer->id;
+								$appNotificationCustomer->app_notification_id =$push_data->id;
+								$this->AppNotifications->AppNotificationCustomers->save($appNotificationCustomer);
+                            }
+					 
+						$id=$appNotification->id;
+						$this->Flash->success(__('The app notification saved.'));
+						$this->redirect(['action' => 'sendProgress/' . $id]);
+					
+					
 				 }
-				 
-				 $id=$appNotification->id;
-				$this->Flash->success(__('The app notification saved.'));
-				$this->redirect(['action' => 'sendProgress/' . $id]);
-				  }
+				$id=$appNotification->id;
+				$this->Flash->success(__('The app notification send Successful.'));
+				$this->redirect(['action' => 'home']);
+				  
 				
 			} 
 			else {
 				$this->Flash->error(__('The app notification could not be saved. Please, try again.'));
 				}
 		}
-			$this->set('page', $page);
+		$Cities=$this->AppNotifications->Cities->find('list');
+		$this->set('page', $page);
+		$this->set(compact('Cities'));
 		$this->set('appNotification', $appNotification);
         $this->set('_serialize', ['appNotification']);
 		
@@ -182,21 +161,24 @@ class AppNotificationsController extends AppController
 		$customers = $this->AppNotifications->Customers->find();
 		$this->loadModel('Items');
 		$item_fetchs=$this->Items->find()->where(['freeze'=>0,'ready_to_sale'=>'Yes']);
+		$Cities=$this->AppNotifications->Cities->find()->where();
 		$path = 'http://healthymaster.in/'.$this->request->webroot.'img/item_images/';
-		foreach($item_fetchs as $item_fetch){
+		/* foreach($item_fetchs as $item_fetch){
 			$item_name=$item_fetch->name;
 			$alias_name=$item_fetch->alias_name;
 			@$image=$item_fetch->image;
 			$final_image_full_path=$path.$image;
 			$Items[]= ['value'=>$item_fetch->id,'text'=>$item_name." (".$alias_name.")", 'image'=>$final_image_full_path];
-		}
+		} */
 
 		$deepLinks = $this->AppNotifications->DeepLinks->find()->where(['id'=>7])->first();
          if ($this->request->is('post'))
 			{
 			$appNotification = $this->AppNotifications->patchEntity($appNotification, $this->request->data);
             
-			$appNotification->app_link = $deepLinks->link_url;
+			$appNotification->app_link = '';
+			//$appNotification->app_link = $deepLinks->link_url;
+		//	$appNotification->screen_type = 'Product Description';
 			$appNotification->screen_type = 'Product Description';
 		
 			if ($push_data=$this->AppNotifications->save($appNotification))
@@ -217,7 +199,7 @@ class AppNotificationsController extends AppController
 				}
 			}
 		$this->set('appNotification', $appNotification);
-		$this->set('Items', $Items);
+		$this->set(compact('Cities'));
         $this->set('_serialize', ['appNotification', 'Items']);
 		
 	}

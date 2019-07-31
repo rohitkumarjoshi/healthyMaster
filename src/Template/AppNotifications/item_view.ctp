@@ -16,8 +16,8 @@
 							<div class="row">
 								 <div class="col-md-6">
 									<div class="form-group">
-										<label class="col-md-6 control-label">Item <span class="required" 	aria-required="true">*</span></label>
-										 <?= $this->Form->input('item_id', ['empty'=>'---select item---','options'=>$Items,'class'=>'form-control input-sm attribute','label'=>false]) ?>
+										<label class="col-md-6 control-label">City <span class="required" 	aria-required="true">*</span></label>
+										 <?= $this->Form->input('city_id', ['empty'=>'---Select City---','options'=>$Cities,'class'=>'form-control input-sm select2me','label'=>false]) ?>
 									</div>
 								</div>
 							<br>

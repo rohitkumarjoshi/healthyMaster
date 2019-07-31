@@ -37,7 +37,13 @@
 							<div class="row">
 								
 								
-								 <div class="col-md-12">
+								  <div class="col-md-6">
+									<div class="form-group">
+										<label class="col-md-6 control-label">City <span class="required" 	aria-required="true">*</span></label>
+										 <?= $this->Form->input('city_id', ['empty'=>'---Select City---','options'=>$Cities,'class'=>'form-control input-sm select2me','label'=>false]) ?>
+									</div>
+								</div>
+								 <div class="col-md-6">
 									<div class="form-group">
 										<label class="col-md-6 control-label">Message <span class="required" 	aria-required="true">*</span></label>
 										 <?= $this->Form->input('message',['class'=>'form-control input-sm','id'=>'msg','label'=>false,'placeholder'=>'','rows'=>'3','style'=>'resize: none;']) ?>

@@ -132,7 +132,7 @@ class CustomerAddressesController extends AppController
 		$customer_id=$this->request->query('customer_id');
 		$customer_addresses=$this->CustomerAddresses->find()
 		->where(['customer_id' => $customer_id])
-		->contain(['States','Cities'])
+		->contain(['States','Cities','Customers'])
 		->order(['default_address' => 'DESC']);
 		
 		if(!empty($customer_addresses->toArray()))
