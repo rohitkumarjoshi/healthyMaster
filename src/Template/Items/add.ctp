@@ -82,7 +82,7 @@
                               </table>
                             </div>
                         </div>
-			<?= $this->Form->button(__('Create new item'),['class'=>'btn btn-success']) ?>
+			<?= $this->Form->button(__('Save'),['class'=>'btn btn-success']) ?>
 			<?= $this->Form->end() ?>
 			</div>
 		</div>
