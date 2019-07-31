@@ -71,7 +71,14 @@ class JainCashPointsController extends AppController
 					->execute(); */
 		
 			//Reciver Amount Add in Wallet
-			$amount=50;
+			$amount=0;
+			$ReferalMasters = $this->JainCashPoints->ReferalMasters->find()
+			->where(['ReferalMasters.status'=>"Active"])
+			->first();
+			if($ReferalMasters){
+				$amount=($ReferalMasters->receiver_amount); 
+			}
+			
 			$queryr = $this->JainCashPoints->Customers->CustomerWallets->query();
 			$CustomerWallets=$this->JainCashPoints->Customers->CustomerWallets->newEntity();
 			$CustomerWallets->customer_id=$customer_id;
@@ -82,13 +89,10 @@ class JainCashPointsController extends AppController
 			$CustomerWallets->transaction_date=date('Y-m-d');
 			$CustomerWallets->amount_type='Download App';
 			$CustomerWallets->transaction_type='Added';
-			$CustomerWallets->appiled_from="Android"; 
-			if($this->JainCashPoints->Customers->CustomerWallets->save($CustomerWallets)){
-				
-			}else{
-				pr($CustomerWallets); exit;
+			$CustomerWallets->appiled_from="Android";
+			if($amount > 0){
+				$this->JainCashPoints->Customers->CustomerWallets->save($CustomerWallets);
 			}
-			
 			$query1 = $this->JainCashPoints->Customers->query();
 			$query1->update()
 			->set(['refer_by' =>$referral_code_exist->id])
