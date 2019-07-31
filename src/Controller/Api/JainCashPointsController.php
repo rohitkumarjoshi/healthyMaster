@@ -59,7 +59,7 @@ class JainCashPointsController extends AppController
 		
 		if($referral_code_exist)
 		{
-			$gain_customer=$referral_code_exist->id;
+			/* $gain_customer=$referral_code_exist->id;
 			$points='1';
 			$queryj = $this->JainCashPoints->query();
 					$queryj->insert(['customer_id', 'point','is_refered'])
@@ -68,7 +68,7 @@ class JainCashPointsController extends AppController
 							'point' => $points,
 							'is_refered' =>'Yes'
 							])
-					->execute();
+					->execute(); */
 			
 		$queryr = $this->JainCashPoints->ReferralDetails->query();
 					$queryr->insert(['from_customer_id', 'to_customer_id','points'])

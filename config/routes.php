@@ -261,8 +261,12 @@ Router::prefix('api', function ($routes) {
 	$routes->resources(
 		'Pincodes', [ 
 		   'map' => [
-			   'verifyPinCodes' => [
-				   'action' => 'verifyPinCodes',
+			   'verify' => [
+				   'action' => 'verify',
+				   'method' => 'GET'
+			   ],
+			   'findPinCodes' => [
+				   'action' => 'findPinCodes',
 				   'method' => 'GET'
 			   ]
 		   ]
