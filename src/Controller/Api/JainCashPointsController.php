@@ -69,16 +69,32 @@ class JainCashPointsController extends AppController
 							'is_refered' =>'Yes'
 							])
 					->execute(); */
+		
+			//Reciver Amount Add in Wallet
+			$amount=50;
+			$queryr = $this->JainCashPoints->Customers->CustomerWallets->query();
+			$CustomerWallets=$this->JainCashPoints->Customers->CustomerWallets->newEntity();
+			$CustomerWallets->customer_id=$customer_id;
+			//$CustomerWallets->order_id='';
+			//$CustomerWallets->order_no='';
+			$CustomerWallets->add_amount=$amount;
+			$CustomerWallets->used_amount='';
+			$CustomerWallets->transaction_date=date('Y-m-d');
+			$CustomerWallets->amount_type='Download App';
+			$CustomerWallets->transaction_type='Added';
+			$CustomerWallets->appiled_from="Android"; 
+			if($this->JainCashPoints->Customers->CustomerWallets->save($CustomerWallets)){
+				
+			}else{
+				pr($CustomerWallets); exit;
+			}
 			
-		$queryr = $this->JainCashPoints->ReferralDetails->query();
-					$queryr->insert(['from_customer_id', 'to_customer_id','points'])
-							->values([
-							'from_customer_id' => $customer_id,
-							'to_customer_id' => $gain_customer,
-							'points' => $points
-							])
-					->execute();
-					
+			$query1 = $this->JainCashPoints->Customers->query();
+			$query1->update()
+			->set(['refer_by' =>$referral_code_exist->id])
+			->where(['id' =>$customer_id])
+			->execute();
+						
 		$status=true;
 		$error="Thank You";
 						
