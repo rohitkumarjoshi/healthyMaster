@@ -18,7 +18,7 @@ var TableManaged = function () {
                 "infoEmpty": "No entries found",
                 "infoFiltered": "(filtered1 from _MAX_ total entries)",
                 "lengthMenu": "Show _MENU_ entries",
-                "search": "Search:",
+                //"search": "Search:",
                 "zeroRecords": "No records found"
             },
 
@@ -38,7 +38,7 @@ var TableManaged = function () {
             "pageLength": 20,            
             "pagingType": "bootstrap_full_number",
             "language": {
-                "search": "Search: ",
+                //"search": "Search: ",
                 "lengthMenu": "  _MENU_ records",
                 "paginate": {
                     "previous":"Prev",
