@@ -19,6 +19,9 @@ class OrdersController extends AppController
 			$payment_mode=$orders->order_type;
 			$customer_id=$orders->customer_id;
 			if($payment_mode =="Online" || $payment_mode =="Wallet")
+			{
+				
+			}
 		}
 
 		
