@@ -52,6 +52,15 @@ class CustomersTable extends Table
             'foreignKey' => 'customer_id',
 			'saveStrategy' => 'replace'
         ]);
+		
+		
+		
+		$this->hasMany('CustomerAddressesData', [
+			'className' => 'CustomerAddresses',
+            'foreignKey' => 'customer_id',
+            'joinType' => 'INNER'
+        ]);
+		
 		$this->belongsTo('Drivers');
         $this->belongsTo('Warehouses');
         $this->hasMany('Carts', [

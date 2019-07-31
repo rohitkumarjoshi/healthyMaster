@@ -44,6 +44,7 @@ class AppNotificationsTable extends Table
             'foreignKey' => 'app_notification_id'
         ]);
          $this->belongsTo('Customers');
+         $this->belongsTo('Cities');
 		 $this->belongsTo('Users');
 		 $this->belongsTo('DeepLinks');
     }
