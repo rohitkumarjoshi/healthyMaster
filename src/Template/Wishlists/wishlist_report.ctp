@@ -18,6 +18,9 @@ background-color: #fff;}
 					<i class=" fa fa-gift"></i>
 					<span class="caption-subject">Wishlist</span>
 				</div>
+				<div class="actions">
+					<button class="btn btn-sm yellow" id="btnExport" onclick="fnExcelReport();"> Export </button>&nbsp;
+				</div>
 			</div>
 			<div class="portlet-body">
 				<form method="post">
@@ -36,11 +39,11 @@ background-color: #fff;}
 							
 							<td width="5%">
 								<label>From</label>
-								<input type="text" name="From" class="form-control input-sm date-picker" placeholder="Transaction From"  data-date-format="dd-mm-yyyy">
+								<input type="text" name="From" class="form-control input-sm date-picker" placeholder="Transaction From"  data-date-format="dd-mm-yyyy" autocomplete="off">
 							</td>	
 							<td width="5%">
 								<label>To</label>
-								<input type="text" name="To" class="form-control input-sm date-picker" placeholder="Transaction To"   data-date-format="dd-mm-yyyy" >
+								<input type="text" name="To" class="form-control input-sm date-picker" placeholder="Transaction To"   data-date-format="dd-mm-yyyy" autocomplete="off">
 							</td>
 							<td width="10%">
 								<button type="submit" class="btn btn-success btn-sm" style="margin-top: 23px !important;"><i class="fa fa-filter"></i> Filter</button>
@@ -50,7 +53,7 @@ background-color: #fff;}
 				</table>
 				</form>
 				<div>
-					<table class="table table-condensed table-hover table-bordered" id="main_tble">
+					<table class="table table-striped table-bordered table-hover dataTable no-footer" id="sample_1">
 					<thead>
 						<tr>
 							<th>Sr</th>
@@ -140,4 +143,37 @@ function selectAutoCompleted1(value) {
     $('.selectedAutoCompleted1').val(value);
     $(".suggesstion-box").hide();     
 }
+ function fnExcelReport()
+    {
+        var tab_text='<table border=\'2px\'><tr bgcolor=\'#87AFC6\'>';
+        var textRange; var j=0;
+        tab = document.getElementById('sample_1'); // id of table
+
+        for(j = 0 ; j < tab.rows.length ; j++) 
+        {     
+            tab_text=tab_text+tab.rows[j].innerHTML+'</tr>';
+            //tab_text=tab_text+'</tr>';
+        }
+
+        tab_text=tab_text+'</table>';
+        tab_text= tab_text.replace(/<A[^>]*>|<\/A>/g, '');//remove if u want links in your table
+        tab_text= tab_text.replace(/<img[^>]*>/gi,''); // remove if u want images in your table
+        tab_text= tab_text.replace(/<input[^>]*>|<\/input>/gi, ''); // reomves input params
+
+        var ua = window.navigator.userAgent;
+        var msie = ua.indexOf('MSIE '); 
+
+        if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./))      // If Internet Explorer
+        {
+            txtArea1.document.open('txt/html','replace');
+            txtArea1.document.write(tab_text);
+            txtArea1.document.close();
+            txtArea1.focus(); 
+            sa=txtArea1.document.execCommand('SaveAs',true,'Say Thanks to Sumit.xls');
+        }  
+        else                 //other browser not tested on IE 11
+            sa = window.open('data:application/vnd.ms-excel,' + encodeURIComponent(tab_text));  
+
+        return (sa);
+    }
 </script>

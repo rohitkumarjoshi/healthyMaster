@@ -276,17 +276,19 @@ class OrdersController extends AppController
         $orders=$this->Orders->OrderDetails->find()->contain(['Orders'=>['CustomerAddresses'=>['Cities','States'],'Customers'],'Items'=>['ItemCategories'],'ItemVariations'=>['Units']]);
          if ($this->request->is('post')) {
             $datas = $this->request->getData();
-            if(!empty($datas['apartment']))
+            if(!empty($datas['apartment_name']))
             {
-                $orders->where(['CustomerAddresses.apartment'=>$datas['apartment']]);
-                //pr($datas['customer_id']);
-                //pr($Carts->toArray());exit;
+                $orders->where(['CustomerAddresses.apartment_name'=>$datas['apartment_name']]);
             }
              if(!empty($datas['item_id']))
             {
                 $orders->where(['OrderDetails.item_id'=>$datas['item_id']]);
                 //pr($datas['customer_id']);
                 //pr($Carts->toArray());exit;
+            }
+              if(!empty($datas['status']))
+            {
+                $orders->where(['Orders.status'=>$datas['status']]);
             }
              if(!empty($datas['mobile']))
             {
@@ -351,7 +353,7 @@ class OrdersController extends AppController
                     <option>--Select--</option>
                     <?php foreach($items as $show){ ?>
                         
-                        <option class="item_variation_id" value="<?= $show->id ?>"><?= $show->unit_variation->name ?></option>
+                        <option class="item_variation_id" value="<?= $show->id ?>"><?= $show->quantity_variation ?></option>
                     <?php } ?>
             <?php
         
