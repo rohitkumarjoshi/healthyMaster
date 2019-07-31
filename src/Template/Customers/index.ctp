@@ -1,5 +1,4 @@
-
-			<div class="row">
+<div class="row">
 				<div class="col-md-12">
 					<!-- BEGIN EXAMPLE TABLE PORTLET-->
 					<div class="portlet box grey-cascade">

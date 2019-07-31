@@ -5,6 +5,24 @@ use Cake\I18n\Time;
 use Cake\ORM\TableRegistry;
 class OrdersController extends AppController
 {
+	public function cancelOrder()
+	{
+		//$order_id=$this->request->query('order_id');
+		$order_id='1';
+		$order_from='Android APP';
+		$orders=$this->Orders->find()->where(['id'=>$order_id]);
+		$orders->status="Cancel";
+		$orders->cancel_from=$order_from;
+		$orders->cancel_date=date('Y-m-d');
+		if($this->Orders->save($orders))
+		{
+			$payment_mode=$orders->order_type;
+			$customer_id=$orders->customer_id;
+			if($payment_mode =="Online" || $payment_mode =="Wallet")
+		}
+
+		
+	}
 	public function updateOnlinePaymentStatus()
     {
 		
