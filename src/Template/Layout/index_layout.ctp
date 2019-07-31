@@ -261,7 +261,7 @@
 										<?php echo $this->Html->link('<i class="fa fa-users"></i> Vendors','/Vendors',['escape'=>false]) ?>
 									</li>
 									<li>
-									<?php echo $this->Html->link('<i class="fa fa-user"></i> Referal','/ReferalMasters/add',['escape'=>false]) ?>
+									<?php echo $this->Html->link('<i class="fa fa-user"></i> Referal','/ReferalMasters',['escape'=>false]) ?>
 									</li>
 									<li>
 									<?php echo $this->Html->link('<i class="fa fa-magnet"></i> Unit Variations','/UnitVariations',['escape'=>false]) ?>
