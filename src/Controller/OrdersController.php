@@ -14,6 +14,42 @@ use App\Controller\AppController;
  */
 class OrdersController extends AppController
 {
+	public function cancelOrder()
+	{
+		$order_id=$this->request->query('order_id');
+		$cancel_from=$this->request->query('cancel_from');
+		//echo("hello");
+		//echo $cancel_from;
+		$orders=$this->Orders->find()->where(['Orders.id'=>$order_id])->first();
+		$orders->status="Cancel";
+		$orders->cancel_from=$cancel_from;
+		$orders->cancel_date=date('Y-m-d');
+		//echo $order_id; echo $order_from;exit;
+		
+		if($this->Orders->save($orders))
+		{
+			//echo 'hello';
+			$payment_mode=$orders->order_type;
+			$customer_id=$orders->customer_id;
+			$grand_total=$orders->grand_total;
+			if($payment_mode =="Online" || $payment_mode =="Wallet")
+			{
+				$CustomerWallets=$this->Orders->CustomerWallets->newEntity();
+				$CustomerWallets->customer_id=$orders->customer_id;
+				$CustomerWallets->order_id=$orders->id;
+				$CustomerWallets->order_no=$orders->order_no;
+				$CustomerWallets->add_amount=$orders->grand_total;
+				$CustomerWallets->used_amount='';
+				$CustomerWallets->transaction_date=date('Y-m-d');
+				$CustomerWallets->amount_type='Cancel Order';
+				$CustomerWallets->transaction_type='Added';
+				$CustomerWallets->appiled_from=$cancel_from;
+				$this->Orders->CustomerWallets->save($CustomerWallets);
+			}
+		}
+
+		exit;
+	}
 	 public function beforeRender(Event $event)
     {
 
@@ -586,7 +622,7 @@ class OrdersController extends AppController
     {
     	$x=0;
     	 $status=$this->request->getData('status'); 
-        $id=$this->request->getData('id');
+        $id=$this->request->getData('order_id');
 
         if($status == 'In Process'){
 	            $packed=$this->Orders->get($id);
@@ -802,7 +838,7 @@ class OrdersController extends AppController
 		$order_type=[['text'=>'Bulkorder','value'=>'Bulkorder'],['text'=>'Cod','value'=>'Cod'],['text'=>'Offline','value'=>'Offline'],['text'=>'Online','value'=>'Online'],['text'=>'Wallet','value'=>'Wallet']];
 		
 		$OrderStatus=[];
-		$OrderStatus=[['text'=>'Delivered','value'=>'Delivered'],['text'=>'Packed','value'=>'Packed'],['text'=>'Dispatch','value'=>'Dispatch'],['text'=>'In Process','value'=>'In Process']];
+		$OrderStatus=[['text'=>'Delivered','value'=>'Delivered'],['text'=>'Packed','value'=>'Packed'],['text'=>'Dispatch','value'=>'Dispatch'],['text'=>'In Process','value'=>'In Process'],['text'=>'Cancel','value'=>'Cancel']];
         $this->set(compact('orders','Customer_data','order_type','OrderStatus','order_no','customer_id','order_types','orderstatus','from_date','to_date','status'));
         $this->set('_serialize', ['orders']);
     }

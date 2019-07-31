@@ -60,7 +60,7 @@ class CustomerWalletsTable extends Table
             ->allowEmptyString('id', 'create');
 
         $validator
-            ->integer('order_no')
+            ->scalar('order_no')
             ->requirePresence('order_no', 'create')
             ->allowEmptyString('order_no', false);
 

@@ -55,13 +55,16 @@ class OrdersTable extends Table
             'foreignKey' => 'item_id',
             'joinType' => 'INNER'
         ]);
+        $this->hasMany('CustomerWallets', [
+            'foreignKey' => 'order_id'
+        ]);
         $this->hasMany('OrderDetails', [
             'foreignKey' => 'order_id',
 			'saveStrategy'=>'replace'
         ]);
-        $this->hasMany('Wallets', [
-            'foreignKey' => 'order_id'
-        ]);
+        // $this->hasMany('Wallets', [
+        //     'foreignKey' => 'order_id'
+        // ]);
 		 $this->belongsTo('JainCashPoints', [
             'foreignKey' => 'order_id'
         ]);

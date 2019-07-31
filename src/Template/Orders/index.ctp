@@ -186,31 +186,42 @@
 									<option value="Packed">Packed</option>
 									<option value="Dispatch">Dispatch</option>
 									<option value="Delivered">Delivered</option>
+									<option value="Cancel">Cancel</option>
 								<?php }if($order->status=="Packed")
 								{?>
 									<option value="Packed" selected>Packed</option>
 									<option value="In Process">In Process</option>
 									<option value="Dispatch">Dispatch</option>
 									<option value="Delivered">Delivered</option>
+									<option value="Cancel">Cancel</option>
 								<?php }if($order->status=="Dispatch")
 								{?>
-								<option value="Dispatch" selected>Dispatch</option>
-								<option value="Packed">Packed</option>
+									<option value="Dispatch" selected>Dispatch</option>
 									<option value="In Process">In Process</option>
+									<option value="Packed">Packed</option>
 									<option value="Delivered">Delivered</option>
+									<option value="Cancel">Cancel</option>
 								<?php }if($order->status=="Delivered")
 								{?>
 								<option value="Delivered" selected>Delivered</option>
-								<option value="Dispatch" >Dispatch</option>
-								<option value="Packed" >Packed</option>
 									<option value="In Process" >In Process</option>
+									<option value="Packed" >Packed</option>
+									<option value="Dispatch" >Dispatch</option>
+									<option value="Cancel">Cancel</option>
+						<?php }if($order->status=="Cancel")
+								{?>
+								<option value="Cancel" selected>Cancel</option>
+									<option value="In Process" >In Process</option>
+									<option value="Packed" >Packed</option>
+									<option value="Dispatch" >Dispatch</option>
+									<option value="Delivered">Delivered</option>
 
 							<?php } ?>
 							</select>
-							<?php if($order->status!="Delivered")
+							<?php if(($order->status!="Delivered")&&($order->status!="Cancel"))
 							{
 							?>
-							<button class="btn btn-primary btn-xs ok" order_id="<?=$order->id ?>">Ok</button>
+							<button class="btn btn-primary btn-xs ok" order_id="<?=$order->id ?>" order_from="<?= $order->order_from?>">Ok</button>
 						<?php } ?>
 						
 							</td>
@@ -292,30 +303,40 @@ $(document).ready(function() {
 
 	 $(document).on('click',".ok",function(){
 		var status=$(this).closest('tr').find('.option_status').val();
-		if(status == "Delivered")
+		//alert(status);
+		if(status =="Delivered")
+		{
+			$(this).closest('tr').find('.ok').hide();
+		}
+		if(status =="Cancel")
 		{
 			$(this).closest('tr').find('.ok').hide();
 		}
 		
-		var id=$(this).attr('order_id');
-		//alert(status);
-		 $.ajax({
-            url: "<?php echo $this->Url->build(["controller" => "Orders", "action" => "statuses"]); ?>",
-            type: 'post',
-            data: {status: status,id:id},
+		var order_id=$(this).attr('order_id');
+		var cancel_from=$(this).attr('order_from');
+		if(status == "Cancel")
+		{
+			$.ajax({
+            url: "<?php echo $this->Url->build(["controller" =>"Orders", "action" => "cancelOrder"]); ?>",
+            type: 'get',
+            data: {cancel_from:cancel_from,order_id:order_id},
            success: function (data) {
                alert("ok");
                }
             });
-		  // $('.option_status').on('change',function(){
-		  // 	//alert();
-		  // 	var del=$(this).val();
-		  // 	alert(del);
-		  // 	if(del == "Delivered")
-		  // 	{
-		  // 		$('.ok').hide();
-		  // 	}
-		  // });
+		}
+		if(status!="Cancel")
+		{
+		 $.ajax({
+            url: "<?php echo $this->Url->build(["controller" => "Orders", "action" => "statuses"]); ?>",
+            type: 'post',
+            data: {status: status,order_id:order_id},
+           success: function (data) {
+               alert("ok");
+               }
+            });
+		}
 
 	});
 	

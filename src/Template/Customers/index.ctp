@@ -1,5 +1,4 @@
-
-			<div class="row">
+<div class="row">
 				<div class="col-md-12">
 					<!-- BEGIN EXAMPLE TABLE PORTLET-->
 					<div class="portlet box grey-cascade">
@@ -13,7 +12,7 @@
 								<?php echo $this->Html->link('Add New','/Customers/Add',['escape'=>false,'class'=>'btn btn-default']) ?>&nbsp;
 							</div>
 						</div>
-						<div class="portlet-body">
+						<div class="portlet-body" style="overflow: auto;">
 							<table class="table table-striped table-bordered table-hover dataTable no-footer" id="sample_1">
 							<thead>
 								<tr>

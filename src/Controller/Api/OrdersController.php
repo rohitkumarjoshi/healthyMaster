@@ -5,6 +5,39 @@ use Cake\I18n\Time;
 use Cake\ORM\TableRegistry;
 class OrdersController extends AppController
 {
+	public function cancelOrder()
+	{
+		$order_id=$this->request->query('order_id');
+		$cancel_from=$this->request->query('cancel_from');
+		$orders=$this->Orders->find()->where(['Orders.id'=>$order_id])->first();
+		$orders->status="Cancel";
+		$orders->cancel_from=$cancel_from;
+		$orders->cancel_date=date('Y-m-d');
+		//echo $order_id; echo $order_from;exit;
+		
+		if($this->Orders->save($orders))
+		{
+			$payment_mode=$orders->order_type;
+			$customer_id=$orders->customer_id;
+			$grand_total=$orders->grand_total;
+			if($payment_mode =="Online" || $payment_mode =="Wallet")
+			{
+				$CustomerWallets=$this->Orders->CustomerWallets->newEntity();
+				$CustomerWallets->customer_id=$orders->customer_id;
+				$CustomerWallets->order_id=$orders->id;
+				$CustomerWallets->order_no=$orders->order_no;
+				$CustomerWallets->add_amount=$orders->grand_total;
+				$CustomerWallets->used_amount='';
+				$CustomerWallets->transaction_date=date('Y-m-d');
+				$CustomerWallets->amount_type='Cancel Order';
+				$CustomerWallets->transaction_type='Added';
+				$CustomerWallets->appiled_from=$cancel_from;
+				$this->Orders->CustomerWallets->save($CustomerWallets);
+			}
+		}
+
+		exit;
+	}
 	public function updateOnlinePaymentStatus()
     {
 		
@@ -148,67 +181,67 @@ class OrdersController extends AppController
         $this->set('_serialize', ['status', 'error', 'orders_data']);
     }
 	
-	public function cancelOrder()
-    {
-		$customer_id=$this->request->query('customer_id');
-		$order_id=$this->request->query('order_id');
-		@$cancel_id=$this->request->query('cancel_id');
-		@$other_comment=$this->request->query('other_comment');
+	// public function cancelOrder()
+ //    {
+	// 	$customer_id=$this->request->query('customer_id');
+	// 	$order_id=$this->request->query('order_id');
+	// 	@$cancel_id=$this->request->query('cancel_id');
+	// 	@$other_comment=$this->request->query('other_comment');
  		
-		if(empty($cancel_id))
-		{
-			$cancel_id = 3;
-		}
+	// 	if(empty($cancel_id))
+	// 	{
+	// 		$cancel_id = 3;
+	// 	}
 		
 		
-		$odrer_datas=$this->Orders->get($order_id);
-		$o_date=$odrer_datas->order_date;
-		//$amount_from_wallet=$odrer_datas->amount_from_wallet;
-		$amount_from_wallet = 0;
-		$amount_from_jain_cash=$odrer_datas->amount_from_jain_cash;
-		$amount_from_promo_code=$odrer_datas->amount_from_promo_code;
-		$online_amount=$odrer_datas->online_amount;
+	// 	$odrer_datas=$this->Orders->get($order_id);
+	// 	$o_date=$odrer_datas->order_date;
+	// 	//$amount_from_wallet=$odrer_datas->amount_from_wallet;
+	// 	$amount_from_wallet = 0;
+	// 	$amount_from_jain_cash=$odrer_datas->amount_from_jain_cash;
+	// 	$amount_from_promo_code=$odrer_datas->amount_from_promo_code;
+	// 	$online_amount=$odrer_datas->online_amount;
 		
-		//$return_amount=$amount_from_wallet + $amount_from_jain_cash + $amount_from_promo_code+$online_amount;
+	// 	//$return_amount=$amount_from_wallet + $amount_from_jain_cash + $amount_from_promo_code+$online_amount;
 				
-		$order_cancel = $this->Orders->query();
-		$result = $order_cancel->update()
-			->set(['status' => 'Cancel',
-			'cancel_id' => $cancel_id, 'order_date' => $o_date,'other_comment' => $other_comment])
-			->where(['id' => $order_id])
-			->execute();
+	// 	$order_cancel = $this->Orders->query();
+	// 	$result = $order_cancel->update()
+	// 		->set(['status' => 'Cancel',
+	// 		'cancel_id' => $cancel_id, 'order_date' => $o_date,'other_comment' => $other_comment])
+	// 		->where(['id' => $order_id])
+	// 		->execute();
 						
 						
-		$query = $this->Orders->JainCashPoints->query();
-		$query->insert(['customer_id', 'point','is_refered','order_id','narration'])
-				->values([
-				'customer_id' => $customer_id,
-				'point' => $amount_from_jain_cash,
-				'is_refered' => 'Yes',
-				'order_id' => $order_id,
-				'narration' => 'Amount Return form Order'				
-				])
-		->execute();
+	// 	$query = $this->Orders->JainCashPoints->query();
+	// 	$query->insert(['customer_id', 'point','is_refered','order_id','narration'])
+	// 			->values([
+	// 			'customer_id' => $customer_id,
+	// 			'point' => $amount_from_jain_cash,
+	// 			'is_refered' => 'Yes',
+	// 			'order_id' => $order_id,
+	// 			'narration' => 'Amount Return form Order'				
+	// 			])
+	// 	->execute();
 
-		//end this code///		
+	// 	//end this code///		
 
 		
-		$customer_details=$this->Orders->Customers->find()
-		->where(['Customers.id' => $customer_id])->first();
-		$mobile=$customer_details->mobile;
+	// 	$customer_details=$this->Orders->Customers->find()
+	// 	->where(['Customers.id' => $customer_id])->first();
+	// 	$mobile=$customer_details->mobile;
 
-		$sms=str_replace(' ', '+', 'Your order has been cancelled.' );
-		$working_key='A7a76ea72525fc05bbe9963267b48dd96';
-		$sms_sender='JAINTE';
-		$sms=str_replace(' ', '+', $sms);
+	// 	$sms=str_replace(' ', '+', 'Your order has been cancelled.' );
+	// 	$working_key='A7a76ea72525fc05bbe9963267b48dd96';
+	// 	$sms_sender='JAINTE';
+	// 	$sms=str_replace(' ', '+', $sms);
 				
-		//file_get_contents('http://103.39.134.40/api/mt/SendSMS?user=phppoetsit&password=9829041695&senderid='.$sms_sender.'&channel=Trans&DCS=0&flashsms=0&number='.$mobile.'&text='.$sms.'&route=7');
+	// 	//file_get_contents('http://103.39.134.40/api/mt/SendSMS?user=phppoetsit&password=9829041695&senderid='.$sms_sender.'&channel=Trans&DCS=0&flashsms=0&number='.$mobile.'&text='.$sms.'&route=7');
 		
-		$status=true;
-		$error="Thank you, your order has been cancelled.";
-        $this->set(compact('status', 'error'));
-        $this->set('_serialize', ['status', 'error']);
-    }
+	// 	$status=true;
+	// 	$error="Thank you, your order has been cancelled.";
+ //        $this->set(compact('status', 'error'));
+ //        $this->set('_serialize', ['status', 'error']);
+ //    }
 	public function deliveredOrder()
     {
 		$jain_thela_admin_id=$this->request->query('jain_thela_admin_id');

@@ -333,10 +333,6 @@ Router::prefix('api', function ($routes) {
 				   'action' => 'place_order',
 				   'method' => 'POST'
 			   ],
-			   'cancel_order' => [
-				   'action' => 'cancel_order',
-				   'method' => 'GET'
-			   ],
 			   'pending_order_list' => [
 				   'action' => 'pending_order_list',
 				   'method' => 'GET'
@@ -359,6 +355,10 @@ Router::prefix('api', function ($routes) {
 			   ],
 			   'item_cancel' => [
 				   'action' => 'item_cancel',
+				   'method' => 'GET'
+			   ],
+			   'cancelorder' => [
+				   'action' => 'cancelOrder',
 				   'method' => 'GET'
 			   ]
 			 ]
