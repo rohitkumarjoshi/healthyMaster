@@ -272,7 +272,9 @@ class ItemsController extends AppController
 
             //$button_value=$this->request->data['button_value'];
 
-			$item_keywords=$this->request->data['item_keyword'];
+            $item_keywords=$this->request->data['item_keyword'];
+			$button_value=$this->request->getData();
+           // pr($button_value);exit;
 			
 			$file = $this->request->data['image'];	
 			$file_name=$file['name'];
@@ -289,7 +291,11 @@ class ItemsController extends AppController
             'contain' => ['ItemVariations']]
         );
             $item = $this->Items->patchEntity($items, $this->request->getData());
-            $item->updated_on=date('Y-m-d');
+            if($button_value == "update")
+            {
+
+                $item->updated_on=date('Y-m-d');
+            }
             $item->jain_thela_admin_id=$jain_thela_admin_id;
 			//pr($item);exit;
 			if ($this->Items->save($item)) {

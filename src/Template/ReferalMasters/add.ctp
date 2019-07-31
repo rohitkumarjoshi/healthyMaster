@@ -13,7 +13,7 @@
                 </div>
             </div>
             <div class="portlet-body">
-                <?= $this->Form->create($customerAddress,['id'=>'form_sample_3']) ?>
+                <?= $this->Form->create($referalMaster,['id'=>'form_sample_3']) ?>
                 <div class="row" style="margin-top:5px;">
                     <div class="col-md-8">
                         <label class=" control-label">Receiver Amount<span class="required" aria-required="true">*</span></label>
@@ -21,83 +21,83 @@
                         
                     </div>
                 </div>
-                <div class="row" style="margin-top:10px;">
+                <div class="row" style="margin-top:5px;">
                     <div class="col-md-8">
-                        <label class=" control-label">Mobile <span class="required" aria-required="true">*</span></label>
-                        <?php echo $this->Form->control('mobile',['placeholder'=>'Mobile','class'=>'form-control input-sm','label'=>false,'oninput'=>"this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');",'minlength'=>10]); ?>
+                        <label class=" control-label">Sender Amount<span class="required" aria-required="true">*</span></label>
+                        <?php echo $this->Form->control('sender_amount',['class'=>'form-control input-sm','label'=>false,'maxlength'=>'50']); ?>
+                        
                     </div>
                 </div>
-                <div class="row" style="margin-top:10px;">
+                <div class="row" style="margin-top:5px;">
                     <div class="col-md-8">
-                        <label class=" control-label">House no <span class="required" aria-required="true">*</span></label>
-                        <?php echo $this->Form->control('house_no',['placeholder'=>'House no','class'=>'form-control input-sm','label'=>false,'maxlength'=>'50']); ?>
+                        <label class=" control-label">Order Value<span class="required" aria-required="true">*</span></label>
+                        <?php echo $this->Form->control('order_value',['class'=>'form-control input-sm','label'=>false,'maxlength'=>'50']); ?>
+                        
                     </div>
                 </div>
-                <div class="row" style="margin-top:10px;">
-                    <div class="col-md-8">
-                        <label class=" control-label">Apartment Name</label>
-                        <?php echo $this->Form->control('apartment_name',['placeholder'=>'Apartment Name','class'=>'form-control input-sm','label'=>false,'maxlength'=>'50']); ?>
-                    </div>
-                </div>
-                <div class="row" style="margin-top:10px;">
-                    <div class="col-md-8">
-                        <label class=" control-label">Landmark<span class="required" aria-required="true">*</span></label>
-                        <?php echo $this->Form->control('address',['placeholder'=>'Landmark','class'=>'form-control input-sm','label'=>false,'maxlength'=>'150']); ?>
-                    </div>
-                </div>
-                <div class="row" style="margin-top:10px;">
-                    <div class="col-md-8">
-                        <label class=" control-label">Locality</label>
-                        <?php echo $this->Form->control('locality',['placeholder'=>'locality','class'=>'form-control input-sm','label'=>false,'maxlength'=>'50']); ?>
-                    </div>
-                </div>
-                <div class="row" style="margin-top:10px;">
-                    <div class="col-md-8">
-                        <label class=" control-label">Pincode<span class="required" aria-required="true">*</span></label>
-                        <?php echo $this->Form->control('pincode',['placeholder'=>'Pincode','class'=>'form-control input-sm','label'=>false,'oninput'=>"this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');",'maxlength'=>6,'type'=>'text','required']); ?>
-                    </div>
-                </div>
-                <div class="row" style="margin-top:10px;">
-                    <div class="col-md-8">
-                        <label class=" control-label">State<span class="required" aria-required="true">*</span></label>
-                        <?php echo $this->Form->control('state_id', ['empty'=>'-- select --','options' => $states,'class'=>'form-control input-sm select select2me select2 state','required','label'=>false]); ?>
-                    </div>
-                </div>
-                
-                <div class="col-md-8">
-                       <label class=" control-label">City <span class="required" aria-required="true">* </label>
-                        <select name="city_id" class="form-control input-sm city select2" required>
-                            
-                            <option value="<?= @$customerAddress->city_id?>"><?= @$customerAddress->city->name?></option>
-                            
-                        </select>
-                 </div>
-                
-                 <br>
-                <div class="row" style="margin-top:10px;">
-                    <div class="col-md-8">
-                                <div class="form-group">
-                                    <label class="control-label">Default Address<span class="required" aria-required="true">*</span></label>
-                                    <div class="radio-list">
-                                        <div class="radio-inline default" style="padding-left: 0px;">
-                                            <?php echo $this->Form->radio(
-                                            'default_address',
-                                            [
-                                                ['value' => '0', 'text' => 'No','class' => 'radio-task virt ','checked' => 'checked'],
-                                                ['value' => '1', 'text' => 'Yes','class' => 'radio-task virt ']
-                                            ]
-                                            ); ?>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                            
                 <br/>
                 <?= $this->Form->button($this->Html->tag('i', '') . __(' Submit'),['class'=>'btn btn-success']); ?>
                 <?= $this->Form->end() ?>
             </div>
         </div>
     </div>
-    
+    <div class="col-md-7 col-sm-7">
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class=" fa fa-gift"></i>
+                    <span class="caption-subject">ADDRESSES</span>
+                </div>
+                <div class="actions">
+                    <input id="search3"  class="form-control input-sm" type="text" placeholder="Search" >
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div style="overflow-y: scroll;height: 400px;">
+                    <table class="table table-bordered table-condensed pagin-table" id="main_tble">
+                        <thead>
+                            <tr>
+                                <th><?=  h('Sr.no') ?></th>
+                                <th><?=  h('Receiver Amount') ?></th>
+                                <th><?=  h('Sender Amount') ?></th>
+                                <th><?=  h('Order Value') ?></th>
+                                <th class="actions"><?= __('Actions') ?></th>
+                            </tr>
+                        </thead>
+                        <tbody id="main_tbody">
+                            <?php
+                            $k=0;
+                            foreach ($refer as $referalMaster):
+                                @$k++;
+                            ?>
+                            <tr class="main_tr">
+                                <td><?= h($k) ?></td>
+                                <td><?= h($referalMaster->receiver_amount) ?></td>
+                                <td><?= h($referalMaster->sender_amount) ?></td>
+                                <td><?= h($referalMaster->order_value) ?></td>
+                                
+                                <td class="actions">
+                                <?php echo $this->Html->link('<i class="fa fa-pencil"></i>',['action' => 'index', $referalMaster->id],['escape'=>false,'class'=>'btn btn-xs blue']); ?>
+                                
+                               <?php 
+                                    if($referalMaster->status == 0)
+                                    { ?>
+                                    <?= $this->Form->postLink(__('Deactive'), ['action' => 'delete', $referalMaster->id], ['confirm' => __('Are you sure you want to Deactive # {0}?'),'class'=>'btn btn-xs green']) ?> 
+                                    <?php }
+                                    if($referalMaster->status == 1)
+                                    { ?>
+                                        <?= $this->Form->postLink(__('Active'), ['action' => 'delete1', $referalMaster->id], ['confirm' => __('Are you sure you want to Active # {0}?'),'class'=>'btn btn-xs green']) ?>
+                                    <?php }
+                                ?>
+                                
+                                </td>
+                                
+                            </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

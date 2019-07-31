@@ -43,6 +43,7 @@
 					<div class="col-md-3">
 						<?php echo $this->Form->control('description', ['class'=>'form-control input-sm','placeholder'=>'Description','maxlength'=>250]); ?>
 						<input type="hidden" name="is_virtual" value="real">
+						 <input type="hidden" name="btn_value" id="button_value">
 					</div>
 					<div class="col-md-3">
 						<?php echo $this->Form->control('short_description', ['class'=>'form-control input-sm','placeholder'=>'Short Description','maxlength'=>250]); ?>
@@ -119,6 +120,7 @@
 					                    
 					                    <td style="vertical-align: bottom;"> <button type="button" id="plus" class="btn btn-sm green"><i class="fa fa-plus"></i></button>
 					                   <!-- <button type="button" id="minus" class="btn btn-sm red" row_id="<?= $variation_id?>"><i class="fa fa-minus"></i></button></td>-->
+					                  
 					                </tr>
 					            <?php } ?>
 					                                  </tbody>
@@ -126,6 +128,7 @@
                             </div>
                         </div>
 			<?= $this->Form->button(__('Save'),['class'=>'btn btn-success save']) ?>
+			<?= $this->Form->button(__('Save & Update'),['class'=>'btn btn-success update']) ?>
 			<?= $this->Form->end() ?>
 			</div>
 		</div>
@@ -163,7 +166,13 @@
 <script>
 $(document).ready(function() {
 
- 
+ $(document).on('click','.save',function(){
+ 	$('#button_value').val('save');
+
+ });
+ $(document).on('click','.update',function(){
+ 	$('#button_value').val('update');
+ });
 
 	/* var gst_apply = $('.gst').val();
 	if(gst_apply=='Yes'){

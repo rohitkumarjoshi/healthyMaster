@@ -17,11 +17,27 @@ class ReferalMastersController extends AppController
      *
      * @return \Cake\Http\Response|void
      */
-    public function index()
+    public function index($id=null)
     {
-        $referalMasters = $this->paginate($this->ReferalMasters);
+       $this->viewBuilder()->layout('index_layout');
+        if(!$id){
+           $referalMaster = $this->ReferalMasters->newEntity();
+        }else{
+                $referalMaster = $this->ReferalMasters->get($id);
+        }
 
-        $this->set(compact('referalMasters'));
+        $referalMaster = $this->ReferalMasters->newEntity();
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $referalMaster = $this->ReferalMasters->patchEntity($referalMaster, $this->request->getData());
+            if ($this->ReferalMasters->save($referalMaster)) {
+                $this->Flash->success(__('The referal master has been saved.'));
+
+                return $this->redirect(['action' => 'index']);
+            }
+            $this->Flash->error(__('The referal master could not be saved. Please, try again.'));
+        }
+         $referalMasters = $this->ReferalMasters->find();
+        $this->set(compact('referalMaster','referalMasters','refer'));
     }
 
     /**
@@ -45,20 +61,28 @@ class ReferalMastersController extends AppController
      *
      * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
      */
-    public function add()
+    public function add($id=null)
     {
         $this->viewBuilder()->layout('index_layout');
+
+        if(!$id){
+           $referalMaster = $this->ReferalMasters->newEntity();
+        }else{
+                $referalMaster = $this->ReferalMasters->get($id);
+        }
+
         $referalMaster = $this->ReferalMasters->newEntity();
-        if ($this->request->is('post')) {
+        if ($this->request->is(['patch', 'post', 'put'])) {
             $referalMaster = $this->ReferalMasters->patchEntity($referalMaster, $this->request->getData());
             if ($this->ReferalMasters->save($referalMaster)) {
                 $this->Flash->success(__('The referal master has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['action' => 'add']);
             }
             $this->Flash->error(__('The referal master could not be saved. Please, try again.'));
         }
-        $this->set(compact('referalMaster'));
+         $referalMasters = $this->ReferalMasters->find()->where(['id'=>$id]);
+        $this->set(compact('referalMaster','referalMasters'));
     }
 
     /**
@@ -96,7 +120,21 @@ class ReferalMastersController extends AppController
     {
         $this->request->allowMethod(['post', 'delete']);
         $referalMaster = $this->ReferalMasters->get($id);
-        if ($this->ReferalMasters->delete($referalMaster)) {
+        $referalMaster->status=1;
+        if ($this->ReferalMasters->save($referalMaster)) {
+            $this->Flash->success(__('The referal master has been deleted.'));
+        } else {
+            $this->Flash->error(__('The referal master could not be deleted. Please, try again.'));
+        }
+
+        return $this->redirect(['action' => 'index']);
+    }
+    public function delete1($id = null)
+    {
+        $this->request->allowMethod(['post', 'delete']);
+        $referalMaster = $this->ReferalMasters->get($id);
+        $referalMaster->status=0;
+        if ($this->ReferalMasters->save($referalMaster)) {
             $this->Flash->success(__('The referal master has been deleted.'));
         } else {
             $this->Flash->error(__('The referal master could not be deleted. Please, try again.'));
