@@ -273,7 +273,7 @@ class ItemsController extends AppController
             //$button_value=$this->request->data['button_value'];
 
             $item_keywords=$this->request->data['item_keyword'];
-			$button_value=$this->request->getData();
+			$button_value=$this->request->getData('btn_value');
            // pr($button_value);exit;
 			
 			$file = $this->request->data['image'];	
