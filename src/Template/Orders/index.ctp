@@ -333,7 +333,7 @@ $(document).ready(function() {
             type: 'post',
             data: {status: status,order_id:order_id},
            success: function (data) {
-               alert("ok");
+               console.log(data);
                }
             });
 		}

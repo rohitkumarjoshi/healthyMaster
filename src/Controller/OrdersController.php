@@ -644,14 +644,43 @@ class OrdersController extends AppController
 		         $this->Orders->save($packed);
            }if($status == 'Delivered'){
 	            $packed=$this->Orders->get($id);
-
+				
 		        //pr($packed);exit;
 		        $packed->status="Delivered";
 		        if($this->Orders->save($packed))
 		        {
-		        	//alert();
+		        	
 					
-					$Ordersdatas=$this->Orders->get($id,['contain'=>['OrderDetails'=>['Items'=>['GstFigures']]]]);
+					$Ordersdatas=$this->Orders->get($id,['contain'=>['Customers','OrderDetails'=>['Items'=>['GstFigures']]]]);
+					
+					$ReferalMasters = $this->Orders->ReferalMasters->find()
+						->where(['ReferalMasters.status'=>"Active"])
+						->first();
+					
+					if($Ordersdatas->grand_total >= $ReferalMasters->order_value){
+						if($Ordersdatas->customer->first_order=="Pending" && $Ordersdatas->customer->refer_by >0){
+							//$senderCustomer=$this->Orders->Customers->get($Ordersdatas->customer->refer_by);
+							$queryr = $this->Orders->Customers->CustomerWallets->query();
+							$CustomerWallets=$this->Orders->Customers->CustomerWallets->newEntity();
+							$CustomerWallets->customer_id=$Ordersdatas->customer->refer_by;
+							$CustomerWallets->order_id=$id;
+							//$CustomerWallets->order_no='';
+							$CustomerWallets->add_amount=$ReferalMasters->sender_amount;
+							$CustomerWallets->used_amount='';
+							$CustomerWallets->transaction_date=date('Y-m-d');
+							$CustomerWallets->amount_type='After Order '.$ReferalMasters->order_value.'By Customer '.$Ordersdatas->customer->id;
+							$CustomerWallets->transaction_type='Added';
+							$CustomerWallets->appiled_from="Referal Income";
+							$this->Orders->Customers->CustomerWallets->save($CustomerWallets);
+							
+							$query1 = $this->Orders->Customers->query();
+							$query1->update()
+							->set(['first_order' =>"Completed"])
+							->where(['id' =>$Ordersdatas->customer->id])
+							->execute();
+						}
+					}
+					
 					//pr($Ordersdatas);
 					foreach($Ordersdatas->order_details as $data){
 						$gst=0; $taxbale_amount=0;
@@ -668,8 +697,6 @@ class OrdersController extends AppController
 						->set(['net_amount' =>$taxbale_amount,'gst_amount' =>$gst,'gst_figure_id' => $gst_figure_id])
 						->where(['id' =>$order_detail_id])
 						->execute();
-						 
-						 
 					}
 					
 					

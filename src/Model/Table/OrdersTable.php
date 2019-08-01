@@ -81,6 +81,7 @@ class OrdersTable extends Table
     	$this->hasMany('Ledgers');
     	$this->hasMany('LedgerAccounts');
 		$this->belongsTo('CancelReason');
+		$this->belongsTo('ReferalMasters');
 	}
 
     /**
