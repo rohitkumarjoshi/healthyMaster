@@ -42,59 +42,63 @@
 
 				<div class="row" style="margin-top:5px;">
 					<div class="col-md-8">
-						<label class=" control-label">Name<span class="required" aria-required="true">*</span></label>
+						<label class=" control-label">Name</label>
 						<?php echo $this->Form->control('name',['placeholder'=>'Name','class'=>'form-control input-sm','label'=>false,'maxlength'=>'50']); ?>
 						<input type="hidden" name="customer_id" id="customer_id"  value="<?= $customer_id?>">
 					</div>
 				</div>
 				<div class="row" style="margin-top:10px;">
 					<div class="col-md-8">
-						<label class=" control-label">Mobile <span class="required" aria-required="true">*</span></label>
+						<label class=" control-label">Mobile </label>
 						<?php echo $this->Form->control('mobile',['placeholder'=>'Mobile','class'=>'form-control input-sm','label'=>false,'oninput'=>"this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');",'minlength'=>10]); ?>
 					</div>
 				</div>
 				<div class="row" style="margin-top:10px;">
 					<div class="col-md-8">
-						<label class=" control-label">House no <span class="required" aria-required="true">*</span></label>
+						<label class=" control-label">Pincode<span class="required" aria-required="true">*</span></label>
+						<?php echo $this->Form->control('pincode',['placeholder'=>'Pincode','class'=>'form-control input-sm','label'=>false,'oninput'=>"this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');",'maxlength'=>6,'type'=>'text','required','id'=>'pincode']); ?>
+					</div>
+				</div>
+				<div class="row" style="margin-top:10px;">
+					<div class="col-md-8">
+						<label class=" control-label">Flat/House no <span class="required" aria-required="true">*</span></label>
 						<?php echo $this->Form->control('house_no',['placeholder'=>'House no','class'=>'form-control input-sm','label'=>false,'maxlength'=>'50']); ?>
 					</div>
 				</div>
 				<div class="row" style="margin-top:10px;">
 					<div class="col-md-8">
-						<label class=" control-label">Apartment Name</label>
+						<label class=" control-label">Building/Apartment Name</label>
 						<?php echo $this->Form->control('apartment_name',['placeholder'=>'Apartment Name','class'=>'form-control input-sm','label'=>false,'maxlength'=>'50']); ?>
 					</div>
 				</div>
 				<div class="row" style="margin-top:10px;">
 					<div class="col-md-8">
-						<label class=" control-label">Landmark<span class="required" aria-required="true">*</span></label>
-						<?php echo $this->Form->control('address',['placeholder'=>'Landmark','class'=>'form-control input-sm','label'=>false,'maxlength'=>'150']); ?>
-					</div>
-				</div>
-				<div class="row" style="margin-top:10px;">
-					<div class="col-md-8">
-						<label class=" control-label">Locality</label>
+						<label class=" control-label">Street/Locality/Area<span class="required" aria-required="true">*</span></label>
 						<?php echo $this->Form->control('locality',['placeholder'=>'locality','class'=>'form-control input-sm','label'=>false,'maxlength'=>'50']); ?>
 					</div>
 				</div>
 				<div class="row" style="margin-top:10px;">
 					<div class="col-md-8">
-						<label class=" control-label">Pincode<span class="required" aria-required="true">*</span></label>
-						<?php echo $this->Form->control('pincode',['placeholder'=>'Pincode','class'=>'form-control input-sm','label'=>false,'oninput'=>"this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');",'maxlength'=>6,'type'=>'text','required']); ?>
+						<label class=" control-label">Landmark</label>
+						<?php echo $this->Form->control('landmark',['placeholder'=>'Landmark','class'=>'form-control input-sm','label'=>false,'maxlength'=>'150']); ?>
 					</div>
 				</div>
 				<div class="row" style="margin-top:10px;">
 					<div class="col-md-8">
 						<label class=" control-label">State<span class="required" aria-required="true">*</span></label>
-						<?php echo $this->Form->control('state_id', ['empty'=>'-- select --','options' => $states,'class'=>'form-control input-sm select select2me select2 state','required','label'=>false]); ?>
+						<select name="state_id" class="form-control input-sm select2 state" required>
+                            
+                            <option value="<?= @$customerAddress->state_id?>"><?= @$customerAddress->state->state_name?></option>
+                            
+                        </select>
 					</div>
 				</div>
 				
 				<div class="col-md-8">
                        <label class=" control-label">City <span class="required" aria-required="true">* </label>
-                        <select name="city_id" class="form-control input-sm city select2" required>
+                        <select name="city_id" class="form-control input-sm city select2 city" required>
                             
-                            <option value="<?= @$customerAddress->city_id?>"><?= @$customerAddress->city->name?></option>
+                             <option value="<?= @$customerAddress->city_id?>"><?= @$customerAddress->city->name?></option>
                             
                         </select>
                  </div>
@@ -120,7 +124,7 @@
 						</div>
 							
 				<br/>
-				<?= $this->Form->button($this->Html->tag('i', '') . __(' Submit'),['class'=>'btn btn-success']); ?>
+				<?= $this->Form->button($this->Html->tag('i', '') . __(' Save'),['class'=>'btn btn-success']); ?>
 				<?= $this->Form->end() ?>
 			</div>
 		</div>
@@ -198,6 +202,46 @@
 <?php echo $this->Html->script('/assets/global/plugins/jquery.min.js'); ?>
 <script>
 $(document).ready(function() {
+
+	$(document).on('keyup',"#pincode",function(){ 
+		//alert();
+		var input=$(this).val();
+		 if(input.length>5){
+		 	var m_data = new FormData();
+			var url ="<?php echo $this->Url->build(["controller" => "Pincodes", "action" => "check"]); ?>";
+			 m_data.append('input',input);
+              $.ajax({
+				 url: url,
+                data: m_data,
+                processData: false,
+                contentType: false,
+                type: 'POST',
+                dataType:'text',
+				success: function(response) 
+				{  
+					//alert(response);
+					$('.state').html(response);
+					var url ="<?php echo $this->Url->build(["controller" => "Pincodes", "action" => "check1"]); ?>";
+						 m_data.append('input',input);
+			              $.ajax({
+							 url: url,
+			                data: m_data,
+			                processData: false,
+			                contentType: false,
+			                type: 'POST',
+			                dataType:'text',
+							success: function(response) 
+							{  
+								//alert(response);
+								$('.city').html(response);
+							}
+						});
+									
+				}
+			});
+          }
+      });
+
 	var rows = $("#main_tbody tr.main_tr");
 $("#search3").on("keyup",function() {
           
@@ -248,31 +292,7 @@ $("#search3").on("keyup",function() {
 
 	
 
-	$(document).on('change','.state',function(){
-        
-        var input=$(this).val();
-        var master = $(this); 
-        $(".city option").remove();
-        if(input.length>0){
-            var m_data = new FormData();
-            var url ="<?php echo $this->Url->build(["controller" => "Pincodes", "action" => "options"]); ?>";
-         //   alert(url);
-            m_data.append('input',input); 
-            $.ajax({
-                url: url,
-                data: m_data,
-                processData: false,
-                contentType: false,
-                type: 'POST',
-                dataType:'text',
-                success: function(data)
-                { 
-                    $('.city').append(data);
-                }
-            });
-        }
-        
-      });
+	
   //--------- FORM VALIDATION
 	var form3 = $('#form_sample_3');
 	var error3 = $('.alert-danger', form3);
@@ -283,12 +303,6 @@ $("#search3").on("keyup",function() {
 		errorClass: 'help-block help-block-error', // default input error message class
 		focusInvalid: true, // do not focus the last invalid input
 		rules: {
-				name:{
-					required: true,					 
-				},
-				address:{
-					required: true,					 
-				},
 				house_no:{
 					required: true,					 
 				},

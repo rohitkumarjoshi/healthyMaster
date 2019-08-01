@@ -26,7 +26,6 @@ class ReferalMastersController extends AppController
                 $referalMaster = $this->ReferalMasters->get($id);
         }
 
-        $referalMaster = $this->ReferalMasters->newEntity();
         if ($this->request->is(['patch', 'post', 'put'])) {
             $referalMaster = $this->ReferalMasters->patchEntity($referalMaster, $this->request->getData());
             if ($this->ReferalMasters->save($referalMaster)) {
@@ -37,7 +36,7 @@ class ReferalMastersController extends AppController
             $this->Flash->error(__('The referal master could not be saved. Please, try again.'));
         }
          $referalMasters = $this->ReferalMasters->find();
-        $this->set(compact('referalMaster','referalMasters','refer'));
+        $this->set(compact('referalMaster','referalMasters','refer','id'));
     }
 
     /**
@@ -122,9 +121,9 @@ class ReferalMastersController extends AppController
         $referalMaster = $this->ReferalMasters->get($id);
         $referalMaster->status=1;
         if ($this->ReferalMasters->save($referalMaster)) {
-            $this->Flash->success(__('The referal master has been deleted.'));
+            $this->Flash->success(__('The referal master is made deactive.'));
         } else {
-            $this->Flash->error(__('The referal master could not be deleted. Please, try again.'));
+            $this->Flash->error(__('The referal master could not be deactive. Please, try again.'));
         }
 
         return $this->redirect(['action' => 'index']);
@@ -135,9 +134,9 @@ class ReferalMastersController extends AppController
         $referalMaster = $this->ReferalMasters->get($id);
         $referalMaster->status=0;
         if ($this->ReferalMasters->save($referalMaster)) {
-            $this->Flash->success(__('The referal master has been deleted.'));
+            $this->Flash->success(__('The referal master is made active.'));
         } else {
-            $this->Flash->error(__('The referal master could not be deleted. Please, try again.'));
+            $this->Flash->error(__('The referal master could not be active. Please, try again.'));
         }
 
         return $this->redirect(['action' => 'index']);

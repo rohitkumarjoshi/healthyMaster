@@ -21,8 +21,10 @@
                             <th>State</th>
                             <th>City</th>
                             <th>PinCode</th>
-                            <th>Amount</th>
-                            <th>Charge</th>
+                            <th>100Gm</th>
+                            <th>500Gm</th>
+                            <th>1Kg</th>
+                            <th>Order Value</th>
                             <th scope="col" class="actions"><?= __('Actions') ?></th>
                         </tr>
                     </thead>
@@ -39,7 +41,7 @@
                             <td><?php
                                 if($pincode->we_deliver == "Yes")
                                 {
-                                    echo @$pincode->delivery_charge->amount;
+                                    echo @$pincode->delivery_charge->hundred_gm;
                                 }
                                 else{ echo"-";}
                                 ?>
@@ -47,12 +49,29 @@
                             <td><?php
                                 if($pincode->we_deliver == "Yes")
                                 {
-                                    echo @$pincode->delivery_charge->charge;
+                                    echo @$pincode->delivery_charge->five_hundred_gm;
                                 }
                                 else{ echo"-";}
-                                ?></td>
+                                ?>
+                            </td>
+                            <td><?php
+                                if($pincode->we_deliver == "Yes")
+                                {
+                                    echo @$pincode->delivery_charge->one_kg;
+                                }
+                                else{ echo"-";}
+                                ?>
+                            </td>
+                            <td><?php
+                                if($pincode->we_deliver == "Yes")
+                                {
+                                    echo @$pincode->delivery_charge->min_order_value;
+                                }
+                                else{ echo"-";}
+                                ?>
+                            </td>
                             <td class="actions">
-                                <?= $this->Html->link(__('<span class="fa fa-pencil"></span>'), ['action' => 'edit', $pincode->id],['class'=>'btn btn-primary  btn-condensed btn-xs','escape'=>false]) ?>
+                               <!--  <?= $this->Html->link(__('<span class="fa fa-pencil"></span>'), ['action' => 'edit', $pincode->id],['class'=>'btn btn-primary  btn-condensed btn-xs','escape'=>false]) ?> -->
                                 <?php if($pincode->is_deleted == 0){ ?>
                                 <?= $this->Form->postLink(__('Deactive'), ['action' => 'delete', $pincode->id], ['confirm' => __('Are you sure you want to Deactive # {0}?', $pincode->id),'class'=>'btn btn-xs green']) ?>
                                 <?php } ?>

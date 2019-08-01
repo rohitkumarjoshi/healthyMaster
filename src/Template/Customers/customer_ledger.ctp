@@ -30,7 +30,7 @@
 							$i=0;
 							foreach ($customer_address as $customeradd) { $i++;?>
 								<label class=" control-label">Address  <?= $i?> : 
-							<?php echo $customeradd->house_no.','.$customeradd->address.','.$customeradd->locality.'  ';
+							<?php echo $customeradd->house_no.','.$customeradd->landmark.','.$customeradd->locality.'  ';
 							}
 						?></label>
 					</div>

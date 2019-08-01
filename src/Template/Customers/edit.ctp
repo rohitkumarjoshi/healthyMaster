@@ -43,13 +43,13 @@
 $(document).ready(function() {
 
 
-	$(document).on('change','.mobile',function(){
+	$(document).on('keyup','.mobile',function(){
 		//alert();
 		var input=$(this).val();
 
         var master = $(this); 
 		//alert(input);
-		if(input.length>0){
+		if(input.length>9){
             var m_data = new FormData();
             var url ="<?php echo $this->Url->build(["controller" => "Customers", "action" => "check"]); ?>";
          //   alert(url);

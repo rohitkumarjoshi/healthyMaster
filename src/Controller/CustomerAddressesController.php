@@ -45,10 +45,10 @@ class CustomerAddressesController extends AppController
 			$customerAddress = $this->CustomerAddresses->newEntity();
 		}else{
 				$customerAddress = $this->CustomerAddresses->get($id, [
-				'contain' => ['Cities']
+				'contain' => ['Cities','States']
 			]);
 		}
-		
+		//pr($customerAddress->toArray());exit;
 		if ($this->request->is(['patch', 'post', 'put'])) {
             $customerAddress = $this->CustomerAddresses->patchEntity($customerAddress, $this->request->getData());
 			//$customerAddress->customer_id=$customer_id;
@@ -70,7 +70,7 @@ class CustomerAddressesController extends AppController
         $this->set('_serialize', ['customerAddresses', 'customerAddress', 'customer_id', 'id']);
     }
 
-	public function saveAddress($customer_id,$name,$mobile,$house_no,$address,$locality,$default_address,$pincode,$apartment_name,$address_type,$state_id,$city_id){
+	public function saveAddress($customer_id,$name,$mobile,$house_no,$landmark,$locality,$default_address,$pincode,$apartment_name,$address_type,$state_id,$city_id){
 		
         //pr($customer_id);exit;
 		
@@ -85,13 +85,13 @@ class CustomerAddressesController extends AppController
 					// 	->where(['customer_id' => $customer_id])
 					// 	->execute();
 						$query = $this->CustomerAddresses->query();
-						$query->insert(['customer_id', 'name', 'mobile', 'house_no','address','locality','default_address','pincode','apartment_name','address_type','state_id','city_id'])
+						$query->insert(['customer_id', 'name', 'mobile', 'house_no','landmark','locality','default_address','pincode','apartment_name','address_type','state_id','city_id'])
 									->values([
 										'customer_id' => $customer_id,
 										'name' => $name,
 										'mobile' => $mobile,
 										'house_no' => $house_no,
-										'address' => $address,
+										'landmark' => $landmark,
                                         'locality' => $locality,
                                         'pincode' => $pincode,
 										'apartment_name' => $apartment_name,
@@ -106,13 +106,13 @@ class CustomerAddressesController extends AppController
 		$customerAddress = $this->CustomerAddresses->newEntity();
 				  $customerAddress = $this->CustomerAddresses->patchEntity($customerAddress, $this->request->getData());
 						$query = $this->CustomerAddresses->query();
-						$query->insert(['customer_id', 'name', 'mobile', 'house_no','address','locality','default_address','pincode','apartment_name','address_type','state_id','city_id'])
+						$query->insert(['customer_id', 'name', 'mobile', 'house_no','landmark','locality','default_address','pincode','apartment_name','address_type','state_id','city_id'])
 									->values([
 										'customer_id' => $customer_id,
 										'name' => $name,
 										'mobile' => $mobile,
 										'house_no' => $house_no,
-										'address' => $address,
+										'landmark' => $landmark,
 										'locality' => $locality,
                                         'pincode' => $pincode,
                                         'apartment_name' => $apartment_name,

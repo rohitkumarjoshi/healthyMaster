@@ -27,36 +27,27 @@
                     </div>
                     <div class="col-md-3">
                         <label class=" control-label">Pincode<span class="required" aria-required="true">*</span> </label>
-                        <?php echo $this->Form->control('pincode',['placeholder'=>'Pincode','class'=>'form-control input-sm','label'=>false,'oninput'=>"this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');",'maxlength'=>6,'type'=>'text','required']); ?>
+                        <?php echo $this->Form->control('pincode',['placeholder'=>'Pincode','class'=>'form-control input-sm','label'=>false,'oninput'=>"this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');",'maxlength'=>6,'type'=>'text','required','id'=>'pincode']); ?>
+                        <input type="hidden" name="we_deliver" value="Yes">
                     </div>
                     <div class="col-md-3">
-                        <label>We Deliver<span class="required" aria-required="true">*</span></label>
-                        <select name="we_deliver" class="form-control input-sm wedeliver"  id="delivery">
-                            <option value="">--Select--</option>
-                            <option value="Yes">Yes</option>
-                            <option value="No">No</option>
-                        </select>
+                        <label>Minimum Order<span class="required" aria-required="true">*</span></label>
+                        <input type="text" name="min_order_value" class="form-control input-sm" id="charge" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="10" required>
                     </div>
                 </div><br>
-                <div class="row delivery_reason display-none">
-                    <div class="col-md-10">
-                        <label>Delivery Reason<span class="required" aria-required="true">*</span></label>
-                        <textarea name="delivery_reason" class="form-control" id="reason" ></textarea>
-                    </div>
-                </div>
-                <div class="row Yesbox display-none">
+                <div class="row">
                     <div class="col-md-3">
-                        <label>Minimum Amount<span class="required" aria-required="true">*</span></label>
-                        <input type="text" name="amount" class="form-control input-sm" id="amt" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="10"  >
+                        <label>100Gm<span class="required" aria-required="true">*</span></label>
+                        <input type="text" name="hundred_gm" class="form-control input-sm" id="amt" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="10" required>
                     </div>
-                    <div class="col-md-3">
-                        <label>Delivery Charge<span class="required" aria-required="true">*</span></label>
-                        <input type="text" name="charge" class="form-control input-sm" id="charge" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="10">
+                     <div class="col-md-3">
+                        <label>500Gm<span class="required" aria-required="true">*</span></label>
+                        <input type="text" name="five_hundred_gm" class="form-control input-sm" id="amt" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="10" required>
                     </div>
-                    <!--<div class="col-md-3">
-                        <label>Type</label>
-                        <input type="text" name="type" class="form-control input-sm" value="0">
-                    </div>-->
+                     <div class="col-md-3">
+                        <label>1Kg<span class="required" aria-required="true">*</span></label>
+                        <input type="text" name="one_kg" class="form-control input-sm" id="amt" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="10" required>
+                    </div>
                 </div>
                 <br/>
                 <?= $this->Form->button($this->Html->tag('i', '') . __(' Submit'),['class'=>'btn btn-success']); ?>
@@ -69,20 +60,6 @@
 <?php echo $this->Html->script('/assets/global/plugins/jquery.min.js'); ?>
 <script>
 $(document).ready(function() {
-
-$(document).on('change','#delivery',function(){
-    var del=$(this).val();
-    //alert(del);
-    if(del == "No")
-    {
-        $('#reason').attr('required','required');
-    }
-    if(del == "Yes")
-    {
-        $('#charge').attr('required','required');
-        $('#amt').attr('required','required');
-    }
-});
 
 $(document).on('change','.state',function(){
     
@@ -110,21 +87,31 @@ $(document).on('change','.state',function(){
         
       });
 
-    $('.wedeliver').on('change',function(){
-       var deliver_value=$(this).val();
-       if(deliver_value == "No")
-       {
-            $('.delivery_reason').show();
-            $('.delivery_reason').attr('required','required');
-            $('.Yesbox').hide();
-       }
-       if(deliver_value == "Yes")
-       {
-            $('.delivery_reason').hide();
-            $('.Yesbox').show();
-            $('.Yesbox').attr('required','required');
-       }
-    });
+ $(document).on('keyup',"#pincode",function(){ 
+        //alert();
+        var input=$(this).val();
+         if(input.length>5){
+            var m_data = new FormData();
+            var url ="<?php echo $this->Url->build(["controller" => "Pincodes", "action" => "checkPin"]); ?>";
+             m_data.append('input',input);
+              $.ajax({
+                 url: url,
+                data: m_data,
+                processData: false,
+                contentType: false,
+                type: 'POST',
+                dataType:'text',
+                success: function(response) 
+                {  
+                   if(response == '1')
+                   {
+                    $('#pincode').val('');
+                    alert("Pincode Already Exist");
+                   }
+                }
+            });
+          }
+      });
     
   //--------- FORM VALIDATION
     var form3 = $('#form_sample_3');

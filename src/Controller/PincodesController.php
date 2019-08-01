@@ -18,6 +18,42 @@ class PincodesController extends AppController
      * @return \Cake\Http\Response|void
      */
 
+     public function checkPin()
+    {
+        //$items='0';
+         $pincode=$this->request->getData('input'); 
+         //alert($mobile);
+            if($this->Pincodes->exists(['pincode'=>$pincode]))
+            {
+                echo"1";
+            }
+    
+        exit;  
+    }
+
+    public function check()
+    {
+         $pincode=$this->request->getData('input');
+         $get_pin=$this->Pincodes->find()->where(['pincode'=>$pincode])->contain(['States','Cities']);
+         //echo $get_pin;exit;
+        foreach ($get_pin as $pin) {?>
+             <option value="<?= $pin->state_id ?>"><?= $pin->state->state_name?></option>
+       <?php  }
+         
+         exit;
+    }
+
+     public function check1()
+    {
+         $pincode=$this->request->getData('input');
+         $get_pin=$this->Pincodes->find()->where(['pincode'=>$pincode])->contain(['States','Cities']);
+         //echo $get_pin;exit;
+        foreach ($get_pin as $pin) {?>
+             <option value="<?= $pin->city_id ?>"><?= $pin->city->name?></option>
+       <?php  }
+         
+         exit;
+    }
     public function options(){
         $state_id=$this->request->getData('input'); 
 
@@ -70,15 +106,17 @@ class PincodesController extends AppController
         $DeliveryCharges = $this->Pincodes->DeliveryCharges->newEntity();
         if ($this->request->is('post')) {
             $data=$this->request->getData();
-            //pr($data);
+           // pr($data);
             $pincode = $this->Pincodes->patchEntity($pincode,$data);
             if ($this->Pincodes->save($pincode)) {
                 if($data['we_deliver']=="Yes")
                 {
-                    $DeliveryCharges->amount=$this->request->getData('amount');
-                    $DeliveryCharges->charge=$this->request->getData('charge');
-                    $DeliveryCharges->type=$this->request->getData('type');
-                    $DeliveryCharges->pincode_id=$pincode->id;
+                    $DeliveryCharges->hundred_gm=$this->request->getData('hundred_gm');
+                    $DeliveryCharges->five_hundred_gm=$this->request->getData('five_hundred_gm');
+                    $DeliveryCharges->one_kg=$this->request->getData('one_kg');
+                    $DeliveryCharges->min_order_value=$this->request->getData('min_order_value');
+                    $DeliveryCharges->pincode_no=$this->request->getData('pincode');
+                    //$DeliveryCharges->pincode_id=$pincode->id;
                     //pr($DeliveryCharges);
                     if($this->Pincodes->DeliveryCharges->save($DeliveryCharges))
                     {

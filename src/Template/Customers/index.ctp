@@ -21,7 +21,7 @@
 									<th> Name</th>
 									<th> Mobile</th>
 									<th> Email</th>
-									<th> Address</th>
+									<!-- <th> Address</th> -->
 									<th> Flat No.</th>
 									<th> Apartment</th>
 									<th> Landmark</th>
@@ -43,9 +43,9 @@
 							<td><?=$customer->name ?></td>
 							<td><?php echo $this->Html->link($customer->mobile,['controller'=>'Customers','action' => 'customerLedger', $customer->id, 'print'],['target'=>'_blank']); ?></td>
 							<td><?= h(@$customer->email) ?></td>
-							<td><?php
+							<!-- <td><?php
 							echo @$customer->customer_addresses[0]->house_no.','.@$customer->customer_addresses[0]->address.','.@$customer->customer_addresses[0]->locality
-							?></td>
+							?></td> -->
 							<td><?php
 							echo @$customer->customer_addresses[0]->house_no.','.@$customer->customer_addresses[0]->address.','.@$customer->customer_addresses[0]->locality
 							?></td>
