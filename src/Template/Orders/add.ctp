@@ -726,7 +726,7 @@ function round(value, exp) {
 					});
 					
 					var mobile=$('.number_mobile').val();
-					var name_val=$('.name').val();
+					var name_val=$('#Customer_nm').val();
 					//alert(name_val);
 					if(name_val == '')
 					{
@@ -734,10 +734,11 @@ function round(value, exp) {
 					}
 					else
 					{
-						var name=$('.name').val();
+						var name=$('#Customer_nm').val();
 					}
 					//alert(name);
 					var email_val=$('.emails').val();
+					//alert(email_val)
 					if(email_val == '')
 					{
 						var email="null";
@@ -1288,7 +1289,7 @@ function selectAutoCompleted1(value) {
 						</div>
 						<div class="col-md-6">
 							<label class=" control-label">Name</label>
-								<?php echo $this->Form->input('name',['placeholder'=>'Name','class'=>'form-control input-sm name','label'=>false,'lettersonly'=>true]); ?>
+								<?php echo $this->Form->input('name',['placeholder'=>'Name','class'=>'form-control input-sm customer_name','label'=>false,'id'=>'Customer_nm']); ?>
 						</div>
 					</div>
 					<div class="row">

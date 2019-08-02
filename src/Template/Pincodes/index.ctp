@@ -72,12 +72,12 @@
                             </td>
                             <td class="actions">
                                <!--  <?= $this->Html->link(__('<span class="fa fa-pencil"></span>'), ['action' => 'edit', $pincode->id],['class'=>'btn btn-primary  btn-condensed btn-xs','escape'=>false]) ?> -->
-                                <?php if($pincode->is_deleted == 0){ ?>
+                                <!-- <?php if($pincode->is_deleted == 0){ ?>
                                 <?= $this->Form->postLink(__('Deactive'), ['action' => 'delete', $pincode->id], ['confirm' => __('Are you sure you want to Deactive # {0}?', $pincode->id),'class'=>'btn btn-xs green']) ?>
                                 <?php } ?>
                                 <?php if($pincode->is_deleted == 1){ ?>
                                 <?= $this->Form->postLink(__('Active'), ['action' => 'delete1', $pincode->id], ['confirm' => __('Are you sure you want to Active # {0}?', $pincode->id),'class'=>'btn btn-xs green']) ?>
-                                <?php } ?>
+                                <?php } ?> -->
                             </td>
                         </tr>
                         <?php endforeach; ?>

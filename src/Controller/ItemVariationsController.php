@@ -93,7 +93,7 @@ class ItemVariationsController extends AppController
             
             $this->Flash->success(__('Item rates have updated successfully.'));
          }
-       
+     
         $items=$this->ItemVariations->Items->find('list');
         $itemCategories=$this->ItemVariations->ItemCategories->find('list');
         //pr($item_variations->toArray());exit;
@@ -222,5 +222,6 @@ class ItemVariationsController extends AppController
         } */
 		 
     }
+}
 }
 

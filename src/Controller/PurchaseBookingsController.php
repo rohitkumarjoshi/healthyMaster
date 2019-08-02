@@ -73,7 +73,7 @@ class PurchaseBookingsController extends AppController
     {
 		$this->viewBuilder()->layout('index_layout');
         $purchaseBooking = $this->PurchaseBookings->get($id, [
-	'contain' => [ 'Vendors','PurchaseBookingDetails'=>['Items','ItemVariations'=>['Units']]]
+	'contain' => [ 'Vendors','PurchaseBookingDetails'=>['Items','UnitVariations']]
         ]);
 			
     //pr($purchaseBooking->toArray());exit;

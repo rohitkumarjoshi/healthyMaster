@@ -49,7 +49,7 @@
             <tr>
                 <td style="vertical-align: bottom;" class="index"> </td>
                 <td style="vertical-align: bottom;">
-                <?php echo $this->Form->control('vendor.0.item_id', ['empty'=>'--select--','options' => @$items,'class'=>'form-control item','label'=>false,'required']); ?>
+                <?php echo $this->Form->control('vendor.0.item_id', ['empty'=>'--select--','options' => @$items,'class'=>'form-control input-sm item','label'=>false,'required']); ?>
                 </td>
                 
                 <td style="vertical-align: bottom;"> <button type="button" id="plus" class="btn btn-sm green"><i class="fa fa-plus"></i></button>
@@ -157,6 +157,8 @@ add_row();
      });
      $(document).on('click','#plus',function(){
            add_row();
+         
+
       });
        $(document).on('click','#minus',function(){
            var count=$('#main-tbody').children().length;
