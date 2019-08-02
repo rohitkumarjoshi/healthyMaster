@@ -116,6 +116,8 @@ class PincodesController extends AppController
                     $DeliveryCharges->one_kg=$this->request->getData('one_kg');
                     $DeliveryCharges->min_order_value=$this->request->getData('min_order_value');
                     $DeliveryCharges->pincode_no=$this->request->getData('pincode');
+                    $DeliveryCharges->delivery_duration=$this->request->getData('delivery_duration');
+                    $DeliveryCharges->deliver=$this->request->getData('deliver');
                     //$DeliveryCharges->pincode_id=$pincode->id;
                     //pr($DeliveryCharges);
                     if($this->Pincodes->DeliveryCharges->save($DeliveryCharges))

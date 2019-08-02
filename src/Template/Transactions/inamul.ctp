@@ -113,7 +113,7 @@
                     <td style="vertical-align: bottom;"> <?php echo $this->Form->control('transaction.0.mrp',['class'=>'form-control mrp','id'=>false,'label'=>false,'required','readonly']); ?></td>
                     <td style="vertical-align: bottom;"> 
                       <div class="myRadio radio-list" style="display: inline-block; float: left; padding-right: 15px;"></div>
-                          <?php echo $this->Form->control('transaction.0.total_quantity',['class'=>'input-xsmall quantity input-sm','label'=>false,'required','min'=>'1','max'=>16,'type'=>'number']); ?>
+                          <?php echo $this->Form->control('transaction.0.total_quantity',['class'=>'input-xsmall quantity input-sm','label'=>false,'required','min'=>'1','type'=>'number']); ?>
                       
                       <input type="hidden" name="transaction.0.quantity" id="quantity" class="total_quantity">
                       <input type="hidden" name="transaction.0.receive_quantity" id="receive_quantity" class="receive_quantity">

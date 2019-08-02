@@ -80,7 +80,7 @@
 				<div class="row" style="margin-top:10px;">
 					<div class="col-md-8">
 						<label class=" control-label">Landmark</label>
-						<?php echo $this->Form->control('landmark',['placeholder'=>'Landmark','class'=>'form-control input-sm','label'=>false,'maxlength'=>'150']); ?>
+						<?php echo $this->Form->control('landmark',['placeholder'=>'Landmark','class'=>'form-control input-sm','label'=>false,'maxlength'=>'150','type'=>'text']); ?>
 					</div>
 				</div>
 				<div class="row" style="margin-top:10px;">
@@ -208,7 +208,7 @@ $(document).ready(function() {
 		var input=$(this).val();
 		 if(input.length>5){
 		 	var m_data = new FormData();
-			var url ="<?php echo $this->Url->build(["controller" => "Pincodes", "action" => "check"]); ?>";
+		 	var url ="<?php echo $this->Url->build(["controller" => "Pincodes", "action" => "checkPin"]); ?>";
 			 m_data.append('input',input);
               $.ajax({
 				 url: url,
@@ -219,26 +219,48 @@ $(document).ready(function() {
                 dataType:'text',
 				success: function(response) 
 				{  
-					//alert(response);
-					$('.state').html(response);
-					var url ="<?php echo $this->Url->build(["controller" => "Pincodes", "action" => "check1"]); ?>";
-						 m_data.append('input',input);
-			              $.ajax({
-							 url: url,
-			                data: m_data,
-			                processData: false,
-			                contentType: false,
-			                type: 'POST',
-			                dataType:'text',
-							success: function(response) 
-							{  
-								//alert(response);
-								$('.city').html(response);
-							}
-						});
-									
-				}
-			});
+					if(response!=1)
+					{
+						alert("We are not delivered here");
+						$('#pincode').val('');
+						$('.state').html('');
+						$('.city').html('');
+					}
+					else{
+							var url ="<?php echo $this->Url->build(["controller" => "Pincodes", "action" => "check"]); ?>";
+							 m_data.append('input',input);
+				              $.ajax({
+								 url: url,
+				                data: m_data,
+				                processData: false,
+				                contentType: false,
+				                type: 'POST',
+				                dataType:'text',
+								success: function(response) 
+								{  
+									//alert(response);
+									$('.state').html(response);
+									var url ="<?php echo $this->Url->build(["controller" => "Pincodes", "action" => "check1"]); ?>";
+										 m_data.append('input',input);
+							              $.ajax({
+											 url: url,
+							                data: m_data,
+							                processData: false,
+							                contentType: false,
+							                type: 'POST',
+							                dataType:'text',
+											success: function(response) 
+											{  
+												//alert(response);
+												$('.city').html(response);
+											}
+										});
+													
+								}
+							});
+				        }
+				    }
+				 });
           }
       });
 

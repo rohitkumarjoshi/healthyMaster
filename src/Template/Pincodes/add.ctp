@@ -31,22 +31,35 @@
                         <input type="hidden" name="we_deliver" value="Yes">
                     </div>
                     <div class="col-md-3">
-                        <label>Minimum Order<span class="required" aria-required="true">*</span></label>
-                        <input type="text" name="min_order_value" class="form-control input-sm" id="charge" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="10" required>
+                       <label class=" control-label">Deliver<span class="required" aria-required="true">*</span> </label>
+                        <select name="deliver" class="form-control input-sm deliver" required>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
                     </div>
                 </div><br>
                 <div class="row">
                     <div class="col-md-3">
                         <label>100Gm<span class="required" aria-required="true">*</span></label>
-                        <input type="text" name="hundred_gm" class="form-control input-sm" id="amt" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="10" required>
+                        <input type="text" name="hundred_gm" class="form-control input-sm" id="amt" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="10" required value="0">
                     </div>
                      <div class="col-md-3">
                         <label>500Gm<span class="required" aria-required="true">*</span></label>
-                        <input type="text" name="five_hundred_gm" class="form-control input-sm" id="amt" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="10" required>
+                        <input type="text" name="five_hundred_gm" class="form-control input-sm" id="amt" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="10" required value="0">
                     </div>
                      <div class="col-md-3">
                         <label>1Kg<span class="required" aria-required="true">*</span></label>
-                        <input type="text" name="one_kg" class="form-control input-sm" id="amt" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="10" required>
+                        <input type="text" name="one_kg" class="form-control input-sm" id="amt" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="10" required value="0">
+                    </div>
+                     <div class="col-md-3">
+                        <label>Minimum Order<span class="required" aria-required="true">*</span></label>
+                        <input type="text" name="min_order_value" class="form-control input-sm" id="charge" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="10" required value="0">
+                    </div>
+                </div>
+                <div class="row" style="margin-top: 10px;">
+                     <div class="col-md-3">
+                        <label class=" control-label">Delivery Duration<span class="required" aria-required="true">*</span> </label>
+                        <?php echo $this->Form->control('delivery_duration',['placeholder'=>'Duration','class'=>'form-control input-sm','label'=>false,'type'=>'text','required','id'=>'duration','value'=>'0']); ?>
                     </div>
                 </div>
                 <br/>
