@@ -272,7 +272,7 @@ class ItemsController extends AppController
 
             //$button_value=$this->request->data['button_value'];
 
-            $item_keywords=$this->request->data['item_keyword'];
+            @$item_keywords=$this->request->data['item_keyword'];
 			$button_value=$this->request->getData('btn_value');
            // pr($button_value);exit;
 			
@@ -349,6 +349,7 @@ class ItemsController extends AppController
                             'quantity_variation' => $UnitVariationdata->name,'unit_variation_id' => $variation->unit_variation_id])
                             ->where(['id'=>$variation->id])
                         ->execute();
+                        $query = $this->Items->ItemVariations->query();
                  }
 				
 				
