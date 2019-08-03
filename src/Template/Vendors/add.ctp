@@ -63,13 +63,13 @@
 <script>
 $(document).ready(function() {
 
-	$(document).on('change','.mobile',function(){
+	$(document).on('keyup','.mobile',function(){
 		//alert();
 		var input=$(this).val();
 
         var master = $(this); 
 		//alert(input);
-		if(input.length>0){
+		if(input.length>9){
             var m_data = new FormData();
             var url ="<?php echo $this->Url->build(["controller" => "Vendors", "action" => "checks"]); ?>";
          //   alert(url);
@@ -166,13 +166,13 @@ $(document).ready(function() {
 
 	});
 
-	$(document).on('change','.gst_no',function(){
+	$(document).on('keyup','.gst_no',function(){
 		//alert();
 		var input=$(this).val();
 
         var master = $(this); 
 		//alert(input);
-		if(input.length>0){
+		if(input.length>14){
             var m_data = new FormData();
             var url ="<?php echo $this->Url->build(["controller" => "Vendors", "action" => "check"]); ?>";
          //   alert(url);

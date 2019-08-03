@@ -409,7 +409,7 @@ class ItemsController extends AppController
         if ($this->Items->save($item)) {
             $this->Flash->success(__('The item is made Deactive.'));
         } else {
-            $this->Flash->error(__('The item could not be deleted. Please, try again.'));
+            $this->Flash->error(__('The item is made not be deactive. Please, try again.'));
         }
 
         return $this->redirect(['action' => 'index']);
@@ -422,7 +422,7 @@ class ItemsController extends AppController
         if ($this->Items->save($item)) {
             $this->Flash->success(__('The item is made Active.'));
         } else {
-            $this->Flash->error(__('The item could not be unfreeze. Please, try again.'));
+            $this->Flash->error(__('The item could not be active. Please, try again.'));
         }
 
         return $this->redirect(['action' => 'index']);

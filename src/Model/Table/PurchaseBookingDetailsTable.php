@@ -45,10 +45,15 @@ class PurchaseBookingDetailsTable extends Table
             'foreignKey' => 'item_id',
             'joinType' => 'INNER'
         ]);
+        $this->belongsTo('UnitVariations', [
+            'foreignKey' => 'unit_variation_id',
+            'joinType' => 'INNER'
+        ]);
         $this->belongsTo('ItemVariations', [
             'foreignKey' => 'item_variation_id',
             'joinType' => 'INNER'
         ]);
+         
     }
 
     /**
@@ -97,6 +102,7 @@ class PurchaseBookingDetailsTable extends Table
     {
         $rules->add($rules->existsIn(['purchase_booking_id'], 'PurchaseBookings'));
         $rules->add($rules->existsIn(['item_id'], 'Items'));
+        $rules->add($rules->existsIn(['unit_variation_id'], 'UnitVariations'));
 
         return $rules;
     }

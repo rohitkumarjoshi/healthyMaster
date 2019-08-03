@@ -38,6 +38,16 @@ class OrdersController extends AppController
 
 		exit;
 	}
+	public function orderCancel()
+	{
+		$order_id=$this->request->query('order_id');
+		$order_detail_id=$this->request->query('order_detail_id');
+		$orders=$this->Orders->OrderDetails->find()->where(['OrderDetails.order_id'=>$order_id,'OrderDetails.id'=>$order_detail_id])->first();
+		$orders->item_cancel="Yes";
+		//echo $order_id; echo $order_from;exit;
+		
+		$this->Orders->OrderDetails->save($orders);
+	}
 	public function updateOnlinePaymentStatus()
     {
 		

@@ -31,6 +31,7 @@ class PurchaseBookingDetail extends Entity
      */
     protected $_accessible = [
         '*' => true,
+        'unit_variation_id' => true,
         'id' => false
     ];
 }

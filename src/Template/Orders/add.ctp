@@ -726,7 +726,7 @@ function round(value, exp) {
 					});
 					
 					var mobile=$('.number_mobile').val();
-					var name_val=$('.name').val();
+					var name_val=$('#Customer_nm').val();
 					//alert(name_val);
 					if(name_val == '')
 					{
@@ -734,10 +734,11 @@ function round(value, exp) {
 					}
 					else
 					{
-						var name=$('.name').val();
+						var name=$('#Customer_nm').val();
 					}
 					//alert(name);
 					var email_val=$('.emails').val();
+					//alert(email_val)
 					if(email_val == '')
 					{
 						var email="null";
@@ -793,21 +794,52 @@ function round(value, exp) {
 					if(customer_id == ""){
 						alert("Please Select Customer First");
 					}
-					var name=$('input[name="name"]').val();
-					//alert(name);
-					var mobile=$('input[name="mobile"]').val();
+					var name_val=$('input[name="name"]').val();
+					if(name_val == '')
+					{
+						var name="null";
+					}
+					else
+					{
+						var name=$('.name').val();
+					}
+					var mobile_val=$('input[name="mobile"]').val();
+					if(mobile_val == '')
+					{
+						var mobile="null";
+					}
+					else
+					{
+						var mobile=$('.mobile').val();
+					}
 					var house_no=$('input[name="house_no"]').val();
-					var address=$('textarea[name="address"]').val();
+					var landmark_val=$('textarea[name="landmark"]').val();
+					if(landmark_val == '')
+					{
+						var landmark="null";
+					}
+					else
+					{
+						var landmark=$('.landmark').val();
+					}
 					var locality=$('input[name="locality"]').val();
 					var pincode=$('input[name="pin_code"]').val();
-					var apartment_name=$('input[name="apartment_name"]').val();
+					var apartment=$('input[name="apartment_name"]').val();
+					if(apartment == '')
+					{
+						var apartment_name="null";
+					}
+					else
+					{
+						var apartment_name=$('.apartment_name').val();
+					}
 					var state_id=$('select#modal_state option').filter(":selected").val();
 					var city_id=$('.city').val();
 					var address_type=$('input[name="address_type"]:checked').val();
 					var default_address=$('input[name="default_address"]:checked').val();
 					//alert(default_address);
 					var url="<?php echo $this->Url->build(['controller'=>'CustomerAddresses','action'=>'saveAddress']); ?>";
-					url=url+'/'+customer_id+'/'+name+'/'+mobile+'/'+house_no+'/'+address+'/'+locality+'/'+default_address+'/'+pincode+'/'+apartment_name+'/'+address_type+'/'+state_id+'/'+city_id,
+					url=url+'/'+customer_id+'/'+name+'/'+mobile+'/'+house_no+'/'+landmark+'/'+locality+'/'+default_address+'/'+pincode+'/'+apartment_name+'/'+address_type+'/'+state_id+'/'+city_id,
 					//alert(url);
 					$.ajax({
 						url: url,
@@ -974,30 +1006,67 @@ function round(value, exp) {
             });
             }
 	});
-	$(document).on('change','.state',function(){
-        
-        var input=$(this).val();
-        var master = $(this); 
-        $(".city option").remove();
-        if(input.length>0){
-            var m_data = new FormData();
-            var url ="<?php echo $this->Url->build(["controller" => "Pincodes", "action" => "options"]); ?>";
-         //   alert(url);
-            m_data.append('input',input); 
-            $.ajax({
-                url: url,
+$(document).on('keyup',"#pincode",function(){ 
+		//alert();
+		var input=$(this).val();
+		 if(input.length>5){
+		 	var m_data = new FormData();
+		 	var url ="<?php echo $this->Url->build(["controller" => "Pincodes", "action" => "checkPin"]); ?>";
+			 m_data.append('input',input);
+              $.ajax({
+				 url: url,
                 data: m_data,
                 processData: false,
                 contentType: false,
                 type: 'POST',
                 dataType:'text',
-                success: function(data)
-                { 
-                    $('.city').append(data);
-                }
-            });
-        }
-});
+				success: function(response) 
+				{  
+					if(response!=1)
+					{
+						alert("We are not delivered here");
+						$('#pincode').val('');
+						$('.state').html('');
+						$('.city').html('');
+					}
+					else{
+							var url ="<?php echo $this->Url->build(["controller" => "Pincodes", "action" => "check"]); ?>";
+							 m_data.append('input',input);
+				              $.ajax({
+								 url: url,
+				                data: m_data,
+				                processData: false,
+				                contentType: false,
+				                type: 'POST',
+				                dataType:'text',
+								success: function(response) 
+								{  
+									//alert(response);
+									$('.state').html(response);
+									var url ="<?php echo $this->Url->build(["controller" => "Pincodes", "action" => "check1"]); ?>";
+										 m_data.append('input',input);
+							              $.ajax({
+											 url: url,
+							                data: m_data,
+							                processData: false,
+							                contentType: false,
+							                type: 'POST',
+							                dataType:'text',
+											success: function(response) 
+											{  
+												//alert(response);
+												$('.city').html(response);
+											}
+										});
+													
+								}
+							});
+				        }
+				    }
+				 });
+          }
+      });
+
 	$('input[name="default_address"]').on('click',function()
 	{
 		var default_address=$(this).val();
@@ -1105,7 +1174,7 @@ function selectAutoCompleted1(value) {
 				<h4 class="modal-title">Add Address</h4>
 			</div><form id="form1">
 			<div class="modal-body">
-				<div class="row">
+				<div class="row" style="margin-top: 10px;">
 					<div class="col-md-8">
 						<div class="form-group">
 							<label class="control-label">Address Type<span class="required" aria-required="true">*</span></label>
@@ -1125,57 +1194,60 @@ function selectAutoCompleted1(value) {
 						</div>
 					</div>
 				</div>
-				<div class="row">
+				<div class="row" style="margin-top: 10px;">
 					<div class="col-md-6">
-						<label class=" control-label">Name<span class="required" aria-required="true">*</span></label>
-						<?php echo $this->Form->input('name',['placeholder'=>'Name','class'=>'form-control input-sm','label'=>false,'required']); ?>
+						<label class=" control-label">Name</label>
+						<?php echo $this->Form->input('name',['placeholder'=>'Name','class'=>'form-control input-sm name','label'=>false]); ?>
 					</div>
 					<div class="col-md-6">
-					<label class=" control-label">Mobile <span class="required" aria-required="true">*</span></label>
-						<?php echo $this->Form->input('mobile',['placeholder'=>'Mobile','class'=>'form-control input-sm','label'=>false,'required','type'=>'number','maxlength'=>10,'minlength'=>10]); ?>
+					<label class=" control-label">Mobile </label>
+						<?php echo $this->Form->input('mobile',['placeholder'=>'Mobile','class'=>'form-control input-sm mobile','label'=>false,'type'=>'number','maxlength'=>10,'minlength'=>10]); ?>
 					</div>
 				</div>
-				<div class="row">
+				<div class="row" style="margin-top: 10px;">
+
 					<div class="col-md-6">
-						<label class=" control-label">House no <span class="required" aria-required="true">*</span></label>
-						<?php echo $this->Form->input('house_no',['placeholder'=>'House no','class'=>'form-control input-sm','label'=>false,'required']); ?>
+						<label class=" control-label">Pincode<span class="required" aria-required="true">*</span></label>
+						<?php echo $this->Form->input('pin_code',['placeholder'=>'Pincode','class'=>'form-control input-sm','label'=>false,'required','minlength'=>6,'maxlength'=>6,'id'=>'pincode']); ?>
 					</div>
 					<div class="col-md-6">
-						<label class=" control-label">Locality<span class="required" aria-required="true">*</span></label>
+						<label class=" control-label">Flat/House no <span class="required" aria-required="true">*</span></label>
+						<?php echo $this->Form->input('house_no',['placeholder'=>'House no','class'=>'form-control input-sm','label'=>false,'required']); ?>
+					</div>
+				</div>
+				<div class="row" style="margin-top: 10px;">
+					<div class="col-md-6">
+						<label class=" control-label">Building/Apartment Name</label>
+						<?php echo $this->Form->input('apartment_name',['placeholder'=>'Apartment','class'=>'form-control input-sm apartment_name','label'=>false]); ?>
+					</div>
+					<div class="col-md-6">
+						<label class=" control-label">Street/Locality/Area<span class="required" aria-required="true">*</span></label>
 						<?php echo $this->Form->input('locality',['placeholder'=>'locality','class'=>'form-control input-sm','label'=>false,'required']); ?>
 					</div>
 				</div>
-				<div class="row">
+				<div class="row" style="margin-top: 10px;">
 					<div class="col-md-6">
-						<label class=" control-label">Pincode<span class="required" aria-required="true">*</span></label>
-						<?php echo $this->Form->input('pin_code',['placeholder'=>'Pincode','class'=>'form-control input-sm','label'=>false,'required','minlength'=>6,'maxlength'=>6]); ?>
-					</div>
-					<div class="col-md-6">
-						<label class=" control-label">Apartment<span class="required" aria-required="true">*</span></label>
-						<?php echo $this->Form->input('apartment_name',['placeholder'=>'Apartment','class'=>'form-control input-sm','label'=>false,'required']); ?>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-6">
-						<?php echo $this->Form->control('state_id', ['empty'=>'-- select --','options' => $statesdata,'class'=>'form-control input-sm select select2me select2 state','required','id'=>'modal_state','required']); ?>
+						<label class="control-label">State <span class="required" aria-required="true">* </label>
+						<select name="state_id" class="form-control input-sm select2 state" required id="modal_state">
+                            
+                           
+                            
+                        </select>
 					</div>
 					<div class="col-md-6">
                        <label class="control-label">City <span class="required" aria-required="true">* </label>
-                        <select name="city_id" class="form-control input-sm city select2" required>
+                        <select name="city_id" class="form-control input-sm city select2 city" required>
                             
                            
                             
                         </select>
                  	</div>
 				</div>
-				<div class="row">
+				<div class="row" style="margin-top: 10px;">
 					<div class="col-md-6">
-						<label class=" control-label">Address<span class="required" aria-required="true">*</span></label>
-						<?php echo $this->Form->input('address',['placeholder'=>'Address','class'=>'form-control input-sm','label'=>false,'cols'=>1,'required']); ?>
+						<label class=" control-label">Landmark</label>
+						<?php echo $this->Form->input('landmark',['placeholder'=>'Address','class'=>'form-control input-sm landmark','label'=>false,'type'=>'text']); ?>
 					</div>
-				
-				</div>
-				<div class="row">
 					<div class="col-md-6">
 						<div class="form-group">
 							<label class="control-label">Default Address<span class="required" aria-required="true">*</span></label>
@@ -1193,9 +1265,6 @@ function selectAutoCompleted1(value) {
 						</div>
 					</div>
 				</div>
-				
-				
-			
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn default" data-dismiss="modal">Close</button>
@@ -1220,7 +1289,7 @@ function selectAutoCompleted1(value) {
 						</div>
 						<div class="col-md-6">
 							<label class=" control-label">Name</label>
-								<?php echo $this->Form->input('name',['placeholder'=>'Name','class'=>'form-control input-sm name','label'=>false,'lettersonly'=>true]); ?>
+								<?php echo $this->Form->input('name',['placeholder'=>'Name','class'=>'form-control input-sm customer_name','label'=>false,'id'=>'Customer_nm']); ?>
 						</div>
 					</div>
 					<div class="row">

@@ -47,7 +47,7 @@ class CustomersController extends AppController
 		}
 		$defaultAddress = $this->Customers->CustomerAddresses->find('all')->where(['customer_id' => $id,'default_address' => 1])->order(['CustomerAddresses.id'=>'DESC'])->first();
 		if(!empty($defaultAddress)){
-			echo $defaultAddress->house_no.$defaultAddress->address." - ".$defaultAddress->locality." - ".$defaultAddress->apartment_name;
+			echo $defaultAddress->house_no.$defaultAddress->landmark." - ".$defaultAddress->locality." - ".$defaultAddress->apartment_name;
 			exit;
 		}else{
 			echo " ";   exit;
