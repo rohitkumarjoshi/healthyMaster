@@ -5,13 +5,35 @@ class WalletsController extends AppController
 {
     public function walletDetails()
     {
+		$this->loadModel('CustomerWallets'); 
 		$customer_id=$this->request->query('customer_id');
-		$wallet_details = $this->Wallets->find()
-		->where(['Wallets.customer_id'=>$customer_id])
-		->contain(['Plans','Orders'])
-		->order(['Wallets.id'=>'DESC'])
+		$wallet_details = $this->CustomerWallets->find()
+		->where(['CustomerWallets.customer_id'=>$customer_id])
+		->order(['CustomerWallets.id'=>'DESC'])
 		->autoFields(true);
 		
+		$CustomerWallets=$this->CustomerWallets->find()->where(['CustomerWallets.customer_id'=>$customer_id]);
+		$CustomerWallets->select(['customer_id','addAmt' => $CustomerWallets->func()->sum('CustomerWallets.add_amount'),'dedutAmt' => $CustomerWallets->func()->sum('CustomerWallets.used_amount')])
+		->group('CustomerWallets.customer_id')
+		->toArray();
+		
+		
+		
+		$CustomerWallts=$CustomerWallets->first();
+		
+		if(empty($CustomerWallts))
+		{ 
+			$wallet_balance=0;
+		}
+		else
+		{
+			$wallet_balance=$CustomerWallts->addAmt-$CustomerWallts->used_amount;
+		}
+		
+		/* $orderDatas->select(['customer_id','amount','total' => $q->func()->sum('OrderDetails.amount')])->where(['OrderDetails.status IS NULL'])->group('OrderDetails.order_id');
+		->first(); */
+			
+		/* 
 		foreach($wallet_details as $plan_data){
 			if(!$plan_data->plan){
 				$plan_data->plan=(object)[];
@@ -45,21 +67,9 @@ class WalletsController extends AppController
 		])
 		->where(['Wallets.customer_id' => $customer_id])
 		->group('customer_id')
-		->autoFields(true);
+		->autoFields(true); */
 	
-		if(empty($query->toArray()))
-		{
-			$wallet_balance=0;
-		}
-		else
-		{
-			foreach($query as $fetch_query)
-		    {
-			$advance=$fetch_query->total_in;
-			$consumed=$fetch_query->total_out;
-			$wallet_balance=$advance-$consumed;
-		    }
-		}		
+				
 		
 		
 		if(empty($wallet_details->toArray()))
