@@ -38,7 +38,7 @@ class OrdersController extends AppController
 
 		exit;
 	}
-	public function orderCancel()
+	public function itemCancel()
 	{
 		$order_id=$this->request->query('order_id');
 		$order_detail_id=$this->request->query('order_detail_id');

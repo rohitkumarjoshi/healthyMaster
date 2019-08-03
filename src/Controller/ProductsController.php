@@ -25,6 +25,8 @@ class ProductsController extends AppController
         $this->set(compact('products'));
     }
 
+     
+
     /**
      * View method
      *

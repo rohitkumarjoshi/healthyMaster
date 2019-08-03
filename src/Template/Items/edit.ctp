@@ -67,10 +67,10 @@
 						<label class=" control-label">Item Keyword </label>
 						<?php
 						foreach($item->item_rows as $item_row){
-							$item_row_id[]=$item_row->item_category_id;
+							@$item_row_id[]=$item_row->item_category_id;
 						}
 						
-						echo $this->Form->control('item_keyword[]', ['empty'=>'--select--','options' => $keywords,'class'=>'form-control input-sm select2me','multiple','label'=>false,'value'=>$item_row_id]); ?>
+						echo $this->Form->control('item_keyword[]', ['empty'=>'--select--','options' => @$keywords,'class'=>'form-control input-sm select2me','multiple','label'=>false,'value'=>@$item_row_id]); ?>
 					</div>
 				</div>
 					
