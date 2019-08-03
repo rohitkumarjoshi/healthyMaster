@@ -13,7 +13,7 @@ class OrdersController extends AppController
 		$orders->status="Cancel";
 		$orders->cancel_from=$cancel_from;
 		$orders->cancel_date=date('Y-m-d');
-		//echo $order_id; echo $order_from;exit;
+		
 		
 		if($this->Orders->save($orders))
 		{
@@ -35,8 +35,55 @@ class OrdersController extends AppController
 				$this->Orders->CustomerWallets->save($CustomerWallets);
 			}
 		}
+		
+		
+		
+		$status=true;
+		$error="Order Cancelled.";
+        $this->set(compact('status', 'error'));
+        $this->set('_serialize', ['status', 'error']);
 
-		exit;
+		
+	}
+	public function updateOrder()
+	{
+	$order_id=$this->request->query('order_id');
+	$orderDatas=$this->Orders->find()->where(['Orders.id'=>$order_id])
+	->contain(['CustomerAddresses','OrderDetails' => function ($q) {
+			return $q->select(['order_id','amount','total' => $q->func()->sum('OrderDetails.amount')])->where(['OrderDetails.status IS NULL'])->group('OrderDetails.order_id');
+		}])
+	->first();
+	$pincode=$orderDatas->customer_address->pincode;
+	$customer_id=$orderDatas->customer_id;
+	
+	$delivery_charges = '0'; 
+	$this->loadModel('DeliveryCharges'); 
+	$DeliveryCharges=$this->DeliveryCharges->find()->select(['min_order_value'])->where(['pincode_no'=>$pincode])->first();
+	$grand_total=($orderDatas->order_details[0]['total']);
+	
+	if($DeliveryCharges){
+		if($DeliveryCharges->min_order_value < $grand_total){
+			$delivery_charges = 'Free';
+			$isPromoApplied = true;
+		}else{
+			
+			$deliveryAmount=$this->Pincode->getDeliveryChargeOrder($pincode,$order_id);
+			
+			$grand_total = $grand_total + $deliveryAmount;
+			$delivery_charges = $deliveryAmount;
+			$delivery_charges = round($deliveryAmount); 
+		}
+	} 
+	$order=$this->Orders->get($order_id);
+	$order->total_amount=$orderDatas->order_details[0]['total'];
+	$order->amount_from_promo_code=0;
+	$order->grand_total=$grand_total;
+	$order->pay_amount=$grand_total;
+	$order->delivery_charge=$delivery_charges;
+	$this->Orders->save($order);
+	
+	return;
+	
 	}
 	public function itemCancel()
 	{
@@ -1028,7 +1075,7 @@ curl_close($ch);
     }
 	
 	public function itemCancel()
-    {
+    { 
 		//$jain_thela_admin_id=$this->request->query('jain_thela_admin_id');
 		$mainid=$this->request->query('order_detail_id');
 		$order_id=$this->request->query('order_id');
@@ -1036,25 +1083,28 @@ curl_close($ch);
         $detail_amount=$this->Orders->OrderDetails->find()->where(['id' => $mainid])->first();
 		$amount=$detail_amount->amount;			
 		$query = $this->Orders->OrderDetails->query();
+		 
 		$result = $query->update()
 			->set(['status' => 'Cancel'])
 			->where(['id' => $mainid])
 			->execute();
-			
+			 
 		$order_data=$this->Orders->find()
 				->where(['id' => $order_id,'customer_id' =>$customer_id])
 				->first();
+					
+		
 			
 		$total_amount=$order_data->total_amount-$amount;
-        $grand_total=$total_amount+$order_data->delivery_charge;
-		$pay_amount = ($grand_total) - (($order_data->amount_from_wallet) + ($order_data->amount_from_jain_cash) + ($order_data->amount_from_promo_code) + ($order_data->online_amount));
-
+        $grand_total=$total_amount+$order_data->delivery_charge; 
+		$pay_amount = $total_amount+$order_data->delivery_charge;
+		/* $pay_amount = ($grand_total) - (($order_data->amount_from_wallet) + ($order_data->amount_from_jain_cash) + ($order_data->amount_from_promo_code) + ($order_data->online_amount)); */
+		
 		$orderItems = $this->Orders->find()->contain(['OrderDetails' => function ($q) {
-			return $q->where(['OrderDetails.status !=' => 'Cancel']);
+			return $q->where(['OrderDetails.status IS NULL']);
 		}])->where(['Orders.id' => $order_id,'Orders.customer_id' => $customer_id])->first();
-
+		
 		$totalItem = sizeof($orderItems->order_details);
-
 		if($totalItem == 0)
 		{
 			$cancel_id = 1;
@@ -1063,14 +1113,36 @@ curl_close($ch);
 		else if($pay_amount>=0)
 		{
 			$paid_amount=$pay_amount;
-			//update order amount in order//
 			$querys = $this->Orders->query();
-						 $results = $querys->update()
-						->set(['total_amount'=>$total_amount, 
-						'grand_total'=>$grand_total, 'pay_amount'=>$paid_amount])
-						->where(['id' => $order_id])
-						->execute();
+			$results = $querys->update()
+			->set(['total_amount'=>$total_amount, 
+			'grand_total'=>$grand_total, 'pay_amount'=>$paid_amount])
+			->where(['id' => $order_id])
+			->execute();
+			$this->updateOrder();
+			
+			//wallet entry Start
+		if($order_data->order_type =="Online" || $order_data->order_type =="Wallet")
+			{
+				$CustomerWallets=$this->Orders->CustomerWallets->newEntity();
+				$CustomerWallets->customer_id=$order_data->customer_id;
+				$CustomerWallets->order_id=$order_data->id;
+				$CustomerWallets->order_no=$order_data->order_no;
+				$CustomerWallets->add_amount=$detail_amount->amount;
+				$CustomerWallets->used_amount='';
+				$CustomerWallets->transaction_date=date('Y-m-d');
+				$CustomerWallets->amount_type='Cancel Item';
+				$CustomerWallets->transaction_type='Added';
+				$CustomerWallets->appiled_from="App"; 
+				$this->Orders->CustomerWallets->save($CustomerWallets);
+			}
+		//wallet entry End	
+			
 		}
+		
+		
+		
+		
 		
 		$status=true;
 		$error="Item Cancelled.";

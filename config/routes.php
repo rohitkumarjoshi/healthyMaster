@@ -360,6 +360,10 @@ Router::prefix('api', function ($routes) {
 			   'cancelorder' => [
 				   'action' => 'cancelOrder',
 				   'method' => 'GET'
+			   ],
+			   'updateorder' => [
+				   'action' => 'updateOrder',
+				   'method' => 'GET'
 			   ]
 			 ]
 		]);
