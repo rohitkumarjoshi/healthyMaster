@@ -269,8 +269,17 @@ class ItemsController extends AppController
 		$old_image_name=$item->image;
         if ($this->request->is(['patch', 'post', 'put'])) {
 			
-
-            //$button_value=$this->request->data['button_value'];
+            $variations=$this->request->data('item_variations');
+            //pr($variations);
+            foreach ($variations as $var) {
+                $variation_id=$var['id'];
+                //pr($variation_id);
+                    $ledger_variation=$this->Items->ItemLedgers->find()->where(['ItemLedgers.item_variation_id'=>$variation_id]);
+                    foreach ($ledger_variation as $ledger) {
+                        $this->Items->ItemLedgers->delete($ledger);
+                    }
+                    //pr($ledger_variation->toArray());exit;
+            }
 
             @$item_keywords=$this->request->data['item_keyword'];
 			$button_value=$this->request->getData('btn_value');

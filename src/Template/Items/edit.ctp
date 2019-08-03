@@ -176,19 +176,23 @@ $(document).ready(function() {
 
  $(document).on('click','.save',function(){
  	$('#button_value').val('save');
- 	var variation_id=$('#variation_id').val();
-	var url="<?php echo $this->Url->build(["controller" => "ItemLedgers", "action" => "delOpeningStock"]); ?>";
-	alert(url);
-	 			$.ajax({
-                    url: url,
-                    type: 'get',
-                    data: {variation_id: variation_id},
-                   success: function(response)
-                	{ 
-                    	alert(response);
-                    }
-              });
-            });
+ 	 // $('#main-tbody').find('tr').each(function()
+   //      {
+		 // 	var variation_id=$(this).find('#variation_id').val();
+		 // 	alert(variation_id);
+			// var url="<?php echo $this->Url->build(["controller" => "ItemLedgers", "action" => "delOpeningStock"]); ?>";
+			// alert(url);
+			//  			$.ajax({
+		 //                    url: url,
+		 //                    type: 'get',
+		 //                    data: {variation_id: variation_id},
+		 //                   success: function(response)
+		 //                	{ 
+		 //                    	alert(response);
+		 //                    }
+		 //              });
+			// });
+        });
  $(document).on('click','.update',function(){
  	$('#button_value').val('update');
  });

@@ -2309,7 +2309,14 @@ class ItemLedgersController extends AppController
 	public function delOpeningStock()
 	{
             $variation_id = $this->request->getData('variation_id');
-			$this->ItemLedgers->delete('ItemLedgers.item_variation_id'=>$variation_id);
+            $ledger=$this->ItemLedgers->find()->where(['item_variation_id'=>$variation_id,'opening_stock'=>'Yes']);
+            foreach ($ledger as $stock) {
+	            $ledgers=$this->ItemLedgers->get($stock->id);
+				if($this->ItemLedgers->delete($ledgers))
+				{
+					echo"1";
+				}
+			}
 		exit;
 	}
 	
