@@ -39,10 +39,10 @@ class StatesTable extends Table
         $this->setDisplayField('state_name');
         $this->setPrimaryKey('id');
 
-        $this->belongsTo('Countries', [
+       /*  $this->belongsTo('Countries', [
             'foreignKey' => 'country_id',
             'joinType' => 'INNER'
-        ]);
+        ]); */
         $this->hasMany('Cities', [
             'foreignKey' => 'state_id'
         ]);
@@ -91,7 +91,7 @@ class StatesTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->existsIn(['country_id'], 'Countries'));
+        //$rules->add($rules->existsIn(['country_id'], 'Countries'));
 
         return $rules;
     }

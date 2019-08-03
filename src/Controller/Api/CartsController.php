@@ -61,14 +61,14 @@ class CartsController extends AppController
 				$exist_quantity=$fetch->quantity;
 				$exist_count=$fetch->cart_count;
 			}
-			$update_quantity=$item_add_quantity+$exist_quantity;
+			$update_quantity=$exist_quantity+1;
 			//$update_quantity=$item_add_quantity;
 			$update_count=$exist_count+1;
 		
 			$cart=$this->Carts->get($update_id);	
 			$query = $this->Carts->query();
 				$result = $query->update()
-                    ->set(['quantity' => $item_add_quantity, 'cart_count' => $update_count, 'is_combo' => $is_combo])
+                    ->set(['quantity' => $update_quantity, 'cart_count' => $update_count, 'is_combo' => $is_combo])
                     ->where(['id' => $update_id])
                     ->execute();
 		}
@@ -140,7 +140,7 @@ class CartsController extends AppController
 				$cart=$this->Carts->get($update_id);	
 				$query = $this->Carts->query();
 				$result = $query->update()
-				->set(['quantity' => $item_add_quantity, 'cart_count' => $update_count, 'is_combo' => $is_combo])
+				->set(['quantity' => $update_count, 'cart_count' => $update_count, 'is_combo' => $is_combo])
 				->where(['id' => $update_id])
 				->execute();
 				$carts=$this->Carts->find()->where(['customer_id' => $customer_id, 'item_id' =>$item_id, 'item_variation_id' => $item_variation_id])->contain(['Items' => 
@@ -160,12 +160,12 @@ class CartsController extends AppController
 		$item_id=$this->request->data('item_id');
 		$item_variation_id=$this->request->data('item_variation_id');
 		$customer_id=$this->request->data('customer_id');
+		$pincode=$this->request->data('pincode');
 		$promocode=$this->request->data('promocode');
 		$redeem_points=$this->request->data('redeem_points');
 		$tag=$this->request->data('tag');
-		$pincode=$this->request->data('pincode');
 		
-			$CustomerAddresses = $this->Carts->CustomerAddresses->find()
+		$CustomerAddresses = $this->Carts->CustomerAddresses->find()
 			->where(['CustomerAddresses.customer_id'=>$customer_id,'CustomerAddresses.default_address'=>1])
 			->contain(['States','Cities'])->first();
 			
@@ -206,7 +206,7 @@ class CartsController extends AppController
 						$exist_count=$fetch->cart_count;
 					}
 					$exist_quantity;
-					$update_quantity=$item_add_quantity+$exist_quantity;
+					$update_quantity=$item_add_quantity+$exist_quantity; 
 					//$update_quantity=$item_add_quantity;
 					$update_count=$exist_count+1;					
 					
@@ -272,7 +272,7 @@ class CartsController extends AppController
 			$cart_count = $this->Carts->find('All')->where(['Carts.customer_id'=>$customer_id])->count();
 		}
 		
-    	
+    	 
 		
 		$address_availablity = $this->Carts->CustomerAddresses->find()
 			->where(['CustomerAddresses.customer_id'=>$customer_id]);
@@ -423,8 +423,24 @@ class CartsController extends AppController
 			}
 
 			
-			$delivery_charges = '0';
-			$this->loadModel('Pincodes');
+			$delivery_charges = '0'; 
+			$this->loadModel('DeliveryCharges'); 
+			$DeliveryCharges=$this->DeliveryCharges->find()->select(['min_order_value'])->where(['pincode_no'=>$pincode])->first();
+			if($DeliveryCharges){
+				if($DeliveryCharges->min_order_value < $grand_total){
+					$delivery_charges = 'Free';
+					$isPromoApplied = true;
+				}else{
+					$deliveryAmount=$this->Pincode->getDeliveryCharge($pincode,$customer_id);
+					$grand_total = $grand_total + $deliveryAmount;
+					$delivery_charges = $deliveryAmount;
+					$delivery_charges = round($deliveryAmount);
+				
+				}
+			}
+		
+			
+			/* $this->loadModel('Pincodes');
 			$PincodesData=$this->Pincodes->find()->select('id')->where(['pincode' => $pincode])->order(['id' =>'DESC'])->first();
 			
 			$pincode_id=0;
@@ -450,7 +466,33 @@ class CartsController extends AppController
 			else
 			{
 				$delivery_charges = 'Free';
+			}$this->loadModel('Pincodes');
+			$PincodesData=$this->Pincodes->find()->select('id')->where(['pincode' => $pincode])->order(['id' =>'DESC'])->first();
+			
+			$pincode_id=0;
+			if($PincodesData){
+				$pincode_id = $PincodesData->id;
 			}
+			$this->loadModel('DeliveryCharges');
+
+			$delivery_charges=$this->DeliveryCharges->find()->where(['pincode_id' => $pincode_id])->order(['id' =>'DESC'])->first();
+			
+			if($isFreeShipping == 'Yes')
+			{
+				$delivery_charges = 'Free';
+				$isPromoApplied = true;
+			}
+			
+			else if(!empty($delivery_charges) && $grand_total < $delivery_charges->amount)
+			{
+				$grand_total = $grand_total + $delivery_charges->charge;
+				$delivery_charges = $delivery_charges->charge;
+				$delivery_charges = round($delivery_charges);
+			}
+			else
+			{
+				$delivery_charges = 'Free';
+			} */
 			
 			$subtotal = round($subtotal);
 			$grand_total = round($grand_total);			
@@ -680,7 +722,7 @@ class CartsController extends AppController
 		$delivery_charges=$this->DeliveryCharges->find()->where(['pincode' => $pincode])->order(['id' =>'DESC'])->first();
 		 */
 		
-			$delivery_charges = '0';
+			/* $delivery_charges = '0';
 			$this->loadModel('Pincodes');
 			$PincodesData=$this->Pincodes->find()->select('id')->where(['pincode' => $pincode])->order(['id' =>'DESC'])->first();
 			
@@ -708,7 +750,23 @@ class CartsController extends AppController
 		else
 		{
 			$delivery_charges = 'Free';
-		}
+		} */
+		
+			$delivery_charges = '0'; 
+			$this->loadModel('DeliveryCharges'); 
+			$DeliveryCharges=$this->DeliveryCharges->find()->select(['min_order_value'])->where(['pincode_no'=>$pincode])->first();
+			if($DeliveryCharges){
+				if($DeliveryCharges->min_order_value < $grand_total){
+					$delivery_charges = 'Free';
+					$isPromoApplied = true;
+				}else{
+					$deliveryAmount=$this->Pincode->getDeliveryCharge($pincode,$customer_id);
+					$grand_total = $grand_total + $deliveryAmount;
+					$delivery_charges = $deliveryAmount;
+					$delivery_charges = round($deliveryAmount);
+				
+				}
+			}
 
 		$subtotal = round($subtotal);
 		$grand_total = round($grand_total);

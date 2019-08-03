@@ -35,6 +35,7 @@ class DeliveryChargesTable extends Table
 
         $this->setTable('delivery_charges');
 
+        $this->belongsTo('DummyCities');
         $this->belongsTo('Pincodes', [
             'foreignKey' => 'pincode_id',
             'joinType' => 'INNER'

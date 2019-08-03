@@ -6,7 +6,7 @@ class CustomerAddressesController extends AppController
     
     public function state(){
 		$States=[];
-		$States=$this->CustomerAddresses->States->find()->where(['country_id'=>101])->contain(['Cities']);
+		$States=$this->CustomerAddresses->States->find()->contain(['Cities']);
 	    if($States->toArray()){
 			$success = true;
 			$message = 'Data found';
