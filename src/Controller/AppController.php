@@ -46,6 +46,7 @@ class AppController extends Controller
 		FrozenDate::setToStringFormat('dd-MM-yyyy');  // For any immutable Date
         $this->loadComponent('RequestHandler');
         $this->loadComponent('AwsFile');
+		$this->loadComponent('Pincode');
         $this->loadComponent('Flash');
 		$this->loadComponent('Auth', [
 		 'authenticate' => [

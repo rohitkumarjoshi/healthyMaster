@@ -15,6 +15,7 @@ class PincodesController extends AppController
 		->where(['Pincodes.pincode'=>$pincode])
 		->contain(['States'])
 		->first();
+		
 		if(empty($pin_codes))
 		{
 			$status=false;

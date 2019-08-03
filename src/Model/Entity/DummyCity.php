@@ -4,19 +4,13 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * DeliveryCharge Entity
+ * DummyCity Entity
  *
  * @property int $id
- * @property float $amount
- * @property float $charge
- * @property string $type
- * @property \Cake\I18n\FrozenTime $created_on
- * @property int $promo_code_id
- *
- * @property \App\Model\Entity\PromoCode $promo_code
- * @property \App\Model\Entity\Order[] $orders
+ * @property string $city_name
+ * @property string $state_name
  */
-class DeliveryCharge extends Entity
+class DummyCity extends Entity
 {
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
@@ -28,11 +22,7 @@ class DeliveryCharge extends Entity
      * @var array
      */
     protected $_accessible = [
-        'id' => true,
-        'pincode_no' => true,
-        'hundred_gm' => true,
-        'five_hundred_gm' => true,
-        'one_kg' => true,
-        'min_order_value' => true
+        'city_name' => true,
+        'state_name' => true
     ];
 }

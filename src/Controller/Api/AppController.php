@@ -23,6 +23,15 @@ class AppController extends Controller
         ]
     ];
 	
+	public function initialize()
+    {
+        parent::initialize();
+		
+		$this->loadComponent('Pincode');
+        
+        
+    }
+	
 	public function currentStock($item_id,$variation_id)
     {
 		$this->loadModel('ItemLedgers');

@@ -43,6 +43,56 @@ class DeliveryChargesController extends AppController
         $this->set('deliveryCharge', $deliveryCharge);
     }
 
+	public function updatePincodeTable()
+    {
+		//State Entry
+		/* $DummyCities = $this->DeliveryCharges->DummyCities->find()->group('DummyCities.state_name');
+		foreach($DummyCities as $data){
+			$States=$this->DeliveryCharges->Pincodes->States->newEntity();
+			$States->state_name=$data->state_name;
+			//$States->country_id='101';
+			$States->created_at='';
+			$States->is_deleted='0';
+			$this->DeliveryCharges->Pincodes->States->save($States);
+		} */
+		
+		//City Entry
+		
+		
+		//$DummyCities = $this->DeliveryCharges->DummyCities->find()->group('DummyCities.city_name');
+		
+		/* foreach($DummyCities as $data){
+			$States=$this->DeliveryCharges->Pincodes->States->find()->where(['state_name'=>$data->state_name])->first();
+			
+			$Cities=$this->DeliveryCharges->Pincodes->Cities->newEntity();
+			$Cities->name=$data->city_name;
+			$Cities->state_id=$States->id;
+			$Cities->created_at='';
+			$Cities->is_deleted='0';
+			$Cities->pin_code_no=$data->pin_code_number; 
+			$this->DeliveryCharges->Pincodes->Cities->save($Cities);
+		}
+		exit; */
+		
+		
+        $DummyCities = $this->DeliveryCharges->DummyCities->find();
+		$i=0;
+		
+		foreach($DummyCities as $data){
+			$i++;
+			$States=$this->DeliveryCharges->Pincodes->States->find()->where(['States.state_name'=>$data->state_name])->first();
+			$Cities=$this->DeliveryCharges->Pincodes->Cities->find()->where(['Cities.name'=>$data->city_name])->first();
+			$Pincod=$this->DeliveryCharges->Pincodes->newEntity();
+			$Pincod->pincode=$data->pin_code_number;
+			$Pincod->state_id=$States->id;
+			$Pincod->city_id=$Cities->id;
+			$Pincod->we_deliver='Yes'; 
+			$this->DeliveryCharges->Pincodes->save($Pincod);   
+		} 
+		pr($i); exit;
+        $this->set('deliveryCharge', $deliveryCharge);
+    }
+
     /**
      * Add method
      *
