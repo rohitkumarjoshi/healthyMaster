@@ -264,7 +264,7 @@ class ItemsController extends AppController
 		$this->viewBuilder()->layout('index_layout');
 		$jain_thela_admin_id=$this->Auth->User('jain_thela_admin_id');
         $item = $this->Items->get($id,  [
-            'contain' => ['ItemVariations','ItemRows']]
+            'contain' => ['ItemVariations'=>['UnitVariations'],'ItemRows']]
         );
 		$old_image_name=$item->image;
         if ($this->request->is(['patch', 'post', 'put'])) {
@@ -297,7 +297,7 @@ class ItemsController extends AppController
                 $item->updated_on=date('Y-m-d');
             }
             $item->jain_thela_admin_id=$jain_thela_admin_id;
-			//pr($item);exit;
+			//pr($item->item_variations);exit;
 			if ($this->Items->save($item)) {
 				
 				if(!empty($item_keywords)){
@@ -320,6 +320,7 @@ class ItemsController extends AppController
                 {
                     if(($variation->opening_stock != 0 )|| ($variation->opening_stock != null))
                     {  
+                        $opening_stock=$variation->opening_stock;
                         $query = $this->Items->ItemLedgers->query();
                         $query->insert(['jain_thela_admin_id', 'driver_id', 'grn_id', 'item_id', 'warehouse_id', 'purchase_booking_id', 'rate', 'amount', 'status', 'quantity','unit_variation_id','rate_updated', 'transaction_date','item_variation_id','opening_stock'])
                         ->values([
@@ -343,15 +344,16 @@ class ItemsController extends AppController
                         
                       }
                       $UnitVariationdata = $this->Items->ItemVariations->UnitVariations->find()->where(['id'=>$variation->unit_variation_id])->first();
+                      //pr($UnitVariationdata); exit;
                       $query = $this->Items->ItemVariations->query();
                         $query->update()
                             ->set([
                             'quantity_variation' => $UnitVariationdata->name,'unit_variation_id' => $variation->unit_variation_id])
                             ->where(['id'=>$variation->id])
                         ->execute();
-                        $query = $this->Items->ItemVariations->query();
+                    //pr($query);exit;
                  }
-				
+				//pr($item);exit;
 				
 				
 				if(!empty($file_name)){
