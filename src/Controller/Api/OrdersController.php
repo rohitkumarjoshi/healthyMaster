@@ -94,6 +94,7 @@ class OrdersController extends AppController
 		
 	// 	$this->Orders->OrderDetails->save($orders);
 	// }
+	
 	public function updateOnlinePaymentStatus()
     {
 		
@@ -155,6 +156,8 @@ class OrdersController extends AppController
 			}]]
 			
 		]]);
+		
+		
 	
 		if(!empty($orders_details_data->toArray()))
 		{
@@ -182,7 +185,7 @@ class OrdersController extends AppController
 			if(empty($customer_addresses)) { $customer_addresses = (object)[]; }
 			
 			 $cancellation_reasons=$this->Orders->CancelReasons->find();
-			
+			$item_status=$orders_details_data->status;
 
 			$status=true;
 			$error="Order data found successfully";			
@@ -193,7 +196,7 @@ class OrdersController extends AppController
 			$error="No data Found";			
 		}			
 
-        $this->set(compact('status', 'error','orders_details_data','customer_addresses','cancellation_reasons'));
+        $this->set(compact('status', 'error','orders_details_data','customer_addresses','cancellation_reasons','item_status'));
         $this->set('_serialize', ['status', 'error', 'orders_details_data','customer_addresses','cancellation_reasons']);
     }
 
