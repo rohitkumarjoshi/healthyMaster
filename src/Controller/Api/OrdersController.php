@@ -90,8 +90,7 @@ class OrdersController extends AppController
 		$order_id=$this->request->query('order_id');
 		$order_detail_id=$this->request->query('order_detail_id');
 		$orders=$this->Orders->OrderDetails->find()->where(['OrderDetails.order_id'=>$order_id,'OrderDetails.id'=>$order_detail_id])->first();
-		$orders->item_cancel="Yes";
-		//echo $order_id; echo $order_from;exit;
+		$orders->status="Cancel";
 		
 		$this->Orders->OrderDetails->save($orders);
 	} */
@@ -107,6 +106,7 @@ class OrdersController extends AppController
 						->where(['transaction_order_no' => $order_id])
 						->execute();
 					exit;
+
     }
 	
     public function trackOrder()
