@@ -623,33 +623,79 @@ class OrdersController extends AppController
     	$x=0;
     	 $status=$this->request->getData('status'); 
         $id=$this->request->getData('order_id');
-
+        
         if($status == 'In Process'){
 	            $packed=$this->Orders->get($id);
 
 		         $packed->status="In Process";
-		         $this->Orders->save($packed);
+		          $order_id=$packed->id;
+		        if($this->Orders->save($packed))
+		        {
+		        	$details=$this->Orders->OrderDetails->find()->where(['OrderDetails.order_id'=>$order_id]);
+		        	
+		        	foreach ($details as $detail) {
+		        		if($detail['status']!="Cancel")
+		        		{
+		        			$detail->status="In Process";
+		        			$this->Orders->OrderDetails->save($detail);
+		        		}
+		        	}
+
+		        }
            }
 
         if($status == 'Packed'){
 	            $packed=$this->Orders->get($id);
+		        $packed->status="Packed";
+		        $order_id=$packed->id;
+		        if($this->Orders->save($packed))
+		        {
+		        	$details=$this->Orders->OrderDetails->find()->where(['OrderDetails.order_id'=>$order_id]);
+		        	
+		        	foreach ($details as $detail) {
+		        		if($detail['status']!="Cancel")
+		        		{
+		        			$detail->status="Packed";
+		        			$this->Orders->OrderDetails->save($detail);
+		        		}
+		        	}
 
-		         $packed->status="Packed";
-		         $this->Orders->save($packed);
+		        }
            }
            if($status == 'Dispatch'){
 	            $packed=$this->Orders->get($id);
+				$packed->status="Dispatch";
+		         $order_id=$packed->id;
+		        if($this->Orders->save($packed))
+		        {
+		        	$details=$this->Orders->OrderDetails->find()->where(['OrderDetails.order_id'=>$order_id]);
+		        	
+		        	foreach ($details as $detail) {
+		        		if($detail['status']!="Cancel")
+		        		{
+		        			$detail->status="Dispatch";
+		        			$this->Orders->OrderDetails->save($detail);
+		        		}
+		        	}
 
-		         $packed->status="Dispatch";
-		         $this->Orders->save($packed);
+		        }
            }if($status == 'Delivered'){
 	            $packed=$this->Orders->get($id);
 				
 		        //pr($packed);exit;
 		        $packed->status="Delivered";
+		        $order_id=$packed->id;
 		        if($this->Orders->save($packed))
 		        {
+		        	$details=$this->Orders->OrderDetails->find()->where(['OrderDetails.order_id'=>$order_id]);
 		        	
+		        	foreach ($details as $detail) {
+		        		if($detail['status']!="Cancel")
+		        		{
+		        			$detail->status="Delivered";
+		        			$this->Orders->OrderDetails->save($detail);
+		        		}
+		        	}
 					
 					$Ordersdatas=$this->Orders->get($id,['contain'=>['Customers','OrderDetails'=>['Items'=>['GstFigures']]]]);
 					

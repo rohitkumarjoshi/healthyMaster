@@ -182,41 +182,33 @@
 							<select name="status" class="form-control select2 input-sm option_status">
 								<?php if($order->status=="In Process")
 								{?>
-									<option value="In Process" selected>In Process</option>
+									<option value="In Process" selected>In Processed</option>
 									<option value="Packed">Packed</option>
-									<option value="Dispatch">Dispatch</option>
+									<option value="Dispatch">Dispatched</option>
 									<option value="Delivered">Delivered</option>
-									<option value="Cancel">Cancel</option>
+									<!-- <option value="Cancel">Cancel</option> -->
 								<?php }if($order->status=="Packed")
 								{?>
 									<option value="Packed" selected>Packed</option>
-									<option value="In Process">In Process</option>
-									<option value="Dispatch">Dispatch</option>
+									<option value="In Process">In Processed</option>
+									<option value="Dispatch">Dispatched</option>
 									<option value="Delivered">Delivered</option>
-									<option value="Cancel">Cancel</option>
+									<!-- <option value="Cancel">Cancel</option> -->
 								<?php }if($order->status=="Dispatch")
 								{?>
-									<option value="Dispatch" selected>Dispatch</option>
-									<option value="In Process">In Process</option>
+									<option value="Dispatch" selected>Dispatched</option>
+									<option value="In Process">In Processed</option>
 									<option value="Packed">Packed</option>
 									<option value="Delivered">Delivered</option>
-									<option value="Cancel">Cancel</option>
+									<!-- <option value="Cancel">Cancel</option> -->
 								<?php }if($order->status=="Delivered")
 								{?>
 								<option value="Delivered" selected>Delivered</option>
-									<option value="In Process" >In Process</option>
+									<option value="In Process" >In Processed</option>
 									<option value="Packed" >Packed</option>
-									<option value="Dispatch" >Dispatch</option>
-									<option value="Cancel">Cancel</option>
-						<?php }if($order->status=="Cancel")
-								{?>
-								<option value="Cancel" selected>Cancel</option>
-									<option value="In Process" >In Process</option>
-									<option value="Packed" >Packed</option>
-									<option value="Dispatch" >Dispatch</option>
-									<option value="Delivered">Delivered</option>
-
-							<?php } ?>
+									<option value="Dispatch" >Dispatched</option>
+									<!-- <option value="Cancel">Cancel</option> -->
+						<?php }?>
 							</select>
 							<?php if(($order->status!="Delivered")&&($order->status!="Cancel"))
 							{
