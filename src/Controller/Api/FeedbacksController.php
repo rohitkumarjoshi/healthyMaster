@@ -13,9 +13,12 @@ class FeedbacksController extends AppController
 		$mobile=$this->request->data('mobile');
 		$email=$this->request->data('email');
 		$comments=$this->request->data('comments');
+		$quality_exp=$this->request->data('quality_exp');
+		$deliver_exp=$this->request->data('deliver_exp');
+		$overall_exp=$this->request->data('overall_exp');
 		
 			$query = $this->Feedbacks->query();
-					$query->insert(['jain_thela_admin_id', 'customer_id', 'name', 'mobile', 'email', 'comments'])
+					$query->insert(['jain_thela_admin_id', 'customer_id', 'name', 'mobile', 'email', 'comments','quality_exp','deliver_exp','overall_exp'])
 							->values([
 							'jain_thela_admin_id' => $jain_thela_admin_id,
 							'customer_id' => $customer_id,
@@ -23,6 +26,9 @@ class FeedbacksController extends AppController
 							'mobile' => $mobile,
 							'email' => $email,
 							'comments' => $comments,
+							'quality_exp' => $quality_exp,
+							'deliver_exp' => $deliver_exp,
+							'overall_exp' => $overall_exp,
 							])
 					->execute();
 		$status=true;
