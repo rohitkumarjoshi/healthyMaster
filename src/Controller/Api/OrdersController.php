@@ -85,15 +85,15 @@ class OrdersController extends AppController
 	return;
 	
 	}
-	public function itemCancel()
-	{
-		$order_id=$this->request->query('order_id');
-		$order_detail_id=$this->request->query('order_detail_id');
-		$orders=$this->Orders->OrderDetails->find()->where(['OrderDetails.order_id'=>$order_id,'OrderDetails.id'=>$order_detail_id])->first();
-		$orders->status="Cancel";
+	// public function itemCancel()
+	// {
+	// 	$order_id=$this->request->query('order_id');
+	// 	$order_detail_id=$this->request->query('order_detail_id');
+	// 	$orders=$this->Orders->OrderDetails->find()->where(['OrderDetails.order_id'=>$order_id,'OrderDetails.id'=>$order_detail_id])->first();
+	// 	$orders->status="Cancel";
 		
-		$this->Orders->OrderDetails->save($orders);
-	}
+	// 	$this->Orders->OrderDetails->save($orders);
+	// }
 	public function updateOnlinePaymentStatus()
     {
 		
@@ -161,6 +161,7 @@ class OrdersController extends AppController
 			
 			foreach($orders_details_data->order_details as $details)
 			{
+				//pr($details);exit;
 				$details->item = $details->item_variation->item;
 				unset($details->item_variation->item);
 				$details->item->item_variation = [$details->item_variation];
