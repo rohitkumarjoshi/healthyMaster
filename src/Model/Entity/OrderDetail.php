@@ -29,7 +29,10 @@ class OrderDetail extends Entity
      * @var array
      */
     protected $_accessible = [
-        '*' => true,
-        'id' => false
+       'status' => true,
+        'order_id' => true,
+        'quantity' => true,
+        'order_id' => true,
+        'rate' => true
     ];
 }

@@ -16,7 +16,7 @@ class FeedbacksController extends AppController
 		$quality_exp=$this->request->data('quality_exp');
 		$deliver_exp=$this->request->data('deliver_exp');
 		$overall_exp=$this->request->data('overall_exp');
-		//pr($quality_exp);exit;
+		pr($deliver_exp);exit;
 		
 			$query = $this->Feedbacks->query();
 					$query->insert(['jain_thela_admin_id', 'customer_id', 'name', 'mobile', 'email', 'comments','quality_exp','deliver_exp','overall_exp'])
