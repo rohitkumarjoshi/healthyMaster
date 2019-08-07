@@ -124,7 +124,7 @@ $(document).ready(function() {
 
 add_row();
 
-     $(document).on('change','.item',function(){
+     $(document).on('keyup','.item',function(){
         var vendor_id=$('.vendor_id').val();
         var input=$(this).val();
 
@@ -182,7 +182,6 @@ add_row();
         var a=1;
         $('#main-tbody').find('tr').each(function()
         {
-            alert();
             $(this).find('.index').html(a);
             //$(this).find('.item').attr('name','vendor['+i+'][item_id]');
             $(this).find('td:nth-child(2) select').select2().attr('name','vendor['+i+'][item_id]');

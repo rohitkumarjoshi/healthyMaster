@@ -1467,7 +1467,7 @@ class OrdersController extends AppController
 		$this->viewBuilder()->layout('index_layout');
 		$jain_thela_admin_id=$this->Auth->User('jain_thela_admin_id');
         $order = $this->Orders->newEntity();  
-        //pr($this->request->getData());exit;
+        //pr($this->request->getData());
         if ($this->request->is('post')) 
         {
 

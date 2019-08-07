@@ -14,7 +14,7 @@
                 </div>
             </div>
             <div class="portlet-body">
-                <table class="table table-striped table-bordered table-hover dataTable no-footer" id="sample_1">
+                <table  class="table table-striped table-bordered table-hover dataTable no-footer" id="sample_1">
                     <thead>
                         <tr>
                             <th>Sr</th>
@@ -28,7 +28,7 @@
                             <th scope="col" class="actions"><?= __('Actions') ?></th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="main_tbody">
                         <?php $i=0;
                         foreach ($pincodes as $pincode): 
                         $i++;

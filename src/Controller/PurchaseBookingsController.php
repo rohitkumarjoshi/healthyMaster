@@ -22,7 +22,7 @@ class PurchaseBookingsController extends AppController
     {
        $this->viewBuilder()->layout('index_layout');
        $purchases=$this->PurchaseBookings->PurchaseBookingDetails->find()
-       ->contain(['Items'=>['ItemCategories','GstFigures'],'ItemVariations'=>['Units'],'PurchaseBookings'=>['Vendors'=>['Cities']]]);
+       ->contain(['Items'=>['ItemCategories','GstFigures'],'UnitVariations','PurchaseBookings'=>['Vendors'=>['Cities']]]);
         if ($this->request->is('post')) {
             $datas = $this->request->getData();
             if(!empty($datas['vendor_id']))
