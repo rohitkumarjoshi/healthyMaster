@@ -270,7 +270,7 @@ class ItemsController extends AppController
         if ($this->request->is(['patch', 'post', 'put'])) {
 			
             $variations=$this->request->data('item_variations');
-            //pr($variations);
+            //pr($variations);exit;
             foreach ($variations as $var) {
                 @$variation_id=$var['id'];
                 //pr($variation_id);

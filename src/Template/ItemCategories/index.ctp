@@ -38,7 +38,7 @@
 						
 					</div>
 					<div class="col-md-8" style="margin-top: 10px;">
-						<label class=" control-label">Image<span class="required" aria-required="true"></span></label>
+						<label class=" control-label">Image</label>
 						 <!-- <?= $this->Form->input('image',['class'=>'form-control','type'=>'file','value'=>$itemCategory1->image]) ?> -->
 						 <input type="file" name="image" class="form-control input-sm" value="<?=$itemCategory1->image?>">
 					</div>
@@ -118,9 +118,9 @@ $(document).ready(function() {
 		errorClass: 'help-block help-block-error', // default input error message class
 		focusInvalid: true, // do not focus the last invalid input
 		rules: {
-				image:{
-					required: true,					 
-				},
+				// image:{
+				// 	required: true,					 
+				// },
 				parent_id:{
 					required: true,
 				}
