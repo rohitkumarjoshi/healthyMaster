@@ -21,6 +21,7 @@ class ItemVariationsController extends AppController
     public function deactive()
     {
         $id = $this->request->getData('variation_id');
+        //echo $id;exit;
             $ledger=$this->ItemVariations->get($id);
             $ledger->ready_to_sale="No";
             if($this->ItemVariations->save($ledger))
