@@ -47,7 +47,7 @@
 							echo @$customer->customer_addresses[0]->house_no.','.@$customer->customer_addresses[0]->address.','.@$customer->customer_addresses[0]->locality
 							?></td> -->
 							<td><?php
-							echo @$customer->customer_addresses[0]->house_no.','.@$customer->customer_addresses[0]->address.','.@$customer->customer_addresses[0]->locality
+							echo @$customer->customer_addresses[0]->house_no;
 							?></td>
 							<td><?php
 								//foreach ($customer->customer_addresses as $address) {

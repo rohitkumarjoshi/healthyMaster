@@ -7,7 +7,7 @@
 						<div class="details">
 							
 						</div>
-						<p class="more  tooltips" data-placement="bottom" data-original-title="" href="" style="background-color:#ffffff; color:#000; text-align:center"><b>Info Message</b>
+						<p class="more  tooltips" data-placement="bottom" data-original-title="" href="" style="background-color:#ef0907; color:#fff; text-align:center"><b style="color:#fff;">Info Message</b>
 						</p>
 					</div>
 				</div>','/AppNotifications/home?page=home',['escape'=>false]) ?>
@@ -81,7 +81,7 @@
 						
 						<div class="details">
 						
-						</div><p class="more  tooltips" data-placement="bottom" data-original-title="" href="" style="background-color:#ffffff; color:#000; text-align:center"><b>Product Description</b>
+						</div><p class="more  tooltips" data-placement="bottom" data-original-title="" href="" style="background-color:#ef0907; color:#fff; text-align:center"><b style="color:#fff;">Product Description</b>
 						</p>
 					</div>
 

@@ -149,7 +149,7 @@
 								<th><?=  h('Name') ?></th>
 								<th><?=  h('Mobile') ?></th>
 								<th><?=  h('House No') ?></th>
-								<th><?=  h('Address') ?></th>
+								<th><?=  h('Apartment') ?></th>
 								<th><?=  h('Locality') ?></th>
 								<th><?=  h('Default Address') ?></th>
 								<th class="actions"><?= __('Actions') ?></th>
@@ -163,11 +163,19 @@
 							?>
 							<tr class="main_tr">
 								<td><?= h($k) ?></td>
-								<td><?= h($customer_details->name) ?></td>
-								<td><?= h($customer_details->mobile) ?></td>
-								<td><?= h($customer_details->house_no) ?></td>
-								<td><?= h($customer_details->address) ?></td>
-								<td><?= h($customer_details->locality) ?></td>
+								<td><?= h(@$customer_details->name) ?></td>
+								<td><?= h(@$customer_details->mobile) ?></td>
+								<td><?= h(@$customer_details->house_no) ?></td>
+								<td><?php if(($customer_details->apartment_name == "null")||($customer_details->apartment_name == "NULL"))
+								{
+									echo '';
+								}
+								else
+								{
+									echo @$customer_details->apartment_name;
+								}
+											 ?></td>
+								<td><?= h(@$customer_details->locality) ?></td>
 								<td>
 									<?php $default_address=$customer_details->default_address;
 										  if($default_address==1){

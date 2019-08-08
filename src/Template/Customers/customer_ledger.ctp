@@ -30,7 +30,15 @@
 							$i=0;
 							foreach ($customer_address as $customeradd) { $i++;?>
 								<label class=" control-label">Address  <?= $i?> : 
-							<?php echo $customeradd->house_no.','.$customeradd->landmark.','.$customeradd->locality.'  ';
+							<?php 
+								if(($customeradd->landmark == "NULL") || ($customeradd->landmark == '')|| ($customeradd->landmark == "null") )
+								{
+									echo $customeradd->house_no.','.$customeradd->locality.'  ';
+								}
+								else
+								{
+									echo $customeradd->house_no.','.$customeradd->landmark.','.$customeradd->locality.'  ';
+								}
 							}
 						?></label>
 					</div>
@@ -136,7 +144,7 @@
 									<th>Item ID</th>
 									<th>Item</th>
 									<th width="10%">Variation</th>
-									<th>quantity</th>
+									<th>Quantity</th>
 									<th>Amount</th>
 								</tr>
 							</thead>
@@ -153,7 +161,7 @@
 												<?= h(@$cart->item->name) ?>
 											</td>
 											<td>
-												<?= h(@$cart->item_variation->quantity_variation) .' '.$cart->item_variation->unit->shortname?>
+												<?= h(@$cart->item_variation->quantity_variation) ?>
 											</td>
 											</td>
 											<td>
@@ -161,7 +169,7 @@
 											</td>
 											
 											<td>
-												<?= h(@$cart->amount) ?>
+												<?= h(@$cart->item_variation->sales_rate * $cart->quantity) ?>
 											</td>
 										</tr>
 									<?php } ?>														 
@@ -211,7 +219,7 @@
 											<?= h(@$wishlist->item->name) ?>
 										</td>
 										<td>
-											<?= h(@$wishlist->item_variation->quantity_variation).' '.$wishlist->item_variation->unit->shortname ?>
+											<?= h(@$wishlist->item_variation->quantity_variation)?>
 										</td>
 										<td>
 											<?= h(@$wishlist->item_variation->sales_rate) ?>
