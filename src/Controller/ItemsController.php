@@ -298,7 +298,7 @@ class ItemsController extends AppController
             $variations=$this->request->data('item_variations');
             //pr($variations);
             foreach ($variations as $var) {
-                $variation_id=$var['id'];
+                @$variation_id=$var['id'];
                 //pr($variation_id);
                     $ledger_variation=$this->Items->ItemLedgers->find()->where(['ItemLedgers.item_variation_id'=>$variation_id]);
                     foreach ($ledger_variation as $ledger) {
@@ -425,7 +425,7 @@ class ItemsController extends AppController
 		// 	$unit_name=$unit_data->unit_name;
 		// 	$unit_option[]= ['value'=>$unit_data->id,'text'=>$unit_data->shortname,'unit_name'=>$unit_name];
 		// }
-        $variations = $this->Items->ItemVariations->find()->where(['item_id'=>$id])->contain(['UnitVariations','Items']);
+        $variations = $this->Items->ItemVariations->find()->where(['item_id'=>$id,'ItemVariations.ready_to_sale'=>'Yes'])->contain(['UnitVariations','Items']);
 		//pr($variations->toArray()); exit;
 		$UnitVariations = $this->Items->ItemVariations->UnitVariations->find('list');
         $this->set(compact('item', 'itemCategories', 'units','item_fetchs','variations','GstFigures','keywords','UnitVariations'));

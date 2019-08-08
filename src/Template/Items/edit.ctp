@@ -124,7 +124,7 @@
 					                    </td>
 					                    
 					                    <td style="vertical-align: bottom;"> <button type="button" id="plus" class="btn btn-sm green"><i class="fa fa-plus"></i></button>
-					                    <button type="button" id="minus" class="btn btn-sm red deactive" row_id="<?= $variation_id?>"><i class="fa fa-minus"></i></button></td>
+					                    <button type="button" class="btn btn-sm red deactive" row_id="<?= $variation_id?>"><i class="fa fa-minus"></i></button></td>
 					                  
 					                </tr>
 					            <?php } ?>
@@ -172,20 +172,29 @@
 $(document).ready(function() {
 
 $(document).on('click','.deactive',function(){
-	var variation_id=$(this).attr('row_id');
-	var url="<?php echo $this->Url->build(["controller" => "ItemVariations", "action" => "deactive"]); ?>";
-			//alert(url);
-			 			$.ajax({
-		                    url: url,
-		                    type: 'get',
-		                    data: {variation_id: variation_id},
-		                   success: function(response)
-		                	{ 
-		                		if(response == 1)
-		                			alert("Variation Deleted Successfully");
-		                    }
-		              });
-});
+	var count=$('#main-tbody').children().length;
+            if(count >= 2)
+            {
+				var variation_id=$(this).attr('row_id');
+				var url="<?php echo $this->Url->build(["controller" => "ItemVariations", "action" => "deactive"]); ?>";
+						alert(url);
+						 			$.ajax({
+					                    url: url,
+					                    type: 'post',
+					                    data: {variation_id: variation_id},
+					                   success: function(response)
+					                	{ 
+					                		if(response == 1) 
+				                			alert("Variation Deleted Successfully");
+						                		 
+					                    }
+					              });
+						 		}
+			else
+			{
+				alert("Not Deleted");
+			}
+	});
 
 
  $(document).on('click','.save',function(){
