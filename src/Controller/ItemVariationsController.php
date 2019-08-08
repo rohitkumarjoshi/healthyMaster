@@ -18,6 +18,17 @@ class ItemVariationsController extends AppController
      *
      * @return \Cake\Http\Response|void
      */
+    public function deactive()
+    {
+        $id = $this->request->getData('variation_id');
+            $ledger=$this->ItemVariations->get($id);
+            $ledger->ready_to_sale="No";
+            if($this->ItemVariations->save($ledger))
+            {
+                echo"1";
+            }
+        exit;
+    }
     public function item(){
         $category_id=$this->request->getData('input'); 
             $items=$this->ItemVariations->Items->find()->where(['Items.item_category_id '=>$category_id]);

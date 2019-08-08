@@ -390,10 +390,10 @@ $(document).ready(function() {
 });
 </script>
 <script type="text/javascript">
-        $('.checkAll').on('change', function() {   
+        $('.checkAll').on('change', function() { 
+        //alert();  
                 $('.checkbox').prop('checked', $(this).prop("checked"));              
         });
-        //deselect "checked all", if one of the listed checkbox product is unchecked amd select "checked all" if all of the listed checkbox product is checked
         $('.checkbox').change(function(){ //".checkbox" change 
             if($('.checkbox:checked').length == $('.checkbox').length){
                    $('.checked_all').prop('checked',true);
