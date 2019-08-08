@@ -161,7 +161,7 @@ class AppNotificationsController extends AppController
 		$customers = $this->AppNotifications->Customers->find();
 		$this->loadModel('Items');
 		$item_fetchs=$this->Items->find()->where(['freeze'=>0,'ready_to_sale'=>'Yes']);
-		$Cities=$this->AppNotifications->Cities->find()->where();
+		$Cities=$this->AppNotifications->Cities->find('list');
 		$path = 'http://healthymaster.in/'.$this->request->webroot.'img/item_images/';
 		/* foreach($item_fetchs as $item_fetch){
 			$item_name=$item_fetch->name;

@@ -124,7 +124,7 @@
 					                    </td>
 					                    
 					                    <td style="vertical-align: bottom;"> <button type="button" id="plus" class="btn btn-sm green"><i class="fa fa-plus"></i></button>
-					                   <!-- <button type="button" id="minus" class="btn btn-sm red" row_id="<?= $variation_id?>"><i class="fa fa-minus"></i></button></td>-->
+					                    <button type="button" id="minus" class="btn btn-sm red deactive" row_id="<?= $variation_id?>"><i class="fa fa-minus"></i></button></td>
 					                  
 					                </tr>
 					            <?php } ?>
@@ -133,7 +133,7 @@
                             </div>
                         </div>
 			<?= $this->Form->button(__('Save'),['class'=>'btn btn-success save']) ?>
-			<?= $this->Form->button(__('Save & Update'),['class'=>'btn btn-success update']) ?>
+			<?= $this->Form->button(__('Save & Update On Website'),['class'=>'btn btn-success update']) ?>
 			<?= $this->Form->end() ?>
 			</div>
 		</div>
@@ -171,7 +171,21 @@
 <script>
 $(document).ready(function() {
 
-	
+$(document).on('click','.deactive',function(){
+	var variation_id=$(this).attr('row_id');
+	var url="<?php echo $this->Url->build(["controller" => "ItemVariations", "action" => "deactive"]); ?>";
+			//alert(url);
+			 			$.ajax({
+		                    url: url,
+		                    type: 'get',
+		                    data: {variation_id: variation_id},
+		                   success: function(response)
+		                	{ 
+		                		if(response == 1)
+		                			alert("Variation Deleted Successfully");
+		                    }
+		              });
+});
 
 
  $(document).on('click','.save',function(){
