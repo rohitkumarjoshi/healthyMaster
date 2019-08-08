@@ -54,11 +54,11 @@ $html='<div style="background-color:#fff; ">
 	<tr>
 		<td colspan="2"> 
 			<b> BUYER NAME AND ADDRESS </b> <br/> 
-			'.$order->customer_address->name.'  <br/>
-			'.$order->customer_address->mobile.' <br/>
-			'.$order->customer_address->house_no.' '.$order->customer_address->address.'<br/>
-			'.$order->customer_address->landmark.' '.$order->customer_address->locality.' <br/>
-			'.$order->customer_address->city->name.' '.$order->customer_address->state->state_name.' <br/>
+			'.@$order->customer_address->name.'  <br/>
+			'.@$order->customer_address->mobile.' <br/>
+			'.@$order->customer_address->house_no.' '.$order->customer_address->address.'<br/>
+			'.@$order->customer_address->landmark.' '.$order->customer_address->locality.' <br/>
+			'.@$order->customer_address->city->name.' '.$order->customer_address->state->state_name.' <br/>
 			<br/>
 			<b> GSTIN : </b>
 		</td>
@@ -122,7 +122,7 @@ $html='<div style="background-color:#fff; ">
 				<td>'.$order_detail->item->name.'</td>
 				<td>'.$order_detail->item->hsn_code.'</td>
 				<td>'.$order_detail->quantity.'</td>
-				<td>'.$order_detail->item_variation->unit->shortname.'</td>
+				<td>'.$order_detail->item_variation->quantity_variation.'</td>
 				<td>'.$rate.'</td>
 				<td>'.$taxbale_amount.'</td>
 				<td>'.$gstper.'</td>

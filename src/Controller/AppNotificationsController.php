@@ -128,7 +128,7 @@ class AppNotificationsController extends AppController
                             }
 					 
 						$id=$appNotification->id;
-						$this->Flash->success(__('The app notification saved.'));
+						//$this->Flash->success(__('The app notification saved.'));
 						$this->redirect(['action' => 'sendProgress/' . $id]);
 					
 					

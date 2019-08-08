@@ -264,7 +264,7 @@ class OrdersController extends AppController
 		
 		$this->viewBuilder()->layout('index_layout');
 		$order = $this->Orders->get($id, [
-			'contain' => ['Customers', 'CustomerAddresses'=>['States','Cities'], 'PromoCodes', 'OrderDetails'=>['Items'=>['GstFigures'],'ItemVariations'=>['Units']]]
+			'contain' => ['Customers', 'CustomerAddresses'=>['States','Cities'], 'PromoCodes', 'OrderDetails'=>['Items'=>['GstFigures'],'ItemVariations']]
 		]);
 		
 		$this->set(compact('order', 'id', 'print'));
@@ -1467,7 +1467,7 @@ class OrdersController extends AppController
 		$this->viewBuilder()->layout('index_layout');
 		$jain_thela_admin_id=$this->Auth->User('jain_thela_admin_id');
         $order = $this->Orders->newEntity();  
-        //pr($this->request->getData());exit;
+        //pr($this->request->getData());
         if ($this->request->is('post')) 
         {
 

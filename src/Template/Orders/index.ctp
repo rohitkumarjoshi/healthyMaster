@@ -209,6 +209,10 @@
 									<option value="Dispatch" >Dispatched</option>
 									<!-- <option value="Cancel">Cancel</option> -->
 						<?php }?>
+					<?php if($order->status=="Cancel")
+								{?>
+								<option value="Cancel" selected>Cancel</option>
+						<?php }?>
 							</select>
 							<?php if(($order->status!="Delivered")&&($order->status!="Cancel"))
 							{
