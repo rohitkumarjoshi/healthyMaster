@@ -264,7 +264,7 @@ class OrdersController extends AppController
 		
 		$this->viewBuilder()->layout('index_layout');
 		$order = $this->Orders->get($id, [
-			'contain' => ['Customers', 'CustomerAddresses'=>['States','Cities'], 'PromoCodes', 'OrderDetails'=>['Items'=>['GstFigures'],'ItemVariations'=>['Units']]]
+			'contain' => ['Customers', 'CustomerAddresses'=>['States','Cities'], 'PromoCodes', 'OrderDetails'=>['Items'=>['GstFigures'],'ItemVariations']]
 		]);
 		
 		$this->set(compact('order', 'id', 'print'));

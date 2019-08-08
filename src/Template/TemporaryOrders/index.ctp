@@ -53,12 +53,10 @@
                 <?php
                 foreach($temp->order_details as $order_detail ){ 
                     @$i++;
-                    $show_variation=$order_detail->item_variation->quantity_variation.' '.$order_detail->item_variation->unit->shortname;
+                    $show_variation=$order_detail->item_variation->quantity_variation;
                     $quantity=$order_detail->quantity;
                     $actual_quantity=$order_detail->actual_quantity;
                     $minimum_quantity_factor=$order_detail->item->minimum_quantity_factor;
-                    $unit_name=$order_detail->item_variation->unit->unit_name;
-                    $image=$order_detail->item->image;
                     $item_name=$order_detail->item->name;
                     $sales_rate=$order_detail->rate;
                     $alias_name=$order_detail->item->alias_name;
