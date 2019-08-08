@@ -12,7 +12,7 @@
                     <span class="caption-subject font-purple-intense ">TEMPORARY ORDERS
                     </span>
                     <?php
-                    echo $this->Html->link('Print',array(),['escape'=>false,'class'=>'btn  blue hidden-print fa fa-print','onclick'=>'javascript:window.print();','style'=>'margin-left : 800px;']);
+                    echo $this->Html->link('Print',array(),['escape'=>false,'class'=>'btn  blue hidden-print fa fa-print pull-right','onclick'=>'javascript:window.print();']);
     
                     ?>
                 </div>

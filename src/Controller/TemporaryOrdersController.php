@@ -31,8 +31,10 @@ class TemporaryOrdersController extends AppController
             //->select(['total'=>'count(OrderDetails.item_id)'])
             ->where(['Orders.id IN'=>$temporary_orders])
             ->contain(['CustomerAddresses','OrderDetails'=>['Items','ItemVariations'=>['Units']]]);
+
+        //pr($temps->toArray());exit;
+
         }
-        //pr($temporary_orders);exit;
 
         // $temporaryOrders = $this->paginate($this->TemporaryOrders);
         // $temps=$this->TemporaryOrders->find()->
