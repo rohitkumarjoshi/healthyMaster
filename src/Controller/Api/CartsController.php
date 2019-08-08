@@ -499,7 +499,7 @@ class CartsController extends AppController
 		}
 
 
-		$this->loadModel('JainCashPoints');
+		/* $this->loadModel('JainCashPoints');
 
 		$queryPoints = $this->JainCashPoints->find();
 		$totalInCase = $queryPoints->newExpr()
@@ -534,6 +534,34 @@ class CartsController extends AppController
 			}			
 		}
 		$remaningPoints = $totalPoints;
+		if($totalPoints > 0 && !empty($redeem_points) && $totalPoints >= $redeem_points && $grand_total >= $redeem_points)
+		{
+			$remaningPoints = $totalPoints - $redeem_points;
+			$grand_total = $grand_total - $redeem_points;
+			$isPointsRedeem = true;
+		}else
+		{
+			$isPointsRedeem = false;
+		} */
+		$this->loadModel('CustomerWallets');
+		$CustomerWallets=$this->CustomerWallets->find()->where(['CustomerWallets.customer_id'=>$customer_id]);
+		$CustomerWallets->select(['customer_id','addAmt' => $CustomerWallets->func()->sum('CustomerWallets.add_amount'),'dedutAmt' => $CustomerWallets->func()->sum('CustomerWallets.used_amount')])
+		->group('CustomerWallets.customer_id')
+		->toArray();
+		$CustomerWallts=$CustomerWallets->first();
+		$totalPoints = 0;
+		if(empty($CustomerWallts))
+		{ 
+		
+			$remaningPoints=0;
+			$isPointsRedeem = false;
+		}
+		else
+		{
+			$remaningPoints=$CustomerWallts->addAmt-$CustomerWallts->dedutAmt;
+			$isPointsRedeem = true;
+			$totalPoints = $remaningPoints;
+		}
 		if($totalPoints > 0 && !empty($redeem_points) && $totalPoints >= $redeem_points && $grand_total >= $redeem_points)
 		{
 			$remaningPoints = $totalPoints - $redeem_points;
@@ -780,7 +808,7 @@ class CartsController extends AppController
 		if(empty($customer_addresses->toArray())) { $customer_addresses = []; }	
 		$temp_order_no=uniqid();
 		
-		$this->loadModel('JainCashPoints');
+		/* $this->loadModel('JainCashPoints');
 
 		$queryPoints = $this->JainCashPoints->find();
 		$totalInCase = $queryPoints->newExpr()
@@ -824,7 +852,38 @@ class CartsController extends AppController
 		}		
 		else{
 			$isPointsRedeem = false;
+		} */
+		
+		$this->loadModel('CustomerWallets');
+		$CustomerWallets=$this->CustomerWallets->find()->where(['CustomerWallets.customer_id'=>$customer_id]);
+		$CustomerWallets->select(['customer_id','addAmt' => $CustomerWallets->func()->sum('CustomerWallets.add_amount'),'dedutAmt' => $CustomerWallets->func()->sum('CustomerWallets.used_amount')])
+		->group('CustomerWallets.customer_id')
+		->toArray();
+		$CustomerWallts=$CustomerWallets->first();
+		$totalPoints = 0;
+		if(empty($CustomerWallts))
+		{ 
+		
+			$remaningPoints=0;
+			$isPointsRedeem = false;
 		}
+		else
+		{
+			$remaningPoints=$CustomerWallts->addAmt-$CustomerWallts->dedutAmt;
+			$isPointsRedeem = true;
+			$totalPoints = $remaningPoints;
+		}
+		
+		if($totalPoints > 0 && !empty($redeem_points) && $totalPoints >= $redeem_points && $grand_total >= $redeem_points)
+		{
+			$remaningPoints = $totalPoints - $redeem_points;
+			$grand_total = $grand_total - $redeem_points;
+			$isPointsRedeem = true;
+		}else
+		{
+			$isPointsRedeem = false;
+		}
+		
 		if(empty($carts->toArray()))
 		{			
 			$status=false;

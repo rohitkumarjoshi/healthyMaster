@@ -732,7 +732,8 @@ curl_close($ch);
 					$order->customer_id=$customer_id;
 					$order->jain_thela_admin_id=$jain_thela_admin_id;
 					$order->customer_address_id=$customer_address_id;
-					$order->amount_from_jain_cash=$jain_cash_amount;
+					//$order->amount_from_jain_cash=$jain_cash_amount;
+					$order->amount_from_wallet=$jain_cash_amount;
 					$order->amount_from_promo_code=$discount_amount;
 					$order->total_amount=$total_amount;
 					$order->grand_total=$grand_total;
@@ -759,7 +760,7 @@ curl_close($ch);
 					
 					if($jain_cash_amount>0)
 					{
-						$this->loadModel('JainCashPoints');
+						/* $this->loadModel('JainCashPoints');
 						$queryj = $this->JainCashPoints->query();
 						$queryj->insert(['customer_id','is_refered','used_point','order_id'])
 								->values([
@@ -768,7 +769,21 @@ curl_close($ch);
 								'used_point' => $jain_cash_amount,
 								'order_id' =>$order->id
 								])
-						->execute();
+						->execute(); */
+							$this->loadModel('CustomerWallets');
+							$CustomerWallets=$this->CustomerWallets->newEntity();
+							$CustomerWallets->customer_id=$order->customer_id;
+							//$CustomerWallets->order_id='';
+							//$CustomerWallets->order_no='';
+							$CustomerWallets->add_amount=0;
+							$CustomerWallets->used_amount=$jain_cash_amount;
+							$CustomerWallets->transaction_date=date('Y-m-d');
+							$CustomerWallets->amount_type='Order';
+							$CustomerWallets->transaction_type='Deduct';
+							$CustomerWallets->appiled_from=$order_from;
+							$this->CustomerWallets->save($CustomerWallets);
+							
+						
 					}			
 					
 					///////////////////////DELETED CART/////////////////
