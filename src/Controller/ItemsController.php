@@ -19,6 +19,32 @@ class ItemsController extends AppController
      *
      * @return \Cake\Http\Response|null
      */
+	 
+ public function updatestock(){
+
+	$Items=$this->Items->find();
+	foreach($Items as $Item){
+		$item_id=$Item->id;
+		$rem=$this->currentStockForWeb($item_id);
+		if($rem<2000){
+			$updateStatus = $this->Items->query();
+			 $updateStatus->update()
+			->set(['freeze' =>1])
+			->where(['id' => $item_id])
+			->execute();
+		}else{
+			$updateStatus = $this->Items->query();
+			 $updateStatus->update()
+			->set(['freeze' =>0])
+			->where(['id' => $item_id])
+			->execute();
+			
+		}
+		
+	}
+	exit;
+ }	 
+	 
   public function check()
     {
         //$items='0';
