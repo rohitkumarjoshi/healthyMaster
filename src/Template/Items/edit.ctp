@@ -175,22 +175,26 @@ $(document).on('click','.deactive',function(){
 	var count=$('#main-tbody').children().length;
             if(count >= 2)
             {
-	var variation_id=$(this).attr('row_id');
-	var url="<?php echo $this->Url->build(["controller" => "ItemVariations", "action" => "deactive"]); ?>";
-			alert(url);
-			 			$.ajax({
-		                    url: url,
-		                    type: 'post',
-		                    data: {variation_id: variation_id},
-		                   success: function(response)
-		                	{ 
-		                		if(response == 1) 
-	                			alert("Variation Deleted Successfully");
-			                		 
-		                    }
-		              });
-			 		}
-});
+				var variation_id=$(this).attr('row_id');
+				var url="<?php echo $this->Url->build(["controller" => "ItemVariations", "action" => "deactive"]); ?>";
+						alert(url);
+						 			$.ajax({
+					                    url: url,
+					                    type: 'post',
+					                    data: {variation_id: variation_id},
+					                   success: function(response)
+					                	{ 
+					                		if(response == 1) 
+				                			alert("Variation Deleted Successfully");
+						                		 
+					                    }
+					              });
+						 		}
+			else
+			{
+				alert("Not Deleted");
+			}
+	});
 
 
  $(document).on('click','.save',function(){

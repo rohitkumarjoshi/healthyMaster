@@ -272,7 +272,7 @@ class ItemsController extends AppController
             $variations=$this->request->data('item_variations');
             //pr($variations);
             foreach ($variations as $var) {
-                $variation_id=$var['id'];
+                @$variation_id=$var['id'];
                 //pr($variation_id);
                     $ledger_variation=$this->Items->ItemLedgers->find()->where(['ItemLedgers.item_variation_id'=>$variation_id]);
                     foreach ($ledger_variation as $ledger) {
