@@ -18,6 +18,7 @@
 				<div class="caption">
 					<i class="font-purple-intense"></i>
 					<span class="caption-subject font-purple-intense ">ORDERS</span>
+
 				</div>
 				<div class="actions">
 					<?php //echo $this->Html->link('<i class="fa fa-plus"></i> Add new','/Orders/Add/Offline',['escape'=>false,'class'=>'btn btn-default']) ?>
@@ -30,6 +31,7 @@
 						$class2="btn btn-xs blue";
 					}
 					 ?> 
+					 <?php echo $this->Html->link('Reset','/Orders/Index',['escape'=>false,'class'=>'btn btn-primary btn-sm']) ?>&nbsp;
 						<!-- <?php echo $this->Html->link('Pending',['controller'=>'Orders','action' => 'index?status=process'],['escape'=>false,'class'=>$class1]); ?> -->
 						<!-- <?php echo $this->Html->link('All',['controller'=>'Orders','action' => 'index'],['escape'=>false,'class'=>$class2]); ?>&nbsp; -->
 				
@@ -45,7 +47,7 @@
 								<?php echo $this->Form->input('order_no', ['type'=>'text','label' => false,'class' => 'form-control input-sm','placeholder'=>'Order No','value'=> h(@$order_no) ]); ?>
 							</td>
 							<td width="2%">
-								<?php echo $this->Form->input('customer', ['empty'=>'--Customers--','options' => $Customer_data,'label' => false,'class' => 'form-control input-sm select2me','placeholder'=>'Category','value'=> h(@$customer_id) ]); ?>
+								<?php echo $this->Form->input('customer', ['empty'=>'--Customers--','options' => $Customer_data,'label' => false,'class' => 'form-control input-sm select2me','placeholder'=>'Category']); ?>
 							</td>
 							<!-- <?php if(@$cur_type){ ?>
 								<td width="2%">
@@ -182,31 +184,31 @@
 							<select name="status" class="form-control select2 input-sm option_status">
 								<?php if($order->status=="In Process")
 								{?>
-									<option value="In Process" selected>In Processed</option>
+									<option value="In Process" selected>In Process</option>
 									<option value="Packed">Packed</option>
-									<option value="Dispatch">Dispatched</option>
+									<option value="Dispatch">Dispatch</option>
 									<option value="Delivered">Delivered</option>
 									<!-- <option value="Cancel">Cancel</option> -->
 								<?php }if($order->status=="Packed")
 								{?>
 									<option value="Packed" selected>Packed</option>
-									<option value="In Process">In Processed</option>
-									<option value="Dispatch">Dispatched</option>
+									<option value="In Process">In Process</option>
+									<option value="Dispatch">Dispatch</option>
 									<option value="Delivered">Delivered</option>
 									<!-- <option value="Cancel">Cancel</option> -->
 								<?php }if($order->status=="Dispatch")
 								{?>
-									<option value="Dispatch" selected>Dispatched</option>
-									<option value="In Process">In Processed</option>
+									<option value="Dispatch" selected>Dispatch</option>
+									<option value="In Process">In Process</option>
 									<option value="Packed">Packed</option>
 									<option value="Delivered">Delivered</option>
 									<!-- <option value="Cancel">Cancel</option> -->
 								<?php }if($order->status=="Delivered")
 								{?>
 								<option value="Delivered" selected>Delivered</option>
-									<option value="In Process" >In Processed</option>
+									<option value="In Process" >In Process</option>
 									<option value="Packed" >Packed</option>
-									<option value="Dispatch" >Dispatched</option>
+									<option value="Dispatch" >Dispatch</option>
 									<!-- <option value="Cancel">Cancel</option> -->
 						<?php }?>
 					<?php if($order->status=="Cancel")

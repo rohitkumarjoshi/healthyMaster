@@ -493,6 +493,14 @@ class OrdersController extends AppController
 		'total_amount' => $query->func()->sum('Orders.grand_total')])
 		->where(['Orders.delivery_date >=' => $from_date, 'Orders.delivery_date <=' => $to_date,'Orders.order_type !=' =>'Bulkorder'])->first();
 		$this->set(compact('totalOrder'));
+
+		$query = $this->Orders->find();
+		$totalOrder1=$query
+		->select([
+		'count1' => $query->func()->count('id'),
+		'total_amount1' => $query->func()->sum('Orders.grand_total')])
+		->where(['Orders.order_type !=' =>'Bulkorder'])->first();
+		$this->set(compact('totalOrder1'));
 		
 		$query = $this->Orders->find();
 		$inProcessnextdayOrder=$query->select([
@@ -512,8 +520,45 @@ class OrdersController extends AppController
 		$inProcessOrder=$query->select([
 		'count' => $query->func()->count('id'),
 		'total_amount' => $query->func()->sum('Orders.grand_total')])
-		->where(['Orders.delivery_date >=' => $from_date, 'Orders.delivery_date <=' => $to_date, 'Orders.status' => 'In Process', 'Orders.order_type !=' =>'Bulkorder'])->first();
+		->where(['Orders.curent_date >=' => $from_date, 'Orders.curent_date <=' => $to_date, 'Orders.status' => 'In Process', 'Orders.order_type !=' =>'Bulkorder'])->first();
 		$this->set(compact('inProcessOrder'));
+
+		$query = $this->Orders->find();
+		$inProcessOrder1=$query->select([
+		'count' => $query->func()->count('id'),
+		'total_amount' => $query->func()->sum('Orders.grand_total')])
+		->where(['Orders.status' => 'In Process', 'Orders.order_type !=' =>'Bulkorder'])->first();
+		$this->set(compact('inProcessOrder1'));
+
+		$query = $this->Orders->find();
+		$PackedOrder=$query->select([
+		'count' => $query->func()->count('id'),
+		'total_amount' => $query->func()->sum('Orders.grand_total')])
+		->where(['Orders.curent_date >=' => $from_date, 'Orders.curent_date <=' => $to_date, 'Orders.status' => 'Packed', 'Orders.order_type !=' =>'Bulkorder'])->first();
+		$this->set(compact('PackedOrder'));
+
+		$query = $this->Orders->find();
+		$PackedOrder1=$query->select([
+		'count' => $query->func()->count('id'),
+		'total_amount' => $query->func()->sum('Orders.grand_total')])
+		->where(['Orders.status' => 'Packed', 'Orders.order_type !=' =>'Bulkorder'])->first();
+		$this->set(compact('PackedOrder1'));
+
+		$query = $this->Orders->find();
+		$DispatchOrder=$query->select([
+		'count' => $query->func()->count('id'),
+		'total_amount' => $query->func()->sum('Orders.grand_total')])
+		->where(['Orders.curent_date >=' => $from_date, 'Orders.curent_date <=' => $to_date, 'Orders.status' => 'Dispatch', 'Orders.order_type !=' =>'Bulkorder'])->first();
+		$this->set(compact('DispatchOrder'));
+
+		$query = $this->Orders->find();
+		$DispatchOrder1=$query->select([
+		'count' => $query->func()->count('id'),
+		'total_amount' => $query->func()->sum('Orders.grand_total')])
+		->where(['Orders.status' => 'Dispatch', 'Orders.order_type !=' =>'Bulkorder'])->first();
+		$this->set(compact('DispatchOrder1'));
+
+
 		
 		
 		$query = $this->Orders->find();
@@ -522,14 +567,28 @@ class OrdersController extends AppController
 		'total_amount' => $query->func()->sum('Orders.grand_total')])
 		->where(['Orders.delivery_date >=' => $from_date, 'Orders.delivery_date <=' => $to_date, 'Orders.status' => 'Delivered', 'Orders.order_type !=' =>'Bulkorder'])->first();
 		$this->set(compact('deliveredOrder'));
+
+		$query = $this->Orders->find();
+		$deliveredOrder1=$query->select([
+		'count' => $query->func()->count('id'),
+		'total_amount' => $query->func()->sum('Orders.grand_total')])
+		->where(['Orders.status' => 'Delivered', 'Orders.order_type !=' =>'Bulkorder'])->first();
+		$this->set(compact('deliveredOrder1'));
 		
 		
 		$query = $this->Orders->find();
 		$cancelOrder=$query->select([
 		'count' => $query->func()->count('id'),
 		'total_amount' => $query->func()->sum('Orders.grand_total')])
-		->where(['Orders.delivery_date >=' => $from_date, 'Orders.delivery_date <=' => $to_date, 'Orders.status' => 'Cancel','Orders.order_type !=' =>'Bulkorder'])->first();
+		->where(['Orders.cancel_date >=' => $from_date, 'Orders.cancel_date <=' => $to_date, 'Orders.status' => 'Cancel','Orders.order_type !=' =>'Bulkorder'])->first();
 		$this->set(compact('cancelOrder'));
+
+		$query = $this->Orders->find();
+		$cancelOrder1=$query->select([
+		'count' => $query->func()->count('id'),
+		'total_amount' => $query->func()->sum('Orders.grand_total')])
+		->where(['Orders.status' => 'Cancel','Orders.order_type !=' =>'Bulkorder'])->first();
+		$this->set(compact('cancelOrder1'));
 		
 		$query = $this->Orders->find();
 		$totalBulkOrder=$query->select([
@@ -684,6 +743,7 @@ class OrdersController extends AppController
 				
 		        //pr($packed);exit;
 		        $packed->status="Delivered";
+		        $packed->delivery_date=date('Y-m-d');
 		        $order_id=$packed->id;
 		        if($this->Orders->save($packed))
 		        {
@@ -796,8 +856,8 @@ class OrdersController extends AppController
 		if(!empty($order_no)){
 			$orders =$this->paginate($this->Orders->find()->where(['Orders.order_no Like'=>'%'.$order_no.'%'])->order(['Orders.id'=>'DESC'])->contain(['CustomerAddresses','Customers']));
 		}
-		if(!empty($mobile)){
-			$orders =$this->paginate($this->Orders->find()->where(['Customers.mobile'=>$mobile])->order(['Orders.id'=>'DESC'])->contain(['CustomerAddresses','Customers']));
+		if(!empty($customer_id)){
+			$orders =$this->paginate($this->Orders->find()->where(['Orders.customer_id'=>$customer_id])->order(['Orders.id'=>'DESC'])->contain(['CustomerAddresses','Customers']));
 			
 		}
 		if(!empty($order_types)){

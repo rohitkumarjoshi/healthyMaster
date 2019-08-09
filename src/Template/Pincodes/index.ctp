@@ -14,7 +14,7 @@
                 </div>
             </div>
             <div class="portlet-body">
-                <table  class="table table-striped table-bordered table-hover dataTable no-footer" id="sample_1">
+                <table class="table table-condensed table-hover table-bordered" id="main_tble">
                     <thead>
                         <tr>
                             <th>Sr</th>
@@ -28,7 +28,7 @@
                             <th scope="col" class="actions"><?= __('Actions') ?></th>
                         </tr>
                     </thead>
-                    <tbody id="main_tbody">
+                    <tbody>
                         <?php $i=0;
                         foreach ($pincodes as $pincode): 
                         $i++;
@@ -83,6 +83,16 @@
                         <?php endforeach; ?>
                     </tbody>
                 </table>
+                <div class="paginator">
+                    <ul class="pagination">
+                        <?= $this->Paginator->first('<< ' . __('first')) ?>
+                        <?= $this->Paginator->prev('< ' . __('previous')) ?>
+                        <?= $this->Paginator->numbers() ?>
+                        <?= $this->Paginator->next(__('next') . ' >') ?>
+                        <?= $this->Paginator->last(__('last') . ' >>') ?>
+                    </ul>
+                    <p><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></p>
+                </div>
             </div>
         </div>
     </div>

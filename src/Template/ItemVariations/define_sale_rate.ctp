@@ -77,7 +77,7 @@
 								<?= h(@$item_name) ?></td>
                             
 							<td style="font-size:10px;">
-								 <b style="font-size:12px;"><?= $item_variation->quantity_variation." ".h($item_variation->unit->shortname) ?></b>
+								 <b style="font-size:12px;"><?= $item_variation->quantity_variation?></b>
 							</td>
 							<td>
 								<?php echo  $this->Form->control('itemVariations['.$i.'][print_rate]',['class'=>'form-control input-sm  print_rate','placeholder'=>'Print Rate', 'value'=>$item_variation->print_rate,'label'=>false,'oninput'=>"this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"]); ?></td>
