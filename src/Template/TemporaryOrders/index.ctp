@@ -11,10 +11,8 @@
                     <i class="font-purple-intense"></i>
                     <span class="caption-subject font-purple-intense ">TEMPORARY ORDERS
                     </span>
-                    <?php
-                    echo $this->Html->link('Print',array(),['escape'=>false,'class'=>'btn  blue hidden-print fa fa-print pull-right','onclick'=>'javascript:window.print();']);
-    
-                    ?>
+                    
+                    <button onClick="window.print()" class="btn  blue hidden-print fa fa-print pull-right" style="margin-left: 900px;">Print</button>
                 </div>
                
             </div>
@@ -36,6 +34,7 @@
                                     echo $cnt->total;
                                 }
                             ?></span> -->
+
                         </b>
                     </td>
                 </tr>
@@ -43,14 +42,15 @@
             <table width="100%" border="1">
                 <thead>
                 <tr >
-                    <th style="text-align:left;">#</th>
-                    <th style="text-align:left;">Item Name</th>
-                    <th style="text-align:left;">Variation</th>
-                    <th style="text-align:left;">QTY</th>
+                    <th style="text-align:left;padding: 3px;">#</th>
+                    <th style="text-align:left; padding: 3px;">Item Name</th>
+                    <th style="text-align:left;padding: 3px;">Variation</th>
+                    <th style="text-align:left;padding: 3px;">QTY</th>
                 </tr>
                 </thead>
                 
                 <?php
+                $n=0;
                 foreach($temp->order_details as $order_detail ){ 
                     @$i++;
                     $show_variation=$order_detail->item_variation->quantity_variation;
@@ -75,10 +75,10 @@
                         $show_item=$item_name;
                     } ?>
                 <tr style="background-color:#fff;">
-                    <td style="padding: :4px;"><?= $i ?></td>
-                    <td style="padding: :4px;"><?= h($show_item) ?></td>
-                    <td style="padding: :4px;"><?= h($show_variation) ?></td>
-                    <td style="padding: :4px;"><?= h($show_quantity) ?></td>
+                    <td style="padding: :3px !important;"><?= $i ?></td>
+                    <td style="padding: :3px !important;"><?= h($show_item) ?></td>
+                    <td style="padding: :3px !important;"><?= h($show_variation) ?></td>
+                    <td style="padding: :3px !important;"><?= h($show_quantity) ?></td>
                 </tr>
                 <?php } ?>
                 </tbody>

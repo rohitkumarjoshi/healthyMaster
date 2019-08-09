@@ -162,7 +162,7 @@ add_row();
       });
        $(document).on('click','#minus',function(){
            var count=$('#main-tbody').children().length;
-            if(count >= 2)
+            if(count > 2)
             {
               $(this).parent().parent().remove();
               rename_row();

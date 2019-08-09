@@ -57,7 +57,7 @@
 						<div class="col-md-12">
 							<div class="col-md-4">
 								<h3 style="color:#000; font-size:15px; font-family:georgia">
-								<label><input type="checkbox" class="checkAll" name="" value="" id="checkAll"> Check All</label>
+								<label> <input type="checkbox" id="ckbCheckAll" > Check All</label>
 								</h3>
 							</div>
 						</div>
@@ -78,8 +78,8 @@
 						?>
 						<tr <?php if(($status=='In Process') || ($status=='In process')){ ?>style="background-color:#ffe4e4; "<?php } ?> >
 							<td>
-								<input class="checkbox" id="check" type="checkbox" name="temporary_orders[]" value="<?= $order->id ?>">
-								</td>
+								<input class="checkbox" class="checkBoxClass" type="checkbox" name="temporary_orders[]" value="<?= $order->id ?>">
+							</td>
 							<td>
 
 							<?php $sr_no++;
@@ -155,63 +155,20 @@ var $rows = $('#main_tble tbody tr');
 
 <script>
 $(document).ready(function() {
-	
-	var form3 = $('#content');
-	var error3 = $('.alert-danger', form3);
-	var success3 = $('.alert-success', form3);
-	form3.validate({
-		
-		errorElement: 'span', //default input error message container
-		errorClass: 'help-block help-block-error', // default input error message class
-		focusInvalid: true, // do not focus the last invalid input
-		rules: {
-				
-			},
+	/*
+	 $("#ckbCheckAll").click(function () {
+	 	alert();
+            $(".checkbox").closest('span').addClass('checked');
+        });*/
 
-		errorPlacement: function (error, element) { // render error placement for each input type
-			if (element.parent(".input-group").size() > 0) {
-				error.insertAfter(element.parent(".input-group"));
-			} else if (element.attr("data-error-container")) { 
-				error.appendTo(element.attr("data-error-container"));
-			} else if (element.parents('.radio-list').size() > 0) { 
-				error.appendTo(element.parents('.radio-list').attr("data-error-container"));
-			} else if (element.parents('.radio-inline').size() > 0) { 
-				error.appendTo(element.parents('.radio-inline').attr("data-error-container"));
-			} else if (element.parents('.checkbox-list').size() > 0) {
-				error.appendTo(element.parents('.checkbox-list').attr("data-error-container"));
-			} else if (element.parents('.checkbox-inline').size() > 0) { 
-				error.appendTo(element.parents('.checkbox-inline').attr("data-error-container"));
-			} else {
-				error.insertAfter(element); // for other inputs, just perform default behavior
-			}
-		},
-
-		invalidHandler: function (event, validator) { //display error alert on form submit   
-			success3.hide();
-			error3.show();
-		},
-
-		highlight: function (element) { // hightlight error inputs
-		   $(element)
-				.closest('.form-group').addClass('has-error'); // set error class to the control group
-		},
-
-		unhighlight: function (element) { // revert the change done by hightlight
-			$(element)
-				.closest('.form-group').removeClass('has-error'); // set error class to the control group
-		},
-
-		success: function (label) {
-			label
-				.closest('.form-group').removeClass('has-error'); // set success class to the control group
-		},
-
-		submitHandler: function (form) {
-			success3.show();
-			error3.hide();
-			form[0].submit(); // submit the form
-		}
-
+	 $('#ckbCheckAll').click(function(event) {
+	   if(this.checked) {
+	      $(".checkbox").closest('span').addClass('checked');
+	      $(".checkbox").attr('checked','checked');
+	   } else {
+	       $(".checkbox").closest('span').removeClass('checked');
+	       $(".checkbox").removeAttr('checked','checked');
+	   }
 	});
 	////
 	$('.actual_quantity').die().live('keyup',function() {
@@ -388,20 +345,17 @@ $(document).ready(function() {
 	////
 
 });
-</script>
+</script><!-- 
 <script type="text/javascript">
-        $('.checkAll').on('change', function() { 
-        //alert();  
-                $('.checkbox').prop('checked', $(this).prop("checked"));              
-        });
-        $('.checkbox').change(function(){ //".checkbox" change 
-            if($('.checkbox:checked').length == $('.checkbox').length){
-                   $('.checked_all').prop('checked',true);
-            }else{
-                   $('.checked_all').prop('checked',false);
-            }
-        });
-</script>
+       $("#checkAll").change(function(){
+
+  if (! $('input:checkbox').is('checked')) {
+      $('input:checkbox').attr('checked','checked');
+  } else {
+      $('input:checkbox').removeAttr('checked');
+  }       
+});
+</script> -->
 <div  class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel3" aria-hidden="false" style="display: none;border:0px;" id="popup">
 <div class="modal-backdrop fade in" ></div>
 	<div class="modal-dialog modal-lg">

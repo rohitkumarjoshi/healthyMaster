@@ -55,7 +55,7 @@ background-color: #fff;}
 					<div class="col-md-2">
 						<label>Payment Mode<span>*</span></label>
 						<select name="order_type" class="form-control select2me input-sm" required="required">
-							<option>--Select--</option>
+							<option value="">--Select--</option>
 							<option value="COD">COD</option>
 							<option value="Online">Paytm</option>
 							<option value="Online">Google Pay</option>
