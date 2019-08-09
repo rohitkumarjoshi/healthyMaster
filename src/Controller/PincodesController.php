@@ -81,7 +81,7 @@ class PincodesController extends AppController
         }
         //pr($pincodes->toArray());exit;
 
-        $this->set(compact('pincodes','pin'));
+        $this->set(compact('pincodes','pin','pincode'));
     }
 
     /**

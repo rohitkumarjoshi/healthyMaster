@@ -19,7 +19,7 @@
                         <tbody>
                             <tr>
                                 <td width="4%">
-                                    <?php echo $this->Form->input('pincode', ['label' => false,'class' => 'form-control input-sm pincode','placeholder'=>'Pincode','type'=>'text' ]); ?>
+                                    <?php echo $this->Form->input('pincode', ['label' => false,'class' => 'form-control input-sm pincode','placeholder'=>'Pincode','type'=>'text','value'=>@$pincode]); ?>
                                 </td>
                                 <td width="10%">
                                     <button type="submit" class="btn btn-success btn-sm"><i class="fa fa-filter"></i> Filter</button>

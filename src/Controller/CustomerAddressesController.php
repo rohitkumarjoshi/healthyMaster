@@ -29,14 +29,12 @@ class CustomerAddressesController extends AppController
                         exit;
                     }
     public function defaultcheck1($customer_id){
-        $query = $this->CustomerAddresses->query();
-                $query->update()
-                        ->set(['default_address' => 1,'others'=>NULL])
-                        ->where(['customer_id'=>$customer_id,'others'=>'Yes'])
-                        ->execute();
-                        echo $query;
-                        exit;
-                    }
+
+        $customers=$this->CustomerAddresses->find()->where(['CustomerAddresses.customer_id'=>$customer_id]);
+        foreach ($customers as $customer) {
+            if($customer->)
+        }
+    }
     public function index($customer_id=null, $id=null)
     {
 		$this->viewBuilder()->layout('index_layout'); 
