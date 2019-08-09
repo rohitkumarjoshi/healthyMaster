@@ -1083,7 +1083,7 @@ curl_close($ch);
 		//$jain_thela_admin_id=$this->request->query('jain_thela_admin_id');
 		$mainid=$this->request->query('order_detail_id');
 		$order_id=$this->request->query('order_id');
-		$customer_id=$this->request->query('customer_id');    			
+		$customer_id=$this->request->query('customer_id');
         $detail_amount=$this->Orders->OrderDetails->find()->where(['id' => $mainid])->first();
 		$amount=$detail_amount->amount;			
 		$query = $this->Orders->OrderDetails->query();
