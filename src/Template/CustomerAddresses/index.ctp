@@ -292,7 +292,7 @@ $("#search3").on("keyup",function() {
 	$('input[name="default_address"]').on('click',function()
 	{
 		var default_address=$(this).val();
-		alert(default_address);
+		//alert(default_address);
 		if(default_address == "1")
 		{
 			var customer_id=$('#customer_id').val();
@@ -306,19 +306,19 @@ $("#search3").on("keyup",function() {
 							//alert(response);
 						});
 		}
-		if(default_address == "0")
-		{
-			var customer_id=$('#customer_id').val();
-			var url="<?php echo $this->Url->build(['controller'=>'CustomerAddresses','action'=>'defaultcheck1']); ?>";
-						url=url+'/'+customer_id,
+		// if(default_address == "0")
+		// {
+		// 	var customer_id=$('#customer_id').val();
+		// 	var url="<?php echo $this->Url->build(['controller'=>'CustomerAddresses','action'=>'defaultcheck1']); ?>";
+		// 				url=url+'/'+customer_id,
 
-			//alert(url);	
-						$.ajax({
-							url: url,
-						}).done(function(response) { 
-							//alert(response);
-						});
-		}
+		// 	//alert(url);	
+		// 				$.ajax({
+		// 					url: url,
+		// 				}).done(function(response) { 
+		// 					//alert(response);
+		// 				});
+		// }
 	});
 
 	
