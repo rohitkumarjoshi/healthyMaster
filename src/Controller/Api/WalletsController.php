@@ -27,7 +27,7 @@ class WalletsController extends AppController
 		}
 		else
 		{
-			$wallet_balance=$CustomerWallts->addAmt-$CustomerWallts->used_amount;
+			$wallet_balance=$CustomerWallts->addAmt-$CustomerWallts->dedutAmt;
 		}
 		
 		/* $orderDatas->select(['customer_id','amount','total' => $q->func()->sum('OrderDetails.amount')])->where(['OrderDetails.status IS NULL'])->group('OrderDetails.order_id');

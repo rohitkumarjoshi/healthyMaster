@@ -9906,7 +9906,7 @@ Red Intense
 
 /* Statistic Block */
 .dashboard-stat.red-intense {
-  background-color: #e35b5a;
+  /*background-color: #e35b5a;*/
 }
 .dashboard-stat.red-intense.dashboard-stat-light:hover {
   background-color: #e04a49;

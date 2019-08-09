@@ -39,9 +39,9 @@
                                     echo"Product Description";
                                 }
                             ?></td>
-                            <td><?= $notification->app_notification->message?></td>
+                            <td><?= @$notification->app_notification->message?></td>
                             <td>Admin</td>
-                            <td><?= $notification->count?></td>
+                            <td><?= @$notification->count?></td>
 
                         </tr>
                         <?php endforeach;  ?>

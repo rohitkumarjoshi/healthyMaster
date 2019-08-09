@@ -26,11 +26,18 @@ class TemporaryOrdersController extends AppController
 
         if ($this->request->is(['post', 'put'])) {
             $temporary_orders=$this->request->getData('temporary_orders');
+            if(empty($temporary_orders))
+            {
+                return $this->redirect(['controller'=>'Orders','action' => 'order_list?status=process']);
+            }
+            else
+            {
             
             $temps=$this->TemporaryOrders->Orders->find()
-            //->select(['total'=>'count(OrderDetails.item_id)'])
+            //->select(['total'=>'count(OrderDetails.id)'])
             ->where(['Orders.id IN'=>$temporary_orders])
             ->contain(['CustomerAddresses','OrderDetails'=>['Items','ItemVariations'=>['Units']]]);
+            }
 
         //pr($temps->toArray());exit;
 

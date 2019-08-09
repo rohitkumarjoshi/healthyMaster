@@ -38,7 +38,7 @@
 						
 					</div>
 					<div class="col-md-8" style="margin-top: 10px;">
-						<label class=" control-label">Image<span class="required" aria-required="true"></span></label>
+						<label class=" control-label">Image</label>
 						 <!-- <?= $this->Form->input('image',['class'=>'form-control','type'=>'file','value'=>$itemCategory1->image]) ?> -->
 						 <input type="file" name="image" class="form-control input-sm" value="<?=$itemCategory1->image?>">
 					</div>
@@ -83,17 +83,19 @@
 						    	<?=	$this->Html->image('/img/itemcategories/'.$itemCategory->image, ['style'=>'width:50px; height:50px;']); ?>
 								</td>
 								<td class="actions">
-								<?php echo $this->Html->link('<i class="fa fa-pencil"></i>',['action' => 'index', $itemCategory->id],['escape'=>false,'class'=>'btn btn-xs blue']); ?>
-								<?php 
-									if($itemCategory->is_deleted == 0)
-									{ ?>
-									<?= $this->Form->postLink(__('Deactive'), ['action' => 'delete', $itemCategory->id], ['confirm' => __('Are you sure you want to Deactive # {0}?', $itemCategory->name),'class'=>'btn btn-xs green']) ?> 
-									<?php }
-									if($itemCategory->is_deleted == 1)
-									{ ?>
-										<?= $this->Form->postLink(__('Active'), ['action' => 'delete1', $itemCategory->id], ['confirm' => __('Are you sure you want to Active # {0}?', $itemCategory->name),'class'=>'btn btn-xs green']) ?>
-									<?php }
-								?>
+								<?php if($itemCategory->parent_id!=null){?>
+									<?php echo $this->Html->link('<i class="fa fa-pencil"></i>',['action' => 'index', $itemCategory->id],['escape'=>false,'class'=>'btn btn-xs blue']); ?>
+									<?php 
+										if($itemCategory->is_deleted == 0)
+										{ ?>
+										<?= $this->Form->postLink(__('Deactive'), ['action' => 'delete', $itemCategory->id], ['confirm' => __('Are you sure you want to Deactive # {0}?', $itemCategory->name),'class'=>'btn btn-xs green']) ?> 
+										<?php }
+										if($itemCategory->is_deleted == 1)
+										{ ?>
+											<?= $this->Form->postLink(__('Active'), ['action' => 'delete1', $itemCategory->id], ['confirm' => __('Are you sure you want to Active # {0}?', $itemCategory->name),'class'=>'btn btn-xs green']) ?>
+										<?php }
+									?>
+								<?php } ?>
 								</td>
 							</tr>
 							<?php endforeach; ?>
@@ -118,9 +120,9 @@ $(document).ready(function() {
 		errorClass: 'help-block help-block-error', // default input error message class
 		focusInvalid: true, // do not focus the last invalid input
 		rules: {
-				image:{
-					required: true,					 
-				},
+				// image:{
+				// 	required: true,					 
+				// },
 				parent_id:{
 					required: true,
 				}

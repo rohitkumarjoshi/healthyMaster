@@ -66,6 +66,16 @@
 												<td><?php if($inProcessOrder->total_amount) { echo '<i class="fa fa-rupee"> </i>' .' '.  $inProcessOrder->total_amount; } else { echo  '0';}?></td>
 											</tr>
 											<tr>
+												<td><b>Packed</b></td>
+												<td><?php echo $PackedOrder->count;?></td>
+												<td><?php if($PackedOrder->total_amount) { echo '<i class="fa fa-rupee"> </i>' .' '.  $PackedOrder->total_amount; } else { echo  '0';}?></td>
+											</tr>
+											<tr>
+												<td><b>Dispatch</b></td>
+												<td><?php echo $DispatchOrder->count;?></td>
+												<td><?php if($DispatchOrder->total_amount) { echo '<i class="fa fa-rupee"> </i>' .' '.  $DispatchOrder->total_amount; } else { echo  '0';}?></td>
+											</tr>
+											<tr>
 												<td><b>Delivered</b></td>
 												<td><?php echo $deliveredOrder->count; ?></td>
 												<td><?php if($deliveredOrder->total_amount) { echo '<i class="fa fa-rupee"> </i>' .' '.  $deliveredOrder->total_amount; } else { echo  '0';}?></td>
@@ -81,6 +91,62 @@
 												<td><b>Total</b></td>
 												<td><?php echo $totalOrder->count;?></td>
 												<td><?php if($totalOrder->total_amount) { echo '<i class="fa fa-rupee"> </i>' .' '.  $totalOrder->total_amount; } else { echo  '0';}?></td>
+											</tr>
+											</tfoot>
+									</table>	
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+						<div class="dashboard-stat blue-madison">
+							<div class="caption">
+								<i class="icon-bar-chart font-green-sharp hide"></i>
+								<?php echo $this->Html->link('<i class="m-icon-swapright m-icon-white"></i><b> OverAll Order</b>','/Orders/dashboard',array('escape'=>false,'class'=>'more')); ?>
+							</div>
+							
+							<div class="portlet-body">
+								<div class="desc" >
+									<table class="table table-condensed" style="color:white;">
+											<thead>
+											<tr>
+												<th></th>
+												<td>Order</td>
+												<td>Amount</td>
+											</tr>										
+											</thead>
+											<tbody>
+											<tr>
+												<td><b>In Process</b></td>
+												<td><?php echo $inProcessOrder1->count;?></td>
+												<td><?php if($inProcessOrder1->total_amount) { echo '<i class="fa fa-rupee"> </i>' .' '.  $inProcessOrder1->total_amount; } else { echo  '0';}?></td>
+											</tr>
+											<tr>
+												<td><b>Packed</b></td>
+												<td><?php echo $PackedOrder1->count;?></td>
+												<td><?php if($PackedOrder1->total_amount) { echo '<i class="fa fa-rupee"> </i>' .' '.  $PackedOrder1->total_amount; } else { echo  '0';}?></td>
+											</tr>
+											<tr>
+												<td><b>Dispatch</b></td>
+												<td><?php echo $DispatchOrder1->count;?></td>
+												<td><?php if($DispatchOrder1->total_amount) { echo '<i class="fa fa-rupee"> </i>' .' '.  $DispatchOrder1->total_amount; } else { echo  '0';}?></td>
+											</tr>
+											<tr>
+												<td><b>Delivered</b></td>
+												<td><?php echo $deliveredOrder1->count; ?></td>
+												<td><?php if($deliveredOrder1->total_amount) { echo '<i class="fa fa-rupee"> </i>' .' '.  $deliveredOrder1->total_amount; } else { echo  '0';}?></td>
+											</tr>
+											<tr>
+												<td><b>Cancel</b></td>
+												<td><?php echo $cancelOrder1->count;?></td>
+												<td><?php if($cancelOrder1->total_amount) { echo '<i class="fa fa-rupee"> </i>' .' '.  $cancelOrder1->total_amount; } else { echo  '0';}?></td>
+											</tr>
+											</tbody>
+											<tfoot>
+											<tr>
+												<td><b>Total</b></td>
+												<td><?php echo $totalOrder1->count1;?></td>
+												<td><?php if($totalOrder1->total_amount1) { echo '<i class="fa fa-rupee"> </i>' .' '.  $totalOrder1->total_amount1; } else { echo  '0';}?></td>
 											</tr>
 											</tfoot>
 									</table>	

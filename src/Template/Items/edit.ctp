@@ -99,6 +99,10 @@
 									    $print_rate=0;
 									else
 									    $print_rate=$variation->print_rate;
+									if($variation->opening_stock == null)
+									    $opening_stock=0;
+									else
+									    $opening_stock=$variation->opening_stock;
 									?>
                                   	<tr>
                                   		<input type="hidden" name="item_variations[<?= $i ?>][id]" value="<?= $variation_id ?>" id="variation_id">
@@ -120,7 +124,7 @@
 					                    	<?php echo $this->Form->control('item_variations.0.sales_rate',['class'=>'form-control sales_rate','placeholder'=>'Sales Rate','label'=>false,'value'=>$variation->sales_rate,'oninput'=>"this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');",'maxlength'=>10,'type'=>'text','required']); ?>
 					                    </td>
 					                    <td style="vertical-align: bottom;"> 
-					                    	<?php echo $this->Form->control('item_variations.0.opening_stock',['class'=>'form-control opening_stock','placeholder'=>'Opening Stock','label'=>false,'value'=>@$variation->opening_stock,'oninput'=>"this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');",'maxlength'=>10,'type'=>'text']); ?>
+					                    	<?php echo $this->Form->control('item_variations.0.opening_stock',['class'=>'form-control opening_stock','placeholder'=>'Opening Stock','label'=>false,'value'=>@$opening_stock,'oninput'=>"this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');",'maxlength'=>10,'type'=>'text']); ?>
 					                    </td>
 					                    
 					                    <td style="vertical-align: bottom;"> <button type="button" id="plus" class="btn btn-sm green"><i class="fa fa-plus"></i></button>
@@ -148,17 +152,17 @@
                     <?php echo $this->Form->control('item_variations.0.unit_id', ['empty'=>'--select--','options' => @$UnitVariations,'class'=>'form-control unit_variation_id','label'=>false,'required']); ?>
                    </td>
 				   
-                    <td style="vertical-align: bottom;"> <?php echo $this->Form->control('item_variations.0.minimum_quantity_purchase',['class'=>'form-control minimum_quantity_purchase  order_limit','placeholder'=>'Maximum Order Limit', 'label'=>false,'oninput'=>"this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');",'maxlength'=>10,'type'=>'text','required']); ?></td>
+                    <td style="vertical-align: bottom;"> <?php echo $this->Form->control('item_variations.0.minimum_quantity_purchase',['class'=>'form-control minimum_quantity_purchase  order_limit','placeholder'=>'Maximum Order Limit', 'label'=>false,'oninput'=>"this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');",'maxlength'=>10,'type'=>'text','required','value'=>0]); ?></td>
 					
                      <td style="vertical-align: bottom;"> 
-                    	<?php echo $this->Form->control('item_variations.0.print_rate',['class'=>'form-control print_rate','placeholder'=>'Print Rate','label'=>false,'oninput'=>"this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');",'maxlength'=>10,'type'=>'text']); ?>
+                    	<?php echo $this->Form->control('item_variations.0.print_rate',['class'=>'form-control print_rate','placeholder'=>'Print Rate','label'=>false,'oninput'=>"this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');",'maxlength'=>10,'type'=>'text','value'=>0]); ?>
                     </td>
 					
                     <td style="vertical-align: bottom;"> 
-                    	<?php echo $this->Form->control('item_variations.0.sales_rate',['class'=>'form-control sales_rate','placeholder'=>'Sales Rate','label'=>false,'oninput'=>"this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');",'maxlength'=>10,'type'=>'text','required']); ?>
+                    	<?php echo $this->Form->control('item_variations.0.sales_rate',['class'=>'form-control sales_rate','placeholder'=>'Sales Rate','label'=>false,'oninput'=>"this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');",'maxlength'=>10,'type'=>'text','required','value'=>0]); ?>
                     </td>
                     <td style="vertical-align: bottom;"> 
-                    	<?php echo $this->Form->control('item_variations.0.opening_stock',['class'=>'form-control opening_stock','placeholder'=>'Opening Stock','label'=>false,'oninput'=>"this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');",'maxlength'=>10,'type'=>'text']); ?>
+                    	<?php echo $this->Form->control('item_variations.0.opening_stock',['class'=>'form-control opening_stock','placeholder'=>'Opening Stock','label'=>false,'oninput'=>"this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');",'maxlength'=>10,'type'=>'text','value'=>0]); ?>
                     </td>
                     <td style="vertical-align: bottom;"> <button type="button" id="plus" class="btn btn-sm green"><i class="fa fa-plus"></i></button>
                       <button type="button" id="minus" class="btn btn-sm red"><i class="fa fa-minus"></i></button>
@@ -173,11 +177,12 @@ $(document).ready(function() {
 
 $(document).on('click','.deactive',function(){
 	var count=$('#main-tbody').children().length;
+	var ww=$(this);
             if(count >= 2)
             {
 				var variation_id=$(this).attr('row_id');
 				var url="<?php echo $this->Url->build(["controller" => "ItemVariations", "action" => "deactive"]); ?>";
-						alert(url);
+						//alert(url);
 						 			$.ajax({
 					                    url: url,
 					                    type: 'post',
@@ -185,9 +190,13 @@ $(document).on('click','.deactive',function(){
 					                   success: function(response)
 					                	{ 
 					                		if(response == 1) 
-				                			alert("Variation Deleted Successfully");
-						                		 
-					                    }
+					                		{
+					                			alert("Deleted Successfully")
+					                			 ww.parent().parent().remove();
+                                    			rename_row(); 
+				                			}
+				                			
+				                		}
 					              });
 						 		}
 			else

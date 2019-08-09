@@ -53,9 +53,9 @@ background-color: #fff;}
 					
 
 					<div class="col-md-2">
-						<label>Payment Mode</label>
-						<select name="order_type" class="form-control select2me input-sm" required="">
-							<option>--Select--</option>
+						<label>Payment Mode<span>*</span></label>
+						<select name="order_type" class="form-control select2me input-sm" required="required">
+							<option value="">--Select--</option>
 							<option value="COD">COD</option>
 							<option value="Online">Paytm</option>
 							<option value="Online">Google Pay</option>
@@ -195,17 +195,16 @@ background-color: #fff;}
 								<tr>
 									<td colspan="5" style="text-align:right;">Grand Total</td>
 									<td><?php echo $this->Form->input('grand_total', ['label' => false,'class' => 'form-control input-sm number ','placeholder'=>'Total Amount','type'=>'text','readonly']); ?>
+									<?php echo $this->Form->control('amount_from_wallet',['placeholder'=>'Amount From Wallet','class'=>'number form-control input-sm cal_amount amount_from_wallet','label'=>false,'type'=>'hidden','value'=>0]); ?>
 									</td>
 								</tr>
-								<tr>
+								<!-- <tr>
 									<td colspan="5" style="text-align:right;">
 									Amount From Wallet
 									</td>
-									<td>
-									<?php echo $this->Form->control('amount_from_wallet',['placeholder'=>'Amount From Wallet','class'=>'number form-control input-sm cal_amount amount_from_wallet','label'=>false,'type'=>'text','value'=>0]); ?>
-									</td>
+									
 									<td></td>
-								</tr>
+								</tr> -->
 								
 								<tr>
 									<td colspan="5" style="text-align:right;">
@@ -813,7 +812,7 @@ function round(value, exp) {
 						var mobile=$('.mobile').val();
 					}
 					var house_no=$('input[name="house_no"]').val();
-					var landmark_val=$('textarea[name="landmark"]').val();
+					var landmark_val=$('input[name="landmark"]').val();
 					if(landmark_val == '')
 					{
 						var landmark="null";
