@@ -71,11 +71,17 @@ class PincodesController extends AppController
     public function index()
     {
         $this->viewBuilder()->layout('index_layout');
-        
-        $pincodes =$this->paginate($this->Pincodes->find()->contain(['States','Cities','DeliveryCharges']));
+        $pin = $this->Pincodes->newEntity();
+        $pincode=$this->request->query('pincode');
+        if(!empty($pincode)) 
+        {
+            $pincodes =$this->Pincodes->find()
+            ->where(['Pincodes.pincode'=>$pincode])
+            ->contain(['States','Cities','DeliveryCharges']);
+        }
         //pr($pincodes->toArray());exit;
 
-        $this->set(compact('pincodes'));
+        $this->set(compact('pincodes','pin'));
     }
 
     /**

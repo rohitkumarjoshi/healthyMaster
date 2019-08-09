@@ -45,8 +45,14 @@ class PincodesTable extends Table
             'foreignKey' => 'city_id',
             'joinType' => 'INNER'
         ]);
-        $this->hasOne('DeliveryCharges',['foreignKey'=>'pincode_no']);
-
+       // $this->hasOne('DeliveryCharges',['foreignKey'=>'pincode_no']);
+		$this->hasOne('DeliveryCharges')
+			->setForeignKey([
+				'pincode_no'
+			])
+			->setBindingKey([
+				'pincode'
+			]);
     }
 
     /**
