@@ -163,8 +163,24 @@
 							?>
 							<tr class="main_tr">
 								<td><?= h($k) ?></td>
-								<td><?= h(@$customer_details->name) ?></td>
-								<td><?= h(@$customer_details->mobile) ?></td>
+								<td><?php if(($customer_details->name =="null")||($customer_details->name =="NULL"))
+										{
+											echo '';
+										}
+										else
+										{
+											echo @$customer_details->name;
+										}
+									 ?></td>
+								<td><?php if(($customer_details->mobile=="null")||($customer_details->mobile=="NULL"))
+										{
+											echo '';
+										}
+										else
+										{
+											echo @$customer_details->mobile;
+										}
+								 ?></td>
 								<td><?= h(@$customer_details->house_no) ?></td>
 								<td><?php if(($customer_details->apartment_name == "null")||($customer_details->apartment_name == "NULL"))
 								{

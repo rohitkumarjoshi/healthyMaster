@@ -32,7 +32,26 @@ class CustomerAddressesController extends AppController
 
         $customers=$this->CustomerAddresses->find()->where(['CustomerAddresses.customer_id'=>$customer_id]);
         foreach ($customers as $customer) {
-            if($customer->)
+            if($customer->default_address == 1)
+            {
+                 $query = $this->CustomerAddresses->query();
+                    $query->update()
+                        ->set(['default_address' => 0])
+                        ->where(['customer_id'=>$customer_id])
+                        ->execute();
+                        echo $query;
+                        exit;
+            }
+            else
+            {
+                $query = $this->CustomerAddresses->query();
+                    $query->update()
+                        ->set(['default_address' => 1])
+                        ->where(['customer_id'=>$customer_id])
+                        ->execute();
+                        echo $query;
+                        exit;
+            }
         }
     }
     public function index($customer_id=null, $id=null)

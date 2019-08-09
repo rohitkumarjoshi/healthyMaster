@@ -635,6 +635,7 @@ class ItemLedgersController extends AppController
 		//Opening Stock Start
 		$ItemLedgersData = $this->ItemLedgers->find()->select(['item_id','item_variation_id','status','quantity','transaction_date','unit_variation_id'])
 		->contain(['UnitVariations'])
+		->order(['ItemLedgers.id'=>'DESC'])
 		->where(['ItemLedgers.transaction_date < '=>$transaction_date])
 		->orWhere(['ItemLedgers.opening_stock'=>'Yes','ItemLedgers.transaction_date'=>$transaction_date])
 		->autoFields(true);
