@@ -79,7 +79,9 @@ class ItemCategoriesController extends AppController
 				array_push($dynamic,$Items);
 			}
 			if($HomeScreen->layout=='Category'){
-				 $category =$this->ItemCategories->find()->where(['is_deleted'=>0,'id'=>1])->contain(['ChildItemCategories']);
+				 $category =$this->ItemCategories->find()->where(['is_deleted'=>0,'id'=>1])->contain(['ChildItemCategories'=>function($q){
+					 return $q->where(['ChildItemCategories.is_deleted' =>0]);
+				 }]);
 				
 				$Category = array("title"=>$HomeScreen->title,'layout'=>$HomeScreen->layout,'category_id'=>$HomeScreen->category_id,'item_id'=>$HomeScreen->item_id,'image'=>$HomeScreen->image,"DynamicList"=>$category);
 				array_push($dynamic,$Category);
@@ -241,7 +243,9 @@ class ItemCategoriesController extends AppController
 		$categoryList->select(['image_url' => $categoryList->func()->concat(['http://healthymaster.in'.$this->request->webroot.'itemcategories/','image' => 'identifier' ])])->autoFields(true);		
 		 */
 		 
-		  $categoryList = $this->ItemCategories->find()->where(['ItemCategories.is_deleted'=>0,'ItemCategories.parent_id IS'=>NULL])->contain(['ChildItemCategories']);
+		  $categoryList = $this->ItemCategories->find()->where(['ItemCategories.is_deleted'=>0,'ItemCategories.parent_id IS'=>NULL])->contain(['ChildItemCategories'=>function($q){
+					 return $q->where(['ChildItemCategories.is_deleted' =>0]);
+				 }]);
 		// pr($categoryList->toArray()); exit;
 		$cart_count = $this->ItemCategories->Carts->find('All')->where(['Carts.customer_id'=>$customer_id])->count();	
 		$status=true;

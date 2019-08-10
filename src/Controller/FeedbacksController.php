@@ -24,7 +24,7 @@ class FeedbacksController extends AppController
         $this->viewBuilder()->layout('index_layout'); 
         $feedback=$this->Feedbacks->newEntity();
         
-		$feedbacks=$this->Feedbacks->find();
+		$feedbacks=$this->Feedbacks->find()->order(['Feedbacks.id'=>'DESC']);
           
 		$feedbacks=$this->Feedbacks->find()->contain(['Customers']);
 		if ($this->request->is('post')) {

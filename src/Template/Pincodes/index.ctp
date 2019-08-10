@@ -14,6 +14,23 @@
                 </div>
             </div>
             <div class="portlet-body">
+                <form method="GET" >
+                    <table width="50%" class="table table-condensed">
+                        <tbody>
+                            <tr>
+                                <td width="4%">
+                                    <?php echo $this->Form->input('pincode', ['label' => false,'class' => 'form-control input-sm pincode','placeholder'=>'Pincode','type'=>'text','value'=>@$pincode]); ?>
+                                </td>
+                                <td width="10%">
+                                    <button type="submit" class="btn btn-success btn-sm"><i class="fa fa-filter"></i> Filter</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
+                <?php if(!empty($pincodes))
+                {?>
+                <?= $this->Form->create($pin,['id'=>'form_sample_3']) ?>
                 <table class="table table-condensed table-hover table-bordered" id="main_tble">
                     <thead>
                         <tr>
@@ -83,7 +100,9 @@
                         <?php endforeach; ?>
                     </tbody>
                 </table>
-                <div class="paginator">
+                <?= $this->Form->end() ?>
+            <?php } ?>
+                <!-- <div class="paginator">
                     <ul class="pagination">
                         <?= $this->Paginator->first('<< ' . __('first')) ?>
                         <?= $this->Paginator->prev('< ' . __('previous')) ?>
@@ -92,7 +111,7 @@
                         <?= $this->Paginator->last(__('last') . ' >>') ?>
                     </ul>
                     <p><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></p>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>

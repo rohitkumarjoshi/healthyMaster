@@ -277,7 +277,8 @@ class OrdersController extends AppController
 		$this->viewBuilder()->layout('index_layout'); 
 		$gsts=$this->Orders->OrderDetails->find()
 		->where(['Orders.invoice_no !='=>' '])
-		->contain(['Orders'=>['CustomerAddresses'=>['States']],'Items'=>['GstFigures','ItemCategories'],'ItemVariations'=>['Units']]);
+		->contain(['Orders'=>['CustomerAddresses'=>['States']],'Items'=>['GstFigures','ItemCategories'],'ItemVariations'=>['Units']])
+		->order(['OrderDetails.id'=>'DESC']);
 		if ($this->request->is('post')) {
             $datas = $this->request->getData();
             if(!empty($datas['item_id']))
@@ -309,7 +310,7 @@ class OrdersController extends AppController
     {
         $this->viewBuilder()->layout('index_layout'); 
         //$order=$this->Orders->OrderDetails->newEntity();
-        $orders=$this->Orders->OrderDetails->find()->contain(['Orders'=>['CustomerAddresses'=>['Cities','States'],'Customers'],'Items'=>['ItemCategories'],'ItemVariations'=>['Units']]);
+        $orders=$this->Orders->OrderDetails->find()->contain(['Orders'=>['CustomerAddresses'=>['Cities','States'],'Customers'],'Items'=>['ItemCategories'],'ItemVariations'=>['Units']])->order(['OrderDetails.id'=>'DESC']);
          if ($this->request->is('post')) {
             $datas = $this->request->getData();
             if(!empty($datas['apartment_name']))

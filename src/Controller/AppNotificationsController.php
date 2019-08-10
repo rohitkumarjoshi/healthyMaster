@@ -25,7 +25,8 @@ class AppNotificationsController extends AppController
     	$notifications=$this->AppNotifications->AppNotificationCustomers->find()
     	->select(['count'=>'count(customer_id)','AppNotifications.image','AppNotifications.message','AppNotifications.item_id'])
     	->group('app_notification_id')
-    	->contain(['AppNotifications'=>['Users'],'Customers']);
+    	->contain(['AppNotifications'=>['Users'],'Customers'])
+    	->order(['AppNotificationCustomers.id'=>'DESC']);
     	 $this->set(compact('notifications'));
     }
 
