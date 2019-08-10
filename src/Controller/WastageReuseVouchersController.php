@@ -110,8 +110,8 @@ class WastageReuseVouchersController extends AppController
             }
             $this->Flash->error(__('The wastage reuse voucher could not be saved. Please, try again.'));
         }
-		 $wastageReuseVoucherList = $this->WastageReuseVouchers->find();
-		$Items=$this->WastageReuseVouchers->WastageReuseVoucherRows->Items->find('list');
+		$wastageReuseVoucherList = $this->WastageReuseVouchers->find();
+		$Items=$this->WastageReuseVouchers->WastageReuseVoucherRows->Items->find('list')->where(['Items.freeze'=>0]);
 		$UnitVariations=$this->WastageReuseVouchers->WastageReuseVoucherRows->UnitVariations->find('list');
         $this->set(compact('wastageReuseVoucher','Items','UnitVariations','wastageReuseVoucherList'));
     }

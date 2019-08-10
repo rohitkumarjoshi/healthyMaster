@@ -721,7 +721,7 @@ class ItemLedgersController extends AppController
 		$todaySales=[];
 		foreach($Orders as $Order){
 			foreach($Order->order_details as $order_detail){
-				@$todaySales[$order_detail->item_id]=@$order_detail->item_variation->unit_variation->quantity_factor*$order_detail->quantity;
+				@$todaySales[$order_detail->item_id]+=@$order_detail->item_variation->unit_variation->quantity_factor*$order_detail->quantity;
 			}
 		}
 		
