@@ -58,8 +58,15 @@ class PincodeComponent extends Component
 		$this->DeliveryCharges = TableRegistry::get('DeliveryCharges');
 		$this->OrderDetails = TableRegistry::get('OrderDetails');
 		
-		$CartDatas=$this->OrderDetails->find()->where(['OrderDetails.order_id'=>$order_id,'OrderDetails.status IS NULL'])->contain(['ItemVariations'=>['UnitVariations']]);
+		$CartDatas=$this->OrderDetails->find()->where(['OrderDetails.order_id'=>$order_id,'OrderDetails.status !=' =>'Cancel'])->contain(['ItemVariations'=>['UnitVariations']]);
 		
+		$totSize=sizeof($CartDatas->toArray());
+		//pr($totSize); exit;
+		if($totSize==0){
+			$CartDatas=$this->OrderDetails->find()->where(['OrderDetails.order_id'=>$order_id])->contain(['ItemVariations'=>['UnitVariations']]);
+		}else{
+			$CartDatas=$this->OrderDetails->find()->where(['OrderDetails.order_id'=>$order_id,'OrderDetails.status !=' =>'Cancel'])->contain(['ItemVariations'=>['UnitVariations']]);
+		}
 		$DeliveryCharges=$this->DeliveryCharges->find()->select(['min_order_value','pincode_no','hundred_gm','five_hundred_gm','one_kg'])->where(['pincode_no'=>$pincode])->first();
 		
 		$totalQtInGram=0;

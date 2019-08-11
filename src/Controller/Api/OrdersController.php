@@ -36,7 +36,7 @@ class OrdersController extends AppController
 			}
 		}
 		
-		
+		$this->updateCancelOrder();
 		
 		$status=true;
 		$error="Order Cancelled.";
@@ -45,12 +45,53 @@ class OrdersController extends AppController
 
 		
 	}
+	public function updateCancelOrder()
+	{
+	$order_id=$this->request->query('order_id');
+	$orderDatas=$this->Orders->find()->where(['Orders.id'=>$order_id])
+	->contain(['CustomerAddresses','OrderDetails' => function ($q) {
+			return $q->select(['order_id','amount','total' => $q->func()->sum('OrderDetails.amount')])->group('OrderDetails.order_id');
+		}])
+	->first();
+	$pincode=$orderDatas->customer_address->pincode;
+	$customer_id=$orderDatas->customer_id;
+	
+	$delivery_charges = '0'; 
+	$this->loadModel('DeliveryCharges'); 
+	$DeliveryCharges=$this->DeliveryCharges->find()->select(['min_order_value'])->where(['pincode_no'=>$pincode])->first();
+	$grand_total=($orderDatas->order_details[0]['total']);
+	
+	if($DeliveryCharges){
+		if($DeliveryCharges->min_order_value < $grand_total){
+			$delivery_charges = 'Free';
+			$isPromoApplied = true;
+		}else{
+			
+			$deliveryAmount=$this->Pincode->getDeliveryChargeOrder($pincode,$order_id);
+			
+			$grand_total = $grand_total + $deliveryAmount;
+			$delivery_charges = $deliveryAmount;
+			$delivery_charges = round($deliveryAmount); 
+		}
+	} 
+	$order=$this->Orders->get($order_id);
+	$order->total_amount=$orderDatas->order_details[0]['total'];
+	$order->amount_from_promo_code=0;
+	$order->grand_total=$grand_total;
+	$order->pay_amount=$grand_total;
+	$order->delivery_charge=$delivery_charges;
+	$this->Orders->save($order);
+	
+	return;
+	
+	}
+	
 	public function updateOrder()
 	{
 	$order_id=$this->request->query('order_id');
 	$orderDatas=$this->Orders->find()->where(['Orders.id'=>$order_id])
 	->contain(['CustomerAddresses','OrderDetails' => function ($q) {
-			return $q->select(['order_id','amount','total' => $q->func()->sum('OrderDetails.amount')])->where(['OrderDetails.status IS NULL'])->group('OrderDetails.order_id');
+			return $q->select(['order_id','amount','total' => $q->func()->sum('OrderDetails.amount')])->where(['OrderDetails.status !=' =>'Cancel'])->group('OrderDetails.order_id');
 		}])
 	->first();
 	$pincode=$orderDatas->customer_address->pincode;
@@ -708,7 +749,7 @@ curl_close($ch);
 						$this->request->data['order_details'][$i]['amount']=$amount;
 						$this->request->data['order_details'][$i]['is_combo']=$carts_data_fetch->is_combo;
 						
-						$this->request->data['order_details'][$i]['status']='Placed';
+						$this->request->data['order_details'][$i]['status']='In Process';
 						$i++;
 					}
 					
@@ -1120,7 +1161,7 @@ curl_close($ch);
 		/* $pay_amount = ($grand_total) - (($order_data->amount_from_wallet) + ($order_data->amount_from_jain_cash) + ($order_data->amount_from_promo_code) + ($order_data->online_amount)); */
 		
 		$orderItems = $this->Orders->find()->contain(['OrderDetails' => function ($q) {
-			return $q->where(['OrderDetails.status IS NULL']);
+			return $q->where(['OrderDetails.status !=' =>'Cancel']);
 		}])->where(['Orders.id' => $order_id,'Orders.customer_id' => $customer_id])->first();
 		
 		$totalItem = sizeof($orderItems->order_details);

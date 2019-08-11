@@ -261,6 +261,30 @@ $(document).ready(function() {
 		});
 		
 	}
+	$(document).on('change','.item_id',function(){
+		var input=$(this).val();
+
+        var master = $(this); 
+		if(input.length>0){
+            var m_data = new FormData();
+            var url ="<?php echo $this->Url->build(["controller" => "Orders", "action" => "getPriceNew"]); ?>";
+         // alert(input);
+            m_data.append('input',input); 
+            $.ajax({
+                url: url,
+                data: m_data,
+                processData: false,
+                contentType: false,
+                type: 'POST',
+                dataType:'text',
+                success: function(response)
+                {  
+					master.closest('tr').find('span.total').html(response);
+                }
+            });
+            }
+			
+	});
 	
 });
 </script>
@@ -272,8 +296,9 @@ $(document).ready(function() {
 			<td style="vertical-align: top !important;"></td>
 			<td width="15%" align="left">
 				<?php echo $this->Form->input('item_id',['options'=>$Items,'class'=>'form-control input-sm item_id select2 ','empty' => '--Select Item--','label'=>false,'required'=>'required']); ?>
+				<span class="total"  style="color:blue;font-size:12px;"></span>
 			</td>
-			<td width="15%" align="left">
+			<td width="15%" align="left" >
 				<?php echo $this->Form->input('unit_variation_id',['options'=>$UnitVariations,'class'=>'form-control input-sm unit_variation_id select2 ','empty' => '--Select Item--','label'=>false,'required'=>'required']); ?>
 			</td>
 			<td width="5%" align="center">

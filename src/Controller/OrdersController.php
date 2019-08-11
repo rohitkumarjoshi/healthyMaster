@@ -367,6 +367,17 @@ class OrdersController extends AppController
 		echo implode(",",$temp);
         exit;  
     }
+	public function getPriceNew(){
+        $item_id=$this->request->getData('input'); 
+        //$item_variation_id=1; 
+       
+		$maxQt=$this->currentStockForWeb($item_id);
+		//$temp[]=$maxQt;	
+		
+		//$temp1[]= implode(",",$temp); 
+		echo $maxQt." Gm";
+        exit;  
+    }
 
 	public function options(){
         $item_id=$this->request->getData('input'); 
