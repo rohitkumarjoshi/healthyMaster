@@ -129,8 +129,9 @@ echo $this->Html->link('Close',array(),['escape'=>false,'class'=>'btn  red hidde
 				$status=$order->status;
 				$grand_total=@$total_rate+$delivery_charge;
 				$discount_per=$order->discount_percent;
+				//$amount_from_wallet=$order->amount_from_wallet;
 				?>
-				 <tr style="background-color:#fff; border-top:1px solid #000">
+				 <!--<tr style="background-color:#fff; border-top:1px solid #000">
 					<td colspan="5">&nbsp;</td><td style="padding-top:12px;"><b>Taxbale amount </b></td>
 					<td style="padding: 10px;"><b><?= h(@$total_taxbale_amount) ?></b></td>
 				 </tr>
@@ -151,7 +152,7 @@ echo $this->Html->link('Close',array(),['escape'=>false,'class'=>'btn  red hidde
 					<td style="padding: 10px;"><b><?= h(@$total_gst) ?></b></td>
 				 </tr>
 					
-				<?php } ?>
+				<?php } ?> -->
 				<tr style="background-color:#fff; border-top:1px solid #000">
 					<td colspan="5">&nbsp;</td><td style="padding-top:12px;"><b>Amount </b></td>
 					<td style="padding: 10px;"><b><?= h(@$order->total_amount) ?></b></td>
@@ -171,7 +172,13 @@ echo $this->Html->link('Close',array(),['escape'=>false,'class'=>'btn  red hidde
 					<td style="padding: 10px;"><b><?= h($discount_per) ?><?php echo '%'; ?></b></td>
 				</tr>
 				<?php } ?>
-				
+				<?php if(!empty($amount_from_wallet)){ ?>
+				<tr style="background-color:#fff;">
+					<td colspan="5">&nbsp;</td>
+					<td style="padding-top:12px;"><b>Wallet Amount </b></td>
+					<td style="padding: 10px;"><b><?= h($amount_from_wallet) ?></b></td>
+				</tr>
+				<?php } ?>
 				<tr style="background-color:#F5F5F5; border-top:1px solid #000; border-bottom:1px solid #000">
 					<td colspan="5">&nbsp;</td>
 					<td style="padding-top:12px;"><b>Total Amount </b></td>

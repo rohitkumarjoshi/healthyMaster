@@ -765,6 +765,10 @@ curl_close($ch);
 						$total_amount = $total_amount - $delivery_charge;
 					}	
 					
+					if($jain_cash_amount>0){
+						$total_amount = $total_amount + $jain_cash_amount;
+						
+					}
 							
 								
 					$order = $this->Orders->patchEntity($order, $this->request->getData());
