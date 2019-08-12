@@ -168,10 +168,13 @@ class CartsController extends AppController
 		$CustomerAddresses = $this->Carts->CustomerAddresses->find()
 			->where(['CustomerAddresses.customer_id'=>$customer_id,'CustomerAddresses.default_address'=>1])
 			->contain(['States','Cities'])->first();
-			
+		
 		if(!empty($CustomerAddresses)){ 
 			$pincode=$CustomerAddresses->pincode;
 		}
+		$cus_city_id=@$CustomerAddresses->city_id;
+		$cus_state_id=@$CustomerAddresses->state_id;
+		
 		
 		
 		$isPointsRedeem = false;
@@ -425,13 +428,30 @@ class CartsController extends AppController
 			
 			$delivery_charges = '0'; 
 			$this->loadModel('DeliveryCharges'); 
-			$DeliveryCharges=$this->DeliveryCharges->find()->select(['min_order_value'])->where(['pincode_no'=>$pincode])->first();
-			if($DeliveryCharges){
+			$DeliveryCharges=$this->DeliveryCharges->find()->select(['min_order_value','pincode_no'])->where(['pincode_no'=>$pincode])->first();
+			
+			if(!empty($DeliveryCharges) && $pincode > 0){ 
 				if($DeliveryCharges->min_order_value < $grand_total){
 					$delivery_charges = 'Free';
 					$isPromoApplied = true;
 				}else{
 					$deliveryAmount=$this->Pincode->getDeliveryCharge($pincode,$customer_id);
+					
+					$grand_total = $grand_total + $deliveryAmount;
+					$delivery_charges = $deliveryAmount;
+					$delivery_charges = round($deliveryAmount);
+				
+				}
+			}else{
+				
+				$DeliveryCharges=$this->DeliveryCharges->find()->select(['min_order_value','pincode_no','hundred_gm','five_hundred_gm','one_kg'])->where(['DeliveryCharges.city_id'=>$cus_city_id,'DeliveryCharges.state_id'=>$cus_state_id,'DeliveryCharges.pincode_no'=>0])->first();
+				
+				
+				if($DeliveryCharges->min_order_value < $grand_total){
+					$delivery_charges = 'Free';
+					$isPromoApplied = true;
+				}else{
+					$deliveryAmount=$this->Pincode->getWithoutPinodeCharge($cus_city_id,$cus_state_id,$customer_id); 
 					$grand_total = $grand_total + $deliveryAmount;
 					$delivery_charges = $deliveryAmount;
 					$delivery_charges = round($deliveryAmount);

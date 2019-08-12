@@ -105,6 +105,9 @@ class PincodesController extends AppController
      *
      * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
      */
+    /* public function add(){
+		
+	} */
     public function add()
     {
         $this->viewBuilder()->layout('index_layout');

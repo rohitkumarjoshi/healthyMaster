@@ -228,7 +228,9 @@ background-color: #fff;}
 				 
 				<br/>
 				<center>
-				<?= $this->Form->button($this->Html->tag('i', '', ['class'=>'fa fa-plus']) . __(' Submit'),['class'=>'btn btn-success']); ?>
+				<a class="btn btn-primary  btn-condensed all_calculation" role="button" >Calculation</a>
+				<?= $this->Form->button(__('Submit'),['class'=>'btn btn-primary submit_btn','style'=>'display:none']) ?>
+				<!--<?= $this->Form->button($this->Html->tag('i', '', ['class'=>'fa fa-plus']) . __(' Submit'),['class'=>'btn btn-success']); ?>-->
 				</center>
 				<?= $this->Form->end() ?>
 			</div>
@@ -239,6 +241,8 @@ background-color: #fff;}
 <?php echo $this->Html->script('/assets/global/plugins/jquery.min.js'); ?>
 <script>
 $(document).ready(function() {
+	
+	
 
 	$(document).on('click','.prev',function(){
 		//alert();
@@ -414,12 +418,41 @@ $(document).ready(function() {
 		submitHandler: function (form) {
 			success3.show();
 			error3.hide();
-			form[0].submit(); // submit the form
+			
+			form.submit(); // submit the form
 		}
 
 	});
 	
+	
+	
 	//--	 END OF VALIDATION
+	$('.all_calculation').live('click',function() {
+		$("#main_table tbody#main_tbody tr.main_tr").each(function(){ 
+			var item_id=$(this).find('.item-id option:selected').val();
+			var varition_id=$(this).find('.varition option:selected').val();
+			var show_quantity=$(this).find('.show_quantity').val();
+			var tt=$(this);
+			var url ="<?php echo $this->Url->build(["controller" => "Orders", "action" => "currentStockData"]); ?>";
+				url=url+'/'+varition_id, 
+				$.ajax({
+					url: url,
+					dataType: 'json',
+				}).done(function(response) { 
+					var cur_qty=response;
+					if(cur_qty >= show_quantity){
+						$('.submit_btn').css('display','');
+						$('.all_calculation').css('display','none');
+					}else{
+						tt.find('.OutOfStockItem').html("This Item is Out of Stcok");
+						break;
+					}
+			});
+			
+		});
+		
+		
+	});
 	$('.delete-tr').live('click',function() 
 	{
 		var total_amount=0;
@@ -446,8 +479,11 @@ $(document).ready(function() {
     });
 
 	$('.add_row').click(function(){
+		$('.all_calculation').css('display','');
+		$('.submit_btn').css('display','none');
 		add_row();
 		calculate_total();
+		
 	});
 
 	add_row();
@@ -537,7 +573,7 @@ function round(value, exp) {
 		
 		});
 	}
-	
+	 
 	function rename_rows(){
 		//alert();
 		var i=0; 
@@ -1116,7 +1152,7 @@ function selectAutoCompleted1(value) {
 					<td align="center" width="1px"></td>
 				    <td>
 				    	<?php echo $this->Form->control('item_id',['empty'=>'--Select Item--','options' => $items,'class'=>'form-control input-sm chosen-select item-id','label'=>false]); ?>
-
+						<span style="color:red" class="OutOfStockItem"></span>
 					</td>
 					<td>
 						<select name="variation" class="form-control input-sm varition">

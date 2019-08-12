@@ -667,23 +667,26 @@ class ItemLedgersController extends AppController
 		
 		$ItemLedgersData = $this->ItemLedgers->find()->select(['item_id','item_variation_id','status','quantity','transaction_date','unit_variation_id'])
 		->contain(['UnitVariations'])
-		->where(['ItemLedgers.transaction_date'=>$transaction_date])->autoFields(true);
-		$ItemLedgersData->select(['total_op_qt' => $ItemLedgersData->func()->sum('ItemLedgers.quantity')])
-       ->group(['ItemLedgers.unit_variation_id','ItemLedgers.item_id','ItemLedgers.status',])
-        ;
+		->where(['ItemLedgers.transaction_date'=>$transaction_date,'wastage >=' =>1])
+		->orWhere(['ItemLedgers.transaction_date'=>$transaction_date,'usable_wastage >=' => 1])
+		->autoFields(true); //pr($ItemLedgersData->toArray()); exit;
+		//$ItemLedgersData->select(['total_op_qt' => $ItemLedgersData->func()->sum('ItemLedgers.quantity')]);
+		
 		
 		$TodayPurchaseStock=[]; $TodayWastageStock=[]; $TodayReuseStock=[];
 		foreach($ItemLedgersData as $data){
 			if($data->purchase_booking_id > 0){ 
-				@$TodayPurchaseStock[$data->item_id]+=@$data->unit_variation->quantity_factor*$data->total_op_qt;
-			}else if($data->wastage == 1){ 
-				@$TodayWastageStock[$data->item_id]+=@$data->unit_variation->quantity_factor*$data->total_op_qt;
-			}else if($data->usable_wastage == 1){ 
-				@$TodayReuseStock[$data->item_id]+=@$data->unit_variation->quantity_factor*$data->total_op_qt;
+				@$TodayPurchaseStock[$data->item_id]+=@$data->unit_variation->quantity_factor*$data->quantity;
+			}
+			if($data->wastage == 1){ 
+				@$TodayWastageStock[$data->item_id]+=@$data->unit_variation->quantity_factor*$data->quantity;
+			}
+			if($data->usable_wastage == 1){ 
+				@$TodayReuseStock[$data->item_id]+=@$data->unit_variation->quantity_factor*$data->quantity;
 			}
 		}
 		
-		//pr($TodayPurchaseStock); exit;
+		//pr($TodayReuseStock); exit;
 		//Purchase stock End
 		
 		
@@ -713,7 +716,7 @@ class ItemLedgersController extends AppController
 				@$QuantityTotalStock[$order_detail->item_id]-=@$order_detail->item_variation->unit_variation->quantity_factor*$order_detail->quantity;
 			}
 		} */
-		//	pr($QuantityTotalStock);exit;
+		//	pr($QuantityTotalStock);exit; TodayReuseStock
 		//closing stock End
 		
 		//Today Sale Start\
