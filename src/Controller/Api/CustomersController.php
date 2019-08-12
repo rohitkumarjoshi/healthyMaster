@@ -22,7 +22,7 @@ class CustomersController extends AppController
 	    $mobile_no=$this->request->query('mobile_no');
 	    $otp=$this->request->query('otp');
 		$signup=$this->request->query('status');
-		$img_name = 'user_profile_pics/'.'user.png';
+		//$img_name = 'user_profile_pics/'.'user.png';
 		
 		if(!empty($mobile_no) && empty($otp) && empty($signup))
 		{
@@ -39,7 +39,7 @@ class CustomersController extends AppController
 				file_get_contents('http://103.39.134.40/api/mt/SendSMS?user=phppoetsit&password=9829041695&senderid='.$sms_sender.'&channel=Trans&DCS=0&flashsms=0&number='.$mobile_no.'&text='.$sms.'&route=7'); 
 				$customerDetails = $this->Customers->get($customerDetails->id);
 				$customerDetails->otp=$random;
-				$customerDetails->user_img = $img_name;
+				//$customerDetails->user_img = $img_name;
 				$this->Customers->save($customerDetails);
 				$status=true;
 				$error="OTP sent successfully.";
@@ -61,7 +61,7 @@ class CustomersController extends AppController
 					
 					$customerDetails = $this->Customers->get($customerDetails->id);
 					$customerDetails->otp=$random;
-					$customerDetails->user_img = $img_name;
+					//$customerDetails->user_img = $img_name;
 					$this->Customers->save($customerDetails);
 					$status=true;	
 					$error="OPT send successfully.";
@@ -80,7 +80,7 @@ class CustomersController extends AppController
 					/* file_get_contents('http://alerts.sinfini.com/api/web2sms.php?workingkey='.$working_key.'&sender='.$sms_sender.'&to='.$mobile_no.'&message='.$sms.''); */
 					
 					file_get_contents('http://103.39.134.40/api/mt/SendSMS?user=phppoetsit&password=9829041695&senderid='.$sms_sender.'&channel=Trans&DCS=0&flashsms=0&number='.$mobile_no.'&text='.$sms.'&route=7');
-					$customer->user_img = $img_name;
+					//$customer->user_img = $img_name;
 					if($this->Customers->save($customer)){
 						$new_signup='yes';
 						$status=true;
@@ -133,7 +133,7 @@ class CustomersController extends AppController
 				    $customerDetails->created_on=$today;
 					$customerDetails->notification_key='AAAA_7MR4qc:APA91bEB4PE2YzC9zlsb3qnMhTn7WzPqJhnHxqjr_--YdowERJkq2hVCCQXAMEQoHvIo22ymzuYGCJLpe1jJUDlgcPo9eCvoF4jGV92i1ldpTrYHSF7jc7QU-W1B5dhTDA1PpD9DENy7';
 					$customerDetails->referral_code=$customerDetails->id;
-					$customerDetails->user_img = $img_name;
+					//$customerDetails->user_img = $img_name;
 					$this->Customers->save($customerDetails);
 					$customerDetails->already_login=false;
 					$status=true;
@@ -207,7 +207,7 @@ class CustomersController extends AppController
 		$profiles=$this->Customers->find()->where(['id' => $customer_id])->first();
 		
 		
-		$query = $this->Customers->JainCashPoints->find();
+		/* $query = $this->Customers->JainCashPoints->find();
 		$totalInCase = $query->newExpr()
 			->addCase(
 				$query->newExpr()->add(['order_id' => '0']),
@@ -275,7 +275,7 @@ class CustomersController extends AppController
 			$wallet_balance=$advance-$consumed;
 		}
 		}
-		
+		 */
 		$status=true;
 		$error="Profile Updated Successfully";
         $this->set(compact('status', 'error','jain_cash_points','wallet_balance','profiles'));

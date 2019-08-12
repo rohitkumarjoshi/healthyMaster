@@ -150,7 +150,14 @@
 						<tr <?php if(($status=='In Process') || ($status=='In process')){ ?>style="background-color:#ffe4e4; "<?php } ?> >
 							<td><?= ++$page_no ?></td>
 							<td>
-							<?php echo $this->Html->link($order->order_no,['controller'=>'Orders','action' => 'newview', $order->id],['target'=>'_blank']); ?>
+							
+							<?php 
+							if(!empty($order->invoice_no)){
+							echo $this->Html->link($order->order_no,['controller'=>'Orders','action' => 'newview', $order->id],['target'=>'_blank']);
+							}else{
+								echo $this->Html->link($order->order_no,['controller'=>'Orders','action' => 'view', $order->id],['target'=>'_blank']);
+							}
+							?>
 						</td>
 							<td>
 								<?=
