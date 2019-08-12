@@ -36,7 +36,7 @@ else
 echo $this->Html->link('Close',array(),['escape'=>false,'class'=>'btn  red hidden-print fa fa-remove pull-right','onclick'=>'javascript:window.close();']);
 
 ?>
-<div align="center" style=" font-size: 16px;font-weight: bold;">INVOICE</div>
+<div align="center" style=" font-size: 16px;font-weight: bold;">Order Details</div>
 	<div style="border:solid 1px; margin-bottom:0px;"></div>
 		<table width="100%">	
 			
@@ -52,7 +52,9 @@ echo $this->Html->link('Close',array(),['escape'=>false,'class'=>'btn  red hidde
 				<tr style="background-color:#fff; color:#000;">
 					<td align="left" colspan="5">
 					<b>Name: </b><?= h(ucwords(@$order->customer_address->name)) ?><br>
-					<b>Address</b><?= h(@$order->customer_address->house_no) ?> &nbsp;<?= h(ucfirst(@$order->customer_address->address)) ?>,&nbsp;<br/><?= h(ucwords(@$order->customer_address->locality)) ?><br><b>Mobile:</b> <?= h(@$order->customer_address->mobile) ?>	
+					<b>Address</b><?= h(@$order->customer_address->house_no) ?> &nbsp; <?= h(ucfirst(@$order->customer_address->address)) ?>,&nbsp;<br/><?= h(@$order->customer_address->landmark) ?> &nbsp;<?= h(ucwords(@$order->customer_address->locality)) ?><br>
+					<?= h(ucwords(@$order->customer_address->city->name)) ?>&nbsp; <?= h(ucwords(@$order->customer_address->state->state_name)) ?><br/>
+					<b>Mobile:</b> <?= h(@$order->customer_address->mobile) ?>	
 					</td>
 				</tr>
 			</table>
@@ -81,11 +83,11 @@ echo $this->Html->link('Close',array(),['escape'=>false,'class'=>'btn  red hidde
 						 $total_taxbale_amount+=$taxbale_amount;
 						 $total_gst+=$gst;
 					@$i++;
-					$show_variation=$order_detail->item_variation->quantity_variation.' '.$order_detail->item_variation->unit->shortname;
+					$show_variation=@$order_detail->item_variation->quantity_variation.' '.@$order_detail->item_variation->unit->shortname;
 					$quantity=$order_detail->quantity;
 					$actual_quantity=$order_detail->actual_quantity;
 					$minimum_quantity_factor=$order_detail->item->minimum_quantity_factor;
-					$unit_name=$order_detail->item_variation->unit->unit_name;
+					$unit_name=@$order_detail->item_variation->unit->unit_name;
 					$image=$order_detail->item->image;
 					$item_name=$order_detail->item->name;
 					$sales_rate=$order_detail->rate;
@@ -176,70 +178,9 @@ echo $this->Html->link('Close',array(),['escape'=>false,'class'=>'btn  red hidde
 					<td style="padding: 10px;"><b><?= h(@$order->grand_total) ?></b></td>
 				</tr>
 			
-				<?php if($order->order_type=="Bulkorder"){ ?>
-				<tr style="background-color:#fff; border-top:1px solid #000">
-					<td colspan="5">&nbsp;</td>
-					<td style="padding-top:12px;"><b>CGST </b></td>
-					<td style="padding: 10px;"><b><?= h(0) ?></b></td>
-				</tr>
-				<tr style="background-color:#fff; border-top:1px solid #000">
-					<td colspan="5">&nbsp;</td>
-					<td style="padding-top:12px;"><b>SGST </b></td>
-					<td style="padding: 10px;"><b><?= h(0) ?></b></td>
-				</tr>
-				<?php } ?>
-				
-				
-				<?php if(!empty($amount_from_jain_cash)){ ?>
-				<tr style="background-color:#fff; border-top:1px solid #000">
-					<td colspan="5">&nbsp;</td>
-					<td style="padding-top:12px;"><b>Redeem Points </b></td>
-					<td style="padding: 10px;"><b><?= h($amount_from_jain_cash) ?></b></td>
-				</tr>
-				<?php } ?>
-				
-				<?php if(!empty($online_amount)){ ?>
-				<tr style="background-color:#fff;">
-					<td colspan="5">&nbsp;</td>
-					<td style="padding-top:12px;"><b>Online Payment </b></td>
-					<td style="padding: 10px;"><b><?= h($online_amount) ?></b></td>
-				</tr>
-				<?php } ?>
-				
-				<?php if(!empty($amount_from_wallet)){ ?>
-				<tr style="background-color:#fff;">
-					<td colspan="5">&nbsp;</td>
-					<td style="padding-top:12px;"><b>Payment From Wallet </b></td>
-					<td style="padding: 10px;"><b><?= h($amount_from_wallet) ?></b></td>
-				</tr>
-				<?php } ?>
-				
-				<?php if(!empty($amount_from_promo_code)){ ?>
-				<tr style="background-color:#fff;">
-					<td colspan="5">&nbsp;</td>
-					<td style="padding-top:12px;"><b>Promo code</b></td>
-					<td style="padding: 10px;"><b><?= h($amount_from_promo_code)?></b></td>
-				</tr>
-				<?php } ?>
-			
-				<tr style="background-color:#F5F5F5; border-top:1px solid #000; border-bottom:1px solid #000">
-					<td colspan="5">&nbsp;</td>
-					<td style="padding-top:12px;">
-						<b>
-						<?php if(($status=='Delivered') || ($status==' Delivered')){ ?>
-							Total Paid Amount
-						<?php }else{ ?>
-							Due Amount
-						<?php } ?>
-						</b></td>
-					<td style="padding: 10px;"><b><?= h($pay_amount) ?></b></td>
-				</tr>
 			</tbody>
 			<tfoot>
-				<tr>
-					<td colspan="2" style="padding: 10px;"><b>Deliver Between:-</b></td>
-					<td colspan="5"style="padding: 10px;"><b><?php echo $order->delivery_time ;?></b></td>
-				</tr>
+				
 				<!--<tr>
 				<td colspan="6"><a class="btn  blue hidden-print margin-bottom-5 pull-right" onclick="javascript:window.print();">Print <i class="fa fa-print"></i></a>
 				</td>

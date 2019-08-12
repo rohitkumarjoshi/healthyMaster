@@ -383,6 +383,30 @@ class OrdersController extends AppController
 		echo implode(",",$temp);
         exit;  
     }
+	public function currentStockData($item_variation_id=null){
+        //$item_variation_id=$this->request->getData('input'); 
+       
+        $items=$this->Orders->OrderDetails->ItemVariations->find()->where(['ItemVariations.id '=>$item_variation_id])->first();
+        
+		$maxQt=$this->currentStock($items->item_id,$item_variation_id);
+		
+		
+		//$temp1[]= implode(",",$temp); 
+		echo $maxQt;
+        exit;  
+    }
+	
+	public function getPriceNew(){
+        $item_id=$this->request->getData('input'); 
+        //$item_variation_id=1; 
+       
+		$maxQt=$this->currentStockForWeb($item_id);
+		//$temp[]=$maxQt;	
+		
+		//$temp1[]= implode(",",$temp); 
+		echo $maxQt." Gm";
+        exit;  
+    }
 
 	public function options(){
         $item_id=$this->request->getData('input'); 
@@ -1179,7 +1203,7 @@ class OrdersController extends AppController
     {
 		$this->viewBuilder()->layout('index_layout');
         $order = $this->Orders->get($id, [
-            'contain' => ['Customers', 'CustomerAddresses', 'PromoCodes', 'OrderDetails'=>['Items'=>['GstFigures'],'ItemVariations'=>['Units']]]
+            'contain' => ['Customers', 'CustomerAddresses'=>['States','Cities'], 'PromoCodes', 'OrderDetails'=>['Items'=>['GstFigures'],'ItemVariations'=>['Units']]]
         ]);
        // pr($order);exit;
 	

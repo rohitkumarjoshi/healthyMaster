@@ -83,7 +83,14 @@
 							<td>
 
 							<?php $sr_no++;
-								echo $this->Html->link($order->order_no,['controller'=>'Orders','action' => 'newview', $order->id, 'print'],['target'=>'_blank']); ?>
+							
+							if(!empty($order->invoice_no)){
+							 echo $this->Html->link($order->order_no,['controller'=>'Orders','action' => 'newview', $order->id, 'print'],['target'=>'_blank']); 
+							}else{
+							 echo $this->Html->link($order->order_no,['controller'=>'Orders','action' => 'view', $order->id, 'print'],['target'=>'_blank']); 
+							}
+							?>
+								
 						</td>
 							<td>
 							<?php
