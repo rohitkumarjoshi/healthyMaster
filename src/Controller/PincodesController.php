@@ -71,17 +71,11 @@ class PincodesController extends AppController
     public function index()
     {
         $this->viewBuilder()->layout('index_layout');
-        $pin = $this->Pincodes->newEntity();
-        $pincode=$this->request->query('pincode');
-        if(!empty($pincode)) 
-        {
-            $pincodes =$this->Pincodes->find()
-            ->where(['Pincodes.pincode'=>$pincode])
-            ->contain(['States','Cities','DeliveryCharges']);
-        }
+        
+        $pincodes =$this->paginate($this->Pincodes->find()->contain(['States','Cities','DeliveryCharges']));
         //pr($pincodes->toArray());exit;
 
-        $this->set(compact('pincodes','pin','pincode'));
+        $this->set(compact('pincodes'));
     }
 
     /**
@@ -105,9 +99,6 @@ class PincodesController extends AppController
      *
      * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
      */
-    /* public function add(){
-		
-	} */
     public function add()
     {
         $this->viewBuilder()->layout('index_layout');
@@ -117,6 +108,7 @@ class PincodesController extends AppController
             $data=$this->request->getData();
            // pr($data);
             $pincode = $this->Pincodes->patchEntity($pincode,$data);
+			
             if ($this->Pincodes->save($pincode)) {
                 if($data['we_deliver']=="Yes")
                 {
@@ -127,20 +119,28 @@ class PincodesController extends AppController
                     $DeliveryCharges->pincode_no=$this->request->getData('pincode');
                     $DeliveryCharges->delivery_duration=$this->request->getData('delivery_duration');
                     $DeliveryCharges->deliver=$this->request->getData('deliver');
+                    $DeliveryCharges->city_id=$pincode->city_id;
+                    $DeliveryCharges->state_id=$pincode->state_id;
                     //$DeliveryCharges->pincode_id=$pincode->id;
                     //pr($DeliveryCharges);
-                    if($this->Pincodes->DeliveryCharges->save($DeliveryCharges))
-                    {
+                   $DeliveryChargeData= $this->Pincodes->DeliveryCharges->save($DeliveryCharges);
+                    
+					$query1 = $this->Pincodes->DeliveryCharges->query();
+					$query1->update()
+						->set(['city_id' =>$pincode->city_id,'state_id' =>$pincode->state_id])
+						->where(['id' =>$DeliveryChargeData->id])
+						->execute();
+						
                         $this->Flash->success(__('The pincode has been saved.'));
                         return $this->redirect(['action' => 'index']);
-                    }
+                    
                 }
                 $this->Flash->success(__('The pincode has been saved.'));
                 return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('The pincode could not be saved. Please, try again.'));
         }
-        $states = $this->Pincodes->States->find('list')->where(['country_id'=>'101']);
+        $states = $this->Pincodes->States->find('list');
         $cities = $this->Pincodes->Cities->find('list');
         $this->set(compact('pincode', 'states', 'cities'));
     }
