@@ -781,6 +781,7 @@ class ItemLedgersController extends AppController
 		->contain(['UnitVariations'])
 		->where(['ItemLedgers.transaction_date'=>$transaction_date,'wastage >=' =>1])
 		->orWhere(['ItemLedgers.transaction_date'=>$transaction_date,'usable_wastage >=' => 1])
+		->orWhere(['ItemLedgers.transaction_date'=>$transaction_date])
 		->autoFields(true); //pr($ItemLedgersData->toArray()); exit;
 		//$ItemLedgersData->select(['total_op_qt' => $ItemLedgersData->func()->sum('ItemLedgers.quantity')]);
 		
