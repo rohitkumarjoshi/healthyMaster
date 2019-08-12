@@ -19,7 +19,7 @@ background-color: #fff;}
 					<span class="caption-subject">Cart</span>
 				</div>
 				<div class="actions"> 
-                    <button class="btn btn-sm yellow" id="btnExport" onclick="fnExcelReport();"> Export </button>&nbsp;
+                    <?php echo $this->Html->link('Excel',['controller'=>'Carts','action' => 'exportCartReport'],['target'=>'_blank']); ?>
                 </div>
 			</div>
 			<div class="portlet-body">
@@ -84,7 +84,7 @@ background-color: #fff;}
 							<!-- <td><?= h(@$Cart->item_variation->name) ?></td> -->
 							<td><?= h(@$Cart->item->item_code) ?></td>
 							<td><?= h(@$Cart->item->name) ?></td>
-							<td><?= h(@$Cart->item_variation->quantity_variation) ." ".  h(@$Cart->item_variation->unit->shortname) ?></td>
+							<td><?= h(@$Cart->item_variation->quantity_variation)?></td>
 							<td><?= h(@$Cart->item_variation->sales_rate) ?></td>
 							<td><?= date('d-m-Y',strtotime($Cart->created_on)) ?></td>
 						</tr>

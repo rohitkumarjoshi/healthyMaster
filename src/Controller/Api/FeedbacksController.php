@@ -18,32 +18,32 @@ class FeedbacksController extends AppController
 		$overall_exp=$this->request->data('overall_exp');
 		//pr($deliver_exp);exit;
 		
-			$feedback=$this->Feedbacks->newEntity();
-			$feedback->name=$name;
-			$feedback->customer_id=$customer_id;
-			$feedback->jain_thela_admin_id=$jain_thela_admin_id;
-			$feedback->mobile=$mobile;
-			$feedback->email=$email;
-			$feedback->comments=$comments;
-			$feedback->quality_exp=$quality_exp;
-			$feedback->deliver_exp=$deliver_exp;
-			$feedback->overall_exp=$overall_exp;
-			//pr($feedback);exit;
-			$this->Feedbacks->save($feedback);
-			// $query = $this->Feedbacks->query();
-			// 		$query->insert(['jain_thela_admin_id', 'customer_id', 'name', 'mobile', 'email', 'comments','quality_exp','deliver_exp','overall_exp'])
-			// 				->values([
-			// 				'jain_thela_admin_id' => $jain_thela_admin_id,
-			// 				'customer_id' => $customer_id,
-			// 				'name' => $name,
-			// 				'mobile' => $mobile,
-			// 				'email' => $email,
-			// 				'comments' => $comments,
-			// 				'quality_exp' => $quality_exp,
-			// 				'deliver_exp' => $deliver_exp,
-			// 				'overall_exp' => $overall_exp,
-			// 				])
-			// 		->execute();
+			// $feedback=$this->Feedbacks->newEntity();
+			// $feedback->name=$name;
+			// $feedback->customer_id=$customer_id;
+			// $feedback->jain_thela_admin_id=$jain_thela_admin_id;
+			// $feedback->mobile=$mobile;
+			// $feedback->email=$email;
+			// $feedback->comments=$comments;
+			// $feedback->quality_exp=$quality_exp;
+			// $feedback->deliver_exp=$deliver_exp;
+			// $feedback->overall_exp=$overall_exp;
+			// //pr($feedback);exit;
+			// $this->Feedbacks->save($feedback);
+			$query = $this->Feedbacks->query();
+					$query->insert(['jain_thela_admin_id', 'customer_id', 'name', 'mobile', 'email', 'comments','quality_exp','deliver_exp','overall_exp'])
+							->values([
+							'jain_thela_admin_id' => $jain_thela_admin_id,
+							'customer_id' => $customer_id,
+							'name' => $name,
+							'mobile' => $mobile,
+							'email' => $email,
+							'comments' => $comments,
+							'quality_exp' => $quality_exp,
+							'deliver_exp' => $deliver_exp,
+							'overall_exp' => $overall_exp,
+							])
+					->execute();
 		$status=true;
 		$error="Thank You, Your Query Updated, we will contact soon.";
         $this->set(compact('status', 'error'));

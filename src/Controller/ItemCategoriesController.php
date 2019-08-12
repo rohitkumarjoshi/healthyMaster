@@ -18,15 +18,27 @@ class ItemCategoriesController extends AppController
      * @return \Cake\Http\Response|void
      */
 
+    public function exportTopReport()
+    {
+        $this->viewBuilder()->layout('');
+       $recently_boughts=$this->ItemCategories->Items->ItemLedgers->find()
+                        ->select(['Count'=>'count(ItemLedgers.item_id)','ItemCategories.name','Items.id','Items.name','UnitVariations.name','Items.item_code','ItemLedgers.rate'])
+                        ->where(['ItemLedgers.status'=>'out','ItemLedgers.order_id IS NOT NULL'])
+                        ->group(['ItemLedgers.item_id','ItemLedgers.unit_variation_id'])
+                        ->contain(['Items'=>['ItemCategories'],'UnitVariations'])
+                        ->order(['Count'=>'DESC']);
+                         $this->set(compact('recently_boughts','items'));
+    }
+
     public function topSelling()
     {
         $this->viewBuilder()->layout('index_layout');
        $recently_boughts=$this->ItemCategories->Items->ItemLedgers->find()
-                        ->select(['Count'=>'count(ItemLedgers.item_id)','ItemCategories.name','Items.id','Items.name','ItemVariations.quantity_variation','Items.item_code','ItemLedgers.rate'])
-                        ->where(['status'=>'out'])
-                        ->group(['ItemLedgers.item_id','ItemLedgers.item_variation_id'])
-                        ->contain(['Items'=>['ItemCategories'],'ItemVariations']);
-                        //->order(['count']);
+                        ->select(['Count'=>'count(ItemLedgers.item_id)','ItemCategories.name','Items.id','Items.name','UnitVariations.name','Items.item_code','ItemLedgers.rate'])
+                        ->where(['ItemLedgers.status'=>'out','ItemLedgers.order_id IS NOT NULL'])
+                        ->group(['ItemLedgers.item_id','ItemLedgers.unit_variation_id'])
+                        ->contain(['Items'=>['ItemCategories'],'UnitVariations'])
+                        ->order(['Count'=>'DESC']);
 
             
            //pr($recently_boughts->toArray());exit;

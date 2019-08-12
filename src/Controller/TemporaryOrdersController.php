@@ -39,21 +39,8 @@ class TemporaryOrdersController extends AppController
             ->contain(['CustomerAddresses','OrderDetails'=>['Items','ItemVariations'=>['Units']]]);
             }
 
-        //pr($temps->toArray());exit;
 
         }
-
-        // $temporaryOrders = $this->paginate($this->TemporaryOrders);
-        // $temps=$this->TemporaryOrders->find()->
-        // contain(['Orders'=>['CustomerAddresses','OrderDetails'=>['Items','ItemVariations'=>['Units']]]]);
-        
-        // foreach ($temps as $temp) {
-        //    $count=$this->TemporaryOrders->Orders->OrderDetails->find()
-        //    ->select(['total'=>'count(OrderDetails.item_id)'])
-        //    ->where(['order_id'=>$temp->order_id]);
-        // }
-
-        //pr($count->toArray());exit;
 
         $this->set(compact('temporaryOrders','temps','count'));
     }

@@ -158,7 +158,8 @@ class CartsController extends AppController
          $Cart= $this->Carts->newEntity();
         $Carts = $this->Carts->find()
         //->group(['customer_id'])
-        ->contain(['Items','Customers','ItemVariations'=>['Units']]);
+        ->contain(['Items','Customers','ItemVariations'=>['Units']])
+        ->order(['Carts.id'=>'DESC']);
         if ($this->request->is('post')) {
             $datas = $this->request->getData();
             if(!empty($datas['customer_id']))
@@ -191,6 +192,17 @@ class CartsController extends AppController
          $Customers = $this->Carts->Customers->find('list', ['limit' => 200]);
         $items = $this->Carts->Items->find('list', ['limit' => 200]);
         $item_variation = $this->Carts->ItemVariations->find('list', ['limit' => 200]);
+        $this->set(compact('Cart', 'Carts','items','Customers','item_variation'));
+    }
+     public function exportCartReport()
+    {
+         $this->viewBuilder()->layout('');
+         $Cart= $this->Carts->newEntity();
+        $Carts = $this->Carts->find()
+        //->group(['customer_id'])
+        ->contain(['Items','Customers','ItemVariations'=>['Units']])
+        ->order(['Carts.id'=>'DESC']);
+       
         $this->set(compact('Cart', 'Carts','items','Customers','item_variation'));
     }
 }

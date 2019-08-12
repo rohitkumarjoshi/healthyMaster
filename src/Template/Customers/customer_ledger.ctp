@@ -114,7 +114,7 @@
 										<?= h(@$Order->status) ?>
 									</td>
 									<td>
-										<?= h(@$Order->payment_status) ?>
+										<?= h(@$Order->order_type) ?>
 									</td>
 								</tr>
 							<?php } ?>														 
@@ -238,23 +238,31 @@
 			<div class="portlet-title">
 				<div class="caption">
 					<i class=" fa fa-gift"></i>
-					<span class="caption-subject">REEDEM POINTS</span>
+					<span class="caption-subject">Wallet Amount</span>
 				</div>
 			</div>
 			<div class="portlet-body">
 				<div style="overflow-y: scroll;height: 170px;">
 					<div class="col-md-7">
 						<h3>Total Earn :<?php
-							foreach($customers->jain_cash_points as $jain_cash_data){
-								echo $jain_cash_data->total_point;
+							foreach($customers->customer_wallets as $wallet){
+								echo $wallet->total_point;
 							}
 								?>
 						</h3>
 					</div>
 					<div class="col-md-7">
 						<h3>Total Used :<?php
-							foreach($customers->jain_cash_points as $jain_cash_data){
-								echo $jain_cash_data->total_used_point;
+							foreach($customers->customer_wallets as $wallets){
+								echo $wallets->total_used_point;
+							}
+								?>
+						</h3>
+					</div>
+					<div class="col-md-7">
+						<h3>Remaining :<?php
+							foreach($customers->customer_wallets as $cust_wallets){
+								echo $cust_wallets->total_point - $cust_wallets->total_used_point;
 							}
 								?>
 						</h3>

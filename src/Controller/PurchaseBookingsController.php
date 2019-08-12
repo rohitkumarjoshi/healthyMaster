@@ -18,6 +18,14 @@ class PurchaseBookingsController extends AppController
      *
      * @return \Cake\Http\Response|null
      */
+
+     public function exportPurchaseReport()
+    {
+       $this->viewBuilder()->layout('');
+       $purchases=$this->PurchaseBookings->PurchaseBookingDetails->find()
+       ->contain(['Items'=>['ItemCategories','GstFigures'],'UnitVariations','PurchaseBookings'=>['Vendors'=>['Cities']]])->order(['PurchaseBookingDetails.id'=>'DESC']);
+         $this->set(compact('purchases','vendors','items'));
+    }
     public function purchaseReport()
     {
        $this->viewBuilder()->layout('index_layout');

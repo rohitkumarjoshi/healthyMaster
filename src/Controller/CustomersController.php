@@ -18,6 +18,28 @@ class CustomersController extends AppController
      *
      * @return \Cake\Http\Response|null
      */
+    public function exportWalletReport()
+    {
+    	$this->viewBuilder()->layout('');
+    	$wallet=$this->Customers->CustomerWallets->find()
+    	->select(['total_add'=>'SUM(CustomerWallets.add_amount)','total_deduct'=>'SUM(CustomerWallets.used_amount)','Customers.name','CustomerWallets.customer_id'])
+    	->group(['CustomerWallets.customer_id'])
+    	->contain(['Customers'])
+    	->order(['CustomerWallets.id'=>'DESC']);
+    	$this->set(compact('wallet'));
+    }
+
+    public function walletReport()
+    {
+    	$this->viewBuilder()->layout('index_layout');
+    	$wallet=$this->Customers->CustomerWallets->find()
+    	->select(['total_add'=>'SUM(CustomerWallets.add_amount)','total_deduct'=>'SUM(CustomerWallets.used_amount)','Customers.name','CustomerWallets.customer_id'])
+    	->group(['CustomerWallets.customer_id'])
+    	->contain(['Customers'])
+    	->order(['CustomerWallets.id'=>'DESC']);
+    	$this->set(compact('wallet'));
+    }
+
      public function testing()
     {
     	$this->viewBuilder()->layout('index_layout');
@@ -142,18 +164,30 @@ class CustomersController extends AppController
         $this->set('_serialize', ['customers']);
     }
 
+   	public function customerWallet($id=null)
+   	{
+   		//pr($id);exit;
+   		$this->viewBuilder()->layout('index_layout');
+    	$wallets = $this->Customers->CustomerWallets->find()
+    	->where(['CustomerWallets.customer_id'=>$id])
+    	->contain(['Customers']);
+    	$this->set(compact('wallets'));
+    	//pr($wallets->toArray());exit;
+   	}
+
     public function customerLedger($id=null)
     {
     	$this->viewBuilder()->layout('index_layout');
     	$customers = $this->Customers->get($id, [
-            'contain' => ['JainCashPoints'=>function($query){
+            'contain' => ['CustomerWallets'=>function($query){
 				return $query->select([
-					'total_point' => $query->func()->sum('point'),
-					'total_used_point' => $query->func()->sum('used_point'),'customer_id'
+					'total_point' => $query->func()->sum('add_amount'),
+					'total_used_point' => $query->func()->sum('used_amount'),'customer_id'
 				]);
 			}
 		]
 	]);
+    	//pr($customers->toArray());exit;
     	$customer_address=$this->Customers->CustomerAddresses->find()
     	//->contain(['Cities','States'])
     	->where(['CustomerAddresses.customer_id'=>$id]);
@@ -476,51 +510,51 @@ class CustomersController extends AppController
 	}
 	
 	
-	public function walletReport()
-    {
-	$this->viewBuilder()->layout('index_layout');
+// 	public function walletReport()
+//     {
+// 	$this->viewBuilder()->layout('index_layout');
 	
-	$this->loadmodel('Wallets');
+// 	$this->loadmodel('Wallets');
 	
-	$wallet_customers=$this->Wallets->find()->group('Wallets.customer_id')->contain(['Customers']);
-	$remainings=[];
-	foreach($wallet_customers as $data){
-		$customer_id=$data->customer_id;
-		$query = $this->Wallets->find();
-		$totalInCase = $query->newExpr()
-			->addCase(
-				$query->newExpr()->add(['advance > ' => 0]),
-				$query->newExpr()->add(['advance']),
-				'integer'
-			); 
-		$totalOutCase = $query->newExpr()
-			->addCase(
-				$query->newExpr()->add(['consumed > ' => 0]),
-				$query->newExpr()->add(['consumed']),
-				'integer'
-			);
-			$query->select([
-			'total_advanced' => $query->func()->sum($totalInCase),
-			'total_consumed' => $query->func()->sum($totalOutCase),'id','customer_id'
-		])
-		->where(['Wallets.customer_id' => $customer_id])
-		->autoFields(true);
-		$wallets = ($query);
-		//pr($wallets->toArray());
-		foreach($wallets as $wallet){
+// 	$wallet_customers=$this->Wallets->find()->group('Wallets.customer_id')->contain(['Customers']);
+// 	$remainings=[];
+// 	foreach($wallet_customers as $data){
+// 		$customer_id=$data->customer_id;
+// 		$query = $this->Wallets->find();
+// 		$totalInCase = $query->newExpr()
+// 			->addCase(
+// 				$query->newExpr()->add(['advance > ' => 0]),
+// 				$query->newExpr()->add(['advance']),
+// 				'integer'
+// 			); 
+// 		$totalOutCase = $query->newExpr()
+// 			->addCase(
+// 				$query->newExpr()->add(['consumed > ' => 0]),
+// 				$query->newExpr()->add(['consumed']),
+// 				'integer'
+// 			);
+// 			$query->select([
+// 			'total_advanced' => $query->func()->sum($totalInCase),
+// 			'total_consumed' => $query->func()->sum($totalOutCase),'id','customer_id'
+// 		])
+// 		->where(['Wallets.customer_id' => $customer_id])
+// 		->autoFields(true);
+// 		$wallets = ($query);
+// 		//pr($wallets->toArray());
+// 		foreach($wallets as $wallet){
 			
-			$total_advanced=$wallet->total_advanced;
-			$total_consumed=$wallet->total_consumed;
-			$remaining=$total_advanced-$total_consumed;
+// 			$total_advanced=$wallet->total_advanced;
+// 			$total_consumed=$wallet->total_consumed;
+// 			$remaining=$total_advanced-$total_consumed;
 			
-		}
-		$remainings[$customer_id]=$remaining;
+// 		}
+// 		$remainings[$customer_id]=$remaining;
 		
-	}
-//pr($wallet_customers->toArray()); exit;
-			 $this->set('wallet_customers', $wallet_customers);
-			 $this->set('remainings', $remainings);
-	}
+// 	}
+// //pr($wallet_customers->toArray()); exit;
+// 			 $this->set('wallet_customers', $wallet_customers);
+// 			 $this->set('remainings', $remainings);
+// 	}
 	
 	
 	

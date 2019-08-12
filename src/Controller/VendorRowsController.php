@@ -39,7 +39,7 @@ class VendorRowsController extends AppController
     public function options(){
         $vendor_id=$this->request->getData('input'); 
 
-        $item=$this->VendorRows->find()->where(['VendorRows.vendor_id '=>$vendor_id])->contain(['Items']);
+        $item=$this->VendorRows->find()->where(['VendorRows.vendor_id '=>$vendor_id,'VendorRows.status'=>'Active'])->contain(['Items']);
 				
         $this->set(compact('item'));   
        
@@ -149,16 +149,30 @@ class VendorRowsController extends AppController
      * @return \Cake\Http\Response|null Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function delete($id = null)
+    public function delete($id = null,$vendor_id= null)
     {
         $this->request->allowMethod(['post', 'delete']);
         $vendorRow = $this->VendorRows->get($id);
-        if ($this->VendorRows->delete($vendorRow)) {
-            $this->Flash->success(__('The vendor row has been deleted.'));
+        $vendorRow->status="Deactive";
+        if ($this->VendorRows->save($vendorRow)) {
+            $this->Flash->success(__('The vendor row has been Deactive.'));
         } else {
-            $this->Flash->error(__('The vendor row could not be deleted. Please, try again.'));
+            $this->Flash->error(__('The vendor row could not be Deactive. Please, try again.'));
         }
 
-        return $this->redirect(['action' => 'index']);
+        return $this->redirect(['action' => 'index/'.$vendor_id]);
+    }
+     public function delete1($id = null,$vendor_id= null)
+    {
+        $this->request->allowMethod(['post', 'delete']);
+        $vendorRow = $this->VendorRows->get($id);
+        $vendorRow->status="Active";
+        if ($this->VendorRows->save($vendorRow)) {
+            $this->Flash->success(__('The vendor row has been Active.'));
+        } else {
+            $this->Flash->error(__('The vendor row could not be Active. Please, try again.'));
+        }
+
+        return $this->redirect(['action' => 'index/'.$vendor_id]);
     }
 }

@@ -10,7 +10,7 @@
 					</span>
 				</div>
 				<div class="actions">
-					<button class="btn btn-sm yellow" id="btnExport" onclick="fnExcelReport();"> Export </button>&nbsp;
+					<?php echo $this->Html->link('Excel',['controller'=>'ItemCategories','action' => 'exportTopReport'],['target'=>'_blank']); ?>
 				</div>
 			</div>
 			<div class="portlet-body">
@@ -64,7 +64,7 @@
 							<td><?= $top->item->item_code ?></td>
 							<td><?= $top->item->name ?></td>
 							<td><?= $top->item->item_category->name?></td>
-							<td><?= $top->item_variation->quantity_variation.' '.$top->item_variation->unit->shortname?></td>
+							<td><?= $top->unit_variation->name?></td>
 							<td><?= $top->Count ?> Times</td>
 							<td><?= $top->rate ?></td>
 						</tr>

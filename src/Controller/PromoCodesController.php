@@ -81,7 +81,8 @@ class PromoCodesController extends AppController
         $promoCodes = $this->PromoCodes->find()
         ->contain(['Items', 'ItemCategories'])
         ->leftJoinWith('Items')
-        ->leftJoinWith('ItemCategories');
+        ->leftJoinWith('ItemCategories')
+        ->order(['PromoCodes.id'=>'DESC']);
        
         if ($this->request->is('post')) {
             $datas = $this->request->getData();
@@ -119,6 +120,19 @@ class PromoCodesController extends AppController
         $this->set('_serialize', ['promoCode']);
         $this->set('_serialize', ['promoCodes','code','item_id','from_date','to_date','status']);
     }
+
+       public function exportPromoReport()
+    {
+        $this->viewBuilder()->layout('');
+        $jain_thela_admin_id=1;
+        $promoCodes = $this->PromoCodes->find()
+        ->contain(['Items', 'ItemCategories'])
+        ->leftJoinWith('Items')
+        ->leftJoinWith('ItemCategories')
+        ->order(['PromoCodes.id'=>'DESC']);
+         $this->set(compact('promoCode', 'promoCodes', 'itemCategories','items','code','item_id','from_date','to_date'));
+    }
+       
 
 	public function ajaxStatusPromoCode($status,$status_id)
     {

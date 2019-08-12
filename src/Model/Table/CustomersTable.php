@@ -44,6 +44,10 @@ class CustomersTable extends Table
             'foreignKey' => 'customer_id',
             'joinType' => 'INNER'
         ]);
+        $this->hasMany('CustomerWallets', [
+            'foreignKey' => 'customer_id',
+            'joinType' => 'INNER'
+        ]);
 		$this->hasMany('Orders', [
             'foreignKey' => 'customer_id',
             'joinType' => 'INNER'

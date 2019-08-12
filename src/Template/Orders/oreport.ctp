@@ -7,7 +7,7 @@
                     <span class="caption-subject"><?= __('ORDER/SALES REPORT') ?></span>
                 </div>
                 <div class="actions"> 
-                    <button class="btn btn-sm yellow" id="btnExport" onclick="fnExcelReport();"> Export </button>&nbsp;
+                   <?php echo $this->Html->link('Excel',['controller'=>'Orders','action' => 'exportOreport'],['target'=>'_blank']); ?>
                 </div>
             </div>
             <div class="portlet-body" style="overflow: auto;!important">
