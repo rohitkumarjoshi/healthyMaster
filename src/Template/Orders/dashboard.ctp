@@ -5,7 +5,7 @@
 				<div class="caption" >
 					<i class="font-purple-intense"></i>
 					<span class="caption-subject font-purple-intense ">
-						<h4><i class="fa fa-book"></i> Today's Order Summary</h4></span>
+						<h4><i class="fa fa-book"></i> Order Summary</h4></span>
 				</div>
 		
 		
@@ -45,7 +45,7 @@
 						<div class="dashboard-stat blue-madison">
 							<div class="caption">
 								<i class="icon-bar-chart font-green-sharp hide"></i>
-								<?php echo $this->Html->link('<i class="m-icon-swapright m-icon-white"></i><b> Online Order</b>','/Orders/index?
+								<?php echo $this->Html->link('<i class="m-icon-swapright m-icon-white"></i><b> Orders</b>','/Orders/index?
 									status=process&From='.$from_date.'&To='.$to_date,array('escape'=>false,'class'=>'more')); ?>
 							</div>
 							

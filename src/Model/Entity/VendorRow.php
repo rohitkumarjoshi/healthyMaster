@@ -26,6 +26,7 @@ class VendorRow extends Entity
      * @var array
      */
     protected $_accessible = [
+		'*'=>true,
         'vendor_id' => true,
         'item_id' => true,
         'created_on' => true,
