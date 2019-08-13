@@ -1181,7 +1181,7 @@ function selectAutoCompleted1(value) {
 						<span class="msg_shw2" style="color:blue;font-size:12px;"></span>
 					</td>
 					<td>
-						<?php echo $this->Form->input('show_quantity', ['label' => false,'class' => 'form-control input-sm number cal_amount quant show_quantity','placeholder'=>'Quantity']); ?>
+						<?php echo $this->Form->input('show_quantity', ['label' => false,'class' => 'form-control input-sm number cal_amount quant show_quantity','placeholder'=>'Quantity','min'=>1]); ?>
 						
 						<span class="msg_shw2 total"  style="color:blue;font-size:12px;"></span>
 							<?php echo $this->Form->input('quantity', ['label' => false,'class' => 'form-control input-sm number mains quantity','value'=>0, 'type'=>'hidden']); ?>
