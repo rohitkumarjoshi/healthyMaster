@@ -424,7 +424,22 @@ class CartsController extends AppController
 					}		
 				}
 			}
-
+			
+		/* 	$delivery_charges = '0'; 
+			$this->loadModel('DeliveryCharges'); 
+			$DeliveryCharges=$this->DeliveryCharges->find()->select(['min_order_value'])->where(['pincode_no'=>$pincode])->first();
+			if($DeliveryCharges){
+				if($DeliveryCharges->min_order_value < $grand_total){
+					$delivery_charges = 'Free';
+					$isPromoApplied = true;
+				}else{
+					$deliveryAmount=$this->Pincode->getDeliveryCharge($pincode,$customer_id);
+					$grand_total = $grand_total + $deliveryAmount;
+					$delivery_charges = $deliveryAmount;
+					$delivery_charges = round($deliveryAmount);
+				
+				}
+			} */
 			
 			$delivery_charges = '0'; 
 			$this->loadModel('DeliveryCharges'); 
@@ -447,7 +462,7 @@ class CartsController extends AppController
 				$DeliveryCharges=$this->DeliveryCharges->find()->select(['min_order_value','pincode_no','hundred_gm','five_hundred_gm','one_kg'])->where(['DeliveryCharges.city_id'=>$cus_city_id,'DeliveryCharges.state_id'=>$cus_state_id,'DeliveryCharges.pincode_no'=>0])->first();
 				
 				
-				if($DeliveryCharges->min_order_value < $grand_total){
+				if(@$DeliveryCharges->min_order_value < $grand_total){
 					$delivery_charges = 'Free';
 					$isPromoApplied = true;
 				}else{

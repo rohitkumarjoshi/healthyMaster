@@ -13,7 +13,7 @@ class PincodesController extends AppController
 		$pincode=$this->request->query('pincode');
 		 $pin_codes = $this->Pincodes->find()
 		->where(['Pincodes.pincode'=>$pincode])
-		->contain(['States'])
+		->contain(['States','Cities'])
 		->first();
 		
 		if(empty($pin_codes))
