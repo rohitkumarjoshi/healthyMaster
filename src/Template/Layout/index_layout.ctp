@@ -304,6 +304,9 @@
 										<?php echo $this->Html->link('<i class="fa  fa-file"></i> Stock Report','/ItemLedgers/NewReportStock',['escape'=>false]) ?>
 									</li>
 									<li>
+										<?php echo $this->Html->link('<i class="fa  fa-file"></i> Wallet Report','/Customers/wallet_report',['escape'=>false]) ?>
+									</li>
+									<li>
 										<?php echo $this->Html->link('<i class="fa  fa-file"></i>GST Report','/Orders/gst_reports',['escape'=>false]) ?>
 									</li>
 

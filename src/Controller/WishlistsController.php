@@ -63,13 +63,25 @@ class WishlistsController extends AppController
         $this->set('wishlist', $wishlist);
     }
 
+     public function exportWishlistReport()
+    {
+         $this->viewBuilder()->layout('');
+        $jain_thela_admin_id=$this->Auth->User('jain_thela_admin_id');
+        $Wishlist= $this->Wishlists->newEntity();
+        $Wishlists = $this->Wishlists->find()
+        ->contain(['Customers','Items','ItemVariations'=>['Units']])
+        ->order(['Wishlists.id'=>'DESC']);
+          $this->set(compact('Wishlist', 'Wishlists','items','Customers','item_variation'));
+    }
+
      public function wishlistReport()
     {
         $this->viewBuilder()->layout('index_layout');
         $jain_thela_admin_id=$this->Auth->User('jain_thela_admin_id');
         $Wishlist= $this->Wishlists->newEntity();
         $Wishlists = $this->Wishlists->find()
-        ->contain(['Customers','Items','ItemVariations'=>['Units']]);
+        ->contain(['Customers','Items','ItemVariations'=>['Units']])
+        ->order(['Wishlists.id'=>'DESC']);
         //pr($Wishlists->toArray());exit;
         if ($this->request->is('post')) {
             $datas = $this->request->getData();

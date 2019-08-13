@@ -76,7 +76,7 @@
                     <thead>
                         <tr>
 
-                            <th colspan="3">Vendor : <?php
+                            <th colspan="4">Vendor : <?php
                                 $b='';
                              foreach ($vendor_row as $rows){
                                 
@@ -92,6 +92,7 @@
                             <th>Sr</th>
                             <th>Item Code</th>
                             <th>Item</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -106,9 +107,14 @@
                             <td><?= h($row->item->item_code) ?></td>
                             
                             <td><?= h($row->item->name) ?></td>
-                           <!--  <td class="actions">
-                                <?= $this->Html->link(__('Edit'), ['action' => 'edit', $row->id]) ?>
-                            </td> -->
+                           <td class="actions">
+                               <?php if($row->status == "Active"){ ?>
+                                <?= $this->Form->postLink(__('Deactive'), ['action' => 'delete', $row->id,$row->vendor_id], ['confirm' => __('Are you sure you want to Deactive # {0}?', $row->item->name),'class'=>'btn btn-xs green']) ?>
+                                <?php } ?>
+                                <?php if($row->status == "Deactive"){ ?>
+                                <?= $this->Form->postLink(__('Active'), ['action' => 'delete1', $row->id,$row->vendor_id], ['confirm' => __('Are you sure you want to Active # {0}?', $row->item->name),'class'=>'btn btn-xs green']) ?>
+                                <?php } ?>
+                            </td>
                         </tr>
                         <?php endforeach; ?>
                     </tbody>

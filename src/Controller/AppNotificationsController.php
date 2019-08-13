@@ -18,16 +18,27 @@ class AppNotificationsController extends AppController
      *
      * @return \Cake\Http\Response|null
      */
+     public function exportNotificationReport()
+    {
+    	$this->viewBuilder()->layout('');
+    	$notifications=$this->AppNotifications->AppNotificationCustomers->find()
+    	->select(['count'=>'count(customer_id)','AppNotifications.image','AppNotifications.message','AppNotifications.item_id','AppNotifications.created_on'])
+    	->group('app_notification_id')
+    	->contain(['AppNotifications'=>['Users'],'Customers'])
+    	->order(['AppNotificationCustomers.id'=>'DESC']);
+    	 $this->set(compact('notifications'));
+    }
 
     public function notificationReport()
     {
     	$this->viewBuilder()->layout('index_layout');
     	$notifications=$this->AppNotifications->AppNotificationCustomers->find()
-    	->select(['count'=>'count(customer_id)','AppNotifications.image','AppNotifications.message','AppNotifications.item_id'])
+    	->select(['count'=>'count(customer_id)','AppNotifications.image','AppNotifications.message','AppNotifications.item_id','AppNotifications.created_on'])
     	->group('app_notification_id')
     	->contain(['AppNotifications'=>['Users'],'Customers'])
     	->order(['AppNotificationCustomers.id'=>'DESC']);
     	 $this->set(compact('notifications'));
+    	 //pr($notifications->toArray());exit;
     }
 
     public function index()

@@ -18,9 +18,25 @@
                     <table width="50%" class="table table-condensed">
                         <tbody>
                             <tr>
-                                <td width="4%">
+                                <td width="20%">
+								
                                     <?php echo $this->Form->input('pincode', ['label' => false,'class' => 'form-control input-sm pincode','placeholder'=>'Pincode','type'=>'text','value'=>@$pincode]); ?>
                                 </td>
+								<td width="20%">
+									
+										
+										<?php echo $this->Form->control('state_id', ['empty'=>'-- select state --','options' => $states,'class'=>'form-control input-sm select select2me select2 state','label'=>false]); ?>
+								  
+								</td>
+								<td width="20%">
+									
+									  
+										<select name="city_id" class="form-control input-sm city select2">
+											
+											
+										</select>
+									
+								</td>
                                 <td width="10%">
                                     <button type="submit" class="btn btn-success btn-sm"><i class="fa fa-filter"></i> Filter</button>
                                 </td>
@@ -116,3 +132,33 @@
         </div>
     </div>
 </div>
+<?php echo $this->Html->script('/assets/global/plugins/jquery.min.js'); ?>
+<script>
+$(document).ready(function() {
+	$(document).on('change','.state',function(){
+		
+		var input=$(this).val();
+		var master = $(this); 
+		$(".city option").remove();
+		if(input.length>0){
+			var m_data = new FormData();
+			var url ="<?php echo $this->Url->build(["controller" => "Pincodes", "action" => "options"]); ?>";
+		 //   alert(url);
+			m_data.append('input',input); 
+			$.ajax({
+				url: url,
+				data: m_data,
+				processData: false,
+				contentType: false,
+				type: 'POST',
+				dataType:'text',
+				success: function(data)
+				{ 
+					$('.city').append(data);
+				}
+			});
+		}
+		
+	}); 
+});
+</script>

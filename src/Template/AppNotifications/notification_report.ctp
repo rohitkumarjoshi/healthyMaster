@@ -7,7 +7,7 @@
                     <span class="caption-subject"><?= __('PUSH NOTIFICATION REPORT') ?></span>
                 </div>
                 <div class="actions"> 
-                    <button class="btn btn-sm yellow" id="btnExport" onclick="fnExcelReport();"> Export </button>&nbsp;
+                   <?php echo $this->Html->link('Excel',['controller'=>'AppNotifications','action' => 'exportNotificationReport'],['target'=>'_blank']); ?>
                 </div>
             </div>
             <div class="portlet-body">
@@ -19,12 +19,14 @@
                             <th scope="col">Type</th>
                             <th scope="col">Message</th>
                             <th scope="col">User</th>
+                            <th scope="col">Create Date</th>
                             <th scope="col">No Of Person</th>
                     </thead>
                     <tbody>
                         <?php $i=1;
                             
                             foreach ($notifications as $notification):
+                                $created=$notification->app_notification->created_on;
                         ?>
                         <tr>
                             <td><?= $i; $i++;?></td>
@@ -41,6 +43,7 @@
                             ?></td>
                             <td><?= @$notification->app_notification->message?></td>
                             <td>Admin</td>
+                            <td><?= date('d-m-Y',strtotime($created)) ?></td>
                             <td><?= @$notification->count?></td>
 
                         </tr>

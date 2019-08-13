@@ -75,7 +75,7 @@
 					</div>
 				</div>	','/AppNotifications/home?page=specialoffers',['escape'=>false]) ?>
 				-->
-				<?php echo $this->Html->link('
+				<!-- <?php echo $this->Html->link('
 				<div class="col-lg-2 col-md-2 col-sm-3 col-xs-6">
 					<div class="dashboard-stat red-intense" style="height:40px">
 						
@@ -85,7 +85,7 @@
 						</p>
 					</div>
 
-				</div>','/AppNotifications/item_view',['escape'=>false]) ?>
+				</div>','/AppNotifications/item_view',['escape'=>false]) ?> -->
 			</div>
 
 			<style>

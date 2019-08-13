@@ -293,6 +293,7 @@ class ItemsController extends AppController
             'contain' => ['ItemVariations'=>['UnitVariations'],'ItemRows']]
         );
 		$old_image_name=$item->image;
+        $old_image_name=$item->image;
         if ($this->request->is(['patch', 'post', 'put'])) {
 			
             $variations=$this->request->data('item_variations');
@@ -349,6 +350,12 @@ class ItemsController extends AppController
 					 $ItemRows->status=0;
 					 $this->Items->ItemRows->save($ItemRows);	
 					
+					}
+				}else{
+					$ItemRowsdatas=$this->Items->ItemRows->find()->where(['item_id'=>$item->id]);
+					foreach($ItemRowsdatas as $ItemRowsdata){
+						$delItemRows=$this->Items->ItemRows->get($ItemRowsdata->id);
+						$this->Items->ItemRows->delete($delItemRows);
 					}
 				}
                 foreach($item->item_variations as $variation)

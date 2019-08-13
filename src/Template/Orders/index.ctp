@@ -308,7 +308,7 @@ $(document).ready(function() {
 
 	 $(document).on('click',".ok",function(){
 		var status=$(this).closest('tr').find('.option_status').val();
-		//alert(status);
+		alert(status);
 		if(status =="Delivered")
 		{
 			$(this).closest('tr').find('.ok').hide();
@@ -338,7 +338,8 @@ $(document).ready(function() {
             type: 'post',
             data: {status: status,order_id:order_id},
            success: function (data) {
-               console.log(data);
+               //console.log(data);
+               alert(data);
                }
             });
 		}

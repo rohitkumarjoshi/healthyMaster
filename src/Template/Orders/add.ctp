@@ -40,7 +40,7 @@ background-color: #fff;}
 						
 						 <div class="suggesstion-box box"  autocomplete="off"></div>
 					</div>
-					<a href="#" role="button" class="pull-left plus" style="margin-top: 26px;" >
+					<a href="#" role="button" class="btn btn-xs green pull-left plus" style="margin-top: 26px;" >
 							 +</a>
 						
 						<?php echo $this->Form->control('warehouse_id',['options' => $warehouses,'class'=>'form-control input-sm','id'=>'customer_id','label'=>false,'type'=>'hidden']); ?>

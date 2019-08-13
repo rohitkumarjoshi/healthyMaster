@@ -19,14 +19,19 @@ class FeedbacksController extends AppController
      * @return \Cake\Http\Response|null
      */
 
+    public function exportReport()
+    {
+        $this->viewBuilder()->layout(''); 
+          
+        $feedbacks=$this->Feedbacks->find()->contain(['Customers'])->order(['Feedbacks.id'=>'DESC']);
+        $this->set(compact('feedback','feedbacks'));
+    }
     public function report()
     {
         $this->viewBuilder()->layout('index_layout'); 
         $feedback=$this->Feedbacks->newEntity();
-        
-		$feedbacks=$this->Feedbacks->find()->order(['Feedbacks.id'=>'DESC']);
           
-		$feedbacks=$this->Feedbacks->find()->contain(['Customers']);
+		$feedbacks=$this->Feedbacks->find()->contain(['Customers'])->order(['Feedbacks.id'=>'DESC']);
 		if ($this->request->is('post')) {
             $datas = $this->request->getData();
            

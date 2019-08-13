@@ -7,7 +7,7 @@
 				<span class="caption-subject">Promo Codes</span>
 			</div>
 			<div class="actions">
-				<button class="btn btn-sm yellow" id="btnExport" onclick="fnExcelReport();"> Export </button>&nbsp;
+				<?php echo $this->Html->link('Excel',['controller'=>'PromoCodes','action' => 'exportPromoReport'],['target'=>'_blank']); ?>
 			</div>
 		</div>
 		<div class="portlet-body">
@@ -64,6 +64,7 @@
 						<th>Free Shipping</th>
 						<th>Valid From</th>
 						<th>Valid To</th>
+						<th>Create</th>
 						<th>Status</th>
 					</tr>
 				</thead>
@@ -117,6 +118,7 @@
 						<td><?= h(@$promoCode->valid_to) ?>
 						<span id="status_id" style="display:none;"><?php echo $promoCode->id; ?></span>
 						</td>
+						<td><?= h(@date('d-m-Y',strtotime($promoCode->created_on) ))?>
 						<td><?= h(@$promoCode->status) ?>
 					</tr>
 					<?php endforeach; ?>

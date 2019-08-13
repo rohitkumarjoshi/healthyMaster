@@ -12,7 +12,9 @@
 					</span>
 				</div>
 				<div class="actions"> 
-                    <button class="btn btn-sm yellow" id="btnExport" onclick="fnExcelReport();"> Export </button>&nbsp;
+                   <div class="actions">
+					 <?php echo $this->Html->link('Excel',['controller'=>'ItemLedgers','action' => 'exportNewReportStock'],['target'=>'_blank']); ?>
+				</div>
                 </div>
 			</div>
 			<div class="portlet-body">
