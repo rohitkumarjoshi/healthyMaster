@@ -428,11 +428,13 @@ $(document).ready(function() {
 	
 	//--	 END OF VALIDATION
 	$('.all_calculation').live('click',function() {
+		var stts="yes";
 		$("#main_table tbody#main_tbody tr.main_tr").each(function(){ 
 			var item_id=$(this).find('.item-id option:selected').val();
 			var varition_id=$(this).find('.varition option:selected').val();
 			var show_quantity=$(this).find('.show_quantity').val();
 			var tt=$(this);
+			
 			var url ="<?php echo $this->Url->build(["controller" => "Orders", "action" => "currentStockData"]); ?>";
 				url=url+'/'+varition_id, 
 				$.ajax({
@@ -441,15 +443,23 @@ $(document).ready(function() {
 				}).done(function(response) { 
 					var cur_qty=response;
 					if(cur_qty >= show_quantity){
-						$('.submit_btn').css('display','');
-						$('.all_calculation').css('display','none');
+						
 					}else{
-						tt.find('.OutOfStockItem').html("This Item is Out of Stcok");
-						break;
+						tt.closest('tr').find('td:nth-child(4) .show_quantity').val('');
+						tt.closest('tr').find('span.total').html(cur_qty);
+						tt.find('.OutOfStockItem').html("Select Quantity");
+						var stts="no";
 					}
 			});
 			
 		});
+		if(stts=="yes"){
+			$('.submit_btn').css('display','');
+			$('.all_calculation').css('display','none');
+		}else{
+			$('.all_calculation').css('display','');
+			$('.submit_btn').css('display','none');
+		}
 		
 		
 	});
