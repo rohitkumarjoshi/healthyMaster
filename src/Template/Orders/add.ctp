@@ -57,9 +57,9 @@ background-color: #fff;}
 						<select name="order_type" class="form-control select2me input-sm" required="required">
 							<option value="">--Select--</option>
 							<option value="COD">COD</option>
-							<option value="Online">Paytm</option>
-							<option value="Online">Google Pay</option>
-							<option value="Online">Credit Card</option>
+							<option value="Paytm">Paytm</option>
+							<option value="Google Pay">Google Pay</option>
+							<option value="Credit Card">Credit Card</option>
 						</select>
 					</div>
 					<div class="col-md-2">
@@ -428,6 +428,9 @@ $(document).ready(function() {
 	
 	//--	 END OF VALIDATION
 	$('.all_calculation').live('click',function() {
+		
+		$('.submit_btn').css('display','');
+		$('.all_calculation').css('display','none');
 		var stts="yes";
 		$("#main_table tbody#main_tbody tr.main_tr").each(function(){ 
 			var item_id=$(this).find('.item-id option:selected').val();
@@ -440,26 +443,31 @@ $(document).ready(function() {
 				$.ajax({
 					url: url,
 					dataType: 'json',
-				}).done(function(response) { 
+				}).success(function(response) { 
 					var cur_qty=response;
 					if(cur_qty >= show_quantity){
 						
 					}else{
+						stts="no";
+						alert(stts);
 						tt.closest('tr').find('td:nth-child(4) .show_quantity').val('');
 						tt.closest('tr').find('span.total').html(cur_qty);
-						tt.find('.OutOfStockItem').html("Select Quantity");
-						var stts="no";
+						tt.find('.OutOfStockItem').html("Quantit Exceeds");
+						$('.all_calculation').css('display','');
+						$('.submit_btn').css('display','none');
+						
 					}
 			});
 			
 		});
-		if(stts=="yes"){
+		
+		/* if(stts=="yes"){
 			$('.submit_btn').css('display','');
 			$('.all_calculation').css('display','none');
 		}else{
 			$('.all_calculation').css('display','');
 			$('.submit_btn').css('display','none');
-		}
+		} */
 		
 		
 	});
