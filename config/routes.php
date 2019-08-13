@@ -368,6 +368,10 @@ Router::prefix('api', function ($routes) {
 			   'updateorder' => [
 				   'action' => 'updateOrder',
 				   'method' => 'GET'
+			   ],
+			   'check' => [
+				   'action' => 'check',
+				   'method' => 'GET'
 			   ]
 			 ]
 		]);

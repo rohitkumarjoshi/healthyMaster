@@ -57,9 +57,9 @@ background-color: #fff;}
 						<select name="order_type" class="form-control select2me input-sm" required="required">
 							<option value="">--Select--</option>
 							<option value="COD">COD</option>
-							<option value="Online">Paytm</option>
-							<option value="Online">Google Pay</option>
-							<option value="Online">Credit Card</option>
+							<option value="Paytm">Paytm</option>
+							<option value="Google Pay">Google Pay</option>
+							<option value="Credit Card">Credit Card</option>
 						</select>
 					</div>
 					<div class="col-md-2">
@@ -188,7 +188,7 @@ background-color: #fff;}
 									Delivery Charge
 									</td>
 									<td>
-									<?php echo $this->Form->control('delivery_charge',['placeholder'=>'Amount From Wallet','class'=>'number form-control input-sm cal_amount dlvry','label'=>false,'type'=>'text','value'=>0,'readonly']); ?>
+									<?php echo $this->Form->control('delivery_charge',['placeholder'=>'Amount From Wallet','class'=>'number form-control input-sm cal_amount dlvry','label'=>false,'type'=>'text','value'=>0]); ?>
 									</td>
 									<td></td>
 								</tr>
@@ -228,7 +228,7 @@ background-color: #fff;}
 				 
 				<br/>
 				<center>
-				<a class="btn btn-primary  btn-condensed all_calculation" role="button" >Calculation</a>
+				<a class="btn btn-primary  btn-condensed all_calculation" role="button" >Check Stock</a>
 				<?= $this->Form->button(__('Submit'),['class'=>'btn btn-primary submit_btn','style'=>'display:none']) ?>
 				<!--<?= $this->Form->button($this->Html->tag('i', '', ['class'=>'fa fa-plus']) . __(' Submit'),['class'=>'btn btn-success']); ?>-->
 				</center>
@@ -242,6 +242,7 @@ background-color: #fff;}
 <script>
 $(document).ready(function() {
 	
+		
 	
 
 	$(document).on('click','.prev',function(){
@@ -325,7 +326,7 @@ $(document).ready(function() {
 		calculate_total();
       });
 
-	 $(document).on('blur',".autocompleted",function(){ //alert("blur");
+	  $(document).on('blur',".autocompleted",function(){ //alert("blur");
         $('.suggesstion-box').delay(1000).fadeOut(500);
     }); 
 
@@ -357,6 +358,7 @@ $(document).ready(function() {
         }
     });
 
+ 
 
 	
   //--------- FORM VALIDATION
@@ -424,10 +426,58 @@ $(document).ready(function() {
 
 	});
 	
+	var time = new Date().getTime();
+		 $(document.body).bind('mousemove keypress', function(e) {
+			 time = new Date().getTime();
+		 });
+		function refresh() {
+			 if(new Date().getTime() - time >= 5000){ alert();
+				 //window.location.reload(true);
+				 $('.all_calculation').css('display','');
+				$('.submit_btn').css('display','none');
+			 } else {
+				 setTimeout(refresh, 1000);
+			}
+		}
+
+		setTimeout(refresh, 1000);
+	
+	/* $('.autofill').select2({
+            minimumInputLength: 1,
+            placeholder: 'Mobile No',
+            allowClear: true,
+            ajax: {
+                url: '".$this->Url->build(['controller'=>'ItemLedgers','action'=>'getDataFilter.json'])."',
+
+                dataType: 'json',
+                type: 'post',
+                quietMillis: 50,
+                data: function (term) {
+                    return {
+                        term: term
+                    };
+                },
+                results: function (data) { 
+                    
+                    return {
+                        results: $.map(data, function (item) { 
+                            return {
+                                    id: item.id,
+                                    text: item.name
+                                }
+                        })
+                    };
+                }
+            }
+        }); */
+	
 	
 	
 	//--	 END OF VALIDATION
 	$('.all_calculation').live('click',function() {
+		
+		$('.submit_btn').css('display','');
+		$('.all_calculation').css('display','none');
 		var stts="yes";
 		$("#main_table tbody#main_tbody tr.main_tr").each(function(){ 
 			var item_id=$(this).find('.item-id option:selected').val();
@@ -440,26 +490,32 @@ $(document).ready(function() {
 				$.ajax({
 					url: url,
 					dataType: 'json',
-				}).done(function(response) { 
+				}).success(function(response) { 
 					var cur_qty=response;
 					if(cur_qty >= show_quantity){
-						
+						tt.find('.OutOfStockItem').html("Quantity Available");
+						tt.find('.OutOfStockItem').css('color','green');
 					}else{
+						stts="no";
+						alert(stts);
 						tt.closest('tr').find('td:nth-child(4) .show_quantity').val('');
 						tt.closest('tr').find('span.total').html(cur_qty);
-						tt.find('.OutOfStockItem').html("Select Quantity");
-						var stts="no";
+						tt.find('.OutOfStockItem').html("Quantit Exceeds");
+						$('.all_calculation').css('display','');
+						$('.submit_btn').css('display','none');
+						
 					}
 			});
 			
 		});
-		if(stts=="yes"){
+		
+		/* if(stts=="yes"){
 			$('.submit_btn').css('display','');
 			$('.all_calculation').css('display','none');
 		}else{
 			$('.all_calculation').css('display','');
 			$('.submit_btn').css('display','none');
-		}
+		} */
 		
 		
 	});
@@ -564,13 +620,14 @@ function round(value, exp) {
 		var discount_amount=Math.round(total_amount*(discount_percent/100));
 		var total_amount=Math.round(total_amount-discount_amount);
 		}
-		if(total_amount<100 && total_amount>0){
+		/* if(total_amount<100 && total_amount>0){
 			$('input[name=delivery_charge]').val(50);
 		}else{
 			$('input[name=delivery_charge]').val(0);
-		}
+		} */
 		var amount_from_wallet=parseFloat($('input[name=amount_from_wallet]').val());
 		var delivery_charge=parseFloat($('input[name=delivery_charge]').val());
+		//alert(delivery_charge)
 		if(!amount_from_wallet){
 		amount_from_wallet=0;
 		}
@@ -1173,7 +1230,7 @@ function selectAutoCompleted1(value) {
 						<span class="msg_shw2" style="color:blue;font-size:12px;"></span>
 					</td>
 					<td>
-						<?php echo $this->Form->input('show_quantity', ['label' => false,'class' => 'form-control input-sm number cal_amount quant show_quantity','placeholder'=>'Quantity']); ?>
+						<?php echo $this->Form->input('show_quantity', ['label' => false,'class' => 'form-control input-sm number cal_amount quant show_quantity','placeholder'=>'Quantity','min'=>1]); ?>
 						
 						<span class="msg_shw2 total"  style="color:blue;font-size:12px;"></span>
 							<?php echo $this->Form->input('quantity', ['label' => false,'class' => 'form-control input-sm number mains quantity','value'=>0, 'type'=>'hidden']); ?>
