@@ -132,6 +132,10 @@ Router::prefix('api', function ($routes) {
 				   'action' => 'registration',
 				   'method' => 'GET'
 			   ],
+			   'registrationnew' => [
+				   'action' => 'registrationnew',
+				   'method' => 'POST'
+			   ],
 			   
 			   'demo' => [
 				   'action' => 'getCustomer',
