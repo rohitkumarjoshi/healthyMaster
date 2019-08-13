@@ -14,9 +14,76 @@ class CustomersController extends AppController
 		$this->set('_serialize', ['status', 'message', 'customer']);		
 	}
 	
-
+		public function registrationnew()
+		{
+			if ($this->request->is(['post'])) {
+				$customer = $this->Customers->newEntity();
+				$customer= $this->Customers->patchEntity($customer, $this->request->getData());
+				if($this->Customers->save($customer)) {
+					$status=true;
+					$customer=$this->Customers->get($customer->id);
+					$error='Customer registration successfully.';
+				}else{ 
+					$status=false;
+					$error='Customer registration unsuccessfully.';
+				}
+			}
+			$this->set(compact('status', 'error', 'customer'));
+	        $this->set('_serialize', ['status', 'error', 'customer']);
+			
+		}
 	
-    public function registration()
+	  public function registration()
+		{
+			$error="";
+			$mobile_no=$this->request->query('mobile_no');
+			$otp=$this->request->query('otp');
+			$signup=$this->request->query('status');
+			
+			if(!empty($mobile_no) && empty($otp))
+			{
+				 $customerDetails = $this->Customers->find()->where(['mobile'=>$mobile_no,'status'=>'completed'])->first();
+				 if($customerDetails){
+					$id=$customerDetails->id;
+					$new_signup='no';
+					$random=(string)mt_rand(1000,9999);
+					$sms=str_replace(' ', '+', 'Your one time OTP is: '.$random.' NVgmEUCjXDc');
+					$working_key='A7a76ea72525fc05bbe9963267b48dd96';
+					$sms_sender='HEALTH';
+					$sms=str_replace(' ', '+', $sms); 
+					file_get_contents('http://103.39.134.40/api/mt/SendSMS?user=phppoetsit&password=9829041695&senderid='.$sms_sender.'&channel=Trans&DCS=0&flashsms=0&number='.$mobile_no.'&text='.$sms.'&route=7'); 
+					$customerDetails = $this->Customers->get($customerDetails->id);
+					$customerDetails->otp=$random;
+					//$customerDetails->user_img = $img_name;
+					$this->Customers->save($customerDetails);
+					$status=true;
+					$error="OTP sent successfully.";
+					 
+				 }else{
+					 $status=false;
+					 $error="you are not register";
+					 $customerDetails=(object)[];
+				 }
+				 
+			}else{
+				 $customerDetails = $this->Customers->find()->where(['mobile'=>$mobile_no,'status'=>'completed','otp'=>$otp])->first();
+				 if($customerDetails){
+					 $status=true;
+					 $error="Login Successfully";
+				 }else{
+					
+					$status=false;
+					$error="Enter wrong otp.";
+					$customerDetails=(object)[];
+				 }
+			}
+			
+			$this->set(compact('status', 'error', 'new_signup', 'customerDetails'));
+	        $this->set('_serialize', ['status', 'error', 'new_signup', 'customerDetails']);
+			
+		}
+	
+    public function registrationold()
     {
 		$error="";
 	    $mobile_no=$this->request->query('mobile_no');

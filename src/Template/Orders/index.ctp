@@ -339,7 +339,7 @@ $(document).ready(function() {
             data: {status: status,order_id:order_id},
            success: function (data) {
                //console.log(data);
-               alert(data);
+               
                }
             });
 		}
