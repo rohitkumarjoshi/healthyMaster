@@ -25,7 +25,7 @@ class CustomersController extends AppController
 				$otp='';
 			}else{
 					$random=(string)mt_rand(1000,9999);
-					$sms=str_replace(' ', '+', 'Your one time OTP is: '.$random.' NVgmEUCjXDc');
+					$sms=str_replace(' ', '+', 'Your one time OTP is: '.$random.' ovRpCuXDUvO');
 					$working_key='A7a76ea72525fc05bbe9963267b48dd96';
 					$sms_sender='HEALTH';
 					$sms=str_replace(' ', '+', $sms); 
@@ -79,7 +79,7 @@ class CustomersController extends AppController
 					$id=$customerDetails->id;
 					$new_signup='no';
 					$random=(string)mt_rand(1000,9999);
-					$sms=str_replace(' ', '+', 'Your one time OTP is: '.$random.' NVgmEUCjXDc');
+					$sms=str_replace(' ', '+', 'Your one time OTP is: '.$random.' ovRpCuXDUvO');
 					$working_key='A7a76ea72525fc05bbe9963267b48dd96';
 					$sms_sender='HEALTH';
 					$sms=str_replace(' ', '+', $sms); 

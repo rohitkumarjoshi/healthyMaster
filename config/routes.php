@@ -372,6 +372,10 @@ Router::prefix('api', function ($routes) {
 			   'check' => [
 				   'action' => 'check',
 				   'method' => 'GET'
+			   ],
+			   'paymentfail' => [
+				   'action' => 'paymentfail',
+				   'method' => 'GET'
 			   ]
 			 ]
 		]);

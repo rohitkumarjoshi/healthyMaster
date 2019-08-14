@@ -242,7 +242,12 @@ background-color: #fff;}
 <script>
 $(document).ready(function() {
 	
-		
+	$('form').bind("keypress", function(e) {
+		if (e.keyCode == 13) {
+			e.preventDefault();
+			return false;
+		}
+	});
 	
 
 	$(document).on('click','.prev',function(){
