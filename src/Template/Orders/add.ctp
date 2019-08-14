@@ -431,7 +431,7 @@ $(document).ready(function() {
 			 time = new Date().getTime();
 		 });
 		function refresh() {
-			 if(new Date().getTime() - time >= 5000){ alert();
+			 if(new Date().getTime() - time >= 5000){ 
 				 //window.location.reload(true);
 				 $('.all_calculation').css('display','');
 				$('.submit_btn').css('display','none');

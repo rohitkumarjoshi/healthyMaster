@@ -251,9 +251,7 @@
 									<li>
 									<?php echo $this->Html->link('<i class="fa fa-user"></i> Customers','/Customers',['escape'=>false]) ?>
 									</li>
-									<li>
-									<?php echo $this->Html->link('<i class="fa fa-user"></i> FAQ','/Faqs',['escape'=>false]) ?>
-									</li>
+									
 									<li>
 									<?php echo $this->Html->link('<i class="fa fa-user"></i> Pincodes','/Pincodes',['escape'=>false]) ?>
 									</li>
@@ -292,7 +290,7 @@
 										<?php echo $this->Html->link('<i class="fa  fa-file"></i> Push Notification','/AppNotifications/notification_report',['escape'=>false]) ?>
 									</li>
 									<li>
-										<?php echo $this->Html->link('<i class="fa  fa-file"></i>Purchase Report','/PurchaseBookings/purchase_report',['escape'=>false]) ?>
+										<?php echo $this->Html->link('<i class="fa  fa-file"></i> Purchase Report','/PurchaseBookings/purchase_report',['escape'=>false]) ?>
 									</li>
 									<!--<li>
 										<?php echo $this->Html->link('<i class="fa  fa-file"></i> Variation Stock','/ItemLedgers/stockReport',['escape'=>false]) ?>
@@ -307,7 +305,7 @@
 										<?php echo $this->Html->link('<i class="fa  fa-file"></i> Wallet Report','/Customers/wallet_report',['escape'=>false]) ?>
 									</li>
 									<li>
-										<?php echo $this->Html->link('<i class="fa  fa-file"></i>GST Report','/Orders/gst_reports',['escape'=>false]) ?>
+										<?php echo $this->Html->link('<i class="fa  fa-file"></i> GST Report','/Orders/gst_reports',['escape'=>false]) ?>
 									</li>
 
 									<li>
@@ -332,7 +330,7 @@
 										<?php echo $this->Html->link('<i class="fa  fa-file"></i> Promo Code Report','/PromoCodes/promo_code_report',['escape'=>false]) ?>
 									</li>
 									<li>
-										<?php echo $this->Html->link('<i class="fa  fa-file"></i>Used Promo Code','/Orders/used_promo_code_report',['escape'=>false]) ?>
+										<?php echo $this->Html->link('<i class="fa  fa-file"></i> Used Promo Code','/Orders/used_promo_code_report',['escape'=>false]) ?>
 									</li>
 									<!-- <li>
 										<?php echo $this->Html->link('<i class="fa fa-database"></i> Product Report','/itemLedgers/driver_report',['escape'=>false]) ?>

@@ -833,9 +833,14 @@ curl_close($ch);
 					
 					///////////////////////DELETED CART/////////////////
 						$this->loadModel('Carts');
-						
 						$query = $this->Carts->query();
 						$result = $query->delete()
+							->where(['customer_id' => $customer_id])
+							->execute(); 
+						
+						$this->loadModel('FinalCarts');
+						$queryy = $this->FinalCarts->query();
+						$result = $queryy->delete()
 							->where(['customer_id' => $customer_id])
 							->execute(); 
 
@@ -1214,7 +1219,7 @@ curl_close($ch);
         $this->set('_serialize', ['status', 'error']);
     }
 
-	public function check()
+		public function check()
     { 
 		$customer_id=$this->request->query('customer_id');
 		$payment_mode=$this->request->query('payment_mode');
@@ -1226,13 +1231,28 @@ curl_close($ch);
 		$status="True";
 		foreach($carts_data as $carts_data_fetch)
 		{
-			$stockmax=$this->currentStock($carts_data_fetch->item_id,$carts_data_fetch->item_variation_id);
+			$stockmax=$this->currentStockNew($carts_data_fetch->item_id,$carts_data_fetch->item_variation_id);
+			
 			$this->loadModel('FinalCarts');
-			$FinalCarts=$this->FinalCarts->find()->where(['FinalCarts.item_variation_id'=>$carts_data_fetch->item_variation_id]);
-			$FinalCarts->select(['customer_id','addAmt' => $FinalCarts->func()->sum('FinalCarts.quantity')])
+			$FinalCartsQty=$this->actualStock($carts_data_fetch->item_id,$carts_data_fetch->item_variation_id);
+			
+			
+			$QuantityTotalStock=$stockmax-$FinalCartsQty;
+			$ItemVariations=$this->Carts->ItemVariations->find()->where(['ItemVariations.id'=>$carts_data_fetch->item_variation_id])->contain(['UnitVariations'])->first();
+		
+			$FinalStock=floor($QuantityTotalStock/$ItemVariations->unit_variation->quantity_factor);
+		
+		
+			
+			
+			//pr($FinalStock); exit;	
+			/*$FinalStock=$this->FinalCarts->find()->where(['FinalCarts.item_variation_id'=>$carts_data_fetch->item_variation_id]);
+			/*$FinalStock=$this->FinalCarts->find()->where(['FinalCarts.item_variation_id'=>$carts_data_fetch->item_variation_id]);
+			
+			 $FinalCarts->select(['customer_id','addAmt' => $FinalCarts->func()->sum('FinalCarts.quantity')])
 			->toArray();
 			$FinalCartsQty=$FinalCarts->first()['addAmt']; 
-			$FinalStock=$stockmax-$FinalCartsQty;
+			$FinalStock=$stockmax-$FinalCartsQty; */
 			if($carts_data_fetch->quantity > $FinalStock){
 				$status="False";
 			}

@@ -91,6 +91,31 @@ class AppController extends Controller
         }
     }
 	
+	public function actualStock($item_id,$variation_id){
+		$this->loadModel('FinalCarts');
+		$ItemLedgersData = $this->FinalCarts->find()->select(['item_id','item_variation_id','quantity'])
+		->contain(['ItemVariations'=>['UnitVariations']])
+		->where(['FinalCarts.item_id'=>$item_id])->autoFields(true);
+		
+		$QuantityTotalStock=0;
+		if($ItemLedgersData){
+			$ItemLedgersData->select(['total_op_qt' => $ItemLedgersData->func()->sum('FinalCarts.quantity')])
+		   ->group(['FinalCarts.item_id']);
+		  
+			$QuantityTotalStock=0;
+			foreach($ItemLedgersData as $data){ 
+				if($data->status=="In"){ 
+					@$QuantityTotalStock+=@$data->item_variation->unit_variation->quantity_factor*$data->total_op_qt;
+				}else{
+					@$QuantityTotalStock-=@$data->item_variation->unit_variation->quantity_factor*$data->total_op_qt;
+				}
+			}
+		}
+		return @$QuantityTotalStock;
+    	exit;
+		
+		
+	}
 	public function currentStock($item_id,$variation_id)
     {
 		$this->loadModel('ItemLedgers');
