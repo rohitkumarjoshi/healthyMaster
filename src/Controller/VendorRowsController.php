@@ -52,10 +52,12 @@ class VendorRowsController extends AppController
 
         if ($this->request->is('post')) {
             $datas=$this->request->getData('vendor');
-            //pr($datas);
+           
             foreach ($datas as $key => $data) {
                 $datas[$key]['vendor_id']=$vendor_id;
+				$datas[$key]['status']='Active';
             }
+			
              $vendorRow = $this->VendorRows->newEntities($datas);
             if ($this->VendorRows->saveMany($vendorRow)) {
                 $this->Flash->success(__('The vendor row has been saved.'));
