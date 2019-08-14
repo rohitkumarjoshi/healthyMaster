@@ -136,6 +136,7 @@
 	<!-- DOC: Apply "page-footer-fixed" class to the body element to have fixed footer -->
 	<!-- DOC: Apply "page-sidebar-reversed" class to put the sidebar on the right side -->
 	<!-- DOC: Apply "page-full-width" class to the body element to have full width page without the sidebar menu -->
+	
 	<body class="page-header-fixed page-quick-sidebar-over-content page-style-square">
 		<!-- BEGIN HEADER -->
 		<div class="page-header navbar navbar-fixed-top">
@@ -226,6 +227,7 @@
 		<div class="clearfix">
 		</div>
 		<!-- BEGIN CONTAINER -->
+		<?php if($login_user_id==1){ ?>
 		<div class="page-container">
 				<!-- BEGIN SIDEBAR -->
 				<div class="page-sidebar-wrapper">
@@ -300,6 +302,9 @@
 									</li>-->
 									<li>
 										<?php echo $this->Html->link('<i class="fa  fa-file"></i> Stock Report','/ItemLedgers/NewReportStock',['escape'=>false]) ?>
+									</li>
+									<li>
+										<?php echo $this->Html->link('<i class="fa  fa-file"></i> ThresHold Report','/ItemLedgers/ThresHoldReport',['escape'=>false]) ?>
 									</li>
 									<li>
 										<?php echo $this->Html->link('<i class="fa  fa-file"></i> Wallet Report','/Customers/wallet_report',['escape'=>false]) ?>
@@ -503,6 +508,70 @@
 			<!-- BEGIN QUICK SIDEBAR -->
 			<!-- END QUICK SIDEBAR -->
 		</div>
+		<?php }else{ ?>
+		<div class="page-container">
+				<!-- BEGIN SIDEBAR -->
+				<div class="page-sidebar-wrapper">
+					<div class="page-sidebar navbar-collapse collapse">
+						<!-- BEGIN SIDEBAR MENU -->
+						<!-- DOC: Apply "page-sidebar-menu-light" class right after "page-sidebar-menu" to enable light sidebar menu style(without borders) -->
+						<!-- DOC: Apply "page-sidebar-menu-hover-submenu" class right after "page-sidebar-menu" to enable hoverable(hover vs accordion) sub menu mode -->
+						<!-- DOC: Apply "page-sidebar-menu-closed" class right after "page-sidebar-menu" to collapse("page-sidebar-closed" class must be applied to the body element) the sidebar sub menu mode -->
+						<!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
+						<!-- DOC: Set data-keep-expand="true" to keep the submenues expanded -->
+						<!-- DOC: Set data-auto-speed="200" to adjust the sub menu slide up/down speed -->
+						<ul class="page-sidebar-menu" data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
+
+
+							<li>
+								<?php echo $this->Html->link('<i class="fa fa-dashboard" ></i> <span >Dashboard</span>',array('controller'=>'Orders','action'=>'dashboard'),['escape'=>false]); ?>
+							</li>
+							<li>
+								<?php echo $this->Html->link('<i class="fa fa-users"></i> Vendors','/Vendors',['escape'=>false]) ?>
+							</li>
+									<li>
+								<?php echo $this->Html->link('<i class="fa  fa-book"></i> Purchase Booking','/PurchaseBookings',['escape'=>false]) ?>
+							</li>
+							
+							
+							
+							
+
+						</ul>
+						<!-- END SIDEBAR MENU -->
+					</div>
+				</div>
+				<!-- END SIDEBAR -->
+			<!-- BEGIN CONTENT -->
+			<div class="page-content-wrapper">
+				<div class="page-content">
+					<div  class="page-spinner-bar hide">
+						<div class="bounce1"></div>
+						<div class="bounce2"></div>
+						<div class="bounce3"></div>
+					</div>
+					<!-- BEGIN PAGE HEADER-->					
+					<!-- END PAGE HEADER-->
+					<!-- BEGIN PAGE CONTENT-->					 
+					<div class="row">
+						<div class="col-md-12">
+							<div id="toast-container" class="toast-top-right" aria-live="polite" role="alert">
+								
+									<?= $this->Flash->render() ?>
+								
+							</div>
+							<?php echo $this->fetch('content'); ?>
+							<!--here is page content--->
+						</div>
+					</div>
+						<!-- END PAGE CONTENT-->
+				</div>
+			</div>
+			<!-- END CONTENT -->
+			<!-- BEGIN QUICK SIDEBAR -->
+			<!-- END QUICK SIDEBAR -->
+		</div>
+		<?php } ?>
 		<!-- END CONTAINER -->
 		<!-- BEGIN FOOTER -->
 		<div class="page-footer">
@@ -672,6 +741,7 @@
 		</div>
 		<!-- END JAVASCRIPTS -->
 	</body>
+
 	<!-- END BODY -->
 </html>
 <div  class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel3" aria-hidden="false" style="display: none;border:0px;" id="popup">

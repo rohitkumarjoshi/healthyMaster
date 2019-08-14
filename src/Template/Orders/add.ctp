@@ -248,8 +248,6 @@ $(document).ready(function() {
 			return false;
 		}
 	});
-	
-
 	$(document).on('click','.prev',function(){
 		//alert();
 		var customer_id=$('#customer_id').val();
@@ -632,6 +630,10 @@ function round(value, exp) {
 		} */
 		var amount_from_wallet=parseFloat($('input[name=amount_from_wallet]').val());
 		var delivery_charge=parseFloat($('input[name=delivery_charge]').val());
+		if(!delivery_charge){
+			delivery_charge=0;
+			$('input[name=delivery_charge]').val(delivery_charge);
+		}
 		//alert(delivery_charge)
 		if(!amount_from_wallet){
 		amount_from_wallet=0;

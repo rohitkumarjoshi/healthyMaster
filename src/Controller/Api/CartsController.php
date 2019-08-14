@@ -339,6 +339,26 @@ class CartsController extends AppController
 			$discount_amount = 0.00;
 			$isPromoApplied = false;
 			$isFreeShipping = 'No';	
+			
+			$this->loadModel('Orders');
+			$CustomerFirstOrder = $this->Orders->exists(['customer_id' => $customer_id]);
+			
+			if(empty($CustomerFirstOrder)){
+				foreach($carts as $cart_data)
+					{
+						$discount_per=10;
+						$discount_amount +=  $cart_data->total * $discount_per / 100;
+					}
+					if($discount_amount > 0)
+					{
+						$discount_amount = round($discount_amount);
+						$grand_total = $grand_total - $discount_amount;
+						$isPromoApplied = true;
+					}	
+			}
+			
+			
+			
 			if(!empty($promocode))
 			{
 				$ts = Time::now('Asia/Kolkata');
@@ -346,6 +366,8 @@ class CartsController extends AppController
 				$this->loadModel('PromoCodes');
 				$promoCodeLists = $this->PromoCodes->find()->where(['PromoCodes.valid_from <' =>$current_timestamp, 'PromoCodes.valid_to >' =>$current_timestamp,'PromoCodes.code'=>$promocode])->first();	
 				$cat_item_total = 0.00;
+				
+				
 				
 				
 				if(!empty($promoCodeLists))
@@ -384,7 +406,9 @@ class CartsController extends AppController
 								//$discount_amount =  $cat_item_total - $promoCodeLists->discount_per;
 								 $discount_amount =  $promoCodeLists->discount_per;
 							}						
-						} 			
+						}
+						
+						
 					} 
 					
 					
@@ -695,6 +719,24 @@ class CartsController extends AppController
 		$discount_amount = 0.00;
 		$isPromoApplied = false;
 		$isFreeShipping = 'No';	
+		
+		$this->loadModel('Orders');
+			$CustomerFirstOrder = $this->Orders->exists(['customer_id' => $customer_id]);
+			
+			if(empty($CustomerFirstOrder)){
+				foreach($carts as $cart_data)
+					{
+						$discount_per=10;
+						$discount_amount +=  $cart_data->total * $discount_per / 100;
+					}
+					if($discount_amount > 0)
+					{
+						$discount_amount = round($discount_amount);
+						$grand_total = $grand_total - $discount_amount;
+						$isPromoApplied = true;
+					}	
+			}
+		
 		if(!empty($promocode))
 		{
 			$ts = Time::now('Asia/Kolkata');

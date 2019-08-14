@@ -86,10 +86,14 @@ class ItemLedgersController extends AppController
 		
 		$ItemVariations=$this->ItemLedgers->ItemVariations->find()->where(['ItemVariations.id'=>$variation_id])->contain(['UnitVariations'])->first();
 		
-		//pr($QuantityTotalStock); pr($ItemVariations->unit_variation->quantity_factor); exit;
-    	$rem=floor($QuantityTotalStock/$ItemVariations->unit_variation->quantity_factor);
-		echo $rem;
-    	exit;
+		if($QuantityTotalStock){
+			$rem=floor($QuantityTotalStock/$ItemVariations->unit_variation->quantity_factor);
+			echo $rem;
+			exit;
+		}else{
+			echo "0";
+			exit;
+		}
     }
 	
 	public function options(){

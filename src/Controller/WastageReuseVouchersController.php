@@ -147,6 +147,16 @@ class WastageReuseVouchersController extends AppController
      * @return \Cake\Http\Response|null Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
+	 
+	 public function deleteRecord($id = null){
+		$this->request->allowMethod(['post', 'delete']);
+		$this->WastageReuseVouchers->WastageReuseVoucherRows->deleteAll(['wastage_reuse_voucher_id' =>$id ]);
+		$this->WastageReuseVouchers->WastageReuseVoucherRows->Items->ItemLedgers->deleteAll(['wastage_reuse_voucher_id' =>$id ]);
+		$wastageReuseVoucher = $this->WastageReuseVouchers->get($id);
+		$this->WastageReuseVouchers->delete($wastageReuseVoucher);
+		
+		return $this->redirect(['action' => 'add']);
+	}
     public function delete($id = null)
     {
         $this->request->allowMethod(['post', 'delete']);

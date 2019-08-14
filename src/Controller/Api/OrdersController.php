@@ -54,6 +54,8 @@ class OrdersController extends AppController
 		}])
 	->first();
 	$pincode=$orderDatas->customer_address->pincode;
+	$cus_city_id=$orderDatas->customer_address->city_id;
+	$cus_state_id=$orderDatas->customer_address->state_id;
 	$customer_id=$orderDatas->customer_id;
 	
 	$delivery_charges = '0'; 
@@ -61,19 +63,40 @@ class OrdersController extends AppController
 	$DeliveryCharges=$this->DeliveryCharges->find()->select(['min_order_value'])->where(['pincode_no'=>$pincode])->first();
 	$grand_total=($orderDatas->order_details[0]['total']);
 	
-	if($DeliveryCharges){
-		if($DeliveryCharges->min_order_value < $grand_total){
+		$delivery_charges = '0'; 
+		$this->loadModel('DeliveryCharges'); 
+		$DeliveryCharges=$this->DeliveryCharges->find()->select(['min_order_value','pincode_no'])->where(['pincode_no'=>$pincode])->first();
+		$grand_total=($orderDatas->order_details[0]['total']);
+		
+		if(!empty($DeliveryCharges) && $pincode > 0){ 
+			if($DeliveryCharges->min_order_value < $grand_total){
 			$delivery_charges = 'Free';
 			$isPromoApplied = true;
+			}else{
+				
+				$deliveryAmount=$this->Pincode->getDeliveryChargeOrder($pincode,$order_id);
+				
+				$grand_total = $grand_total + $deliveryAmount;
+				$delivery_charges = $deliveryAmount;
+				$delivery_charges = round($deliveryAmount); 
+			}
 		}else{
 			
-			$deliveryAmount=$this->Pincode->getDeliveryChargeOrder($pincode,$order_id);
+			$DeliveryCharges=$this->DeliveryCharges->find()->select(['min_order_value','pincode_no','hundred_gm','five_hundred_gm','one_kg'])->where(['DeliveryCharges.city_id'=>$cus_city_id,'DeliveryCharges.state_id'=>$cus_state_id,'DeliveryCharges.pincode_no'=>0])->first();
 			
-			$grand_total = $grand_total + $deliveryAmount;
-			$delivery_charges = $deliveryAmount;
-			$delivery_charges = round($deliveryAmount); 
-		}
-	} 
+			
+			if(@$DeliveryCharges->min_order_value < $grand_total){
+				$delivery_charges = 'Free';
+				$isPromoApplied = true;
+			}else{
+				$deliveryAmount=$this->Pincode->getDeliveryChargeOrderWithoutPincode($cus_city_id,$cus_state_id,$order_id); 
+				//echo $deliveryAmount; exit;
+				$grand_total = $grand_total + $deliveryAmount;
+				$delivery_charges = $deliveryAmount;
+				$delivery_charges = round($deliveryAmount);
+			
+			}
+		} 
 	$order=$this->Orders->get($order_id);
 	$order->total_amount=$orderDatas->order_details[0]['total'];
 	$order->amount_from_promo_code=0;
@@ -95,9 +118,50 @@ class OrdersController extends AppController
 		}])
 	->first();
 	$pincode=$orderDatas->customer_address->pincode;
+	$cus_city_id=$orderDatas->customer_address->city_id;
+	$cus_state_id=$orderDatas->customer_address->state_id;
 	$customer_id=$orderDatas->customer_id;
 	
-	$delivery_charges = '0'; 
+	
+	
+	
+		$delivery_charges = '0'; 
+		$this->loadModel('DeliveryCharges'); 
+		$DeliveryCharges=$this->DeliveryCharges->find()->select(['min_order_value','pincode_no'])->where(['pincode_no'=>$pincode])->first();
+		$grand_total=($orderDatas->order_details[0]['total']);
+		
+		if(!empty($DeliveryCharges) && $pincode > 0){ 
+			if($DeliveryCharges->min_order_value < $grand_total){
+			$delivery_charges = 'Free';
+			$isPromoApplied = true;
+			}else{
+				
+				$deliveryAmount=$this->Pincode->getDeliveryChargeOrder($pincode,$order_id);
+				
+				$grand_total = $grand_total + $deliveryAmount;
+				$delivery_charges = $deliveryAmount;
+				$delivery_charges = round($deliveryAmount); 
+			}
+		}else{
+			
+			$DeliveryCharges=$this->DeliveryCharges->find()->select(['min_order_value','pincode_no','hundred_gm','five_hundred_gm','one_kg'])->where(['DeliveryCharges.city_id'=>$cus_city_id,'DeliveryCharges.state_id'=>$cus_state_id,'DeliveryCharges.pincode_no'=>0])->first();
+			
+			
+			if(@$DeliveryCharges->min_order_value < $grand_total){
+				$delivery_charges = 'Free';
+				$isPromoApplied = true;
+			}else{
+				$deliveryAmount=$this->Pincode->getDeliveryChargeOrderWithoutPincode($cus_city_id,$cus_state_id,$order_id); 
+				//echo $deliveryAmount; exit;
+				$grand_total = $grand_total + $deliveryAmount;
+				$delivery_charges = $deliveryAmount;
+				$delivery_charges = round($deliveryAmount);
+			
+			}
+		}
+	
+	
+	/* $delivery_charges = '0'; 
 	$this->loadModel('DeliveryCharges'); 
 	$DeliveryCharges=$this->DeliveryCharges->find()->select(['min_order_value'])->where(['pincode_no'=>$pincode])->first();
 	$grand_total=($orderDatas->order_details[0]['total']);
@@ -114,7 +178,7 @@ class OrdersController extends AppController
 			$delivery_charges = $deliveryAmount;
 			$delivery_charges = round($deliveryAmount); 
 		}
-	} 
+	}  */
 	$order=$this->Orders->get($order_id);
 	$order->total_amount=$orderDatas->order_details[0]['total'];
 	$order->amount_from_promo_code=0;
