@@ -5,6 +5,17 @@ use Cake\I18n\Time;
 use Cake\ORM\TableRegistry;
 class OrdersController extends AppController
 {
+	public function paymentfail(){
+		 $customer_id=$this->request->query('customer_id');
+		$status=true;
+		$this->loadModel('FinalCarts');
+		$queryy = $this->FinalCarts->query();
+		$result = $queryy->delete()
+		->where(['customer_id' => $customer_id])
+		->execute(); 
+		$this->set(compact('status'));
+		$this->set('_serialize', ['status']);
+	}
 	public function cancelOrder()
 	{
 		$order_id=$this->request->query('order_id');
