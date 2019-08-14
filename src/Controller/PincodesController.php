@@ -78,18 +78,18 @@ class PincodesController extends AppController
 			$state_id=$this->request->query('state_id');
 			$city_id=$this->request->query('city_id');
 			if(!empty($pincode)){
-				 $pincodes =$this->Pincodes->find()->where(['pincode'=>$pincode])->contain(['States','Cities','DeliveryCharges']);
+				 $pincodes =$this->paginate($this->Pincodes->find()->where(['pincode'=>$pincode])->contain(['States','Cities','DeliveryCharges']));
 			}
 			if(!empty($state_id)){
-				 $pincodes =$this->Pincodes->find()->where(['Pincodes.state_id'=>$state_id])->contain(['States','Cities','DeliveryCharges']);
+				 $pincodes =$this->paginate($this->Pincodes->find()->where(['Pincodes.state_id'=>$state_id])->contain(['States','Cities','DeliveryCharges']));
 			}
 			if($city_id=='--Select--'){ 
 					$city_id='';
 				}
 			if(!empty($city_id)){
 				
-				$pincodes =$this->Pincodes->find()
-				->where(['Pincodes.city_id'=>$city_id])->contain(['States','Cities','DeliveryCharges']);
+				$pincodes =$this->paginate($this->Pincodes->find()
+				->where(['Pincodes.city_id'=>$city_id])->contain(['States','Cities','DeliveryCharges']));
 			}
 			// pr($pincodes->toArray());exit;
 			 

@@ -47,6 +47,7 @@
                 <?php if(!empty($pincodes))
                 {?>
                 <?= $this->Form->create($pin,['id'=>'form_sample_3']) ?>
+				<?php $page_no=$this->Paginator->current('Challans'); $page_no=($page_no-1)*20; ?>
                 <table class="table table-condensed table-hover table-bordered" id="main_tble">
                     <thead>
                         <tr>
@@ -67,7 +68,7 @@
                         $i++;
                         ?>
                         <tr>
-                            <td><?= $i ?></td>
+                            <td><?= ++$page_no ?></td>
                             <td><?= @$pincode->state->state_name ?></td>
                             <td><?= @$pincode->city->name ?></td>
                             <td><?= @$pincode->pincode ?></td>
@@ -118,16 +119,14 @@
                 </table>
                 <?= $this->Form->end() ?>
             <?php } ?>
-                <!-- <div class="paginator">
-                    <ul class="pagination">
-                        <?= $this->Paginator->first('<< ' . __('first')) ?>
-                        <?= $this->Paginator->prev('< ' . __('previous')) ?>
-                        <?= $this->Paginator->numbers() ?>
-                        <?= $this->Paginator->next(__('next') . ' >') ?>
-                        <?= $this->Paginator->last(__('last') . ' >>') ?>
-                    </ul>
-                    <p><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></p>
-                </div> -->
+                <div class="paginator">
+					<ul class="pagination">
+						<?= $this->Paginator->prev('< ' . __('previous')) ?>
+						<?= $this->Paginator->numbers() ?>
+						<?= $this->Paginator->next(__('next') . ' >') ?>
+					</ul>
+					<p><?= $this->Paginator->counter() ?></p>
+				</div>
             </div>
         </div>
     </div>

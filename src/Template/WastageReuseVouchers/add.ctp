@@ -96,7 +96,7 @@
 								
 								<td class="actions">
 								<?php echo $this->Html->link('View',['action' => 'View', $unit->id],['escape'=>false,'class'=>'btn btn-sm blue']); ?>
-								
+								<?= $this->Form->postLink(__('Delete'), ['action' => 'deleteRecord', $unit->id], ['confirm' => __('Are you sure you want to Delete'),'class'=>'btn btn-sm red','style'=>'margin-left:3px;']) ?>
 								</td>
 								
 							</tr>
@@ -302,10 +302,10 @@ $(document).ready(function() {
 				<?php echo $this->Form->input('unit_variation_id',['options'=>$UnitVariations,'class'=>'form-control input-sm unit_variation_id select2 ','empty' => '--Select Item--','label'=>false,'required'=>'required']); ?>
 			</td>
 			<td width="5%" align="center">
-				<?php echo $this->Form->input('wastage_quantity', ['label' => false,'placeholder'=>'Wastage','class'=>'form-control input-sm wastage_quantity rightAligntextClass','required'=>'required','max'=>13,'value'=>0]); ?>
+				<?php echo $this->Form->input('wastage_quantity', ['label' => false,'placeholder'=>'Wastage','class'=>'form-control input-sm wastage_quantity rightAligntextClass','required'=>'required','maxlength'=>5,'value'=>0]); ?>
 			</td>
 			<td width="5%" align="center">
-				<?php echo $this->Form->input('reuse_quantity', ['label' => false,'placeholder'=>'Reuse','class'=>'form-control input-sm reuse_quantity rightAligntextClass','required'=>'required','max'=>13,'value'=>0]); ?>
+				<?php echo $this->Form->input('reuse_quantity', ['label' => false,'placeholder'=>'Reuse','class'=>'form-control input-sm reuse_quantity rightAligntextClass','required'=>'required','maxlength'=>5,'value'=>0]); ?>
 			</td>
 			
 			<td>

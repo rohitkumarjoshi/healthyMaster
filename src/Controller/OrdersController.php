@@ -425,7 +425,7 @@ class OrdersController extends AppController
 	public function optionsnew(){
         $item_id=$this->request->getData('input'); 
 
-            $items=$this->Orders->OrderDetails->ItemVariations->find()->where(['ItemVariations.item_id '=>$item_id])->contain(['UnitVariations']);
+             $items=$this->Orders->OrderDetails->ItemVariations->find()->where(['ItemVariations.item_id '=>$item_id,'ItemVariations.ready_to_sale'=>'Yes'])->contain(['UnitVariations']);
             ?>
                     <option>--Select--</option>
                     <?php foreach($items as $show){ ?>
@@ -881,6 +881,7 @@ class OrdersController extends AppController
                         'order_id' => $detail->order_id,
                         'purchase_booking_id' => 0,
                         'rate' => $detail->rate,
+                        'transaction_date' => date('Y-m-d'),
                         'item_variation_id' => $detail->item_variation_id,
                         'amount' => $detail->amount,
                         'status' => 'Out',
