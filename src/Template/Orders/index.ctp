@@ -23,90 +23,58 @@
 				<div class="actions">
 					<?php //echo $this->Html->link('<i class="fa fa-plus"></i> Add new','/Orders/Add/Offline',['escape'=>false,'class'=>'btn btn-default']) ?>
 					&nbsp;
-					<?php if($status=='process'){
+					<!-- <?php if($status=='process'){
 						$class1="btn btn-xs blue";
 						$class2="btn btn-default";
 					}else {
 						$class1="btn btn-default";
 						$class2="btn btn-xs blue";
 					}
-					 ?> 
+					 ?>  -->
 					 <?php echo $this->Html->link('Reset','/Orders/Index',['escape'=>false,'class'=>'btn btn-primary btn-sm']) ?>&nbsp;
 						<!-- <?php echo $this->Html->link('Pending',['controller'=>'Orders','action' => 'index?status=process'],['escape'=>false,'class'=>$class1]); ?> -->
 						<!-- <?php echo $this->Html->link('All',['controller'=>'Orders','action' => 'index'],['escape'=>false,'class'=>$class2]); ?>&nbsp; -->
 				
 				</div>
 			<div class="portlet-body">
-			<?php if($status==''||$status=='process') { ?>
-			<form method="GET" >
-				<table width="50%" class="table table-condensed">
-					<tbody>
-						<tr>
-							<td width="7%">
-								<?php echo $this->Form->input('status', ['type'=>'hidden','label' => false,'class' => 'form-control input-sm','placeholder'=>'Order No','value'=> h(@$status) ]); ?>
-								<?php echo $this->Form->input('order_no', ['type'=>'text','label' => false,'class' => 'form-control input-sm','placeholder'=>'Order No','value'=> h(@$order_no) ]); ?>
-							</td>
-							<td width="2%">
-								<?php echo $this->Form->input('customer', ['empty'=>'--Customers--','options' => $Customer_data,'label' => false,'class' => 'form-control input-sm select2me','placeholder'=>'Category']); ?>
-							</td>
-							<!-- <?php if(@$cur_type){ ?>
-								<td width="2%">
-									<?php echo $this->Form->input('order_type', ['empty'=>'--Type--','options' => $order_type,'label' => false,'class' => 'form-control input-sm select2me','placeholder'=>'Category','value'=> h(@$cur_type) ]); ?>
-								</td>
-							<?php }else if(@$order_types){ ?>
-								<td width="2%">
-									<?php echo $this->Form->input('order_type', ['empty'=>'--Type--','options' => $order_type,'label' => false,'class' => 'form-control input-sm select2me','placeholder'=>'Category','value'=> h(@$order_types) ]); ?>
-								</td>
-							<?php } else{ ?>
-								<td width="2%">
-									<?php echo $this->Form->input('order_type', ['empty'=>'--Type--','options' => $order_type,'label' => false,'class' => 'form-control input-sm select2me','placeholder'=>'Category','value'=> h(@$order_types) ]); ?>
-								</td>
-							<?php  } ?>	 -->
-							<?php if(@$cur_status){ ?>
-							<td width="2%">
-								<?php echo $this->Form->input('orderstatus', ['empty'=>'--Status--','options' => $OrderStatus,'label' => false,'class' => 'form-control input-sm select2me','placeholder'=>'Category','value'=> h(@$cur_status) ]); ?>
-							</td>
-							<?php }else if(@$orderstatus){ ?>
-								<td width="2%">
-								<?php echo $this->Form->input('orderstatus', ['empty'=>'--Status--','options' => $OrderStatus,'label' => false,'class' => 'form-control input-sm select2me','placeholder'=>'Category','value'=> h(@$orderstatus) ]); ?>
-							</td>
-							<?php } else{ ?>
-								<td width="2%">
-									<?php echo $this->Form->input('orderstatus', ['empty'=>'--Status--','options' => $OrderStatus,'label' => false,'class' => 'form-control input-sm select2me','placeholder'=>'Category','value'=> h(@$orderstatus) ]); ?>
-								</td>
-							<?php } ?>	
-							<?php if(@$cur_date){ ?>
-							<td width="5%">
-								<input type="text" name="From" class="form-control input-sm date-picker" placeholder="Order From"  data-date-format="dd-mm-yyyy">
-							</td>	
-							<td width="5%">
-								<input type="text" name="To" class="form-control input-sm date-picker" placeholder="Order To"   data-date-format="dd-mm-yyyy" >
-								
-							</td>
-							<?php }else if((@$from_date) || (@$to_date)){ ?>
-								<td width="5%">
-									<input type="text" name="From" class="form-control input-sm date-picker" placeholder="Order From" value="<?php echo @$from_date;  ?>"  data-date-format="dd-mm-yyyy">
-								</td>	
-								<td width="5%">
-									<input type="text" name="To" class="form-control input-sm date-picker" placeholder="Order To" value="<?php echo @$to_date;  ?>"  data-date-format="dd-mm-yyyy" >
-									
-								</td>
-							<?php }else{ ?>
-								<td width="5%">
-									<input type="text" name="From" class="form-control input-sm date-picker" placeholder="Order From" value="<?php echo @$from_date;  ?>"  data-date-format="dd-mm-yyyy">
-								</td>	
-								<td width="5%">
-									<input type="text" name="To" class="form-control input-sm date-picker" placeholder="Order To" value="<?php echo @$to_date;  ?>"  data-date-format="dd-mm-yyyy" >
-							<?php } ?>
-							<td width="10%">
-								<button type="submit" class="btn btn-success btn-sm"><i class="fa fa-filter"></i> Filter</button>
-							</td>
-							
-						</tr>
-					</tbody>
-				</table>
-			</form>
-			<?php } ?>
+			<form method="post">
+                        <table width="50%" class="table table-condensed">
+                    <tbody>
+                        <tr>
+                            <td width="8%">
+                                <label>Order No</label>
+                                <?php echo $this->Form->input('order_no', ['label' => false,'class' => 'form-control input-sm','placeholder'=>'Order No','autocomplete'=>'off']); ?>
+                            </td>
+                            <td width="5%">
+                                <label>Customer</label>
+                                <?php echo $this->Form->input('customer_id', ['empty'=>'--Customer--','options' => $Customer_data,'label' => false,'class' => 'form-control input-sm select2me','placeholder'=>'Category']); ?>
+                            </td>
+                           
+                            <td width="5%">
+                                <label class=" control-label">Status </label>
+                                <select name="status" class="form-control select2me input-sm">
+                                    <option value="">--Select--</option>
+                                    <option value="In Process">In Process</option>
+                                    <option value="Packed">Packed</option>
+                                    <option value="Dispatch">Dispatch</option>
+                                    <option value="Delivered">Delivered</option>
+                                </select>
+                            </td>
+                            <td width="5%">
+                                <label>From</label>
+                                <input type="text" name="From" class="form-control input-sm date-picker" placeholder="Transaction From"  data-date-format="dd-mm-yyyy" autocomplete="off">
+                            </td>   
+                            <td width="5%">
+                                <label>To</label>
+                                <input type="text" name="To" class="form-control input-sm date-picker" placeholder="Transaction To"   data-date-format="dd-mm-yyyy" autocomplete="off">
+                            </td>
+                            <td width="10%">
+                                <button type="submit" class="btn btn-success btn-sm" style="margin-top: 23px !important;"><i class="fa fa-filter"></i> Filter</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                </form>
 			<?php $page_no=$this->Paginator->current('Orders'); $page_no=($page_no-1)*20; ?>
 				<table class="table table-condensed table-hover table-bordered" id="main_tble">
 					<thead>
@@ -195,14 +163,18 @@
 									<option value="Packed">Packed</option>
 									<option value="Dispatch">Dispatch</option>
 									<option value="Delivered">Delivered</option>
-									<!-- <option value="Cancel">Cancel</option> -->
+									<?php if($order->order_from=="walkinsales"){?>}
+										<option value="Cancel">Cancel</option>
+									<?php } ?>
 								<?php }if($order->status=="Packed")
 								{?>
 									<option value="Packed" selected>Packed</option>
 									<option value="In Process">In Process</option>
 									<option value="Dispatch">Dispatch</option>
 									<option value="Delivered">Delivered</option>
-									<!-- <option value="Cancel">Cancel</option> -->
+									<?php if($order->order_from=="walkinsales"){?>}
+										<option value="Cancel">Cancel</option>
+									<?php } ?>
 								<?php }if($order->status=="Dispatch")
 								{?>
 									<option value="Dispatch" selected>Dispatch</option>
@@ -320,19 +292,19 @@ $(document).ready(function() {
 		
 		var order_id=$(this).attr('order_id');
 		var cancel_from=$(this).attr('order_from');
-		if(status == "Cancel")
-		{
-			$.ajax({
-            url: "<?php echo $this->Url->build(["controller" =>"Orders", "action" => "cancelOrder"]); ?>",
-            type: 'get',
-            data: {cancel_from:cancel_from,order_id:order_id},
-           success: function (data) {
-               alert("ok");
-               }
-            });
-		}
-		if(status!="Cancel")
-		{
+		// if(status == "Cancel")
+		// {
+		// 	$.ajax({
+  //           url: "<?php echo $this->Url->build(["controller" =>"Orders", "action" => "cancelOrder"]); ?>",
+  //           type: 'get',
+  //           data: {cancel_from:cancel_from,order_id:order_id},
+  //          success: function (data) {
+  //              alert("ok");
+  //              }
+  //           });
+		// }
+		// if(status!="Cancel")
+		// {
 		 $.ajax({
             url: "<?php echo $this->Url->build(["controller" => "Orders", "action" => "statuses"]); ?>",
             type: 'post',
@@ -342,7 +314,7 @@ $(document).ready(function() {
                
                }
             });
-		}
+		//}
 
 	});
 	

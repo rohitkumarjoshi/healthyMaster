@@ -30,9 +30,12 @@ class DeliveryCharge extends Entity
     protected $_accessible = [
         'id' => true,
         'pincode_no' => true,
+        'state_id' => true,
+        'city_id' => true,
         'hundred_gm' => true,
         'five_hundred_gm' => true,
         'one_kg' => true,
-        'min_order_value' => true
+        'min_order_value' => true,
+        'delivery_duration' => true
     ];
 }

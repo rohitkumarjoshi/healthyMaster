@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-md-5 col-sm-5">
+    <!-- <div class="col-md-5 col-sm-5">
         <div class="portlet light bordered">
             <div class="portlet-title">
                 <div class="caption">
@@ -42,8 +42,8 @@
                 <?= $this->Form->end() ?>
             </div>
         </div>
-    </div>
-    <div class="col-md-7 col-sm-7">
+    </div> -->
+    <div class="col-md-12">
         <div class="portlet light bordered">
             <div class="portlet-title">
                 <div class="caption">
@@ -78,7 +78,7 @@
                                 <td class="actions">
                                 <?php echo $this->Html->link('<i class="fa fa-pencil"></i>',['action' => 'index', $referalMaster->id],['escape'=>false,'class'=>'btn btn-xs blue']); ?>
                                 
-                               <?php 
+                               <!-- <?php 
                                     if($referalMaster->status == 0)
                                     { ?>
                                     <?= $this->Form->postLink(__('Deactive'), ['action' => 'delete', $referalMaster->id], ['confirm' => __('Are you sure you want to Deactive # {0}?'),'class'=>'btn btn-xs green']) ?> 
@@ -87,7 +87,7 @@
                                     { ?>
                                         <?= $this->Form->postLink(__('Active'), ['action' => 'delete1', $referalMaster->id], ['confirm' => __('Are you sure you want to Active # {0}?'),'class'=>'btn btn-xs green']) ?>
                                     <?php }
-                                ?>
+                                ?> -->
                                 
                                 </td>
                                 

@@ -123,7 +123,7 @@
 						<tr>
 							<td><?= $sr_no ?></td>
 							<td><?= $appNotification->created_on ?></td>
-							<td><?php if (!empty($appNotification->image)) { ?><img src="<?php echo $appNotification->image; ?>" style="width:100px; height:100px"><?php } else { echo 'No Image'; } ?></td>
+							<td><?php if (!empty($appNotification->image)) { ?><?= @$this->Html->image('/img/Notify_images/'.$appNotification->image, ['style'=>'width:50px; height:50px;']); ?><?php } else { echo 'No Image'; } ?></td>
 							<td><?= h($appNotification->message) ?></td> 
 							<td><?= h($appNotification->screen_type) ?></td>
 							<td><?= h(@$appNotification->app_notification_customers[0]->count_customer) ?></td>

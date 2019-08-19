@@ -17,7 +17,7 @@
 							<thead>
 								<tr>
 									<th> Sr</th>
-									<th> Customer ID</th>
+									<th>ID</th>
 									<th> Name</th>
 									<th> Mobile</th>
 									<th> Email</th>

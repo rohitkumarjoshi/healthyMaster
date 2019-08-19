@@ -734,6 +734,25 @@ class OrdersController extends AppController
     	 $status=$this->request->getData('status'); 
         $id=$this->request->getData('order_id');
         
+        if($status == 'Cancel'){
+	            $packed=$this->Orders->get($id);
+
+		         $packed->status="Cancel";
+		         $packed->cancel_date=date('Y-m-d');
+		         $packed->cancel_from="walkinsales";
+		          $order_id=$packed->id;
+		        if($this->Orders->save($packed))
+		        {
+		        	$details=$this->Orders->OrderDetails->find()->where(['OrderDetails.order_id'=>$order_id]);
+		        	
+		        	foreach ($details as $detail) {
+	        			$detail->status="Cancel";
+	        			$this->Orders->OrderDetails->save($detail);
+		        	}
+
+		        }
+           }
+
         if($status == 'In Process'){
 	            $packed=$this->Orders->get($id);
 
@@ -901,41 +920,38 @@ class OrdersController extends AppController
 		$this->viewBuilder()->layout('index_layout');
 		$jain_thela_admin_id=$this->Auth->User('jain_thela_admin_id');
 		$curent_date=date('Y-m-d');
-		$status = $this->request->query('status');
-		$type = $this->request->query('type');
-		$order_no = $this->request->query('order_no');
-		$customer_id = $this->request->query('customer');
-		$order_types = $this->request->query('order_type');
-		$orderstatus = $this->request->query('orderstatus');
-		$from_date = $this->request->query('From');
-		$to_date = $this->request->query('To');
-		$where =[];
-		$orders =$this->paginate($this->Orders->find()->where(['Orders.status !='=>'Delivered'])->order(['Orders.id'=>'DESC'])->contain(['CustomerAddresses','Customers']));
-		if(!empty($order_no)){
-			$orders =$this->paginate($this->Orders->find()->where(['Orders.order_no Like'=>'%'.$order_no.'%'])->order(['Orders.id'=>'DESC'])->contain(['CustomerAddresses','Customers']));
-		}
-		if(!empty($customer_id)){
-			$orders =$this->paginate($this->Orders->find()->where(['Orders.customer_id'=>$customer_id])->order(['Orders.id'=>'DESC'])->contain(['CustomerAddresses','Customers']));
-			
-		}
-		if(!empty($order_types)){
-			$orders =$this->paginate($this->Orders->find()->where(['Orders.order_type'=>$order_type])->order(['Orders.id'=>'DESC'])->contain(['CustomerAddresses','Customers']));
-		}
-		if(!empty($orderstatus)){
-			$orders =$this->paginate($this->Orders->find()->where(['Orders.status'=>$orderstatus])->order(['Orders.id'=>'DESC'])->contain(['CustomerAddresses','Customers']));
 
-		}
-		if(!empty($from_date)){ 
-			$orders =$this->paginate($this->Orders->find()->where(['Orders.curent_date >='=>date('Y-m-d',strtotime($from_date))])->order(['Orders.id'=>'DESC'])->contain(['CustomerAddresses','Customers']));
-		}
-		if(!empty($to_date)){
-			$orders =$this->paginate($this->Orders->find()->where(['Orders.curent_date <='=>date('Y-m-d',strtotime($to_date))])->order(['Orders.id'=>'DESC'])->contain(['CustomerAddresses','Customers']));
-		}
-		//pr($where); exit;
-		//pr($where);exit;
-		 $this->paginate = [
-            'contain' => ['Customers']
-        ];
+		$orders =$this->paginate($this->Orders->find()->order(['Orders.id'=>'DESC'])->contain(['CustomerAddresses','Customers']));
+		
+
+		if ($this->request->is('post')) {
+            $datas = $this->request->getData();
+            if(!empty($datas['order_no']))
+            {  //pr($promoCodes->toArray());
+                $orders->where(['Orders.order_no'=>$datas['order_no']]);
+            }
+             if(!empty($datas['status']))
+            {
+                $orders->where(['Orders.status'=>$datas['status']]);
+            } 
+             if(!empty($datas['customer_id']))
+            {
+                $orders->where(['Orders.customer_id'=>$datas['customer_id']]);
+                //pr($orders->toArray());exit;
+            }
+           if(!empty($datas['From'])){
+                $from_date=date("Y-m-d",strtotime($datas['From']));
+                $orders->where(['Orders.order_date >'=>$from_date]);
+            }
+            if(!empty($datas['To'])){ 
+                $to_date=date("Y-m-d",strtotime($datas['To']));
+                $orders->where(['Orders.order_date <'=>$to_date]);
+            }
+        }
+        // else
+        // {
+        // 	$orders->where(['Orders.status !='=>'Delivered']);
+        // }
 		
 		// if($status == 'In Process'){ 
 							
