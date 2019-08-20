@@ -22,7 +22,7 @@
                     </div>
                     <div class="col-md-3">
                         <label class=" control-label">Pincode <span class="required" aria-required="true">*</span></label>
-                        <?php echo $this->Form->control('pincode',['placeholder'=>'pincode','class'=>'form-control input-sm','label'=>false,'oninput'=>"this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');",'minlength'=>6,'type'=>'text','required']); ?>
+                        <?php echo $this->Form->control('pincode',['placeholder'=>'pincode','class'=>'form-control input-sm','label'=>false,'oninput'=>"this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');",'maxlength'=>6,'type'=>'text','required']); ?>
                     </div>
                     <div class="col-md-3">
                         <label>Deliver<span class="required" aria-required="true">*</span></label>

@@ -95,33 +95,33 @@
 <?php echo $this->Html->script('/assets/global/plugins/jquery.min.js'); ?>
 <script>
 $(document).ready(function() {
-	$('.quantity').on('keyup',function()
-	{
-		var factor=$(this).val();
-		var m_data = new FormData();
-            var url ="<?php echo $this->Url->build(["controller" => "UnitVariations", "action" => "check"]); ?>";
-         //   alert(url);
-            m_data.append('factor',factor); 
-            $.ajax({
-                url: url,
-                data: m_data,
-                processData: false,
-                contentType: false,
-                type: 'POST',
-                dataType:'text',
-                success: function(response)
-                { 
-                	//alert(response);
-                	if(response == 1)
-                	{
-						$('.quantity').val('');
-						alert("Duplicate value not accepted");
-					}
+	// $('.quantity').on('keyup',function()
+	// {
+	// 	var factor=$(this).val();
+	// 	var m_data = new FormData();
+ //            var url ="<?php echo $this->Url->build(["controller" => "UnitVariations", "action" => "check"]); ?>";
+ //         //   alert(url);
+ //            m_data.append('factor',factor); 
+ //            $.ajax({
+ //                url: url,
+ //                data: m_data,
+ //                processData: false,
+ //                contentType: false,
+ //                type: 'POST',
+ //                dataType:'text',
+ //                success: function(response)
+ //                { 
+ //                	//alert(response);
+ //                	if(response == 1)
+ //                	{
+	// 					$('.quantity').val('');
+	// 					alert("Duplicate value not accepted");
+	// 				}
 
 
-                }
-            });
-	});
+ //                }
+ //            });
+	// });
 	$('.shortname').on('change',function()
 	{
 		var input=$(this).val();

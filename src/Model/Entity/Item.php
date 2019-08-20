@@ -30,7 +30,7 @@ class Item extends Entity
 		protected function _getImageFullpath()
 		{
 			if(!empty($this->_properties['image'])){
-				return 'http://13.235.146.226/healthymaster/img/item_images/'.$this->_properties['image'];
+				return 'https://healthymaster.in/healthymaster/img/item_images/'.$this->_properties['image'];
 			}
 			else
 			{

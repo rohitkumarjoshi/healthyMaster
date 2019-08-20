@@ -261,11 +261,18 @@ class OrdersController extends AppController
 	}
 	
 	public function newview($id=null){
-		
+		//pr($id);
 		$this->viewBuilder()->layout('index_layout');
 		$order = $this->Orders->get($id, [
-			'contain' => ['Customers', 'CustomerAddresses'=>['States','Cities'], 'PromoCodes', 'OrderDetails'=>['Items'=>['GstFigures'],'ItemVariations']]
+			'contain' => ['Customers', 'CustomerAddresses'=>['States','Cities'], 'PromoCodes', 'OrderDetails'=> function($query){
+        		return $query->where(['OrderDetails.status !=' => 'Cancel'])->contain(['Items'=>['GstFigures'],'ItemVariations']);
+        	}]
 		]);
+
+		// $order_det=$this->Orders->OrderDetails->find()
+		// ->where(['Orders.id'=>$id,'OrderDetails.status !='=>'Cancel'])
+		// ->contain(['Orders'=>['Customers', 'CustomerAddresses'=>['States','Cities'], 'PromoCodes'],'Items'=>['GstFigures'],'ItemVariations']);
+		// pr($order_det->toArray());exit;
 		
 		$this->set(compact('order', 'id', 'print'));
 		$this->set('_serialize', ['order']);
@@ -715,7 +722,7 @@ class OrdersController extends AppController
         if($searchType == 'item_name'){
             $items=$this->Orders->Customers->find()->where(['Customers.mobile Like'=>''.$mobile.'%']);
             ?>
-                <ul id="item-list" style="width: 90% !important;">
+                <ul id="item-list" style="width: 90% !important;background-color: #e4f7bf !important;">
                     <?php foreach($items as $show){ ?>
                         <li onClick="selectAutoCompleted('<?php echo $show->id;?>','<?php echo $show->mobile;?>')">
                             <?php echo $show->mobile?>    

@@ -294,6 +294,9 @@
 									<li>
 										<?php echo $this->Html->link('<i class="fa  fa-file"></i> Purchase Report','/PurchaseBookings/purchase_report',['escape'=>false]) ?>
 									</li>
+									<li>
+										<?php echo $this->Html->link('<i class="fa  fa-file"></i> Items Report','/Items/item_report',['escape'=>false]) ?>
+									</li>
 									<!--<li>
 										<?php echo $this->Html->link('<i class="fa  fa-file"></i> Variation Stock','/ItemLedgers/stockReport',['escape'=>false]) ?>
 									</li>

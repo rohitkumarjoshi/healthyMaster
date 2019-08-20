@@ -19,6 +19,22 @@ use Cake\ORM\Entity;
 class AppNotification extends Entity
 {
 
+    protected $_virtual = [
+            'image_fullpath'
+        ];
+
+        protected function _getImageFullpath()
+        {
+            if(!empty($this->_properties['image'])){
+                return 'https://healthymaster.in/healthymaster/img/Notify_images/'.$this->_properties['image'];
+            }
+            else
+            {
+                return '';
+            }
+        } 
+        
+
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
      *
