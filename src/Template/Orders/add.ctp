@@ -35,7 +35,7 @@ background-color: #fff;}
 				<div class="row">
 					<div class="col-md-2">
 						<label class=" control-label">Mobile No <span class="required" aria-required="true">*</span></label>
-						<input type="number" name="customer" class="form-control input-sm selectedAutoCompleted autocompleted customer_id cstmr chosen-select" valueType="item_name" id="mobile" autocomplete="off" required maxlength="10" minlength="10">
+						<input type="number" name="customer" class="form-control input-sm selectedAutoCompleted autocompleted customer_id cstmr chosen-select" valueType="item_name" id="mobile" autocomplete="off" required maxlength=10 minlength=10>
 						<input type="hidden" name="customer_id" id="customer_id" required>
 						
 						 <div class="suggesstion-box box"  autocomplete="off"></div>
@@ -838,7 +838,7 @@ function round(value, exp) {
 					//alert(name_val);
 					if(name_val == '')
 					{
-						var name="null";
+						var name="-";
 					}
 					else
 					{
@@ -849,7 +849,7 @@ function round(value, exp) {
 					//alert(email_val)
 					if(email_val == '')
 					{
-						var email="null";
+						var email="-";
 					}
 					else
 					{
@@ -905,7 +905,7 @@ function round(value, exp) {
 					var name_val=$('input[name="name"]').val();
 					if(name_val == '')
 					{
-						var name="null";
+						var name="-";
 					}
 					else
 					{
@@ -914,7 +914,7 @@ function round(value, exp) {
 					var mobile_val=$('input[name="mobile"]').val();
 					if(mobile_val == '')
 					{
-						var mobile="null";
+						var mobile="-";
 					}
 					else
 					{
@@ -924,7 +924,7 @@ function round(value, exp) {
 					var landmark_val=$('input[name="landmark"]').val();
 					if(landmark_val == '')
 					{
-						var landmark="null";
+						var landmark="-";
 					}
 					else
 					{
@@ -935,7 +935,7 @@ function round(value, exp) {
 					var apartment=$('input[name="apartment_name"]').val();
 					if(apartment == '')
 					{
-						var apartment_name="null";
+						var apartment_name="-";
 					}
 					else
 					{

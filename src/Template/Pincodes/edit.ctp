@@ -31,12 +31,12 @@
                             <?php if($pincode->we_deliver == "Yes")
                             {?>
                                 <option value="Yes" selected>Yes</option>
-                                <option value="No">No</option>
+                                <!-- <option value="No">No</option>
                             <?php } if($pincode->we_deliver == "No")
                             {?>
                                 <option value="Yes" >Yes</option>
                                 <option value="No" selected>No</option>
-                            <?php } ?>
+                            <?php } ?> -->
                            
                         </select>
                     </div>
@@ -167,7 +167,6 @@ $(document).ready(function() {
 				pincode:{
 						required:true,
 						number:true,
-						minlength:6,
 						maxlength:6
 					}
             },

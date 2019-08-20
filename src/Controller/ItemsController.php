@@ -32,7 +32,9 @@ public function itemReport()
 {
     $this->viewBuilder()->layout('index_layout');
 
-    $variations=$this->Items->find()->contain(['ItemVariations','ItemCategories','GstFigures'])->order(['Items.id'=>'DESC']);
+    $variations=$this->Items->find()
+    ->where(['Items.freeze'=>0])
+    ->contain(['ItemVariations','ItemCategories','GstFigures'])->order(['Items.id'=>'DESC']);
     if ($this->request->is('post')) {
             $datas = $this->request->getData();
              if(!empty($datas['item_id']))
