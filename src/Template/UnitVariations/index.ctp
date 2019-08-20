@@ -24,16 +24,16 @@
 						<?php echo $this->Form->control('name',['placeholder'=>'Name','class'=>'form-control input-sm shortname','label'=>false]); ?>
 					</div>
 				</div>
-				<div class="row">
+				<div class="row" style="margin-top: 15px;">
 					<div class="col-md-8">
 						<label class=" control-label">Discription <span class="required" aria-required="true">*</span></label>
 						<?php echo $this->Form->control('description',['placeholder'=>'Description','class'=>'form-control input-sm','label'=>false]); ?>
 					</div>
 				</div>
-				<div class="row">
+				<div class="row"  style="margin-top: 15px;">
 					<div class="col-md-8">
 						<label class=" control-label">Quantity Factor <span class="required" aria-required="true">*</span></label>
-						<?php echo $this->Form->control('quantity_factor',['placeholder'=>'Description','class'=>'form-control input-sm','label'=>false]); ?>
+						<?php echo $this->Form->control('quantity_factor',['placeholder'=>'Description','class'=>'form-control input-sm quantity','label'=>false]); ?>
 					</div>
 				</div>
 				<br/>
@@ -95,7 +95,33 @@
 <?php echo $this->Html->script('/assets/global/plugins/jquery.min.js'); ?>
 <script>
 $(document).ready(function() {
-	
+	$('.quantity').on('keyup',function()
+	{
+		var factor=$(this).val();
+		var m_data = new FormData();
+            var url ="<?php echo $this->Url->build(["controller" => "UnitVariations", "action" => "check"]); ?>";
+         //   alert(url);
+            m_data.append('factor',factor); 
+            $.ajax({
+                url: url,
+                data: m_data,
+                processData: false,
+                contentType: false,
+                type: 'POST',
+                dataType:'text',
+                success: function(response)
+                { 
+                	//alert(response);
+                	if(response == 1)
+                	{
+						$('.quantity').val('');
+						alert("Duplicate value not accepted");
+					}
+
+
+                }
+            });
+	});
 	$('.shortname').on('change',function()
 	{
 		var input=$(this).val();

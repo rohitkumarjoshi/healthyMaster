@@ -105,7 +105,7 @@
                                 ?>
                             </td>
                             <td class="actions">
-                               <!--  <?= $this->Html->link(__('<span class="fa fa-pencil"></span>'), ['action' => 'edit', $pincode->id],['class'=>'btn btn-primary  btn-condensed btn-xs','escape'=>false]) ?> -->
+                               <?= $this->Html->link(__('<span class="fa fa-pencil"></span>'), ['action' => 'edit', $pincode->id],['class'=>'btn btn-primary  btn-condensed btn-xs','escape'=>false]) ?>
                                 <!-- <?php if($pincode->is_deleted == 0){ ?>
                                 <?= $this->Form->postLink(__('Deactive'), ['action' => 'delete', $pincode->id], ['confirm' => __('Are you sure you want to Deactive # {0}?', $pincode->id),'class'=>'btn btn-xs green']) ?>
                                 <?php } ?>
@@ -118,7 +118,7 @@
                     </tbody>
                 </table>
                 <?= $this->Form->end() ?>
-            <?php } ?>
+            <?php } if(!empty($pincodes)){ ?>
                 <div class="paginator">
 					<ul class="pagination">
 						<?= $this->Paginator->prev('< ' . __('previous')) ?>
@@ -126,8 +126,8 @@
 						<?= $this->Paginator->next(__('next') . ' >') ?>
 					</ul>
 					<p><?= $this->Paginator->counter() ?></p>
-				</div>
-            </div>
+				</div>  <?php } ?>
+                          </div>
         </div>
     </div>
 </div>

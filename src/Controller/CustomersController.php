@@ -57,6 +57,10 @@ class CustomersController extends AppController
 					]);
 		$query->execute();	
 		$result=$this->Customers->find('all')->last();
+		$query->update()
+						->set(['referral_code' =>'HM'.$result->id])
+						->where(['id' =>$result->id])
+						->execute();
 		echo $result->id;
 				exit;
 	}
@@ -330,7 +334,8 @@ class CustomersController extends AppController
             $customer= $this->Customers->patchEntity($customer, $this->request->getData());
             //pr($customer->toArray());exit;
             if ($this->Customers->save($customer)) {
-			
+				$customer->referral_code='HM'.$customer->id;
+				$this->Customers->save($customer);
                 $this->Flash->success(__('The customer has been saved.'));
                 return $this->redirect(['action' => 'index','controller'=>'CustomerAddresses/index/'.$customer->id]);
             }

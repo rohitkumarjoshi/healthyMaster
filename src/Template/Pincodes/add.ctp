@@ -27,7 +27,7 @@
                     </div>
                     <div class="col-md-3">
                         <label class=" control-label">Pincode<span class="required" aria-required="true">*</span> </label>
-                        <?php echo $this->Form->control('pincode',['placeholder'=>'Pincode','class'=>'form-control input-sm','label'=>false,'oninput'=>"this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');",'type'=>'text','required','id'=>'pincode']); ?>
+                        <?php echo $this->Form->control('pincode',['placeholder'=>'Pincode','class'=>'form-control input-sm','label'=>false,'oninput'=>"this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');",'type'=>'text','required','id'=>'pincode','maxlength'=>6,'minlength'=>6]); ?>
                         <input type="hidden" name="we_deliver" value="Yes">
                     </div>
                     <div class="col-md-3">

@@ -175,10 +175,11 @@ class PincodesController extends AppController
     {
         $this->viewBuilder()->layout('index_layout');
         $pincode = $this->Pincodes->get($id, [
-            'contain' => ['DeliveryCharges','Cities']
+            'contain' => ['DeliveryCharges','Cities','States']
         ]);
         //pr($pincode);exit;
         if ($this->request->is(['patch', 'post', 'put'])) {
+            //pr($this->request->getData());
             $pincode = $this->Pincodes->patchEntity($pincode, $this->request->getData());
             //pr($pincode);exit;
             if ($this->Pincodes->save($pincode)) {
@@ -188,8 +189,9 @@ class PincodesController extends AppController
             }
             $this->Flash->error(__('The pincode could not be saved. Please, try again.'));
         }
-        $states = $this->Pincodes->States->find('list')->where(['country_id'=>'101']);
-        $cities = $this->Pincodes->Cities->find('list', ['limit' => 200]);
+        $states = $this->Pincodes->States->find('list')->where(['country_id'=>'1']);
+        //pr($states->toArray());exit;
+        $cities = $this->Pincodes->Cities->find('list');
         $this->set(compact('pincode', 'states', 'cities'));
     }
 

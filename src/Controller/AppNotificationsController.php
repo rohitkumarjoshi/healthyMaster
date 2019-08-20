@@ -100,8 +100,13 @@ class AppNotificationsController extends AppController
 				$ext = substr(strtolower(strrchr($file['name'], '.')), 1); //get the extension
 				$arr_ext = array('jpg', 'jpeg', 'png'); //set allowed extensions
 				$setNewFileName = uniqid();
-				$appNotification->image = 'http://healthymaster.in'.$this->request->webroot.'img/Notify_images/'.$setNewFileName . '.' .$ext;
+				// $appNotification->image = 'http://healthymaster.in'.$this->request->webroot.'img/Notify_images/'.$setNewFileName . '.' .$ext;
 				$img_name= $setNewFileName.'.'.$ext;
+				if(!empty($file_name)){
+					$appNotification->image=$img_name;
+				}if(empty($file_name)){
+					
+				}
 				
 				if (in_array($ext, $arr_ext)) {
                          $destination_url = WWW_ROOT . 'img/Notify_images/'.$img_name;
@@ -141,7 +146,7 @@ class AppNotificationsController extends AppController
 					 
 						$id=$appNotification->id;
 						//$this->Flash->success(__('The app notification saved.'));
-						$this->redirect(['action' => 'sendProgress/' . $id]);
+						$this->redirect(['action' => 'index']);
 					
 					
 				 }
