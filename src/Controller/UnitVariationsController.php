@@ -17,6 +17,18 @@ class UnitVariationsController extends AppController
      *
      * @return \Cake\Http\Response|void
      */
+    public function check()
+    {
+        //$items='0';
+         $factor=$this->request->getData('factor'); 
+         //alert($mobile);
+            if($this->UnitVariations->exists(['quantity_factor'=>$factor]))
+            {
+                echo"1";
+            }
+    
+        exit;  
+    }
     public function index($id=null)
     {
 		$this->viewBuilder()->layout('index_layout');

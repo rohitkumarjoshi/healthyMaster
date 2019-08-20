@@ -13,23 +13,32 @@
             <div class="portlet-body">
                 <?= $this->Form->create($pincode,['id'=>'form_sample_3']) ?>
                 <div class="row">
-                    <div class="col-md-3">
-                        <label class=" control-label">State <span class="required" aria-required="true">*</span></label>
-                        <?php echo $this->Form->control('state_id',['placeholder'=>'State','class'=>'form-control input-sm state','label'=>false]); ?>
+                    <div class="col-md-3"><!-- 
+                        <?php echo $this->Form->control('state_id',['placeholder'=>'State','class'=>'form-control input-sm state','label'=>false]); ?> -->
+                         <?php echo $this->Form->control('state_id', ['empty'=>'-- select --','options' =>$states,'class'=>'form-control input-sm select select2me select2 state','required']); ?>
                     </div>
 					<div class="col-md-3">
-                        <label class=" control-label">City <span class="required" aria-required="true">*</span></label>
-                        <select name="city_id" class="form-control input-sm city">
-                            <option value="<?= @$pincode->city_id?>"><?= $pincode->city->name?></option>
-                        </select>
+                         <?php echo $this->Form->control('city_id', ['empty'=>'-- select --','options' =>$cities,'class'=>'form-control input-sm city','required']); ?>
                     </div>
                     <div class="col-md-3">
                         <label class=" control-label">Pincode <span class="required" aria-required="true">*</span></label>
-                        <?php echo $this->Form->control('pincode',['placeholder'=>'pincode','class'=>'form-control input-sm','label'=>false,'oninput'=>"this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');",'maxlength'=>6,'type'=>'text','required']); ?>
+                        <?php echo $this->Form->control('pincode',['placeholder'=>'pincode','class'=>'form-control input-sm','label'=>false,'oninput'=>"this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');",'minlength'=>6,'type'=>'text','required']); ?>
                     </div>
                     <div class="col-md-3">
-                        <label>Minimum Order<span class="required" aria-required="true">*</span></label>
-                        <input type="text" name="min_order_value" class="form-control input-sm" id="charge" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="10" required>
+                        <label>Deliver<span class="required" aria-required="true">*</span></label>
+                        <!-- <input type="text" name="we_deliver" class="form-control input-sm" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="10" required value="<?php echo @$pincode->we_deliver; ?>"> -->
+                        <select name="we_deliver" class="form-control input-sm">
+                            <?php if($pincode->we_deliver == "Yes")
+                            {?>
+                                <option value="Yes" selected>Yes</option>
+                                <option value="No">No</option>
+                            <?php } if($pincode->we_deliver == "No")
+                            {?>
+                                <option value="Yes" >Yes</option>
+                                <option value="No" selected>No</option>
+                            <?php } ?>
+                           
+                        </select>
                     </div>
                 </div><br>
                  <div class="row">
@@ -37,14 +46,26 @@
                         <input type="hidden" name="delivery_charge[pincode_no]" value="<?= @$pincode->pincode ?>">
                         <label>100Gm<span class="required" aria-required="true">*</span></label>
                         <input type="text" name="delivery_charge[hundred_gm]" class="form-control input-sm" id="amt" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="10" required value="<?php echo @$pincode->delivery_charge->hundred_gm; ?>">
+                            <input type="hidden" name="delivery_charge[state_id]" id="del_state" value="<?= @$pincode->state_id?>">
+                            <input type="hidden" name="delivery_charge[city_id]" id="del_city" value="<?= @$pincode->city_id?>">
                     </div>
                      <div class="col-md-3">
                         <label>500Gm<span class="required" aria-required="true">*</span></label>
-                        <input type="text" name="five_hundred_gm" class="form-control input-sm" id="amt" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="10" required>
+                        <input type="text" name="delivery_charge[five_hundred_gm]" class="form-control input-sm" id="amt" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="10" required value="<?php echo @$pincode->delivery_charge->five_hundred_gm; ?>">
                     </div>
                      <div class="col-md-3">
                         <label>1Kg<span class="required" aria-required="true">*</span></label>
-                        <input type="text" name="one_kg" class="form-control input-sm" id="amt" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="10" required>
+                        <input type="text" name="delivery_charge[one_kg]" class="form-control input-sm" id="amt" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="10" required value="<?php echo @$pincode->delivery_charge->one_kg; ?>">
+                    </div>
+                    <div class="col-md-3">
+                        <label>Minimum Order<span class="required" aria-required="true">*</span></label>
+                        <input type="text" name="delivery_charge[min_order_value]" class="form-control input-sm" id="charge" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="10" required value="<?php echo @$pincode->delivery_charge->min_order_value; ?>">
+                    </div>
+                </div>
+                 <div class="row" style="margin-top: 10px;">
+                     <div class="col-md-3">
+                        <label class=" control-label">Delivery Duration<span class="required" aria-required="true">*</span> </label>
+                        <input type="text" name="delivery_charge[delivery_duration]"  class="form-control input-sm"  value="<?php echo @$pincode->delivery_charge->delivery_duration; ?>">
                     </div>
                 </div>
                 <br/>
@@ -59,10 +80,16 @@
 <script>
 $(document).ready(function() {
 
+     $(document).on('change','.city',function(){
+        
+        var inputs=$(this).val();
+        $('#del_city').val(inputs);
+    });
 
     $(document).on('change','.state',function(){
         
         var input=$(this).val();
+        $('#del_state').val(input);
         var master = $(this); 
         $(".city option").remove();
         if(input.length>0){

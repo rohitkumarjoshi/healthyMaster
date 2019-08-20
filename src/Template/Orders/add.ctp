@@ -1397,7 +1397,7 @@ function selectAutoCompleted1(value) {
 						</div>
 						<div class="col-md-6">
 							<label class=" control-label">Name</label>
-								<?php echo $this->Form->input('name',['placeholder'=>'Name','class'=>'form-control input-sm customer_name','label'=>false,'id'=>'Customer_nm']); ?>
+								<?php echo $this->Form->input('name',['placeholder'=>'Name','class'=>'form-control input-sm customer_name','label'=>false,'id'=>'Customer_nm','required']); ?>
 						</div>
 					</div>
 					<div class="row">

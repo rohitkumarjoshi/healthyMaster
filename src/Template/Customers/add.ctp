@@ -14,8 +14,8 @@
 				<?= $this->Form->create($customer,['id'=>'form_sample_3']) ?>
 				<div class="row">
 					<div class="col-md-3">
-						<label class=" control-label">Customer Name </label>
-						<?php echo $this->Form->control('name',['placeholder'=>'Customer Name','class'=>'form-control input-sm','label'=>false]); ?>
+						<label class=" control-label">Customer Name<span class="required" aria-required="true">*</span> </label>
+						<?php echo $this->Form->control('name',['placeholder'=>'Customer Name','class'=>'form-control input-sm','label'=>false,'required']); ?>
 					</div>
 					<div class="col-md-3">
 						<label class=" control-label">Mobile No. <span class="required" aria-required="true">*</span></label>
@@ -49,7 +49,9 @@ $(document).ready(function() {
 		errorClass: 'help-block help-block-error', // default input error message class
 		focusInvalid: true, // do not focus the last invalid input
 		rules: {
-				
+				name:{
+					required:true
+				},
 				mobile_no:{
 						required:true,
 						number:true,
