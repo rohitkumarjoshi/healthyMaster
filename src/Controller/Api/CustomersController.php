@@ -393,7 +393,7 @@ class CustomersController extends AppController
 		$customer_id=$this->request->query('customer_id');
 		$profiles=$this->Customers->find()->where(['id' => $customer_id])->first();
 	    
-		$query = $this->Customers->JainCashPoints->find();
+		/* $query = $this->Customers->JainCashPoints->find();
 		$totalInCase = $query->newExpr()
 			->addCase(
 				$query->newExpr()->add(['order_id' => '0']),
@@ -460,7 +460,7 @@ class CustomersController extends AppController
 			$consumed=$fetch_query->total_out;
 			$wallet_balance=$advance-$consumed;
 		}
-		}
+		} */
 		$status=true;
 		$error="Data found successfully";
         $this->set(compact('status', 'error','jain_cash_points','wallet_balance','profiles'));
