@@ -112,7 +112,12 @@ class WastageReuseVouchersController extends AppController
         }
 		$wastageReuseVoucherList = $this->WastageReuseVouchers->find();
 		$Items=$this->WastageReuseVouchers->WastageReuseVoucherRows->Items->find('list')->where(['Items.freeze'=>0]);
-		$UnitVariations=$this->WastageReuseVouchers->WastageReuseVoucherRows->UnitVariations->find('list');
+		$UnitVariationData=$this->WastageReuseVouchers->WastageReuseVoucherRows->UnitVariations->find();
+		$UnitVariations=[];
+		foreach($UnitVariationData as $dd){
+			$UnitVariations[]=['text'=>$dd->name,'value'=>$dd->id,'quantity_factor'=>$dd->quantity_factor];
+		}
+		//pr($UnitVariations); exit;
         $this->set(compact('wastageReuseVoucher','Items','UnitVariations','wastageReuseVoucherList'));
     }
 
