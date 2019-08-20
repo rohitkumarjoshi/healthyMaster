@@ -116,7 +116,7 @@ class ItemsController extends AppController
 			
 			$categoryDetails = $this->Items->ItemCategories->find()->where(['is_deleted'=>0,'id' => $item_category_id])->first();			
 			
-			$categoryImage = 'http://13.235.146.226'.$this->request->webroot.'itemcategories/'.$categoryDetails->image;
+			$categoryImage = 'https://healthymaster.in'.$this->request->webroot.'itemcategories/'.$categoryDetails->image;
 			 
 			$where=['Items.item_category_id'=>$item_category_id, 'Items.is_combo'=>'no', 'Items.freeze'=>0, 'Items.ready_to_sale'=>'Yes'];
 			 
@@ -144,7 +144,7 @@ class ItemsController extends AppController
 					$items->where($searchFilter); 
 				}
 
-				$items->select(['image_url' => $items->func()->concat(['http://13.235.146.226'.$this->request->webroot.'img/item_images/','image' => 'identifier' ])])
+				$items->select(['image_url' => $items->func()->concat(['https://healthymaster.in'.$this->request->webroot.'img/item_images/','image' => 'identifier' ])])
 				->autoFields(true)->order($name_sort)->limit($limit)->page($page);
 			 
 					
@@ -174,7 +174,7 @@ class ItemsController extends AppController
 		$item_id=$this->request->query('item_id');
 		$customer_id=$this->request->query('customer_id'); 
 		$item_description = $this->Items->find()
-							->select(['image_url' => $this->Items->find()->func()->concat(['http://13.235.146.226'.$this->request->webroot.'img/item_images/','image' => 'identifier' ])])
+							->select(['image_url' => $this->Items->find()->func()->concat(['https://healthymaster.in'.$this->request->webroot.'img/item_images/','image' => 'identifier' ])])
 							->where(['Items.id'=>$item_id,'Items.freeze'=>0, 'Items.ready_to_sale'=>'Yes'])
 							->contain(['ItemVariations'=>
 								function($q) use($customer_id) {
@@ -325,7 +325,7 @@ class ItemsController extends AppController
 
 		if($type=='Popular Items')
 		{
-			$categoryImage = 'http://13.235.146.226'.$this->request->webroot.'item_list_category_image/popularitem.png';
+			$categoryImage = 'https://healthymaster.in'.$this->request->webroot.'item_list_category_image/popularitem.png';
 			
 			$query=$this->Items->ItemLedgers->find();
 		    $view_items=$query
@@ -353,7 +353,7 @@ class ItemsController extends AppController
 		}
 		else if($type=='recently')
 		{
-			$categoryImage = 'http://13.235.146.226'.$this->request->webroot.'item_list_category_image/recently.png';
+			$categoryImage = 'https://healthymaster.in'.$this->request->webroot.'item_list_category_image/recently.png';
 				$querys=$this->Items->ItemLedgers->find();
 				$view_items=$querys
 						->where(['inventory_transfer'=>'no','status'=>'out'])
@@ -380,7 +380,7 @@ class ItemsController extends AppController
 		}
 		else if($type='Top Selling Product')
 		{
-			$categoryImage = 'http://13.235.146.226'.$this->request->webroot.'item_list_category_image/topselling.png';
+			$categoryImage = 'https://healthymaster.in'.$this->request->webroot.'item_list_category_image/topselling.png';
         	$querys=$this->Items->ItemLedgers->find();
 				$view_items=$querys
 						->where(['inventory_transfer'=>'no','status'=>'out'])
@@ -413,7 +413,7 @@ class ItemsController extends AppController
 		{
 			foreach($view_items as $view_item)
 			{
-				$view_item->item->image_url = 'http://13.235.146.226'.$this->request->webroot.'img/item_images/'.$view_item->item->image;
+				$view_item->item->image_url = 'https://healthymaster.in'.$this->request->webroot.'img/item_images/'.$view_item->item->image;
 				$items [] =	$view_item->item;
 			}
 			$status=true;
@@ -440,7 +440,7 @@ class ItemsController extends AppController
 		if(!empty($search_items_data->toArray()))
 		{
 			foreach($search_items_data as $search_item){
-				$search_items[] = ['item_id' =>$search_item->id,'name' => $search_item->name,'category_id' =>$search_item->item_category_id,'category_name' => $search_item->item_category->name,'image' => 'http://13.235.146.226'.$this->request->webroot.'img/item_images/'.$search_item->image];	
+				$search_items[] = ['item_id' =>$search_item->id,'name' => $search_item->name,'category_id' =>$search_item->item_category_id,'category_name' => $search_item->item_category->name,'image' => 'https://healthymaster.in'.$this->request->webroot.'img/item_images/'.$search_item->image];	
 			}
 			$status=true;
 			$error="Data found successfully";			
@@ -503,7 +503,7 @@ class ItemsController extends AppController
 			{
 				foreach($searchResult as $search)
 				{
-					$search->image_url='http://13.235.146.226'.$this->request->webroot.'img/item_images/'.$search->image;
+					$search->image_url='https://healthymaster.in'.$this->request->webroot.'img/item_images/'.$search->image;
 				}				
 			}
 			
@@ -525,9 +525,7 @@ class ItemsController extends AppController
 		
 	}	
 	
-	 
-	 
-	public function fetchItem()
+	 public function fetchItem()
     {
 		$jain_thela_admin_id=$this->request->query('jain_thela_admin_id');
 			$where=['Items.jain_thela_admin_id'=>$jain_thela_admin_id, 'Items.is_combo'=>'no', 'Items.freeze'=>0,'Items.is_virtual'=>'no'];
@@ -535,7 +533,7 @@ class ItemsController extends AppController
 					->where($where)
 					->order(['name'=>'ASC'])
 					->contain(['Units']);
-					$fetch_items->select(['image_url' => $fetch_items->func()->concat(['http://13.235.146.226'.$this->request->webroot.'img/item_images/','image' => 'identifier' ])])
+					$fetch_items->select(['image_url' => $fetch_items->func()->concat(['https://healthymaster.in'.$this->request->webroot.'img/item_images/','image' => 'identifier' ])])
                     ->autoFields(true);
 		
 		
@@ -544,6 +542,7 @@ class ItemsController extends AppController
         $this->set(compact('status', 'error', 'fetch_items'));
         $this->set('_serialize', ['status', 'error', 'fetch_items']);
     }
+
 
 
 	public function wishListItem()

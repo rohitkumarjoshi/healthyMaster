@@ -125,8 +125,8 @@ class CustomersController extends AppController
 				 }
 			}
 			
-			$this->set(compact('status', 'error', 'new_signup', 'customerDetails'));
-	        $this->set('_serialize', ['status', 'error', 'new_signup', 'customerDetails']);
+			$this->set(compact('status', 'error', 'new_signup', 'customerDetails','random'));
+	        $this->set('_serialize', ['status', 'error', 'new_signup', 'customerDetails','random']);
 			
 		}
 	

@@ -248,7 +248,7 @@ class OrdersController extends AppController
 					}
 						
 		foreach($orders_data as $order){
-			$order->image_url='http://13.235.146.226'.$this->request->webroot.'img/item_images/'.@$order->order_details[0]->item->image;
+			$order->image_url='https://healthymaster.in'.$this->request->webroot.'img/item_images/'.@$order->order_details[0]->item->image;
 			unset($order->order_details);
 		}
 		
@@ -267,7 +267,7 @@ class OrdersController extends AppController
 		['OrderDetails'=>	
 			['ItemVariations' =>['Units','Items'=>function($q)
 			{
-			   return $q->select(['image_path' => $q->func()->concat(['http://13.235.146.226'.$this->request->webroot.'img/item_images/','image' => 'identifier' ])])
+			   return $q->select(['image_path' => $q->func()->concat(['https://healthymaster.in'.$this->request->webroot.'img/item_images/','image' => 'identifier' ])])
 			   ->autoFields(true);
 			}]]
 			

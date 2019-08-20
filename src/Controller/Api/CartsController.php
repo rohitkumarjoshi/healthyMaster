@@ -36,6 +36,10 @@ class CartsController extends AppController
 		$item_id=$this->request->data('item_id');
 		$item_variation_id=$this->request->data('item_variation_id');
 		$customer_id=$this->request->data('customer_id');
+		
+		$stockmax=$this->currentStock($item_id,$item_variation_id);
+		
+		if($stockmax > 0){
 		$items = $this->Carts->Items->get($item_id);
 		//$item_add_quantity=$items->minimum_quantity_factor;
 		$item_add_quantity=1;
@@ -82,6 +86,14 @@ class CartsController extends AppController
 		$error="Item successfully added";
         $this->set(compact('status', 'error','carts','cart_count'));
         $this->set('_serialize', ['status', 'error', 'carts','cart_count']);
+		}else{
+		$status=false;
+		$error="Item Out of Stock";	
+		$cart_count=0;
+		$carts=(object)[];
+		$this->set(compact('status', 'error','carts','cart_count'));
+        $this->set('_serialize', ['status', 'error', 'carts','cart_count']);
+		}
     }
 	public function minusAddToCart()
     {
@@ -698,7 +710,7 @@ class CartsController extends AppController
 		foreach($carts as $cart_data)
 		{ $totalItems = $totalItems + 1;
 		
-			$cart_data->item->image = 'http://13.235.146.226'.$this->request->webroot.'img/item_images/'.$cart_data->item->image;	
+			$cart_data->item->image = 'https://healthymaster.in'.$this->request->webroot.'img/item_images/'.$cart_data->item->image;	
 		
 			foreach($cart_data->item->item_variations as $item_variation)
 			{
