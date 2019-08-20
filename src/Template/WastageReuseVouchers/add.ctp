@@ -224,8 +224,45 @@ $(document).ready(function() {
 		}
 	});
 	
+	
 	$(document).on("click", ".add_row", function(e){
 			add_row();
+	});
+	
+	$(document).on("keyup", ".chkreuse", function(e){
+		var avl_qty=$(this).closest('tr').find('.avl_qty').val();
+		var quantity_factor=$(this).closest('tr').find(".unit_variation_id option:selected" ).attr('quantity_factor');
+		var rem=(avl_qty/quantity_factor);
+		var wastageqty=$(this).closest('tr').find('.chkwastage').val();
+		var remqty=rem-wastageqty;
+		var addQt=$(this).val();
+		if(remqty >= addQt){
+			
+		}else{
+			$(this).val(0);
+		}
+		/* $(this).closest('tr').find('.maxqtyr').html(remqty);
+		$(this).closest('tr').find('.maxqtyw').html(remqty); */
+		
+		
+	});
+	
+	$(document).on("keyup", ".chkwastage", function(e){
+		var avl_qty=$(this).closest('tr').find('.avl_qty').val();
+		var quantity_factor=$(this).closest('tr').find(".unit_variation_id option:selected" ).attr('quantity_factor');
+		var rem=(avl_qty/quantity_factor);
+		var reuseqty=$(this).closest('tr').find('.chkreuse').val();
+		var remqty=rem-reuseqty;
+		var addQt=$(this).val();
+		if(remqty >= addQt){
+			
+		}else{
+			$(this).val(0);
+		}
+		/* $(this).closest('tr').find('.maxqtyr').html(remqty);
+		$(this).closest('tr').find('.maxqtyw').html(remqty); */
+		
+		
 	});
 	
 	$(document).on("click", ".remove_row", function(e){ 
@@ -279,6 +316,8 @@ $(document).ready(function() {
                 dataType:'text',
                 success: function(response)
                 {  
+					var result = response.split(" ");
+					master.closest('tr').find('.avl_qty').val(result[0]);
 					master.closest('tr').find('span.total').html(response);
                 }
             });
@@ -296,16 +335,19 @@ $(document).ready(function() {
 			<td style="vertical-align: top !important;"></td>
 			<td width="15%" align="left">
 				<?php echo $this->Form->input('item_id',['options'=>$Items,'class'=>'form-control input-sm item_id select2 ','empty' => '--Select Item--','label'=>false,'required'=>'required']); ?>
+				<?php echo $this->Form->input('avl_qty', ['label' => false,'placeholder'=>'Wastage','class'=>'form-control input-sm avl_qty','type'=>'hidden']); ?>
 				<span class="total"  style="color:blue;font-size:12px;"></span>
 			</td>
 			<td width="15%" align="left" >
 				<?php echo $this->Form->input('unit_variation_id',['options'=>$UnitVariations,'class'=>'form-control input-sm unit_variation_id select2 ','empty' => '--Select Item--','label'=>false,'required'=>'required']); ?>
 			</td>
 			<td width="5%" align="center">
-				<?php echo $this->Form->input('wastage_quantity', ['label' => false,'placeholder'=>'Wastage','class'=>'form-control input-sm wastage_quantity rightAligntextClass','required'=>'required','maxlength'=>5,'value'=>0]); ?>
+				<?php echo $this->Form->input('wastage_quantity', ['label' => false,'placeholder'=>'Wastage','class'=>'form-control input-sm wastage_quantity chkwastage rightAligntextClass','required'=>'required','maxlength'=>5,'value'=>0]); ?>
+				<span class="maxqtyw"  style="color:blue;font-size:12px;"></span>
 			</td>
 			<td width="5%" align="center">
-				<?php echo $this->Form->input('reuse_quantity', ['label' => false,'placeholder'=>'Reuse','class'=>'form-control input-sm reuse_quantity rightAligntextClass','required'=>'required','maxlength'=>5,'value'=>0]); ?>
+				<?php echo $this->Form->input('reuse_quantity', ['label' => false,'placeholder'=>'Reuse','class'=>'form-control input-sm reuse_quantity chkreuse rightAligntextClass','required'=>'required','maxlength'=>5,'value'=>0]); ?>
+				<span class="maxqtyr"  style="color:blue;font-size:12px;"></span>
 			</td>
 			
 			<td>

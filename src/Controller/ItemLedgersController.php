@@ -655,120 +655,7 @@ class ItemLedgersController extends AppController
 			}
 		}
 		
-		$Orders = $this->ItemLedgers->Orders->find()->contain(['OrderDetails'=>['ItemVariations'=>['UnitVariations']]])->where(['Orders.status NOT IN'=>['Delivered','Cancel'],'Orders.curent_date < '=>$transaction_date])->toArray();
-		foreach($Orders as $Order){
-			foreach($Order->order_details as $order_detail){
-				@$QuantityOpeningStock[$order_detail->item_id]-=@$order_detail->item_variation->unit_variation->quantity_factor*$order_detail->quantity;
-				
-			}
-		} 
-		
-		//Opening stock End
-		
-		
-		//Purchase stock Start
-		
-		$ItemLedgersData = $this->ItemLedgers->find()->select(['item_id','item_variation_id','status','quantity','transaction_date','unit_variation_id'])
-		->contain(['UnitVariations'])
-		->where(['ItemLedgers.transaction_date'=>$transaction_date])->autoFields(true);
-		$ItemLedgersData->select(['total_op_qt' => $ItemLedgersData->func()->sum('ItemLedgers.quantity')])
-       ->group(['ItemLedgers.unit_variation_id','ItemLedgers.item_id','ItemLedgers.status',])
-        ;
-		
-		$TodayPurchaseStock=[]; $TodayWastageStock=[]; $TodayReuseStock=[];
-		foreach($ItemLedgersData as $data){
-			if($data->purchase_booking_id > 0){ 
-				@$TodayPurchaseStock[$data->item_id]+=@$data->unit_variation->quantity_factor*$data->total_op_qt;
-			}else if($data->wastage == 1){ 
-				@$TodayWastageStock[$data->item_id]+=@$data->unit_variation->quantity_factor*$data->total_op_qt;
-			}else if($data->usable_wastage == 1){ 
-				@$TodayReuseStock[$data->item_id]+=@$data->unit_variation->quantity_factor*$data->total_op_qt;
-			}
-		}
-		
-		//pr($TodayPurchaseStock); exit;
-		//Purchase stock End
-		
-		
-		
-		//closing stock Start
-		
-		$ItemLedgersData = $this->ItemLedgers->find()->select(['item_id','item_variation_id','status','quantity','transaction_date','unit_variation_id'])
-		->contain(['UnitVariations'])
-		->where(['ItemLedgers.transaction_date <= '=>$transaction_date])->autoFields(true);
-		$ItemLedgersData->select(['total_op_qt' => $ItemLedgersData->func()->sum('ItemLedgers.quantity')])
-       ->group(['ItemLedgers.unit_variation_id','ItemLedgers.item_id','ItemLedgers.status',])
-        ;
-		
-		$QuantityTotalStock=[];
-		foreach($ItemLedgersData as $data){
-			if($data->status=="In"){ 
-				@$QuantityTotalStock[$data->item_id]+=@$data->unit_variation->quantity_factor*$data->total_op_qt;
-			}else{
-				@$QuantityTotalStock[$data->item_id]-=@$data->unit_variation->quantity_factor*$data->total_op_qt;
-			}
-		}
-		
-		/*$Orders = $this->ItemLedgers->Orders->find()->contain(['OrderDetails'=>['ItemVariations'=>['UnitVariations']]])->where(['Orders.status NOT IN'=>['Delivered','Cancel']])->toArray();
-		
-		 foreach($Orders as $Order){
-			foreach($Order->order_details as $order_detail){
-				@$QuantityTotalStock[$order_detail->item_id]-=@$order_detail->item_variation->unit_variation->quantity_factor*$order_detail->quantity;
-			}
-		} */
-		//	pr($QuantityTotalStock);exit;
-		//closing stock End
-		
-		//Today Sale Start\
-		
-		$Orders = $this->ItemLedgers->Orders->find()->contain(['OrderDetails'=>['ItemVariations'=>['UnitVariations']]])->where(['Orders.status NOT IN'=>['Cancel'],'Orders.curent_date '=>$transaction_date])->toArray();
-		$todaySales=[];
-		foreach($Orders as $Order){
-			foreach($Order->order_details as $order_detail){
-				@$todaySales[$order_detail->item_id]=@$order_detail->item_variation->unit_variation->quantity_factor*$order_detail->quantity;
-			}
-		}
-		
-		//Today Sale End
-		
-		
-		$Items = $this->ItemLedgers->Items->find()->contain(['ItemVariations'=>['UnitVariations']]);
-       
-		$this->set(compact('QuantityTotalStock','Items','QuantityOpeningStock','TodayPurchaseStock','TodayWastageStock','TodayReuseStock','todaySales'));
-    }
-	
-	
-	public function NewReportStock()
-    {
-		$url=$this->request->here();
-		$url=parse_url($url,PHP_URL_QUERY);
-		
-		$jain_thela_admin_id=$this->Auth->User('jain_thela_admin_id');
-		$this->viewBuilder()->layout('index_layout');
-
-		$transaction_date=date('Y-m-d');
-		
-		//Opening Stock Start
-		$ItemLedgersData = $this->ItemLedgers->find()->select(['item_id','item_variation_id','status','quantity','transaction_date','unit_variation_id'])
-		->contain(['UnitVariations'])
-		->order(['ItemLedgers.id'=>'DESC'])
-		->where(['ItemLedgers.transaction_date < '=>$transaction_date])
-		->orWhere(['ItemLedgers.opening_stock'=>'Yes','ItemLedgers.transaction_date'=>$transaction_date])
-		->autoFields(true);
-		$ItemLedgersData->select(['total_op_qt' => $ItemLedgersData->func()->sum('ItemLedgers.quantity')])
-       ->group(['ItemLedgers.unit_variation_id','ItemLedgers.item_id','ItemLedgers.status',])
-        ;
-		
-		$QuantityOpeningStock=[];
-		foreach($ItemLedgersData as $data){
-			if($data->status=="In"){ 
-				@$QuantityOpeningStock[$data->item_id]+=@$data->unit_variation->quantity_factor*$data->total_op_qt;
-			}else{
-				@$QuantityOpeningStock[$data->item_id]-=@$data->unit_variation->quantity_factor*$data->total_op_qt;
-			}
-		}
-		
-		//pr(@$QuantityOpeningStock); 
+		/* pr(@$QuantityOpeningStock); exit; 
 		$Orders = $this->ItemLedgers->Orders->find()->contain(['OrderDetails'=>['ItemVariations'=>['UnitVariations']]])->where(['Orders.status IN'=>['Delivered'],'Orders.curent_date < '=>$transaction_date])->toArray();
 		foreach($Orders as $Order){
 			foreach($Order->order_details as $order_detail){
@@ -776,7 +663,7 @@ class ItemLedgersController extends AppController
 				
 			}
 		} 
-		//pr($QuantityOpeningStock);exit;
+		pr($QuantityOpeningStock);exit; */
 		//pr(@$QuantityOpeningStock); exit;
 		//Opening stock End
 		
@@ -835,22 +722,147 @@ class ItemLedgersController extends AppController
 				@$QuantityTotalStock[$order_detail->item_id]-=@$order_detail->item_variation->unit_variation->quantity_factor*$order_detail->quantity;
 			}
 		} */
-		//	pr($QuantityTotalStock);exit; TodayReuseStock
+		//	pr($QuantityOpeningStock);exit; TodayReuseStock
 		//closing stock End
 		
 		//Today Sale Start\
 		
 		$Orders = $this->ItemLedgers->Orders->find()->contain(['OrderDetails'=>['ItemVariations'=>['UnitVariations']]])->where(['Orders.status NOT IN'=>['Cancel','Delivered'],'Orders.curent_date <= '=>$transaction_date])->toArray();
+		
 		$todaySales=[];
 		foreach($Orders as $Order){
 			foreach($Order->order_details as $order_detail){
-				@$todaySales[$order_detail->item_id]+=@$order_detail->item_variation->unit_variation->quantity_factor*$order_detail->quantity;
+				if($order_detail->status != 'Cancel' && $order_detail->status != 'Delivered'){ 
+					@$todaySales[$order_detail->item_id]+=@$order_detail->item_variation->unit_variation->quantity_factor*$order_detail->quantity;
+				}
+			}
+		}
+		//pr($todaySales); exit;
+		//Today Sale End
+		
+		//pr($QuantityOpeningStock);exit; 
+		$Items = $this->ItemLedgers->Items->find()->contain(['ItemVariations'=>['UnitVariations']]);
+       
+		$this->set(compact('QuantityTotalStock','Items','QuantityOpeningStock','TodayPurchaseStock','TodayWastageStock','TodayReuseStock','todaySales'));
+    }
+	
+	
+	public function NewReportStock()
+    {
+		$url=$this->request->here();
+		$url=parse_url($url,PHP_URL_QUERY);
+		
+		$jain_thela_admin_id=$this->Auth->User('jain_thela_admin_id');
+		$this->viewBuilder()->layout('index_layout');
+
+		$transaction_date=date('Y-m-d');
+		
+		//Opening Stock Start
+		$ItemLedgersData = $this->ItemLedgers->find()->select(['item_id','item_variation_id','status','quantity','transaction_date','unit_variation_id'])
+		->contain(['UnitVariations'])
+		->order(['ItemLedgers.id'=>'DESC'])
+		->where(['ItemLedgers.transaction_date < '=>$transaction_date])
+		->orWhere(['ItemLedgers.opening_stock'=>'Yes','ItemLedgers.transaction_date'=>$transaction_date])
+		->autoFields(true);
+		$ItemLedgersData->select(['total_op_qt' => $ItemLedgersData->func()->sum('ItemLedgers.quantity')])
+       ->group(['ItemLedgers.unit_variation_id','ItemLedgers.item_id','ItemLedgers.status',])
+        ;
+		
+		$QuantityOpeningStock=[];
+		foreach($ItemLedgersData as $data){
+			if($data->status=="In"){ 
+				@$QuantityOpeningStock[$data->item_id]+=@$data->unit_variation->quantity_factor*$data->total_op_qt;
+			}else{
+				@$QuantityOpeningStock[$data->item_id]-=@$data->unit_variation->quantity_factor*$data->total_op_qt;
 			}
 		}
 		
+		/* pr(@$QuantityOpeningStock); exit; 
+		$Orders = $this->ItemLedgers->Orders->find()->contain(['OrderDetails'=>['ItemVariations'=>['UnitVariations']]])->where(['Orders.status IN'=>['Delivered'],'Orders.curent_date < '=>$transaction_date])->toArray();
+		foreach($Orders as $Order){
+			foreach($Order->order_details as $order_detail){
+				@$QuantityOpeningStock[$order_detail->item_id]-=@$order_detail->item_variation->unit_variation->quantity_factor*$order_detail->quantity;
+				
+			}
+		} 
+		pr($QuantityOpeningStock);exit; */
+		//pr(@$QuantityOpeningStock); exit;
+		//Opening stock End
+		
+		
+		//Purchase stock Start
+		
+		$ItemLedgersData = $this->ItemLedgers->find()->select(['item_id','item_variation_id','status','quantity','transaction_date','unit_variation_id'])
+		->contain(['UnitVariations'])
+		->where(['ItemLedgers.transaction_date'=>$transaction_date,'wastage >=' =>1])
+		->orWhere(['ItemLedgers.transaction_date'=>$transaction_date,'usable_wastage >=' => 1])
+		->orWhere(['ItemLedgers.transaction_date'=>$transaction_date])
+		->autoFields(true); //pr($ItemLedgersData->toArray()); exit;
+		//$ItemLedgersData->select(['total_op_qt' => $ItemLedgersData->func()->sum('ItemLedgers.quantity')]);
+		
+		
+		$TodayPurchaseStock=[]; $TodayWastageStock=[]; $TodayReuseStock=[];
+		foreach($ItemLedgersData as $data){
+			if($data->purchase_booking_id > 0){ 
+				@$TodayPurchaseStock[$data->item_id]+=@$data->unit_variation->quantity_factor*$data->quantity;
+			}
+			if($data->wastage == 1){ 
+				@$TodayWastageStock[$data->item_id]+=@$data->unit_variation->quantity_factor*$data->quantity;
+			}
+			if($data->usable_wastage == 1){ 
+				@$TodayReuseStock[$data->item_id]+=@$data->unit_variation->quantity_factor*$data->quantity;
+			}
+		}
+		
+		//pr($TodayReuseStock); exit;
+		//Purchase stock End
+		
+		
+		
+		//closing stock Start
+		
+		$ItemLedgersData = $this->ItemLedgers->find()->select(['item_id','item_variation_id','status','quantity','transaction_date','unit_variation_id'])
+		->contain(['UnitVariations'])
+		->where(['ItemLedgers.transaction_date <= '=>$transaction_date])->autoFields(true);
+		$ItemLedgersData->select(['total_op_qt' => $ItemLedgersData->func()->sum('ItemLedgers.quantity')])
+       ->group(['ItemLedgers.unit_variation_id','ItemLedgers.item_id','ItemLedgers.status',])
+        ;
+		
+		$QuantityTotalStock=[];
+		foreach($ItemLedgersData as $data){
+			if($data->status=="In"){ 
+				@$QuantityTotalStock[$data->item_id]+=@$data->unit_variation->quantity_factor*$data->total_op_qt;
+			}else{
+				@$QuantityTotalStock[$data->item_id]-=@$data->unit_variation->quantity_factor*$data->total_op_qt;
+			}
+		}
+		
+		/*$Orders = $this->ItemLedgers->Orders->find()->contain(['OrderDetails'=>['ItemVariations'=>['UnitVariations']]])->where(['Orders.status NOT IN'=>['Delivered','Cancel']])->toArray();
+		
+		 foreach($Orders as $Order){
+			foreach($Order->order_details as $order_detail){
+				@$QuantityTotalStock[$order_detail->item_id]-=@$order_detail->item_variation->unit_variation->quantity_factor*$order_detail->quantity;
+			}
+		} */
+		//	pr($QuantityOpeningStock);exit; TodayReuseStock
+		//closing stock End
+		
+		//Today Sale Start\
+		
+		$Orders = $this->ItemLedgers->Orders->find()->contain(['OrderDetails'=>['ItemVariations'=>['UnitVariations']]])->where(['Orders.status NOT IN'=>['Cancel','Delivered'],'Orders.curent_date <= '=>$transaction_date])->toArray();
+		
+		$todaySales=[];
+		foreach($Orders as $Order){
+			foreach($Order->order_details as $order_detail){
+				if($order_detail->status != 'Cancel' && $order_detail->status != 'Delivered'){ 
+					@$todaySales[$order_detail->item_id]+=@$order_detail->item_variation->unit_variation->quantity_factor*$order_detail->quantity;
+				}
+			}
+		}
+		//pr($todaySales); exit;
 		//Today Sale End
 		
-		
+		//pr($QuantityOpeningStock);exit; 
 		$Items = $this->ItemLedgers->Items->find()->contain(['ItemVariations'=>['UnitVariations']]);
        
 		$this->set(compact('QuantityTotalStock','Items','QuantityOpeningStock','TodayPurchaseStock','TodayWastageStock','TodayReuseStock','todaySales'));
@@ -926,7 +938,9 @@ class ItemLedgersController extends AppController
 		$Orders = $this->ItemLedgers->Orders->find()->contain(['OrderDetails'=>['ItemVariations'=>['UnitVariations']]])->where(['Orders.status NOT IN'=>['Delivered','Cancel'],'Orders.curent_date <= '=>$transaction_date])->toArray();
 		foreach($Orders as $Order){
 			foreach($Order->order_details as $order_detail){
+				if($order_detail->status != 'Cancel'){ 
 				@$QuantityTotalStock[$order_detail->item_id]-=@$order_detail->item_variation->unit_variation->quantity_factor*$order_detail->quantity;
+				}
 				
 			}
 		} 

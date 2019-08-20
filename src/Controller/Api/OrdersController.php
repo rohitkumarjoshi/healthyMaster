@@ -248,7 +248,7 @@ class OrdersController extends AppController
 					}
 						
 		foreach($orders_data as $order){
-			$order->image_url='http://healthymaster.in'.$this->request->webroot.'img/item_images/'.@$order->order_details[0]->item->image;
+			$order->image_url='http://13.235.146.226'.$this->request->webroot.'img/item_images/'.@$order->order_details[0]->item->image;
 			unset($order->order_details);
 		}
 		
@@ -267,7 +267,7 @@ class OrdersController extends AppController
 		['OrderDetails'=>	
 			['ItemVariations' =>['Units','Items'=>function($q)
 			{
-			   return $q->select(['image_path' => $q->func()->concat(['http://healthymaster.in'.$this->request->webroot.'img/item_images/','image' => 'identifier' ])])
+			   return $q->select(['image_path' => $q->func()->concat(['http://13.235.146.226'.$this->request->webroot.'img/item_images/','image' => 'identifier' ])])
 			   ->autoFields(true);
 			}]]
 			
@@ -290,13 +290,14 @@ class OrdersController extends AppController
 			
 			$orders_details_data->invoice_link = '';
 			
-			$orders_details_data->curent_date=date('D M j, Y H:i a', strtotime($orders_details_data->curent_date));
-			$orders_details_data->order_date=date('D M j, Y H:i a', strtotime($orders_details_data->order_date));
-			$orders_details_data->delivery_date=date('D M j, Y H:i a', strtotime($orders_details_data->delivery_date));
+			$orders_details_data->curent_date=date('D M j, Y ', strtotime($orders_details_data->curent_date));
+			$orders_details_data->order_date=date('D M j, Y ', strtotime($orders_details_data->order_date));
+			$orders_details_data->delivery_date=date('D M j, Y ', strtotime($orders_details_data->delivery_date));
 			
 			 $c_a_id=$orders_details_data->customer_address_id;
 			 $customer_addresses=$this->Orders->CustomerAddresses->find()
-			->where(['CustomerAddresses.customer_id' => $customer_id, 'CustomerAddresses.id'=>$c_a_id])->first();
+			->where(['CustomerAddresses.customer_id' => $customer_id, 'CustomerAddresses.id'=>$c_a_id])
+			->contain(['States','Cities'])->first();
 			
 			if(empty($customer_addresses)) { $customer_addresses = (object)[]; }
 			

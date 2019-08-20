@@ -698,7 +698,7 @@ class CartsController extends AppController
 		foreach($carts as $cart_data)
 		{ $totalItems = $totalItems + 1;
 		
-			$cart_data->item->image = 'http://healthymaster.in'.$this->request->webroot.'img/item_images/'.$cart_data->item->image;	
+			$cart_data->item->image = 'http://13.235.146.226'.$this->request->webroot.'img/item_images/'.$cart_data->item->image;	
 		
 			foreach($cart_data->item->item_variations as $item_variation)
 			{

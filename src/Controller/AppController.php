@@ -149,7 +149,7 @@ class AppController extends Controller
 		$Orders = $this->ItemLedgers->Orders->find()->contain(['OrderDetails'=>['ItemVariations'=>['UnitVariations']]])->where(['Orders.status NOT IN'=>['Delivered','Cancel']])->toArray();
 		foreach($Orders as $Order){
 			foreach($Order->order_details as $order_detail){
-				if($order_detail->item_id==$item_id){
+				if($order_detail->item_id==$item_id && $order_detail->status != 'Cancel'){
 				@$QuantityTotalStock-=@$order_detail->item_variation->unit_variation->quantity_factor*$order_detail->quantity;
 				}
 			}
@@ -196,7 +196,7 @@ class AppController extends Controller
 		$Orders = $this->ItemLedgers->Orders->find()->contain(['OrderDetails'=>['ItemVariations'=>['UnitVariations']]])->where(['Orders.status NOT IN'=>['Delivered','Cancel']])->toArray();
 		foreach($Orders as $Order){
 			foreach($Order->order_details as $order_detail){
-				if($order_detail->item_id==$item_id){
+				if($order_detail->item_id==$item_id && $order_detail->status != 'Cancel'){
 				@$QuantityTotalStock-=@$order_detail->item_variation->unit_variation->quantity_factor*$order_detail->quantity;
 				}
 			}

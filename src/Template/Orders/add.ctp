@@ -500,7 +500,6 @@ $(document).ready(function() {
 						tt.find('.OutOfStockItem').css('color','green');
 					}else{
 						stts="no";
-						alert(stts);
 						tt.closest('tr').find('td:nth-child(4) .show_quantity').val('');
 						tt.closest('tr').find('span.total').html(cur_qty);
 						tt.find('.OutOfStockItem').html("Quantit Exceeds");

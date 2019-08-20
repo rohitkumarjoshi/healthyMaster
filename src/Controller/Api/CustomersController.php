@@ -65,25 +65,28 @@ class CustomersController extends AppController
 			
 		}
 	
-	  public function registration()
+	   public function registration()
 		{
 			$error="";
 			$mobile_no=$this->request->query('mobile_no');
 			$otp=$this->request->query('otp');
 			$signup=$this->request->query('status');
-			
+			$new_signup='No';
 			if(!empty($mobile_no) && empty($otp))
 			{
 				 $customerDetails = $this->Customers->find()->where(['mobile'=>$mobile_no])->first();
 				 if($customerDetails){
 					$id=$customerDetails->id;
-					$new_signup='no';
+					
 					$random=(string)mt_rand(1000,9999);
-					$sms=str_replace(' ', '+', 'Your one time OTP is: '.$random.' ovRpCuXDUvO');
+					$content='<#> Your one time OTP  is: '.$random.' ovRpCuXDUvO';
 					$working_key='A7a76ea72525fc05bbe9963267b48dd96';
 					$sms_sender='HEALTH';
-					$sms=str_replace(' ', '+', $sms); 
-					file_get_contents('http://103.39.134.40/api/mt/SendSMS?user=phppoetsit&password=9829041695&senderid='.$sms_sender.'&channel=Trans&DCS=0&flashsms=0&number='.$mobile_no.'&text='.$sms.'&route=7'); 
+					//$sms=str_replace(' ', '+', $sms); 
+					$content = utf8_encode ($content);
+					$sms=str_replace("+", ' ' ,$content);
+					
+					file_get_contents('http://103.39.134.40/api/mt/SendSMS?user=phppoetsit&password=9829041695&senderid='.$sms_sender.'&channel=Trans&DCS=0&flashsms=0&number='.$mobile_no.'&text='.urlencode($sms).'&route=7'); 
 					$customerDetails = $this->Customers->get($customerDetails->id);
 					$customerDetails->otp=$random;
 					//$customerDetails->user_img = $img_name;
@@ -92,9 +95,21 @@ class CustomersController extends AppController
 					$error="OTP sent successfully.";
 					 
 				 }else{
-					 $status=false;
-					 $error="You are not registered. Please signup";
+					 $status=true;
+					 $error="OTP sent successfully.";
 					 $customerDetails=(object)[];
+					 $new_signup='Yes';
+					 
+					$random=(string)mt_rand(1000,9999);
+					$content='<#> Your one time OTP  is: '.$random.' ovRpCuXDUvO';
+					$working_key='A7a76ea72525fc05bbe9963267b48dd96';
+					$sms_sender='HEALTH';
+					//$sms=str_replace(' ', '+', $sms); 
+					$content = utf8_encode ($content);
+					$sms=str_replace("+", ' ' ,$content);
+					
+					file_get_contents('http://103.39.134.40/api/mt/SendSMS?user=phppoetsit&password=9829041695&senderid='.$sms_sender.'&channel=Trans&DCS=0&flashsms=0&number='.$mobile_no.'&text='.urlencode($sms).'&route=7'); 
+					 
 				 }
 				 
 			}else{
@@ -393,7 +408,7 @@ class CustomersController extends AppController
 		$customer_id=$this->request->query('customer_id');
 		$profiles=$this->Customers->find()->where(['id' => $customer_id])->first();
 	    
-		$query = $this->Customers->JainCashPoints->find();
+		/* $query = $this->Customers->JainCashPoints->find();
 		$totalInCase = $query->newExpr()
 			->addCase(
 				$query->newExpr()->add(['order_id' => '0']),
@@ -460,7 +475,7 @@ class CustomersController extends AppController
 			$consumed=$fetch_query->total_out;
 			$wallet_balance=$advance-$consumed;
 		}
-		}
+		} */
 		$status=true;
 		$error="Data found successfully";
         $this->set(compact('status', 'error','jain_cash_points','wallet_balance','profiles'));
