@@ -36,10 +36,17 @@ class CartsController extends AppController
 		$item_id=$this->request->data('item_id');
 		$item_variation_id=$this->request->data('item_variation_id');
 		$customer_id=$this->request->data('customer_id');
-		
+		$max_qt=0;
 		$stockmax=$this->currentStock($item_id,$item_variation_id);
 		
+		
 		if($stockmax > 0){
+			
+		if($stockmax > 5){
+			$max_qt=5;
+		}else{
+			$max_qt=$stockmax;
+		}
 		$items = $this->Carts->Items->get($item_id);
 		//$item_add_quantity=$items->minimum_quantity_factor;
 		$item_add_quantity=1;
@@ -65,9 +72,15 @@ class CartsController extends AppController
 				$exist_quantity=$fetch->quantity;
 				$exist_count=$fetch->cart_count;
 			}
-			$update_quantity=$exist_quantity+1;
+			if($max_qt > $exist_quantity){ 
+				$update_quantity=$exist_quantity+1;
+				$update_count=$exist_count+1;
+			}else{
+				$update_quantity=$exist_quantity;
+				$update_count=$exist_count;
+			}
 			//$update_quantity=$item_add_quantity;
-			$update_count=$exist_count+1;
+			
 		
 			$cart=$this->Carts->get($update_id);	
 			$query = $this->Carts->query();
@@ -81,18 +94,20 @@ class CartsController extends AppController
 		->first();
         
 		$cart_count = $this->Carts->find('All')->where(['Carts.customer_id'=>$customer_id])->count();
+		
+		
 
 		$status=true;
 		$error="Item successfully added";
-        $this->set(compact('status', 'error','carts','cart_count'));
-        $this->set('_serialize', ['status', 'error', 'carts','cart_count']);
+        $this->set(compact('status', 'error','carts','cart_count','max_qt'));
+        $this->set('_serialize', ['status', 'error', 'carts','cart_count','max_qt']);
 		}else{
 		$status=false;
 		$error="Item Out of Stock";	
 		$cart_count=0;
 		$carts=(object)[];
-		$this->set(compact('status', 'error','carts','cart_count'));
-        $this->set('_serialize', ['status', 'error', 'carts','cart_count']);
+		$this->set(compact('status', 'error','carts','cart_count','max_qt'));
+        $this->set('_serialize', ['status', 'error', 'carts','cart_count','max_qt']);;
 		}
     }
 	public function minusAddToCart()
