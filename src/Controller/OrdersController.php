@@ -285,7 +285,7 @@ class OrdersController extends AppController
 	{
 		$this->viewBuilder()->layout('index_layout'); 
 		$gsts=$this->Orders->OrderDetails->find()
-		->where(['Orders.invoice_no !='=>' '])
+		->where(['Orders.invoice_no !='=>' ','OrderDetails.status !='=>'Cancel'])
 		->contain(['Orders'=>['CustomerAddresses'=>['States']],'Items'=>['GstFigures','ItemCategories'],'ItemVariations'=>['Units']])
 		->order(['OrderDetails.id'=>'DESC']);
 		if ($this->request->is('post')) {
@@ -921,7 +921,9 @@ class OrdersController extends AppController
 		$jain_thela_admin_id=$this->Auth->User('jain_thela_admin_id');
 		$curent_date=date('Y-m-d');
 
-		$orders =$this->paginate($this->Orders->find()->order(['Orders.id'=>'DESC'])->contain(['CustomerAddresses','Customers']));
+		$orders =$this->Orders->find()
+		->contain(['CustomerAddresses','Customers'])
+		->order(['Orders.id'=>'DESC']);
 		
 
 		if ($this->request->is('post')) {
@@ -948,10 +950,10 @@ class OrdersController extends AppController
                 $orders->where(['Orders.order_date <'=>$to_date]);
             }
         }
-        // else
-        // {
-        // 	$orders->where(['Orders.status !='=>'Delivered']);
-        // }
+        else
+        {
+        	$orders->where(['Orders.status !='=>'Delivered']);
+        }
 		
 		// if($status == 'In Process'){ 
 							

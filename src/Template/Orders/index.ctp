@@ -76,7 +76,7 @@
                 </table>
                 </form>
 			<?php $page_no=$this->Paginator->current('Orders'); $page_no=($page_no-1)*20; ?>
-				<table class="table table-condensed table-hover table-bordered" id="main_tble">
+				<table class="table table-striped table-bordered table-hover dataTable no-footer" id="sample_1">
 					<thead>
 						<tr>
 							<th scope="col">Sr. No.</th>
@@ -93,7 +93,7 @@
 							<th scope="col">Order Date</th>
 							<!-- <th scope="col">Delivery Date</th>
 							<th scope="col">Delivery Time</th> -->
-							<th scope="col" class="actions" width="140px"><?= __('Actions') ?></th>
+							<th scope="col" class="actions"><?= __('Actions') ?></th>
 							<th scope="col" class="">Generate Invoice</th>
 							<!-- <th scope="col">Edit</th> -->
 						</tr>
@@ -156,7 +156,7 @@
 							
 							
 							<td class="actions">
-							<select name="status" class="form-control select2 input-sm option_status">
+							<select name="status" class="form-control select2 input-sm option_status"  style="width: auto;">
 								<?php if($order->status=="In Process")
 								{?>
 									<option value="In Process" selected>In Process</option>
@@ -203,7 +203,7 @@
 						
 							</td>
 							<td>
-								<?php if(empty($order->invoice_no)){ ?>
+								<?php if((empty($order->invoice_no))&&($order->status!="Cancel")){ ?>
 									<input type="button" name="generate" order_id="<?=$order->id ?>" value="Generate Invoice" class="btn btn-success btn-xs generate_invoice" >
 								<?php } ?>
 							</td>
@@ -223,7 +223,7 @@
 						<?php endforeach; ?>
 					</tbody>
 				</table>
-				<div class="paginator">
+				<!-- <div class="paginator">
 					<ul class="pagination">
 						<?= $this->Paginator->first('<< ' . __('first')) ?>
 						<?= $this->Paginator->prev('< ' . __('previous')) ?>
@@ -232,7 +232,7 @@
 						<?= $this->Paginator->last(__('last') . ' >>') ?>
 					</ul>
 					<p><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></p>
-				</div>
+				</div> -->
 			</div>
 			
 		</div>
@@ -280,7 +280,6 @@ $(document).ready(function() {
 
 	 $(document).on('click',".ok",function(){
 		var status=$(this).closest('tr').find('.option_status').val();
-		alert(status);
 		if(status =="Delivered")
 		{
 			$(this).closest('tr').find('.ok').hide();
@@ -288,6 +287,7 @@ $(document).ready(function() {
 		if(status =="Cancel")
 		{
 			$(this).closest('tr').find('.ok').hide();
+			$(this).closest('tr').find('.generate_invoice').hide();
 		}
 		
 		var order_id=$(this).attr('order_id');
@@ -311,7 +311,7 @@ $(document).ready(function() {
             data: {status: status,order_id:order_id},
            success: function (data) {
                //console.log(data);
-               
+               alert(status);
                }
             });
 		//}
