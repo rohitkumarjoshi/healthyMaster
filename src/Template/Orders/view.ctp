@@ -112,7 +112,12 @@ echo $this->Html->link('Close',array(),['escape'=>false,'class'=>'btn  red hidde
 						<?php echo $this->Html->image('/img/item_images/'.$image, ['height' => '40px', 'width'=>'40px', 'class'=>'img-rounded img-responsive']); ?>
 						
 					</td>
-					<td style="padding: 10px;"><?= h($show_item) ?></td>
+					<td style="padding: 10px;"><?php echo $show_item;
+						if($order_detail->status == "Cancel")
+						{
+							echo'   <span style="color:red;text-align:center;">['.$order_detail->status.']</span>';
+						}
+						 ?></td>
 					<td style="padding: 10px;"><?= h($show_variation) ?></td>
 					<td style="padding: 10px;"><?= h($show_quantity) ?></td>
 					<td style="padding: 10px;"><?= h($sales_rate) ?></td>
@@ -122,12 +127,13 @@ echo $this->Html->link('Close',array(),['escape'=>false,'class'=>'btn  red hidde
 				<?php
 				$amount_from_promo_code=$order->amount_from_promo_code;
 				$delivery_charge=$order->delivery_charge;
+				$promo=$order->amount_from_promo_code;
 				$amount_from_jain_cash=$order->amount_from_jain_cash;
 				$online_amount=$order->online_amount;
 				$amount_from_wallet=$order->amount_from_wallet;
 				$pay_amount=$order->pay_amount;
 				$status=$order->status;
-				$grand_total=@$total_rate+$delivery_charge;
+				$grand_total=@$total_rate+$delivery_charge+$promo;
 				$discount_per=$order->discount_percent;
 				//$amount_from_wallet=$order->amount_from_wallet;
 				?>
@@ -154,34 +160,40 @@ echo $this->Html->link('Close',array(),['escape'=>false,'class'=>'btn  red hidde
 					
 				<?php } ?> -->
 				<tr style="background-color:#fff; border-top:1px solid #000">
-					<td colspan="5">&nbsp;</td><td style="padding-top:12px;"><b>Amount </b></td>
+					<td colspan="5">&nbsp;</td><td style="padding-top:12px;"><b style="padding: 5px;">Amount </b></td>
 					<td style="padding: 10px;"><b><?= h(@$order->total_amount) ?></b></td>
 				</tr>
 				
 				
 				<tr style="background-color:#fff;">
 					<td colspan="5">&nbsp;</td>
-					<td style="padding-top:12px;"><b>Delivery Charge </b></td>
+					<td style="padding-top:12px;"><b style="padding: 5px;">Delivery Charge </b></td>
 					<td style="padding: 10px;"><b><?= h($delivery_charge) ?></b></td>
+				</tr>
+
+				<tr style="background-color:#fff;">
+					<td colspan="5">&nbsp;</td>
+					<td style="padding-top:12px;"><b style="padding: 5px;">PromoCode Discount </b></td>
+					<td style="padding: 10px;"><b><?= h($order->amount_from_promo_code) ?></b></td>
 				</tr>
 				
 				<?php if(!empty($discount_per)){ ?>
 				<tr style="background-color:#fff; border-top:1px solid #000">
 					<td colspan="5">&nbsp;</td>
-					<td style="padding-top:12px;"><b>Discount </b></td>
+					<td style="padding-top:12px;"><b style="padding: 5px;">Discount </b></td>
 					<td style="padding: 10px;"><b><?= h($discount_per) ?><?php echo '%'; ?></b></td>
 				</tr>
 				<?php } ?>
 				<?php if(!empty($amount_from_wallet)){ ?>
 				<tr style="background-color:#fff;">
 					<td colspan="5">&nbsp;</td>
-					<td style="padding-top:12px;"><b>Wallet Amount </b></td>
+					<td style="padding-top:12px;"><b style="padding: 5px;">Wallet Amount </b></td>
 					<td style="padding: 10px;"><b><?= h($amount_from_wallet) ?></b></td>
 				</tr>
 				<?php } ?>
 				<tr style="background-color:#F5F5F5; border-top:1px solid #000; border-bottom:1px solid #000">
 					<td colspan="5">&nbsp;</td>
-					<td style="padding-top:12px;"><b>Total Amount </b></td>
+					<td style="padding-top:12px;"><b style="padding: 5px;">Total Amount </b></td>
 					<td style="padding: 10px;"><b><?= h(@$order->grand_total) ?></b></td>
 				</tr>
 			

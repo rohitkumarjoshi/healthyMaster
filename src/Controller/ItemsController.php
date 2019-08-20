@@ -19,7 +19,41 @@ class ItemsController extends AppController
      *
      * @return \Cake\Http\Response|null
      */
+
+    public function exportItemReport()
+    {
+        $this->viewBuilder()->layout('');
+
+        $variations=$this->Items->find()->contain(['ItemVariations','ItemCategories','GstFigures'])->order(['Items.id'=>'DESC']);
+        $this->set(compact('variations'));
+    }  
 	 
+public function itemReport()
+{
+    $this->viewBuilder()->layout('index_layout');
+
+    $variations=$this->Items->find()->contain(['ItemVariations','ItemCategories','GstFigures'])->order(['Items.id'=>'DESC']);
+    if ($this->request->is('post')) {
+            $datas = $this->request->getData();
+             if(!empty($datas['item_id']))
+            {
+                $variations->where(['Items.id'=>$datas['item_id']]);
+                //pr($datas['customer_id']);
+                //pr($variations->toArray());exit;
+            }
+            if(!empty($datas['From'])){
+                $from_date=date("Y-m-d",strtotime($datas['From']));
+                $variations->where(['Items.created_on >='=> $from_date]);
+            }
+            if(!empty($datas['To'])){ 
+                $to_date=date("Y-m-d",strtotime($datas['To']));
+                $variations->where(['Items.created_on <=' => $to_date ]);
+            }
+        }
+    $items=$this->Items->find('list')->where(['freeze'=>0]);
+        $this->set(compact('items','variations'));
+}
+
  public function updatestock(){
 
 	$Items=$this->Items->find();

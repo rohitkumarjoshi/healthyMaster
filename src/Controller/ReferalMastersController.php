@@ -93,6 +93,7 @@ class ReferalMastersController extends AppController
      */
     public function edit($id = null)
     {
+         $this->viewBuilder()->layout('index_layout');
         $referalMaster = $this->ReferalMasters->get($id, [
             'contain' => []
         ]);
@@ -105,7 +106,7 @@ class ReferalMastersController extends AppController
             }
             $this->Flash->error(__('The referal master could not be saved. Please, try again.'));
         }
-        $this->set(compact('referalMaster'));
+        $this->set(compact('referalMaster','id'));
     }
 
     /**

@@ -1,33 +1,42 @@
-<?php
-/**
- * @var \App\View\AppView $this
- * @var \App\Model\Entity\ReferalMaster $referalMaster
- */
-?>
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Form->postLink(
-                __('Delete'),
-                ['action' => 'delete', $referalMaster->id],
-                ['confirm' => __('Are you sure you want to delete # {0}?', $referalMaster->id)]
-            )
-        ?></li>
-        <li><?= $this->Html->link(__('List Referal Masters'), ['action' => 'index']) ?></li>
-    </ul>
-</nav>
-<div class="referalMasters form large-9 medium-8 columns content">
-    <?= $this->Form->create($referalMaster) ?>
-    <fieldset>
-        <legend><?= __('Edit Referal Master') ?></legend>
-        <?php
-            echo $this->Form->control('receiver_amount');
-            echo $this->Form->control('sender_amount');
-            echo $this->Form->control('order_value');
-            echo $this->Form->control('status');
-            echo $this->Form->control('created_on');
-        ?>
-    </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
-    <?= $this->Form->end() ?>
-</div>
+<div class="col-md-5 col-sm-5">
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="font-purple-intense"></i>
+                    <span class="caption-subject font-purple-intense ">
+                         EDIT REFERAL
+                        
+                    </span>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <?= $this->Form->create($referalMaster,['id'=>'form_sample_3']) ?>
+                <div class="row" style="margin-top:5px;">
+                    <div class="col-md-8">
+                        <label class=" control-label">Receiver Amount<span class="required" aria-required="true">*</span></label>
+                        <input type="hidden" name="id" value="<?=$id ?>">
+                        <?php echo $this->Form->control('receiver_amount',['class'=>'form-control input-sm','label'=>false,'maxlength'=>'50','type'=>'number','required']); ?>
+                        
+                        
+                    </div>
+                </div>
+                <div class="row" style="margin-top:5px;">
+                    <div class="col-md-8">
+                        <label class=" control-label">Sender Amount<span class="required" aria-required="true">*</span></label>
+                        <?php echo $this->Form->control('sender_amount',['class'=>'form-control input-sm','label'=>false,'maxlength'=>'50','type'=>'number','required']); ?>
+                        
+                    </div>
+                </div>
+                <div class="row" style="margin-top:5px;">
+                    <div class="col-md-8">
+                        <label class=" control-label">Order Value<span class="required" aria-required="true">*</span></label>
+                        <?php echo $this->Form->control('order_value',['class'=>'form-control input-sm','label'=>false,'maxlength'=>'50','type'=>'number','required']); ?>
+                        
+                    </div>
+                </div>
+                <br/>
+                <?= $this->Form->button($this->Html->tag('i', '') . __(' Submit'),['class'=>'btn btn-success']); ?>
+                <?= $this->Form->end() ?>
+            </div>
+        </div>
+    </div>

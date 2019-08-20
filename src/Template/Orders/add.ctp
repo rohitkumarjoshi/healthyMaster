@@ -355,7 +355,7 @@ $(document).ready(function() {
                 	//alert(data);
                     master.closest('div').find('.suggesstion-box').show();
                     master.closest('div').find('.suggesstion-box').html(data);
-                   	master.css("background","#FFF");
+                   	master.css("background","FFF");
                 }
             });
         }
