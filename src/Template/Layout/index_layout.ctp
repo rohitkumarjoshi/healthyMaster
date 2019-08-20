@@ -257,9 +257,9 @@
 									<li>
 									<?php echo $this->Html->link('<i class="fa fa-user"></i> Pincodes','/Pincodes',['escape'=>false]) ?>
 									</li>
-									<li>
+									<!--<li>
 										<?php echo $this->Html->link('<i class="fa fa-users"></i> Vendors','/Vendors',['escape'=>false]) ?>
-									</li>
+									</li>-->
 									<li>
 									<?php echo $this->Html->link('<i class="fa fa-user"></i> Referal','/ReferalMasters',['escape'=>false]) ?>
 									</li>
@@ -412,10 +412,10 @@
 
 							<!-- <li>
 								<?php echo $this->Html->link('<i class="fa fa-ticket"></i> GRNs','/Grns',['escape'=>false]) ?>
-							</li> -->
+							</li> 
 							<li>
 								<?php echo $this->Html->link('<i class="fa  fa-book"></i> Purchase Booking','/PurchaseBookings',['escape'=>false]) ?>
-							</li>
+							</li>-->
 							<li>
 								<?php echo $this->Html->link('<i class="fa  fa-book"></i> Wastage Reuse','/WastageReuseVouchers/add',['escape'=>false]) ?>
 							</li>
