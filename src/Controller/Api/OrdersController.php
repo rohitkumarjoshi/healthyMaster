@@ -1318,9 +1318,6 @@ curl_close($ch);
 		
 			$FinalStock=floor($QuantityTotalStock/$ItemVariations->unit_variation->quantity_factor);
 		
-		
-			
-			
 			//pr($FinalStock); exit;	
 			/*$FinalStock=$this->FinalCarts->find()->where(['FinalCarts.item_variation_id'=>$carts_data_fetch->item_variation_id]);
 			/*$FinalStock=$this->FinalCarts->find()->where(['FinalCarts.item_variation_id'=>$carts_data_fetch->item_variation_id]);
@@ -1331,12 +1328,7 @@ curl_close($ch);
 			$FinalStock=$stockmax-$FinalCartsQty; */
 			if($carts_data_fetch->quantity > $FinalStock){
 				$status="False";
-			}
-		}
-		
-		if($status=="True"){
-			foreach($carts_data as $carts_data_fetch)
-			{
+			}else{
 				$query = $this->FinalCarts->query();
 					$query->insert(['customer_id', 'item_id','item_variation_id','quantity', 'cart_count', 'is_combo'])
 							->values([
@@ -1349,6 +1341,29 @@ curl_close($ch);
 							])
 					->execute();
 			}
+		}
+		
+		if($status=="True"){
+			/* foreach($carts_data as $carts_data_fetch)
+			{
+				$query = $this->FinalCarts->query();
+					$query->insert(['customer_id', 'item_id','item_variation_id','quantity', 'cart_count', 'is_combo'])
+							->values([
+							'customer_id' => $carts_data_fetch->customer_id,
+							'item_id' => $carts_data_fetch->item_id,
+							'item_variation_id' => $carts_data_fetch->item_variation_id,
+							'quantity' => $carts_data_fetch->quantity,
+							'cart_count' => $carts_data_fetch->cart_count,
+							'is_combo' => $carts_data_fetch->is_combo,
+							])
+					->execute();
+			} */
+		}else{
+			$this->loadModel('FinalCarts');
+			$queryy = $this->FinalCarts->query();
+			$result = $queryy->delete()
+				->where(['customer_id' => $customer_id])
+				->execute(); 
 		}
 		
 		$this->set(compact('status'));

@@ -93,8 +93,10 @@ class CartsController extends AppController
 		->contain(['Items' => ['ItemVariations' => ['Units']]])
 		->first();
         
-		$cart_count = $this->Carts->find('All')->where(['Carts.customer_id'=>$customer_id])->count();
-		
+		$cart_countdata = $this->Carts->find('All')->where(['Carts.customer_id'=>$customer_id]);
+		$cart_countdata->select(['customer_id','cart_count' => $cart_countdata->func()->sum('Carts.quantity')]);
+					
+		$cart_count=$cart_countdata->first()['cart_count'];
 		
 
 		$status=true;
@@ -175,6 +177,10 @@ class CartsController extends AppController
 				$cart_count = $this->Carts->find('All')->where(['Carts.customer_id'=>$customer_id])->count();
 			}
 		}
+		$cart_countdata = $this->Carts->find('All')->where(['Carts.customer_id'=>$customer_id]);
+		$cart_countdata->select(['customer_id','cart_count' => $cart_countdata->func()->sum('Carts.quantity')]);
+					
+		$cart_count=$cart_countdata->first()['cart_count'];
 		
 		$status=true;
 		$error="Item successfully removed";
@@ -192,9 +198,15 @@ class CartsController extends AppController
 		$redeem_points=$this->request->data('redeem_points');
 		$tag=$this->request->data('tag');
 		
-		$CustomerAddresses = $this->Carts->CustomerAddresses->find()
+		if(empty($pincode)){
+			$CustomerAddresses = $this->Carts->CustomerAddresses->find()
 			->where(['CustomerAddresses.customer_id'=>$customer_id,'CustomerAddresses.default_address'=>1])
 			->contain(['States','Cities'])->first();
+		}else{
+			$CustomerAddresses = $this->Carts->CustomerAddresses->find()
+			->where(['CustomerAddresses.customer_id'=>$customer_id,'CustomerAddresses.pincode'=>$pincode])
+			->contain(['States','Cities'])->first();
+		}
 		
 		if(!empty($CustomerAddresses)){ 
 			$pincode=$CustomerAddresses->pincode;
