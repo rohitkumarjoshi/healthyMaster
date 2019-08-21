@@ -65,7 +65,7 @@ class ItemVariationsController extends AppController
             {
 
                
-                $item_variations->where(['ItemVariations.item_id'=>$item_id])
+                $item_variations->where(['ItemVariations.item_id'=>$item_id,'ItemVariations.ready_to_sale'=>'Yes'])
                 ->contain(['Items'=>['ItemCategories'],'Units']);
          } 
          
@@ -75,7 +75,7 @@ class ItemVariationsController extends AppController
             {
 
                 $item_variations
-                ->contain(['Items'=>['ItemCategories'],'Units'])->where(['Items.item_category_id'=>$item_category_id]);
+                ->contain(['Items'=>['ItemCategories'],'Units'])->where(['Items.item_category_id'=>$item_category_id,'ItemVariations.ready_to_sale'=>'Yes']);
          }
          
         //--Vaibhav Sir  else
@@ -106,7 +106,7 @@ class ItemVariationsController extends AppController
             $this->Flash->success(__('Item rates have updated successfully.'));
          }
      
-        $items=$this->ItemVariations->Items->find('list');
+        $items=$this->ItemVariations->Items->find('list')->where(['Items.freeze'=>0]);
         $itemCategories=$this->ItemVariations->ItemCategories->find('list');
         //pr($item_variations->toArray());exit;
         $this->set(compact('item_variations','ItemVariation','itemvariation', 'itemCategories', 'units','items'));

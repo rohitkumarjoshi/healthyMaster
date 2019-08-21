@@ -241,6 +241,36 @@ background-color: #fff;}
 <?php echo $this->Html->script('/assets/global/plugins/jquery.min.js'); ?>
 <script>
 $(document).ready(function() {
+
+	$('#mobile').on('change',function()
+	{		
+		var input=$(this).val();
+		//alert(input)
+         if(input.length>9){
+            var m_data = new FormData();
+            var url ="<?php echo $this->Url->build(["controller" => "Customers", "action" => "check"]); ?>";
+            //alert(url);
+             m_data.append('input',input);
+              $.ajax({
+                 url: url,
+                data: m_data,
+                processData: false,
+                contentType: false,
+                type: 'POST',
+                dataType:'text',
+                success: function(response) 
+                {  //alert(response);
+                   if(response!=1)
+                   {
+                    $('.customer_name').val('');
+                    $('#customer-address').val('');
+                    $('#customer_id').val('');
+                    $('#customer-address-id').val('');
+                   }
+                }
+            });
+          }
+	});
 	
 	$('form').bind("keypress", function(e) {
 		if (e.keyCode == 13) {

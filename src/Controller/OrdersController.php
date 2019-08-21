@@ -14,6 +14,22 @@ use App\Controller\AppController;
  */
 class OrdersController extends AppController
 {
+	public function undodel()
+	{
+		$order_id=$this->request->getData('order_id'); 
+		//pr($order_id);exit;
+		$query1 = $this->Orders->query();
+					$query1->update()
+					->set(['status' =>'In Process','cancel_from' =>NULL,'cancel_date'=>NULL])
+						->where(['id' =>$order_id])
+						->execute();
+		$query2 = $this->Orders->OrderDetails->query();
+		$query2->update()
+		->set(['status' =>'In Process'])
+			->where(['order_id' =>$order_id])
+			->execute();
+			exit;
+	}
 	public function cancelOrder()
 	{
 		$order_id=$this->request->query('order_id');
