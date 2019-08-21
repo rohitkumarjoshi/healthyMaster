@@ -12,7 +12,7 @@
                 </div>
                 </div>
             </div>
-            <div class="portlet-body" style="overflow: auto;!important">
+            <div class="portlet-body" style="overflow: auto;height: 550px; overflow-y: scroll;">
                 <form method="post">
                         <table width="50%" class="table table-condensed">
                     <tbody>
@@ -55,6 +55,7 @@
                             <th scope="col">Rate Variation4</th>
                             <th scope="col">Variation5</th>
                             <th scope="col">Rate Variation5</th>
+                            <th scope="col">Item Keywords</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -162,6 +163,14 @@
                                         echo "<td>".$var->sales_rate."</td>";
                                     }
                                } ?>
+                               <td><?php 
+                                foreach ($variation->item_rows as $row) {
+                                    if(sizeof($variation->item_rows) > 1)
+                                        echo @$row->item_category->name.',';
+                                    else
+                                        echo @$row->item_category->name;
+
+                                }?></td>
                         </tr>
                     <?php } ?>
                     </tbody>

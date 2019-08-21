@@ -42,10 +42,10 @@
             <table width="100%" border="1">
                 <thead>
                 <tr >
-                    <th style="text-align:left;padding: 3px;">#</th>
-                    <th style="text-align:left; padding: 3px;">Item Name</th>
-                    <th style="text-align:left;padding: 3px;">Variation</th>
-                    <th style="text-align:left;padding: 3px;">QTY</th>
+                    <th width="2%" style="padding: 2px;">#</th>
+                    <th width="10%" style="padding: 2px;">Item Name</th>
+                    <th width="10%" style="padding: 2px;" >Variation</th>
+                    <th width="10%" style="padding: 2px;">QTY</th>
                 </tr>
                 </thead>
                 
@@ -75,10 +75,10 @@
                         $show_item=$item_name;
                     } ?>
                 <tr style="background-color:#fff;">
-                    <td style="padding: :3px !important;"><?= $i ?></td>
-                    <td style="padding: :3px !important;"><?= h($show_item) ?></td>
-                    <td style="padding: :3px !important;"><?= h($show_variation) ?></td>
-                    <td style="padding: :3px !important;"><?= h($show_quantity) ?></td>
+                    <td style="padding: 2px;"><?= $i ?></td>
+                    <td style="padding: 2px;"><?= h($show_item) ?></td>
+                    <td style="padding: 2px;"><?= h($show_variation) ?></td>
+                    <td style="padding: 2px;"><?= h($show_quantity) ?></td>
                 </tr>
                 <?php } ?>
                 </tbody>

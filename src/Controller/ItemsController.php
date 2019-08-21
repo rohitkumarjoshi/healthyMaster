@@ -34,7 +34,8 @@ public function itemReport()
 
     $variations=$this->Items->find()
     ->where(['Items.freeze'=>0])
-    ->contain(['ItemVariations','ItemCategories','GstFigures'])->order(['Items.id'=>'DESC']);
+    ->contain(['ItemVariations','ItemCategories','ItemRows'=>['ItemCategories']])->order(['Items.id'=>'DESC']);
+    //pr($variations->toArray());exit;
     if ($this->request->is('post')) {
             $datas = $this->request->getData();
              if(!empty($datas['item_id']))
