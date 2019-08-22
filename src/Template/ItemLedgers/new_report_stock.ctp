@@ -82,9 +82,9 @@
 										
 										?>
 										<td style="text-align:center"><?= @$todayReadyStok; ?></td>
-										<td style="text-align:center"><?= @$todaySales[$Item->id]; ?></td>
+										<td style="text-align:center"><?= @$todaySales[$Item->id]-@$todaySalesCancel[$Item->id]; ?></td>
 										
-										<td style="text-align:center"><?php echo @$todayReadyStok-@$todaySales[$Item->id]; ?></td>
+										<td style="text-align:center"><?php echo @$todayReadyStok-@$todaySales[$Item->id]+@$todaySalesCancel[$Item->id]; ?></td>
 									</tr>
 								<?php }  } ?>
 							</tbody>
