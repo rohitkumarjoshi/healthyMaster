@@ -30,6 +30,24 @@ class CartsController extends AppController
 		 
 	}	
 		
+    public function onchange(){
+		$item_id=$this->request->query('item_id');
+		$item_variation_id=$this->request->query('item_variation_id');
+		$customer_id=$this->request->query('customer_id');
+		$max_qt=0;
+		$stockmax=$this->currentStock($item_id,$item_variation_id,$customer_id);
+		if($stockmax >= 0){
+			
+			if($stockmax > 5){
+				$max_qt=5;
+			}else{
+				$max_qt=$stockmax;
+			}
+		}
+		$this->set(compact('max_qt'));
+        $this->set('_serialize', ['max_qt']);;
+		
+	}
     public function plusAddToCart()
     {
 		$jain_thela_admin_id=$this->request->data('jain_thela_admin_id');
@@ -37,9 +55,9 @@ class CartsController extends AppController
 		$item_variation_id=$this->request->data('item_variation_id');
 		$customer_id=$this->request->data('customer_id');
 		$max_qt=0;
-		$stockmax=$this->currentStock($item_id,$item_variation_id);
+		$stockmax=$this->currentStock($item_id,$item_variation_id,$customer_id);
 		
-		
+		//pr($stockmax);exit;
 		if($stockmax > 0){
 			
 		if($stockmax > 5){
@@ -355,7 +373,7 @@ class CartsController extends AppController
 				{
 					$saleRate = $item_variation->sales_rate;
 					$count  = $cart_data->quantity;
-					$stockmax=$this->currentStock($cart_data->item_id,$item_variation->id);
+					$stockmax=$this->currentStock($cart_data->item_id,$item_variation->id,$customer_id);
 					//$count  = $cart_data->cart_count;
 					//$item_variation->total_varitaion_amount = $saleRate * $count;
 					$item_variation->total_varitaion_amount = $saleRate * $count;
