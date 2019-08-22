@@ -107,7 +107,7 @@ class AppController extends Controller
 		return $rem;
     	exit;
     }
-	public function currentStock($item_id,$variation_id)
+	public function currentStock($item_id,$variation_id,$customer_id)
     {
 		$this->loadModel('ItemLedgers');
 		//$ItemLedgers=loadModel(ItemLedgers);
@@ -117,7 +117,7 @@ class AppController extends Controller
 		//$variation_id=2;
 		$transaction_date=date('Y-m-d');
 		//$transaction_date='2019-07-17';
-		
+		//pr($customer_id); exit;
 		$ItemLedgersData = $this->ItemLedgers->find()->select(['item_id','item_variation_id','status','quantity','transaction_date','unit_variation_id'])
 		->contain(['UnitVariations'])
 		->where(['ItemLedgers.transaction_date <= '=>$transaction_date,'item_id'=>$item_id])->autoFields(true);
@@ -136,7 +136,7 @@ class AppController extends Controller
 				@$QuantityTotalStock-=@$data->unit_variation->quantity_factor*$data->total_op_qt;
 			}
 		}
-		
+		//pr($QuantityTotalStock);
 		$Orders = $this->ItemLedgers->Orders->find()->contain(['OrderDetails'=>['ItemVariations'=>['UnitVariations']]])->where(['Orders.status NOT IN'=>['Delivered','Cancel']])->toArray();
 		foreach($Orders as $Order){
 			foreach($Order->order_details as $order_detail){
@@ -145,11 +145,41 @@ class AppController extends Controller
 				}
 			}
 		}
-		
-		
+		//pr($QuantityTotalStock);
+			$this->loadModel('Carts');
+			$ItemLedgersData = $this->Carts->find()->select(['item_id','item_variation_id','quantity'])
+			->contain(['ItemVariations'=>['UnitVariations']])
+			->where(['Carts.item_id'=>$item_id,'Carts.customer_id'=>$customer_id])
+			->autoFields(true);
+			
+			
+			if($ItemLedgersData){
+				
+				foreach($ItemLedgersData as $data){ 
+					@$QuantityTotalStock-=@$data->item_variation->unit_variation->quantity_factor*$data->quantity;
+				}
+			}
+			 
 		$ItemVariations=$this->ItemLedgers->ItemVariations->find()->where(['ItemVariations.id'=>$variation_id])->contain(['UnitVariations'])->first();
 		
     	$rem=floor($QuantityTotalStock/$ItemVariations->unit_variation->quantity_factor);
+		
+		$cartData = $this->Carts->find()->select(['item_id','item_variation_id','quantity'])
+			->where(['Carts.item_id'=>$item_id,'Carts.item_variation_id'=>$variation_id,'Carts.customer_id'=>$customer_id])
+			->first();
+		
+		if($rem >= 0){
+			if(empty($cartData->quantity)){
+				$rem=$rem;
+			}else{
+				$rem=$cartData->quantity+$rem;
+			}
+			
+		}else{
+			$rem=0;
+		}
+		
+		 //pr($rem);exit;
 		return $rem;
     	exit;
     }

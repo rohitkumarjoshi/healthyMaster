@@ -112,6 +112,7 @@ margin-bottom: 0;
 		$i=0;
 		$total=0;
 		foreach ($purchaseBooking->purchase_booking_details as $data){
+			$data->amount=$data->quantity*$data->rate;
 			?>
 			
 			<tr>
