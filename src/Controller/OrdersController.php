@@ -1056,7 +1056,7 @@ class OrdersController extends AppController
                             
                                 $msg = array
                                 (
-                                'message'     => 'Wait is over.Your Order has been delivered.Hope you willmenjoy our healthy range.See you soon for your next order',
+                                'message'     => 'Wait is over.Your Order has been delivered.Hope you will enjoy our healthy range.See you soon for your next order',
                                 'image'     => '',
                                 'button_text'    => 'Track Your Order',
                                 'link' => 'healthymaster://order?id='.$order_id,    
