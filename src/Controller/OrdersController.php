@@ -773,7 +773,56 @@ class OrdersController extends AppController
 	        			$this->Orders->OrderDetails->save($detail);
 		        	}
 
+		        	$customer_details=$this->Orders->Customers->find()
+                            ->where(['Customers.id' => $packed->customer_id])->first();
+                            $mobile=$customer_details->mobile;
+                            $API_ACCESS_KEY=$customer_details->notification_key;
+                            $device_token=$customer_details->device_token;
+                            $device_token1=rtrim($device_token);
+                            
+                            
+                        if(!empty($device_token1))
+                            {
+                            
+                                $msg = array
+                                (
+                                'message'     => 'Thank You, your order cancel successfully',
+                                'image'     => '',
+                                'button_text'    => 'Track Your Order',
+                                'link' => 'healthymaster://order?id='.$order_id,    
+                                'notification_id'    => 1,
+                                );
+                                    $url = 'https://fcm.googleapis.com/fcm/send';
+                                    $fields = array
+                                    (
+                                        'registration_ids'     => array($device_token1),
+                                        'data'            => $msg
+                                    );
+                                    $headers = array
+                                    (
+                                        'Authorization: key=' .$API_ACCESS_KEY,
+                                        'Content-Type: application/json'
+                                    );
+                                      //echo json_encode($fields);
+                                      $ch = curl_init();
+                                    curl_setopt($ch, CURLOPT_URL, $url);
+                                    curl_setopt($ch, CURLOPT_POST, true);
+                                    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+                                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                                    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+                                    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+                                    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields));
+                                    $result001 = curl_exec($ch);
+                                    if ($result001 === FALSE) {
+                                        die('FCM Send Error: ' . curl_error($ch));
+                                    }
+                                    curl_close($ch);
+                            }
+
+
+
 		        }
+
            }
 
         if($status == 'In Process'){
@@ -792,6 +841,54 @@ class OrdersController extends AppController
 		        			$this->Orders->OrderDetails->save($detail);
 		        		}
 		        	}
+
+		        	$customer_details=$this->Orders->Customers->find()
+                            ->where(['Customers.id' => $packed->customer_id])->first();
+                            $mobile=$customer_details->mobile;
+                            $API_ACCESS_KEY=$customer_details->notification_key;
+                            $device_token=$customer_details->device_token;
+                            $device_token1=rtrim($device_token);
+                            
+                            
+                        if(!empty($device_token1))
+                            {
+                            
+                                $msg = array
+                                (
+                                'message'     => 'Thank You, your order in process successfully',
+                                'image'     => '',
+                                'button_text'    => 'Track Your Order',
+                                'link' => 'healthymaster://order?id='.$order_id,    
+                                'notification_id'    => 1,
+                                );
+                                    $url = 'https://fcm.googleapis.com/fcm/send';
+                                    $fields = array
+                                    (
+                                        'registration_ids'     => array($device_token1),
+                                        'data'            => $msg
+                                    );
+                                    $headers = array
+                                    (
+                                        'Authorization: key=' .$API_ACCESS_KEY,
+                                        'Content-Type: application/json'
+                                    );
+                                      //echo json_encode($fields);
+                                      $ch = curl_init();
+                                    curl_setopt($ch, CURLOPT_URL, $url);
+                                    curl_setopt($ch, CURLOPT_POST, true);
+                                    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+                                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                                    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+                                    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+                                    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields));
+                                    $result001 = curl_exec($ch);
+                                    if ($result001 === FALSE) {
+                                        die('FCM Send Error: ' . curl_error($ch));
+                                    }
+                                    curl_close($ch);
+                            }
+
+
 
 		        }
            }
@@ -812,6 +909,54 @@ class OrdersController extends AppController
 		        		}
 		        	}
 
+		        	$customer_details=$this->Orders->Customers->find()
+                            ->where(['Customers.id' => $packed->customer_id])->first();
+                            $mobile=$customer_details->mobile;
+                            $API_ACCESS_KEY=$customer_details->notification_key;
+                            $device_token=$customer_details->device_token;
+                            $device_token1=rtrim($device_token);
+                            
+                            
+                        if(!empty($device_token1))
+                            {
+                            
+                                $msg = array
+                                (
+                                'message'     => 'Thank You, your order packed successfully',
+                                'image'     => '',
+                                'button_text'    => 'Track Your Order',
+                                'link' => 'healthymaster://order?id='.$order_id,    
+                                'notification_id'    => 1,
+                                );
+                                    $url = 'https://fcm.googleapis.com/fcm/send';
+                                    $fields = array
+                                    (
+                                        'registration_ids'     => array($device_token1),
+                                        'data'            => $msg
+                                    );
+                                    $headers = array
+                                    (
+                                        'Authorization: key=' .$API_ACCESS_KEY,
+                                        'Content-Type: application/json'
+                                    );
+                                      //echo json_encode($fields);
+                                      $ch = curl_init();
+                                    curl_setopt($ch, CURLOPT_URL, $url);
+                                    curl_setopt($ch, CURLOPT_POST, true);
+                                    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+                                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                                    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+                                    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+                                    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields));
+                                    $result001 = curl_exec($ch);
+                                    if ($result001 === FALSE) {
+                                        die('FCM Send Error: ' . curl_error($ch));
+                                    }
+                                    curl_close($ch);
+                            }
+
+
+
 		        }
            }
            if($status == 'Dispatch'){
@@ -829,6 +974,53 @@ class OrdersController extends AppController
 		        			$this->Orders->OrderDetails->save($detail);
 		        		}
 		        	}
+		        	
+		        	$customer_details=$this->Orders->Customers->find()
+                            ->where(['Customers.id' => $packed->customer_id])->first();
+                            $mobile=$customer_details->mobile;
+                            $API_ACCESS_KEY=$customer_details->notification_key;
+                            $device_token=$customer_details->device_token;
+                            $device_token1=rtrim($device_token);
+                            
+                            
+                        if(!empty($device_token1))
+                            {
+                            
+                                $msg = array
+                                (
+                                'message'     => 'Thank You, your order dispatch successfully',
+                                'image'     => '',
+                                'button_text'    => 'Track Your Order',
+                                'link' => 'healthymaster://order?id='.$order_id,    
+                                'notification_id'    => 1,
+                                );
+                                    $url = 'https://fcm.googleapis.com/fcm/send';
+                                    $fields = array
+                                    (
+                                        'registration_ids'     => array($device_token1),
+                                        'data'            => $msg
+                                    );
+                                    $headers = array
+                                    (
+                                        'Authorization: key=' .$API_ACCESS_KEY,
+                                        'Content-Type: application/json'
+                                    );
+                                      //echo json_encode($fields);
+                                      $ch = curl_init();
+                                    curl_setopt($ch, CURLOPT_URL, $url);
+                                    curl_setopt($ch, CURLOPT_POST, true);
+                                    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+                                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                                    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+                                    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+                                    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields));
+                                    $result001 = curl_exec($ch);
+                                    if ($result001 === FALSE) {
+                                        die('FCM Send Error: ' . curl_error($ch));
+                                    }
+                                    curl_close($ch);
+                            }
+
 
 		        }
            }if($status == 'Delivered'){
@@ -850,6 +1042,53 @@ class OrdersController extends AppController
 		        			$this->Orders->OrderDetails->save($detail);
 		        		}
 		        	}
+
+		        	$customer_details=$this->Orders->Customers->find()
+                            ->where(['Customers.id' => $packed->customer_id])->first();
+                            $mobile=$customer_details->mobile;
+                            $API_ACCESS_KEY=$customer_details->notification_key;
+                            $device_token=$customer_details->device_token;
+                            $device_token1=rtrim($device_token);
+                            
+                            
+                        if(!empty($device_token1))
+                            {
+                            
+                                $msg = array
+                                (
+                                'message'     => 'Thank You, your order delivered successfully',
+                                'image'     => '',
+                                'button_text'    => 'Track Your Order',
+                                'link' => 'healthymaster://order?id='.$order_id,    
+                                'notification_id'    => 1,
+                                );
+                                    $url = 'https://fcm.googleapis.com/fcm/send';
+                                    $fields = array
+                                    (
+                                        'registration_ids'     => array($device_token1),
+                                        'data'            => $msg
+                                    );
+                                    $headers = array
+                                    (
+                                        'Authorization: key=' .$API_ACCESS_KEY,
+                                        'Content-Type: application/json'
+                                    );
+                                      //echo json_encode($fields);
+                                      $ch = curl_init();
+                                    curl_setopt($ch, CURLOPT_URL, $url);
+                                    curl_setopt($ch, CURLOPT_POST, true);
+                                    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+                                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                                    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+                                    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+                                    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields));
+                                    $result001 = curl_exec($ch);
+                                    if ($result001 === FALSE) {
+                                        die('FCM Send Error: ' . curl_error($ch));
+                                    }
+                                    curl_close($ch);
+                            }
+
 
 		        	$order_id=$packed->id;
 		        	//pr($order_id);
