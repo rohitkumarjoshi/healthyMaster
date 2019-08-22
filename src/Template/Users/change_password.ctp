@@ -1,4 +1,3 @@
-<?php echo $this->Html->script('/assets/plugins/jquery/jquery-2.2.3.min.js'); ?>
 <style>
 #Content{ width:90% !important; margin-left: 5%;}
 input:focus {background-color:#FFF !important;}
@@ -60,9 +59,22 @@ fieldset
 <div class="loader-wrapper" style="width: 100%;height: 100%;  display: none;  position: fixed; top: 0px; left: 0px;    background: rgba(0,0,0,0.25); display: none; z-index: 1000;" id="loader-1">
 <div id="loader"></div>
 </div>
- <?php echo $this->Html->script('/assets/global/plugins/jquery.min.js'); ?>  
+<?php echo $this->Html->script('/assets/global/plugins/jquery.min.js'); ?>
 <script>
  $(document).ready(function(){
+
+    $('#password').on('keyup',function()
+    {
+      var c_pass=$(this).val();
+      var old_pass=$('#old_password').val();
+      if(c_pass == old_pass)
+      {
+        alert('Please Enter Different Password');
+        $('#password').val('');
+      }
+     
+    }); 
+
   var form3 = $('#form_sample_3');
   var error3 = $('.alert-danger', form3);
   var success3 = $('.alert-success', form3);
@@ -78,7 +90,7 @@ fieldset
             
           },
           password:{
-            required:true
+             required: true
             
           },
           cpassword:{
@@ -89,49 +101,7 @@ fieldset
         
       },
 
-    errorPlacement: function (error, element) { // render error placement for each input type
-      if (element.parent(".input-group").size() > 0) {
-        error.insertAfter(element.parent(".input-group"));
-      } else if (element.attr("data-error-container")) { 
-        error.appendTo(element.attr("data-error-container"));
-      } else if (element.parents('.radio-list').size() > 0) { 
-        error.appendTo(element.parents('.radio-list').attr("data-error-container"));
-      } else if (element.parents('.radio-inline').size() > 0) { 
-        error.appendTo(element.parents('.radio-inline').attr("data-error-container"));
-      } else if (element.parents('.checkbox-list').size() > 0) {
-        error.appendTo(element.parents('.checkbox-list').attr("data-error-container"));
-      } else if (element.parents('.checkbox-inline').size() > 0) { 
-        error.appendTo(element.parents('.checkbox-inline').attr("data-error-container"));
-      } else {
-        error.insertAfter(element); // for other inputs, just perform default behavior
-      }
-    },
-
-    invalidHandler: function (event, validator) { //display error alert on form submit   
-      success3.hide();
-      error3.show();
-    },
-
-    highlight: function (element) { // hightlight error inputs
-       $(element)
-        .closest('.form-group').addClass('has-error'); // set error class to the control group
-    },
-
-    unhighlight: function (element) { // revert the change done by hightlight
-      $(element)
-        .closest('.form-group').removeClass('has-error'); // set error class to the control group
-    },
-
-    success: function (label) {
-      label
-        .closest('.form-group').removeClass('has-error'); // set success class to the control group
-    },
-
-    submitHandler: function (form) {
-      success3.show();
-      error3.hide();
-      form[0].submit(); // submit the form
-    }
+    
 
   });
  });

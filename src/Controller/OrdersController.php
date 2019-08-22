@@ -14,6 +14,22 @@ use App\Controller\AppController;
  */
 class OrdersController extends AppController
 {
+	public function undodel()
+	{
+		$order_id=$this->request->getData('order_id'); 
+		//pr($order_id);exit;
+		$query1 = $this->Orders->query();
+					$query1->update()
+					->set(['status' =>'In Process','cancel_from' =>NULL,'cancel_date'=>NULL])
+						->where(['id' =>$order_id])
+						->execute();
+		$query2 = $this->Orders->OrderDetails->query();
+		$query2->update()
+		->set(['status' =>'In Process'])
+			->where(['order_id' =>$order_id])
+			->execute();
+			exit;
+	}
 	public function cancelOrder()
 	{
 		$order_id=$this->request->query('order_id');
@@ -757,7 +773,56 @@ class OrdersController extends AppController
 	        			$this->Orders->OrderDetails->save($detail);
 		        	}
 
+		        	$customer_details=$this->Orders->Customers->find()
+                            ->where(['Customers.id' => $packed->customer_id])->first();
+                            $mobile=$customer_details->mobile;
+                            $API_ACCESS_KEY=$customer_details->notification_key;
+                            $device_token=$customer_details->device_token;
+                            $device_token1=rtrim($device_token);
+                            
+                            
+                        if(!empty($device_token1))
+                            {
+                            
+                                $msg = array
+                                (
+                                'message'     => 'Thank You, your order cancel successfully',
+                                'image'     => '',
+                                'button_text'    => 'Track Your Order',
+                                'link' => 'healthymaster://order?id='.$order_id,    
+                                'notification_id'    => 1,
+                                );
+                                    $url = 'https://fcm.googleapis.com/fcm/send';
+                                    $fields = array
+                                    (
+                                        'registration_ids'     => array($device_token1),
+                                        'data'            => $msg
+                                    );
+                                    $headers = array
+                                    (
+                                        'Authorization: key=' .$API_ACCESS_KEY,
+                                        'Content-Type: application/json'
+                                    );
+                                      //echo json_encode($fields);
+                                      $ch = curl_init();
+                                    curl_setopt($ch, CURLOPT_URL, $url);
+                                    curl_setopt($ch, CURLOPT_POST, true);
+                                    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+                                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                                    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+                                    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+                                    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields));
+                                    $result001 = curl_exec($ch);
+                                    if ($result001 === FALSE) {
+                                        die('FCM Send Error: ' . curl_error($ch));
+                                    }
+                                    curl_close($ch);
+                            }
+
+
+
 		        }
+
            }
 
         if($status == 'In Process'){
@@ -776,6 +841,54 @@ class OrdersController extends AppController
 		        			$this->Orders->OrderDetails->save($detail);
 		        		}
 		        	}
+
+		        	$customer_details=$this->Orders->Customers->find()
+                            ->where(['Customers.id' => $packed->customer_id])->first();
+                            $mobile=$customer_details->mobile;
+                            $API_ACCESS_KEY=$customer_details->notification_key;
+                            $device_token=$customer_details->device_token;
+                            $device_token1=rtrim($device_token);
+                            
+                            
+                        if(!empty($device_token1))
+                            {
+                            
+                                $msg = array
+                                (
+                                'message'     => 'Thanks for your order on Healthy Master.It is under process and will be delivered soon',
+                                'image'     => '',
+                                'button_text'    => 'Track Your Order',
+                                'link' => 'healthymaster://order?id='.$order_id,    
+                                'notification_id'    => 1,
+                                );
+                                    $url = 'https://fcm.googleapis.com/fcm/send';
+                                    $fields = array
+                                    (
+                                        'registration_ids'     => array($device_token1),
+                                        'data'            => $msg
+                                    );
+                                    $headers = array
+                                    (
+                                        'Authorization: key=' .$API_ACCESS_KEY,
+                                        'Content-Type: application/json'
+                                    );
+                                      //echo json_encode($fields);
+                                      $ch = curl_init();
+                                    curl_setopt($ch, CURLOPT_URL, $url);
+                                    curl_setopt($ch, CURLOPT_POST, true);
+                                    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+                                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                                    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+                                    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+                                    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields));
+                                    $result001 = curl_exec($ch);
+                                    if ($result001 === FALSE) {
+                                        die('FCM Send Error: ' . curl_error($ch));
+                                    }
+                                    curl_close($ch);
+                            }
+
+
 
 		        }
            }
@@ -796,6 +909,54 @@ class OrdersController extends AppController
 		        		}
 		        	}
 
+		        	$customer_details=$this->Orders->Customers->find()
+                            ->where(['Customers.id' => $packed->customer_id])->first();
+                            $mobile=$customer_details->mobile;
+                            $API_ACCESS_KEY=$customer_details->notification_key;
+                            $device_token=$customer_details->device_token;
+                            $device_token1=rtrim($device_token);
+                            
+                            
+                        if(!empty($device_token1))
+                            {
+                            
+                                $msg = array
+                                (
+                                'message'     => 'Thank You, your order packed successfully',
+                                'image'     => '',
+                                'button_text'    => 'Track Your Order',
+                                'link' => 'healthymaster://order?id='.$order_id,    
+                                'notification_id'    => 1,
+                                );
+                                    $url = 'https://fcm.googleapis.com/fcm/send';
+                                    $fields = array
+                                    (
+                                        'registration_ids'     => array($device_token1),
+                                        'data'            => $msg
+                                    );
+                                    $headers = array
+                                    (
+                                        'Authorization: key=' .$API_ACCESS_KEY,
+                                        'Content-Type: application/json'
+                                    );
+                                      //echo json_encode($fields);
+                                      $ch = curl_init();
+                                    curl_setopt($ch, CURLOPT_URL, $url);
+                                    curl_setopt($ch, CURLOPT_POST, true);
+                                    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+                                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                                    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+                                    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+                                    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields));
+                                    $result001 = curl_exec($ch);
+                                    if ($result001 === FALSE) {
+                                        die('FCM Send Error: ' . curl_error($ch));
+                                    }
+                                    curl_close($ch);
+                            }
+
+
+
 		        }
            }
            if($status == 'Dispatch'){
@@ -813,6 +974,53 @@ class OrdersController extends AppController
 		        			$this->Orders->OrderDetails->save($detail);
 		        		}
 		        	}
+		        	
+		        	$customer_details=$this->Orders->Customers->find()
+                            ->where(['Customers.id' => $packed->customer_id])->first();
+                            $mobile=$customer_details->mobile;
+                            $API_ACCESS_KEY=$customer_details->notification_key;
+                            $device_token=$customer_details->device_token;
+                            $device_token1=rtrim($device_token);
+                            
+                            
+                        if(!empty($device_token1))
+                            {
+                            
+                                $msg = array
+                                (
+                                'message'     => 'It is on the way your order has been dispatched',
+                                'image'     => '',
+                                'button_text'    => 'Track Your Order',
+                                'link' => 'healthymaster://order?id='.$order_id,    
+                                'notification_id'    => 1,
+                                );
+                                    $url = 'https://fcm.googleapis.com/fcm/send';
+                                    $fields = array
+                                    (
+                                        'registration_ids'     => array($device_token1),
+                                        'data'            => $msg
+                                    );
+                                    $headers = array
+                                    (
+                                        'Authorization: key=' .$API_ACCESS_KEY,
+                                        'Content-Type: application/json'
+                                    );
+                                      //echo json_encode($fields);
+                                      $ch = curl_init();
+                                    curl_setopt($ch, CURLOPT_URL, $url);
+                                    curl_setopt($ch, CURLOPT_POST, true);
+                                    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+                                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                                    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+                                    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+                                    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields));
+                                    $result001 = curl_exec($ch);
+                                    if ($result001 === FALSE) {
+                                        die('FCM Send Error: ' . curl_error($ch));
+                                    }
+                                    curl_close($ch);
+                            }
+
 
 		        }
            }if($status == 'Delivered'){
@@ -834,6 +1042,53 @@ class OrdersController extends AppController
 		        			$this->Orders->OrderDetails->save($detail);
 		        		}
 		        	}
+
+		        	$customer_details=$this->Orders->Customers->find()
+                            ->where(['Customers.id' => $packed->customer_id])->first();
+                            $mobile=$customer_details->mobile;
+                            $API_ACCESS_KEY=$customer_details->notification_key;
+                            $device_token=$customer_details->device_token;
+                            $device_token1=rtrim($device_token);
+                            
+                            
+                        if(!empty($device_token1))
+                            {
+                            
+                                $msg = array
+                                (
+                                'message'     => 'Wait is over.Your Order has been delivered.Hope you willmenjoy our healthy range.See you soon for your next order',
+                                'image'     => '',
+                                'button_text'    => 'Track Your Order',
+                                'link' => 'healthymaster://order?id='.$order_id,    
+                                'notification_id'    => 1,
+                                );
+                                    $url = 'https://fcm.googleapis.com/fcm/send';
+                                    $fields = array
+                                    (
+                                        'registration_ids'     => array($device_token1),
+                                        'data'            => $msg
+                                    );
+                                    $headers = array
+                                    (
+                                        'Authorization: key=' .$API_ACCESS_KEY,
+                                        'Content-Type: application/json'
+                                    );
+                                      //echo json_encode($fields);
+                                      $ch = curl_init();
+                                    curl_setopt($ch, CURLOPT_URL, $url);
+                                    curl_setopt($ch, CURLOPT_POST, true);
+                                    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+                                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                                    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+                                    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+                                    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields));
+                                    $result001 = curl_exec($ch);
+                                    if ($result001 === FALSE) {
+                                        die('FCM Send Error: ' . curl_error($ch));
+                                    }
+                                    curl_close($ch);
+                            }
+
 
 		        	$order_id=$packed->id;
 		        	//pr($order_id);
@@ -892,12 +1147,12 @@ class OrdersController extends AppController
 		        	$order_id=$packed->id;
 		        	//pr($order_id);
 		        	$order_detail=$this->Orders->OrderDetails->find()->where(['order_id'=>$order_id])->contain(['ItemVariations']);
-					
+
 					foreach ($order_detail as $detail) { 
 					$unit_variation_id=$detail->item_variation->unit_variation_id; 
 					
 					$query = $this->Orders->ItemLedgers->query();
-                    $query->insert(['jain_thela_admin_id', 'driver_id','item_id', 'warehouse_id','order_id', 'purchase_booking_id', 'rate', 'amount', 'status', 'quantity','rate_updated','item_variation_id','unit_variation_id'])
+                    $query->insert(['jain_thela_admin_id', 'driver_id','item_id', 'warehouse_id','order_id', 'purchase_booking_id', 'rate', 'amount', 'status', 'quantity','rate_updated','transaction_date','unit_variation_id','item_variation_id'])
                     ->values([
                         'jain_thela_admin_id' => 1,
                         'driver_id' => 0,
@@ -915,6 +1170,9 @@ class OrdersController extends AppController
                         'rate_updated' => 'OK',
 						'unit_variation_id'=>$unit_variation_id
                     ]);
+
+
+						//pr($query);exit;
                     $query->execute();	        		
 					}		 
 		        }
@@ -1111,7 +1369,7 @@ class OrdersController extends AppController
 							->where(['jain_thela_admin_id'=>$jain_thela_admin_id])
 							->contain(['CustomerAddresses']));
 							$cur_status = 'In Process';
-							 $this->set(compact('orders','cur_status','cur_date','status'));
+							$this->set(compact('orders','cur_status','cur_date','status'));
 		}else if($status =='packed'){
 							$where['Orders.status']='Packed';
 							$cur_date = date('d-m-Y');

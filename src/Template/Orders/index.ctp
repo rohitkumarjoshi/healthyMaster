@@ -81,11 +81,12 @@
 						<tr>
 							<th scope="col">Sr. No.</th>
 							<th scope="col">Order No.</th>
-							<th scope="col">Customer ID</th>
-							<th scope="col">Customer Name</th>
+							<th scope="col">Cus(ID)</th>
+							<th scope="col">Name</th>
 							<th scope="col">Mobile</th>
 							<!--<th scope="col">wallet Amount</th>-->
 							<th scope="col">Locality</th>
+							<th scope="col">Pincode</th>
 							<th scope="col">Grand Total</th>
 							<th scope="col">Mode Of Payment</th>
 							<!-- <th scope="col">Payment Status</th> -->
@@ -94,7 +95,7 @@
 							<!-- <th scope="col">Delivery Date</th>
 							<th scope="col">Delivery Time</th> -->
 							<th scope="col" class="actions"><?= __('Actions') ?></th>
-							<th scope="col" class="">Generate Invoice</th>
+							<th scope="col" class="">Invoice</th>
 							<!-- <th scope="col">Edit</th> -->
 						</tr>
 					</thead>
@@ -146,6 +147,7 @@
 							<td><?= $order->customer->mobile ?></td>
 							<!--<td align="right"><?= $this->Number->format($order->amount_from_wallet) ?></td>-->
 							<td><?= h(@$order->customer_address->locality) ?></td>
+							<td><?= h(@$order->customer_address->pincode) ?></td>
 							<td align="right"><?= $this->Number->format($order->grand_total) ?></td>
 							<td><?= h($order->order_type) ?></td>
 							<!-- Vaibhav Sir<td><?= h($order->payment_status) ?></td> -->
@@ -200,11 +202,16 @@
 							?>
 							<button class="btn btn-primary btn-xs ok" order_id="<?=$order->id ?>" order_from="<?= $order->order_from?>">Ok</button>
 						<?php } ?>
+						<?php if(($order->status =="Cancel")&&($order->order_from=="walkinsales"))
+							{
+							?>
+							<button class="btn btn-primary btn-xs undodel" order_id="<?=$order->id ?>" order_from="<?= $order->order_from?>">Undo</button>
+						<?php } ?>
 						
 							</td>
 							<td>
 								<?php if((empty($order->invoice_no))&&($order->status!="Cancel")){ ?>
-									<input type="button" name="generate" order_id="<?=$order->id ?>" value="Generate Invoice" class="btn btn-success btn-xs generate_invoice" >
+									<input type="button" name="generate" order_id="<?=$order->id ?>" value="Invoice" class="btn btn-success btn-xs generate_invoice" >
 								<?php } ?>
 							</td>
 							<!-- <?php  if(($status=='In Process') || ($status=='In process')){ 
@@ -278,8 +285,28 @@ $(document).ready(function() {
 		});
 	});
 
+	$(document).on('click',".undodel",function(){
+		var order_id=$(this).attr('order_id');
+		var cancel_from=$(this).attr('order_from');
+		//alert(order_id);
+		$.ajax({
+            url: "<?php echo $this->Url->build(["controller" => "Orders", "action" => "undodel"]); ?>",
+            type: 'post',
+            data: {order_id:order_id},
+           success: function (data) {
+           //	alert(data);
+               alert("Your order in process");
+                location.reload();
+               }
+            });
+	});
+
 	 $(document).on('click',".ok",function(){
 		var status=$(this).closest('tr').find('.option_status').val();
+		var order_id=$(this).attr('order_id');
+		var cancel_from=$(this).attr('order_from');
+		
+		//alert(status);
 		if(status =="Delivered")
 		{
 			$(this).closest('tr').find('.ok').hide();
@@ -290,8 +317,8 @@ $(document).ready(function() {
 			$(this).closest('tr').find('.generate_invoice').hide();
 		}
 		
-		var order_id=$(this).attr('order_id');
-		var cancel_from=$(this).attr('order_from');
+		
+		
 		// if(status == "Cancel")
 		// {
 		// 	$.ajax({
@@ -311,7 +338,9 @@ $(document).ready(function() {
             data: {status: status,order_id:order_id},
            success: function (data) {
                //console.log(data);
+               //alert(data);
                alert(status);
+               location.reload();
                }
             });
 		//}
