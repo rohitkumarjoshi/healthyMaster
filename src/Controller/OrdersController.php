@@ -855,7 +855,7 @@ class OrdersController extends AppController
                             
                                 $msg = array
                                 (
-                                'message'     => 'Thank You, your order in process successfully',
+                                'message'     => 'Thanks for your order on Healthy Master.It is under process and will be delivered soon',
                                 'image'     => '',
                                 'button_text'    => 'Track Your Order',
                                 'link' => 'healthymaster://order?id='.$order_id,    
@@ -988,7 +988,7 @@ class OrdersController extends AppController
                             
                                 $msg = array
                                 (
-                                'message'     => 'Thank You, your order dispatch successfully',
+                                'message'     => 'It is on the way your order has been dispatched',
                                 'image'     => '',
                                 'button_text'    => 'Track Your Order',
                                 'link' => 'healthymaster://order?id='.$order_id,    
@@ -1056,7 +1056,7 @@ class OrdersController extends AppController
                             
                                 $msg = array
                                 (
-                                'message'     => 'Thank You, your order delivered successfully',
+                                'message'     => 'Wait is over.Your Order has been delivered.Hope you willmenjoy our healthy range.See you soon for your next order',
                                 'image'     => '',
                                 'button_text'    => 'Track Your Order',
                                 'link' => 'healthymaster://order?id='.$order_id,    
@@ -1369,7 +1369,7 @@ class OrdersController extends AppController
 							->where(['jain_thela_admin_id'=>$jain_thela_admin_id])
 							->contain(['CustomerAddresses']));
 							$cur_status = 'In Process';
-							 $this->set(compact('orders','cur_status','cur_date','status'));
+							$this->set(compact('orders','cur_status','cur_date','status'));
 		}else if($status =='packed'){
 							$where['Orders.status']='Packed';
 							$cur_date = date('d-m-Y');
