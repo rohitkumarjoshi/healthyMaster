@@ -1312,7 +1312,6 @@ curl_close($ch);
 			$this->loadModel('FinalCarts');
 			$FinalCartsQty=$this->actualStock($carts_data_fetch->item_id,$carts_data_fetch->item_variation_id);
 			
-			
 			$QuantityTotalStock=$stockmax-$FinalCartsQty;
 			$ItemVariations=$this->Carts->ItemVariations->find()->where(['ItemVariations.id'=>$carts_data_fetch->item_variation_id])->contain(['UnitVariations'])->first();
 		
