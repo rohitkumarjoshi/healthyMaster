@@ -786,7 +786,7 @@ class OrdersController extends AppController
                             
                                 $msg = array
                                 (
-                                'message'     => 'Thank You, your order cancel successfully',
+                                'message'     => 'your order cancel successfully',
                                 'image'     => '',
                                 'button_text'    => 'Track Your Order',
                                 'link' => 'healthymaster://order?id='.$order_id,    
@@ -922,7 +922,7 @@ class OrdersController extends AppController
                             
                                 $msg = array
                                 (
-                                'message'     => 'Thank You, your order packed successfully',
+                                'message'     => 'your order packed successfully',
                                 'image'     => '',
                                 'button_text'    => 'Track Your Order',
                                 'link' => 'healthymaster://order?id='.$order_id,    
@@ -988,7 +988,7 @@ class OrdersController extends AppController
                             
                                 $msg = array
                                 (
-                                'message'     => 'It is on the way your order has been dispatched',
+                                'message'     => 'It is on the way your order no. '.$packed->order_no.' has been dispatched',
                                 'image'     => '',
                                 'button_text'    => 'Track Your Order',
                                 'link' => 'healthymaster://order?id='.$order_id,    
@@ -1056,7 +1056,7 @@ class OrdersController extends AppController
                             
                                 $msg = array
                                 (
-                                'message'     => 'Wait is over.Your Order has been delivered.Hope you will enjoy our healthy range.See you soon for your next order',
+                                'message'=> 'Wait is over.Your Order no. '.$packed->order_no.' has been delivered.Hope you will enjoy our healthy range.See you soon for your next order',
                                 'image'     => '',
                                 'button_text'    => 'Track Your Order',
                                 'link' => 'healthymaster://order?id='.$order_id,    

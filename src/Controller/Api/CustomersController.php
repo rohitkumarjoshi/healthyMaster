@@ -52,7 +52,7 @@ class CustomersController extends AppController
 					$status=true;
 					$customerDetails=$this->Customers->get($customerDetails->id);
 					$customerDetails->referral_code='HM'.$customerDetails->id;
-					$customerDetails=$this->Customers->save($customerDetails);
+					
 					$customerDetails=$this->Customers->get($customerDetails->id);
 					$error='Customer registration successfully.';
 				}else{ 
@@ -488,7 +488,8 @@ class CustomersController extends AppController
 		
 			$query = $this->Customers->query();
 					$result = $query->update()
-						->set([ 'device_token' => $device_token
+						->set(['device_token' => $device_token,
+						'notification_key'=>'AAAA_7MR4qc:APA91bEB4PE2YzC9zlsb3qnMhTn7WzPqJhnHxqjr_--YdowERJkq2hVCCQXAMEQoHvIo22ymzuYGCJLpe1jJUDlgcPo9eCvoF4jGV92i1ldpTrYHSF7jc7QU-W1B5dhTDA1PpD9DENy7'
 								])
 						->where(['id' => $customer_id])
 						->execute();
