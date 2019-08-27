@@ -52,7 +52,7 @@ class CustomersController extends AppController
 					$status=true;
 					$customerDetails=$this->Customers->get($customerDetails->id);
 					$customerDetails->referral_code='HM'.$customerDetails->id;
-					
+					$customerDetails=$this->Customers->save($customerDetails);
 					$customerDetails=$this->Customers->get($customerDetails->id);
 					$error='Customer registration successfully.';
 				}else{ 
@@ -482,7 +482,8 @@ class CustomersController extends AppController
         $this->set('_serialize', ['status', 'error','jain_cash_points','wallet_balance','profiles']);
     }
 	public function PushTokenUpdate()
-    {
+    { 
+		
 		$customer_id=$this->request->data('customer_id');
 		$device_token=$this->request->data('device_token');
 		

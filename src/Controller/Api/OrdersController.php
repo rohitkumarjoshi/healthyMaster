@@ -324,7 +324,7 @@ class OrdersController extends AppController
 		
 		$orders_data = $this->Orders->find()
 		->where(['customer_id' => $customer_id, 'jain_thela_admin_id' => $jain_thela_admin_id, 'status IN' => ['Delivered','Cancel','In Process','Placed','Packed','Dispatch'] ])
-		->order(['order_date' => 'DESC'])
+		->order(['Orders.id' => 'DESC'])
 		->contain(['OrderDetails'=>function($q){
 				return $q->contain(['ItemVariations' =>['Items','Units']]);
 			}])

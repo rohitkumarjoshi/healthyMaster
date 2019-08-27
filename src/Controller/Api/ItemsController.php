@@ -55,7 +55,12 @@ class ItemsController extends AppController
 			$status=false;
 			$error="No data found";
 		}
-		$cart_count = $this->Items->Carts->find('All')->where(['Carts.customer_id'=>$customer_id])->count();
+		//$cart_count = $this->Items->Carts->find('All')->where(['Carts.customer_id'=>$customer_id])->count();
+		$cart_countdata = $this->Items->Carts->find('All')->where(['Carts.customer_id'=>$customer_id]);
+		$cart_countdata->select(['customer_id','cart_count' => $cart_countdata->func()->sum('Carts.quantity')]);
+					
+		$cart_count=$cart_countdata->first()['cart_count'];
+		
 		$this->set(compact('status', 'error','ItemRows','cart_count'));
 		$this->set('_serialize', ['status', 'error','cart_count','ItemRows']);
 		
@@ -148,7 +153,14 @@ class ItemsController extends AppController
 				->autoFields(true)->order($name_sort)->limit($limit)->page($page);
 			 
 					
-			$cart_count = $this->Items->Carts->find('All')->where(['Carts.customer_id'=>$customer_id])->count();
+			//$cart_count = $this->Items->Carts->find('All')->where(['Carts.customer_id'=>$customer_id])->count();
+			
+			$cart_countdata = $this->Items->Carts->find('All')->where(['Carts.customer_id'=>$customer_id]);
+			$cart_countdata->select(['customer_id','cart_count' => $cart_countdata->func()->sum('Carts.quantity')]);
+					
+			$cart_count=$cart_countdata->first()['cart_count'];
+		
+		
 			
 			if(!empty($items->toArray()))
 			{
@@ -309,7 +321,12 @@ class ItemsController extends AppController
 									}]);
 								}
 							])->limit(10);
-					$cart_count = $this->Items->Carts->find('All')->where(['Carts.customer_id'=>$customer_id])->count();
+					//$cart_count = $this->Items->Carts->find('All')->where(['Carts.customer_id'=>$customer_id])->count();
+					
+					$cart_countdata = $this->Items->Carts->find('All')->where(['Carts.customer_id'=>$customer_id]);
+					$cart_countdata->select(['customer_id','cart_count' => $cart_countdata->func()->sum('Carts.quantity')]);
+					
+					$cart_count=$cart_countdata->first()['cart_count'];
 			
 		$status=true;
 		$error="Item Description found successfully";
@@ -406,7 +423,10 @@ class ItemsController extends AppController
 						}]);
 		}
         
-		$cart_count = $this->Items->Carts->find('All')->where(['Carts.customer_id'=>$customer_id])->count();
+		$cart_countdata = $this->Items->Carts->find('All')->where(['Carts.customer_id'=>$customer_id]);
+					$cart_countdata->select(['customer_id','cart_count' => $cart_countdata->func()->sum('Carts.quantity')]);
+					
+		$cart_count=$cart_countdata->first()['cart_count'];
 		
 		$items = array();
 		if(!empty($view_items->toArray()))
@@ -451,8 +471,11 @@ class ItemsController extends AppController
 		}
 		
 		
-		$cart_count = $this->Items->Carts->find('All')->where(['Carts.customer_id'=>$customer_id])->count();
-
+		$cart_countdata = $this->Items->Carts->find('All')->where(['Carts.customer_id'=>$customer_id]);
+					$cart_countdata->select(['customer_id','cart_count' => $cart_countdata->func()->sum('Carts.quantity')]);
+					
+		$cart_count=$cart_countdata->first()['cart_count'];
+					
         $this->set(compact('status', 'error', 'cart_count', 'search_items'));
         $this->set('_serialize', ['status', 'error', 'cart_count', 'search_items']);
      }
@@ -518,8 +541,11 @@ class ItemsController extends AppController
 		}
 
 
-		$cart_count = $this->Items->Carts->find('All')->where(['Carts.customer_id'=>$customer_id])->count();
-
+		//$cart_count = $this->Items->Carts->find('All')->where(['Carts.customer_id'=>$customer_id])->count();
+		$cart_countdata = $this->Items->Carts->find('All')->where(['Carts.customer_id'=>$customer_id]);
+					$cart_countdata->select(['customer_id','cart_count' => $cart_countdata->func()->sum('Carts.quantity')]);
+					
+		$cart_count=$cart_countdata->first()['cart_count'];
         $this->set(compact('status', 'error', 'cart_count', 'totalItems','searchResult'));
         $this->set('_serialize', ['status', 'error', 'cart_count','totalItems' ,'searchResult']);
 		

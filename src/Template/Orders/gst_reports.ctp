@@ -50,6 +50,9 @@
                             <th scope="col">Item Code</th>
                             <th scope="col">Item Name</th>
                             <th scope="col">Variation</th>
+							<th scope="col">Customer Id</th>
+                            <th scope="col">Customer Name</th>
+                            <th scope="col">Mobile No.</th>
                             <th scope="col">Category</th>
                             <th scope="col">Invoice No.</th>
                             <th scope="col">Date</th>
@@ -64,7 +67,7 @@
                         </tr>
 							</thead>
 							<tbody id='main_tbody' class="tab">
-						<?php $i=1;foreach($gsts as $gst){
+						<?php $i=1;foreach($gsts as $gst){ 
                             @$state_id=$gst->order->customer_address->state->id;
 							$amount=$gst->amount;
 	                        $gst_per=$gst->item->gst_figure->name;
@@ -76,6 +79,9 @@
 	                            <td> <?= $gst->item->item_code?></td>
 	                            <td><?= $gst->item->name ?></td>
 	                            <td><?= $gst->item_variation->quantity_variation?></td>
+	                            <td><?= $gst->order->customer->id?></td>
+	                            <td><?= $gst->order->customer->name?></td>
+	                            <td><?= $gst->order->customer->mobile?></td>
 	                            <td><?= $gst->item->item_category->name?></td>
 	                            <td><?= $gst->order->invoice_no?></td>
 	                            <td><?= $gst->order->invoice_date?></td>

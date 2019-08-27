@@ -299,7 +299,7 @@ class OrdersController extends AppController
 		$this->viewBuilder()->layout(''); 
 		$gsts=$this->Orders->OrderDetails->find()
 		->where(['Orders.invoice_no !='=>' '])
-		->contain(['Orders'=>['CustomerAddresses'=>['States']],'Items'=>['GstFigures','ItemCategories'],'ItemVariations'=>['Units']])
+		->contain(['Orders'=>['Customers','CustomerAddresses'=>['States']],'Items'=>['GstFigures','ItemCategories'],'ItemVariations'=>['Units']])
 		->order(['OrderDetails.id'=>'DESC']);
 		$this->set(compact('gsts'));
 	}
@@ -309,7 +309,7 @@ class OrdersController extends AppController
 		$this->viewBuilder()->layout('index_layout'); 
 		$gsts=$this->Orders->OrderDetails->find()
 		->where(['Orders.invoice_no !='=>' ','OrderDetails.status !='=>'Cancel'])
-		->contain(['Orders'=>['CustomerAddresses'=>['States']],'Items'=>['GstFigures','ItemCategories'],'ItemVariations'=>['Units']])
+		->contain(['Orders'=>['Customers','CustomerAddresses'=>['States']],'Items'=>['GstFigures','ItemCategories'],'ItemVariations'=>['Units']])
 		->order(['OrderDetails.id'=>'DESC']);
 		if ($this->request->is('post')) {
             $datas = $this->request->getData();
