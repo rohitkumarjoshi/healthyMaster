@@ -50,8 +50,9 @@ $html='<div style="background-color:#fff; ">
 	</tr>
 	<tr>
 		<td>&nbsp;</td> 
-	</tr>
-	<tr>
+	</tr>';
+	if($order->customer_address){
+	$html.='<tr>
 		<td colspan="2"> 
 			<b> BUYER NAME AND ADDRESS </b> <br/> 
 			'.@$order->customer_address->name.'  <br/>
@@ -62,7 +63,19 @@ $html='<div style="background-color:#fff; ">
 			<br/>
 			<b> GSTIN : </b>
 		</td>
-	</tr>
+	</tr>';
+	}else{
+	$html.='<tr>
+		<td colspan="2"> 
+			<b> BUYER NAME AND ADDRESS </b> <br/> 
+			'.@$order->customer->name.'  <br/>
+			'.@$order->customer->mobile.' <br/>
+			<br/>
+			<b> GSTIN : </b>
+		</td>
+	</tr>';
+	}
+	$html.='
 	<tr>
 	<td colspan="2">
 		<table border="1" width="100%" style="border:none;" class="item">
@@ -136,20 +149,45 @@ $html='<div style="background-color:#fff; ">
 				
 				</tr>';
 			}
-			$html.='<tr>
-				<td colspan="6" align="right"><b>Total</b> &nbsp;</td>
-				
-				<td>'.$total_taxamount.'</td>
-				<td></td>
-				<td>'.$total_cgst.'</td>
-				<td></td>
-				<td>'.$total_cgst.'</td>
-				<td></td>
-				<td>'.$total_igst.'</td>
-				<td>'.$total_amount.'</td>
-				
-			</tr>';
-			
+			$html.='
+					<!--<tr>
+						<td colspan="6" align="right"><b>Total</b> &nbsp;</td>
+						<td>'.$total_taxamount.'</td>
+						<td></td>
+						<td>'.$total_cgst.'</td>
+						<td></td>
+						<td>'.$total_cgst.'</td>
+						<td></td>
+						<td>'.$total_igst.'</td>
+						<td>'.$total_amount.'</td>
+					</tr>-->';
+					if($order->amount_from_promo_code > 0){
+					$html.='
+					<tr>
+						<td colspan="13" align="right"><b>Discount</b> &nbsp;</td>
+						<td>'.$order->amount_from_promo_code.'</td>
+					</tr>';
+					}
+					
+					if($order->delivery_charge > 0){
+					$html.='
+					<tr>
+						<td colspan="13" align="right"><b>Delivery Charges</b> &nbsp;</td>
+						<td>'.$order->delivery_charge.'</td>
+					</tr>';
+					}
+					if($order->amount_from_wallet > 0){
+					$html.='
+					<tr>
+						<td colspan="13" align="right"><b>Wallet Amount</b> &nbsp;</td>
+						<td> - '.$order->amount_from_wallet.'</td>
+					</tr>';
+					}
+					$html.='
+					<tr>
+						<td colspan="13" align="right"><b>Grand Total</b> &nbsp;</td>
+						<td>'.$order->grand_total.'</td>
+					</tr>';
 			
 		$html.='</table>
 	</td>

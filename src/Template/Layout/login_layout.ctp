@@ -7,7 +7,7 @@
 echo $this->fetch('meta');
  ?>
 
-<link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css"/>
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css"/>
 <?php echo $this->Html->css('/assets/global/plugins/font-awesome/css/font-awesome.min.css'); ?>
 <?php echo $this->Html->css('/assets/global/plugins/simple-line-icons/simple-line-icons.min.css'); ?>
 <?php echo $this->Html->css('/assets/global/plugins/bootstrap/css/bootstrap.min.css'); ?>
@@ -37,7 +37,7 @@ echo $this->fetch('meta');
 </head>
 <body class="login" >
 <!-- --------------------------------start  menu  header--------------------------------------------- -->
-<link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700|PT+Sans+Narrow|Source+Sans+Pro:200,300,400,600,700,900&amp;subset=all" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700|PT+Sans+Narrow|Source+Sans+Pro:200,300,400,600,700,900&amp;subset=all" rel="stylesheet" type="text/css">
  <style type="text/css">
 .title-main {
 	font-weight: 400 !important;
@@ -58,7 +58,7 @@ select
 }
 body
 {
-  background-image: url(<?php echo $this->Url->build(['controller' =>'/img/login-bg.jpg', '_full'=>true, '_ssl'=>false]); ?>);
+  background-image: url(<?php echo $this->Url->build(['controller' =>'/img/login-bg.jpg', '_full'=>true, '_ssl'=>true]); ?>);
 }
 </style>  
 <!--body class="login" style="background:url(/jainthela/img/splash.jpg);" -->
@@ -82,7 +82,7 @@ body
 <!-- END LOGIN -->
 <!-- BEGIN COPYRIGHT -->
 <div class="copyright">
-	 <a href="http://phppoets.com/" target="_blank">2017 &copy; PHPPOETS IT Solution Pvt. Ltd.</a>
+	 <a href="https://phppoets.com/" target="_blank">2017 &copy; PHPPOETS IT Solution Pvt. Ltd.</a>
 </div>
 <!-- END JAVASCRIPTS -->
 </body>

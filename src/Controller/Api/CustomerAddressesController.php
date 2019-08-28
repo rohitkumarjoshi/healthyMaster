@@ -36,16 +36,24 @@ class CustomerAddressesController extends AppController
 		$state_id=$this->request->data('state_id');
 		$customer_address_id=$this->request->data('customer_address_id');
 		$apartment_name=$this->request->data('apartment_name');
+		$default_address=$this->request->data('default_address');
 		//$city='1';
 		
 		if($tag=='add'){
-		    
-		  $query = $this->CustomerAddresses->query();
+		   $bydefult=0;
+		   if($default_address==1){
+				$query = $this->CustomerAddresses->query();
 				$result = $query->update()
                     ->set(['default_address' => 0])
                     ->where(['customer_id' => $customer_id])
                     ->execute();
-					 
+				$bydefult=1;
+		   }
+		   
+		   $defaultAddres=$this->CustomerAddresses->find()->where(['CustomerAddresses.customer_id' => $customer_id,'CustomerAddresses.default_address' => 1])->first();
+			if(empty($defaultAddres)){
+				$bydefult=1;
+			}
 			$query = $this->CustomerAddresses->query();
 					$query->insert(['customer_id', 'name', 'mobile', 'house_no', 'address', 'locality', 'default_address','landmark','pincode','address_type','city_id','state_id','apartment_name'])
 							->values([
@@ -61,7 +69,7 @@ class CustomerAddressesController extends AppController
 							'city_id'=>$city_id,
 							'state_id'=> $state_id,
 							'apartment_name'=> $apartment_name,
-							'default_address' => 1
+							'default_address' => $bydefult
 							])
 					->execute();
 			$error="Added Successfully";			

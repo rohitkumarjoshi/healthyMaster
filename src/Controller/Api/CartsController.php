@@ -40,17 +40,20 @@ class CartsController extends AppController
 		$item_variation_id=$this->request->query('item_variation_id');
 		$customer_id=$this->request->query('customer_id');
 		$max_qt=0;
+		$stockmessage='';
 		$stockmax=$this->currentStock($item_id,$item_variation_id,$customer_id);
 		if($stockmax >= 0){
 			
 			if($stockmax > 5){
 				$max_qt=5;
+				$stockmessage="Maximum order Limit Reached.";
 			}else{
 				$max_qt=$stockmax;
+				$stockmessage="Sold Out. Will be in stock soon!";
 			}
 		}
-		$this->set(compact('max_qt'));
-        $this->set('_serialize', ['max_qt']);;
+		$this->set(compact('max_qt','stockmessage'));
+        $this->set('_serialize', ['max_qt','stockmessage']);
 		
 	}
     public function plusAddToCart()
@@ -61,14 +64,16 @@ class CartsController extends AppController
 		$customer_id=$this->request->data('customer_id');
 		$max_qt=0;
 		$stockmax=$this->currentStock($item_id,$item_variation_id,$customer_id);
-		
+		$stockmessage='';
 		//pr($stockmax);exit;
 		if($stockmax > 0){
 			
 		if($stockmax > 5){
 			$max_qt=5;
+			$stockmessage="Maximum order Limit Reached.";
 		}else{
 			$max_qt=$stockmax;
+			$stockmessage="Sold Out. Will be in stock soon!";
 		}
 		$items = $this->Carts->Items->get($item_id);
 		//$item_add_quantity=$items->minimum_quantity_factor;
@@ -124,11 +129,11 @@ class CartsController extends AppController
 
 		$status=true;
 		$error="Item successfully added";
-        $this->set(compact('status', 'error','carts','cart_count','max_qt'));
-        $this->set('_serialize', ['status', 'error', 'carts','cart_count','max_qt']);
+        $this->set(compact('status', 'error','carts','cart_count','max_qt','stockmessage'));
+        $this->set('_serialize', ['status', 'error', 'carts','cart_count','max_qt','stockmessage']);
 		}else{
 		$status=false;
-		$error="Item Out of Stock";	
+		$error="Sold Out.Will be in stock soon!";	
 		$cart_count=0;
 		$carts=(object)[];
 		$this->set(compact('status', 'error','carts','cart_count','max_qt'));
@@ -559,7 +564,7 @@ class CartsController extends AppController
 				
 				}
 			}
-		
+			$min_order_value=@$DeliveryCharges->min_order_value;
 			
 			/* $this->loadModel('Pincodes');
 			$PincodesData=$this->Pincodes->find()->select('id')->where(['pincode' => $pincode])->order(['id' =>'DESC'])->first();
@@ -711,8 +716,8 @@ class CartsController extends AppController
 				
 			$status=true;
 			$error='Cart data found successfully';
-			$this->set(compact('status', 'error','address_available','grand_total','carts','delivery_charges','subtotal','discount_amount','isPromoApplied','totalPoints','remaningPoints','redeem_points','isPointsRedeem','CustomerAddresses','cart_count'));
-			$this->set('_serialize', ['status', 'error','isPointsRedeem','totalPoints','redeem_points','remaningPoints','subtotal','delivery_charges','discount_amount','isPromoApplied','grand_total','address_available','carts','CustomerAddresses','cart_count']);
+			$this->set(compact('status', 'error','address_available','grand_total','carts','delivery_charges','subtotal','discount_amount','isPromoApplied','totalPoints','remaningPoints','redeem_points','isPointsRedeem','CustomerAddresses','cart_count','min_order_value'));
+			$this->set('_serialize', ['status', 'error','isPointsRedeem','totalPoints','redeem_points','remaningPoints','subtotal','delivery_charges','discount_amount','isPromoApplied','grand_total','address_available','carts','CustomerAddresses','cart_count','min_order_value']);
 		}
 	}
 	
@@ -1093,10 +1098,11 @@ class CartsController extends AppController
 			$this->set('_serialize', ['status', 'error']);
 		}
 		else{
+			$min_order_value=@$DeliveryCharges->min_order_value;
 			$status=true;
 			$error='Cart reviewed successfully';
-			$this->set(compact('status', 'error','totalPoints','temp_order_no','grand_total','totalItems','carts','delivery_charges','subtotal','discount_amount','isPromoApplied','customer_addresses','remaningPoints','redeem_points','isPointsRedeem','CustomerAddresses','cart_count'));
-			$this->set('_serialize', ['status', 'error','temp_order_no','isPointsRedeem','totalPoints','redeem_points','remaningPoints','subtotal','delivery_charges','discount_amount','isPromoApplied','grand_total','totalItems','carts','customer_addresses','CustomerAddresses','cart_count']);
+			$this->set(compact('status', 'error','totalPoints','temp_order_no','grand_total','totalItems','carts','delivery_charges','subtotal','discount_amount','isPromoApplied','customer_addresses','remaningPoints','redeem_points','isPointsRedeem','CustomerAddresses','cart_count','min_order_value'));
+			$this->set('_serialize', ['status', 'error','temp_order_no','isPointsRedeem','totalPoints','redeem_points','remaningPoints','subtotal','delivery_charges','discount_amount','isPromoApplied','grand_total','totalItems','carts','customer_addresses','CustomerAddresses','cart_count','min_order_value']);
 		}
     }
 
