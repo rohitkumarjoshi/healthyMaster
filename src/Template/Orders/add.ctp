@@ -54,7 +54,7 @@ background-color: #fff;}
 
 					<div class="col-md-2">
 						<label>Payment Mode<span>*</span></label>
-						<select name="order_type" class="form-control select2me input-sm" required="required">
+						<select name="order_type" class="form-control select2me input-sm order_type" required="required">
 							<option value="">--Select--</option>
 							<option value="COD">COD</option>
 							<option value="Paytm">Paytm</option>
@@ -64,11 +64,11 @@ background-color: #fff;}
 					</div>
 					<div class="col-md-2">
 						<label class="control-label">Order Date <span class="required" aria-require>*</span></label>
-						<?php echo $this->Form->control('order_date1',['placeholder'=>'dd-mm-yyyy','class'=>'form-control input-sm date-picker','data-date-format'=>'dd-mm-yyyy','label'=>false,'type'=>'text','value'=>date('d-m-Y')]); ?>
+						<?php echo $this->Form->control('order_date1',['placeholder'=>'dd-mm-yyyy','class'=>'form-control input-sm date-picker','data-date-start-date'=>date('d-m-Y'),'data-date-format'=>'dd-mm-yyyy','label'=>false,'type'=>'text','value'=>date('d-m-Y')]); ?>
 					</div>
 					<div class="col-md-2">
 						<label class="control-label">Delivery Date<span class="required" aria-require>*</span></label>
-						<?php echo $this->Form->control('delivery_date',['placeholder'=>'dd-mm-yyyy','class'=>'form-control input-sm date-picker','data-date-format'=>'dd-mm-yyyy','label'=>false,'type'=>'text','value'=>date('d-m-Y')]); ?>
+						<?php echo $this->Form->control('delivery_date',['placeholder'=>'dd-mm-yyyy','class'=>'form-control input-sm date-picker','data-date-start-date'=>date('d-m-Y'),'data-date-format'=>'dd-mm-yyyy','label'=>false,'type'=>'text','value'=>date('d-m-Y')]); ?>
 						<?php echo $this->Form->control('delivery_time',['class'=>'form-control input-sm','label'=>false,'type'=>'hidden','value'=>date("G:i a")]); ?>
 					</div>
 					<!-- Vaibhav Sir <div class="col-md-2">
@@ -176,7 +176,7 @@ background-color: #fff;}
 							<tfoot>
 								<tr>
 									<td colspan="5" style="text-align:right;">
-									<a class="btn btn-default input-sm add_row" href="#" role="button"  style="float: left;"><i class="fa fa-plus"></i> Add Row</a>
+									<a class="btn btn-default input-sm add_row" href="#" role="button"  style="float: left;display:none"><i class="fa fa-plus"></i> Add Row</a>
 									 Total Amount</td>
 									<td>
 									<?php echo $this->Form->input('total_amount', ['label' => false,'class' => 'form-control input-sm number cal_amount','placeholder'=>'Total Amount','type'=>'text','readonly']); ?>
@@ -230,7 +230,7 @@ background-color: #fff;}
 				<center>
 				<a class="btn btn-primary  btn-condensed all_calculation" role="button" >Check Stock</a>
 				<?= $this->Form->button(__('Submit'),['class'=>'btn btn-primary submit_btn','style'=>'display:none']) ?>
-				<!--<?= $this->Form->button($this->Html->tag('i', '', ['class'=>'fa fa-plus']) . __(' Submit'),['class'=>'btn btn-success']); ?>-->
+				<!--<?= $this->Form->button($this->Html->tag('i', '', ['class'=>'fa fa-plus ']) . __(' Submit'),['class'=>'btn btn-success']); ?>-->
 				</center>
 				<?= $this->Form->end() ?>
 			</div>
@@ -276,13 +276,36 @@ $(document).ready(function() {
                 }
             });
           }
+	
+		
+	window.setInterval(function(){
+		hidesubmitbtn();
+	}, 5000);
+	
+	$(document).on('change','.order_type',function(){
+		hidesubmitbtn();
 	});
+	
+	function hidesubmitbtn(){
+		$('.all_calculation').css('display','');
+		$('.submit_btn').css('display','none');
+		$('.OutOfStockItem').html("");
+	}
+
 	
 	$('form').bind("keypress", function(e) {
 		if (e.keyCode == 13) {
 			e.preventDefault();
 			return false;
 		}
+	});
+	$(document).on('click','.submit_btn',function(){
+		var rowCount = $('#main_table tbody#main_tbody tr').length; 
+		if(rowCount>1)
+		{
+			$('.submit_btn').css('display','none');
+		}
+		
 	});
 	$(document).on('click','.prev',function(){
 		//alert();
@@ -295,6 +318,20 @@ $(document).ready(function() {
           		 window.open(url+'/'+customer_id, '_blank');
 			}
 	});
+	$(document).on('click','.box1',function(){
+		var customer_id=$('#customer_id').val();
+		var url ="<?php echo $this->Url->build(["controller" => "Carts", "action" => "deleteCartsOnLoad"]); ?>";
+			url=url+"?customer_id="+customer_id;
+			$.ajax({
+			url: url,
+			dataType: 'json',
+			}).success(function(response) {  
+
+			}); 
+			$('.add_row').css('display','');
+			add_row();
+			
+	});
 
 	$(document).on('change','.show_quantity',function(){
 		//alert();
@@ -304,35 +341,38 @@ $(document).ready(function() {
 		
 	});
 
+	
 	$(document).on('change','.varition',function(){
 		var input=$(this).val();
-
+		var customer_id=$('#customer_id').val();
         var master = $(this); 
 		//alert(input);
 		if(input.length>0){
-            var m_data = new FormData();
-            var url ="<?php echo $this->Url->build(["controller" => "Orders", "action" => "getprice"]); ?>";
-         // alert(input);
-            m_data.append('input',input); 
-            $.ajax({
+           
+			var url ="<?php echo $this->Url->build(["controller" => "Orders", "action" => "getprice"]); ?>";
+
+			url=url+"?input="+input+"&customer_id="+customer_id;
+			 
+			  $.ajax({
                 url: url,
-                data: m_data,
                 processData: false,
                 contentType: false,
-                type: 'POST',
+                type: 'GET',
                 dataType:'text',
                 success: function(response)
-                { 
+                {  
 					var nameArr = response.split(',');
                 	var rte=(nameArr[0]);
-                	var mxx=(nameArr[1]);  //alert(response);
+                	var mxx=(nameArr[1]);  
 					master.closest('tr').find('td:nth-child(5) .rat_value').val(rte);
 					master.closest('tr').find('td:nth-child(4) .show_quantity').val(0);
 					master.closest('tr').find('span.total').html(mxx);
                 }
             });
+          
             }
 			calculate_total();
+			hidesubmitbtn();
 	});
 
 	$(document).on('change','.item-id',function(){
@@ -358,11 +398,13 @@ $(document).ready(function() {
                 { 
 					master.closest('tr').find('td:nth-child(3) .varition').append(data);
 					master.closest('tr').find('span.total').html('');
+					master.closest('tr').find('td:nth-child(4) .show_quantity').val(0);
                 }
             });
         }
 		
 		calculate_total();
+		hidesubmitbtn();
       });
 
 	  $(document).on('blur',".autocompleted",function(){ //alert("blur");
@@ -397,6 +439,85 @@ $(document).ready(function() {
         }
     });
 
+	
+	$(document).on('change','.newItemId',function(){ 
+		//var item_id =$(this).data('previous',$(this).val());
+		var old_item_id =$(this).attr('old_value');
+		var item_id =$(this).closest('tr').find('td:nth-child(2) option:selected').val();
+		var item_variation_id=$(this).attr('old_variation_value');
+		$(this).attr('old_value',item_id);
+		var customer_id=$('#customer_id').val();
+		if(old_item_id != item_id && customer_id > 0){
+			
+			var url ="<?php echo $this->Url->build(["controller" => "Carts", "action" => "deleteCarts"]); ?>";
+			url=url+"?item_id="+old_item_id+"&varition_id="+item_variation_id+"&customer_id="+customer_id+"&new_variation="+item_variation_id;
+			
+			$.ajax({
+			url: url,
+			dataType: 'json',
+			}).success(function(response) {  
+				//master.closest('tr').find('span.total').html(response);
+			}); 
+		}
+		
+		
+	});
+	
+	$(document).on('change','.newvarition',function(){ 
+		var item_variation_id=$(this).closest('tr').find('td:nth-child(3) option:selected').val();
+		var customer_id=$('#customer_id').val();
+		var old_variation_value=$(this).closest('tr').find('td:nth-child(2) .newItemId').attr('old_variation_value');
+		var old_item_id =$(this).closest('tr').find('td:nth-child(2) option:selected').val();
+		var master=$(this);
+		if(old_variation_value != item_variation_id && customer_id > 0){
+			var url ="<?php echo $this->Url->build(["controller" => "Carts", "action" => "deleteCarts"]); ?>";
+			url=url+"?item_id="+old_item_id+"&varition_id="+old_variation_value+"&customer_id="+customer_id+"&new_variation="+item_variation_id;
+			
+			$.ajax({
+			url: url,
+			dataType: 'json',
+			}).success(function(response) {  
+				master.closest('tr').find('span.total').html(response);
+			}); 
+		}
+		$(this).closest('tr').find('td:nth-child(2) .newItemId').attr('old_variation_value',item_variation_id);
+		//addToCart();
+	});
+	
+	$(document).on('blur','.newQuantity',function(){ 
+		var item_id =$(this).closest('tr').find('td:nth-child(2) option:selected').val();
+		var item_variation_id=$(this).closest('tr').find('td:nth-child(3) option:selected').val();
+		var quantity=$(this).val();
+		var customer_id=$(this).find('#customer_id').val();
+		var maxQt=$(this).closest('tr').find('span.total').html();
+		
+		if(quantity > 0 && quantity <= maxQt){
+			addToCart();
+		}
+	});
+	
+	function addToCart(){
+		$("#main_table tbody#main_tbody tr.main_tr").each(function(){ 
+			var item_id=$(this).find('.item-id option:selected').val();
+			var varition_id=$(this).find('.varition option:selected').val();
+			var show_quantity=$(this).find('.show_quantity').val();
+			var customer_id=$('#customer_id').val();
+			var tt=$(this);
+			
+			 var url ="<?php echo $this->Url->build(["controller" => "Carts", "action" => "addCarts"]); ?>";
+			 
+				url=url+"?item_id="+item_id+"&varition_id="+varition_id+"&customer_id="+customer_id+"&quantity="+show_quantity;
+				
+				$.ajax({
+					url: url,
+					dataType: 'json',
+				}).success(function(response) {  
+				tt.closest('tr').find('span.total').html(response);	
+			}); 
+			
+		});
+		hidesubmitbtn();
+	}
  
 
 	
@@ -465,21 +586,7 @@ $(document).ready(function() {
 
 	});
 	
-	var time = new Date().getTime();
-		 $(document.body).bind('mousemove keypress', function(e) {
-			 time = new Date().getTime();
-		 });
-		function refresh() {
-			 if(new Date().getTime() - time >= 5000){ 
-				 //window.location.reload(true);
-				 $('.all_calculation').css('display','');
-				$('.submit_btn').css('display','none');
-			 } else {
-				 setTimeout(refresh, 1000);
-			}
-		}
 
-		setTimeout(refresh, 1000);
 	
 	/* $('.autofill').select2({
             minimumInputLength: 1,
@@ -522,6 +629,7 @@ $(document).ready(function() {
 			var item_id=$(this).find('.item-id option:selected').val();
 			var varition_id=$(this).find('.varition option:selected').val();
 			var show_quantity=$(this).find('.show_quantity').val();
+			
 			var tt=$(this);
 			
 			var url ="<?php echo $this->Url->build(["controller" => "Orders", "action" => "currentStockData"]); ?>";
@@ -564,11 +672,21 @@ $(document).ready(function() {
 		if(rowCount>1)
 		{
 			 $(this).closest('tr').remove();
-			 $("#main_table tbody#main_tbody tr.main_tr").each(function(){ 
-			 
-			total_amount+=parseFloat($(this).find("td:nth-child(6) input").val());
+			var item_id=$(this).closest('tr').find('.item-id option:selected').val();
+			var varition_id=$(this).closest('tr').find('.varition option:selected').val();
+			var customer_id=$('#customer_id').val();
+			var url ="<?php echo $this->Url->build(["controller" => "Carts", "action" => "deleteCarts"]); ?>";
+			url=url+"?item_id="+item_id+"&varition_id="+varition_id+"&customer_id="+customer_id;
 			
-		});
+			$.ajax({
+			url: url,
+			dataType: 'json',
+			}).success(function(response) {  
+
+			}); 
+			 /* $("#main_table tbody#main_tbody tr.main_tr").each(function(){ 
+				total_amount+=parseFloat($(this).find("td:nth-child(6) input").val());
+			}); */
 		var amount_from_wallet=parseFloat($('input[name=amount_from_wallet]').val());
 		//var total_amount=total_amount-amount_from_wallet;
 		//$('input[name=total_amount]').val(total_amount);
@@ -580,17 +698,19 @@ $(document).ready(function() {
 		}
 		rename_rows();
 		calculate_total();
+		addToCart();
     });
 
 	$('.add_row').click(function(){
 		$('.all_calculation').css('display','');
 		$('.submit_btn').css('display','none');
+		$('.OutOfStockItem').html("");
 		add_row();
 		calculate_total();
 		
 	});
 
-	add_row();
+	
 	calculate_total();
 	function add_row(){
 		var tr=$("#sample_table tbody tr.main_tr").clone();
@@ -782,10 +902,11 @@ function round(value, exp) {
 		var minimum_quantity_factor = parseFloat($(this).attr('minimum_quantity_factor'));
 		var item_id =$(this).closest('tr').find('td:nth-child(2) select').val();
 		var variation_id =$(this).closest('tr').find('td:nth-child(3) select').val();
+		var customer_id =$('#customer_id').val();
         $.ajax({
-            url: "<?php echo $this->Url->build(["controller" => "ItemLedgers", "action" => "ajaxQuantityNew"]); ?>",
+            url: "<?php echo $this->Url->build(["controller" => "Orders", "action" => "getPriceNeww"]); ?>",
             type: 'post',
-            data: {item_id: item_id,variation_id:variation_id},
+            data: {item_id: item_id,variation_id:variation_id,customer_id:customer_id},
            success: function(data)   // A function to be called if request succeeds
 					{
 						master.closest('tr').find('span.total').html(data);
@@ -807,6 +928,7 @@ function round(value, exp) {
 		// //$(this).closest('tr').find('.mains').val(g_total.toFixed(2));
 		// $(this).closest('tr').find('.mainss').val(g_total.toFixed(2));
 		calculate_total();
+		addToCart();
 	});
 	
 	$(document).on('keyup', '.number', function(e)
@@ -1119,6 +1241,7 @@ function round(value, exp) {
 	// 			$('.amount_from_wallet').attr('max',response);
 	// 		});
 	// });
+	
 	$(document).on('change','.modal_mobile',function(){
 		var input=$(this).val();
 
@@ -1260,11 +1383,11 @@ function selectAutoCompleted1(value) {
 				<tr class="main_tr" class="tab">
 					<td align="center" width="1px"></td>
 				    <td>
-				    	<?php echo $this->Form->control('item_id',['empty'=>'--Select Item--','options' => $items,'class'=>'form-control input-sm chosen-select item-id','label'=>false]); ?>
+				    	<?php echo $this->Form->control('item_id',['empty'=>'--Select Item--','options' => $items,'class'=>'form-control input-sm chosen-select item-id newItemId','label'=>false,'old_value'=>0,'old_variation_value'=>0]); ?>
 						<span style="color:red" class="OutOfStockItem"></span>
 					</td>
 					<td>
-						<select name="variation" class="form-control input-sm varition">
+						<select name="variation" class="form-control input-sm varition newvarition" >
 							
 							
 						</select>
@@ -1272,7 +1395,7 @@ function selectAutoCompleted1(value) {
 						<span class="msg_shw2" style="color:blue;font-size:12px;"></span>
 					</td>
 					<td>
-						<?php echo $this->Form->input('show_quantity', ['label' => false,'class' => 'form-control input-sm number cal_amount quant show_quantity','placeholder'=>'Quantity','min'=>1]); ?>
+						<?php echo $this->Form->input('show_quantity', ['label' => false,'class' => 'form-control input-sm number cal_amount quant show_quantity newQuantity','placeholder'=>'Quantity','min'=>1]); ?>
 						
 						<span class="msg_shw2 total"  style="color:blue;font-size:12px;"></span>
 							<?php echo $this->Form->input('quantity', ['label' => false,'class' => 'form-control input-sm number mains quantity','value'=>0, 'type'=>'hidden']); ?>

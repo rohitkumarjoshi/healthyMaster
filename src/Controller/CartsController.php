@@ -88,6 +88,69 @@ class CartsController extends AppController
      *
      * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
      */
+    public function deleteCarts(){
+		$item_id=$this->request->query('item_id');
+		$item_variation_id=$this->request->query('varition_id');
+		$customer_id=$this->request->query('customer_id');
+		$new_item_variation_id=$this->request->query('new_variation');
+		
+		$query = $this->Carts->query();
+			$result = $query->delete()
+			->where(['item_id' => $item_id,'item_variation_id' => $item_variation_id,'customer_id' => $customer_id])
+			->execute();
+		
+		$maxQt=$this->currentStockNew($item_id,$new_item_variation_id,$customer_id);
+		
+		echo $maxQt;
+		exit;
+	}
+	public function deleteCartsOnLoad(){
+		$customer_id=$this->request->query('customer_id');
+		
+		$query = $this->Carts->query();
+			$result = $query->delete()
+			->where(['customer_id' => $customer_id])
+			->execute();
+		echo "true";
+		exit;
+	}
+	public function addCarts(){
+		$item_id=$this->request->query('item_id');
+		$item_variation_id=$this->request->query('varition_id');
+		$customer_id=$this->request->query('customer_id');
+		$item_add_quantity=$this->request->query('quantity');
+		
+		/* $query = $this->Carts->query();
+				$result = $query->delete()
+				->where(['Carts.customer_id'=>$customer_id])
+				->execute(); */
+				
+		$cartData=$this->Carts->find()->where(['Carts.customer_id'=>$customer_id,'Carts.item_variation_id'=>$item_variation_id,'Carts.item_id'=>$item_id])->first();
+		if($cartData){
+			$query = $this->Carts->query();
+				$result = $query->update()
+                    ->set(['quantity' => $item_add_quantity, 'cart_count' => $item_add_quantity, 'is_combo' => 0])
+                    ->where(['id' => $cartData->id])
+                    ->execute();
+		}else{ 
+		
+		$query = $this->Carts->query();
+					$query->insert(['customer_id', 'item_id','item_variation_id','quantity', 'cart_count', 'is_combo','add_from'])
+							->values([
+							'customer_id' => $customer_id,
+							'item_id' => $item_id,
+							'item_variation_id' => $item_variation_id,
+							'quantity' => $item_add_quantity,
+							'cart_count' => $item_add_quantity,
+							'add_from' => 'Web',
+							'is_combo' => 0
+							])
+					->execute();
+		}
+		$maxQt=$this->currentStockNew($item_id,$item_variation_id,$customer_id);
+		echo $maxQt;
+		exit;
+	}
     public function add()
     {
         $cart = $this->Carts->newEntity();

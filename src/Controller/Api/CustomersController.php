@@ -482,13 +482,15 @@ class CustomersController extends AppController
         $this->set('_serialize', ['status', 'error','jain_cash_points','wallet_balance','profiles']);
     }
 	public function PushTokenUpdate()
-    {
+    { 
+		
 		$customer_id=$this->request->data('customer_id');
 		$device_token=$this->request->data('device_token');
 		
 			$query = $this->Customers->query();
 					$result = $query->update()
-						->set([ 'device_token' => $device_token
+						->set(['device_token' => $device_token,
+						'notification_key'=>'AAAA_7MR4qc:APA91bEB4PE2YzC9zlsb3qnMhTn7WzPqJhnHxqjr_--YdowERJkq2hVCCQXAMEQoHvIo22ymzuYGCJLpe1jJUDlgcPo9eCvoF4jGV92i1ldpTrYHSF7jc7QU-W1B5dhTDA1PpD9DENy7'
 								])
 						->where(['id' => $customer_id])
 						->execute();

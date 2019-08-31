@@ -144,8 +144,12 @@ class ItemCategoriesController extends AppController
 			}
 			
 		}
+		$cart_countdata = $this->ItemCategories->Carts->find('All')->where(['Carts.customer_id'=>$customer_id]);
+		$cart_countdata->select(['customer_id','cart_count' => $cart_countdata->func()->sum('Carts.quantity')]);
+					
+		$cart_count=$cart_countdata->first()['cart_count'];
 		
-		$cart_count = $this->ItemCategories->Carts->find('All')->where(['Carts.customer_id'=>$customer_id])->count();
+		//$cart_count = $this->ItemCategories->Carts->find('All')->where(['Carts.customer_id'=>$customer_id])->count();
 		$wishlist_count = $this->ItemCategories->Wishlists->find('All')->where(['Wishlists.customer_id'=>$customer_id])->count();
 		
 		//-- New Arrival
@@ -247,7 +251,13 @@ class ItemCategoriesController extends AppController
 					 return $q->where(['ChildItemCategories.is_deleted' =>0]);
 				 }]);
 		// pr($categoryList->toArray()); exit;
-		$cart_count = $this->ItemCategories->Carts->find('All')->where(['Carts.customer_id'=>$customer_id])->count();	
+		//$cart_count = $this->ItemCategories->Carts->find('All')->where(['Carts.customer_id'=>$customer_id])->count();
+		
+		$cart_countdata = $this->ItemCategories->Carts->find('All')->where(['Carts.customer_id'=>$customer_id]);
+		$cart_countdata->select(['customer_id','cart_count' => $cart_countdata->func()->sum('Carts.quantity')]);
+					
+		$cart_count=$cart_countdata->first()['cart_count'];
+		
 		$status=true;
 		$error="Category List Successfully";
         $this->set(compact('status', 'error', 'categoryList','cart_count'));

@@ -324,7 +324,7 @@ class OrdersController extends AppController
 		
 		$orders_data = $this->Orders->find()
 		->where(['customer_id' => $customer_id, 'jain_thela_admin_id' => $jain_thela_admin_id, 'status IN' => ['Delivered','Cancel','In Process','Placed','Packed','Dispatch'] ])
-		->order(['order_date' => 'DESC'])
+		->order(['Orders.id' => 'DESC'])
 		->contain(['OrderDetails'=>function($q){
 				return $q->contain(['ItemVariations' =>['Items','Units']]);
 			}])
@@ -1311,7 +1311,6 @@ curl_close($ch);
 			
 			$this->loadModel('FinalCarts');
 			$FinalCartsQty=$this->actualStock($carts_data_fetch->item_id,$carts_data_fetch->item_variation_id);
-			
 			
 			$QuantityTotalStock=$stockmax-$FinalCartsQty;
 			$ItemVariations=$this->Carts->ItemVariations->find()->where(['ItemVariations.id'=>$carts_data_fetch->item_variation_id])->contain(['UnitVariations'])->first();

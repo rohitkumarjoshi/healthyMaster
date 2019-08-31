@@ -210,7 +210,7 @@
 						
 							</td>
 							<td>
-								<?php if((empty($order->invoice_no))&&($order->status!="Cancel")){ ?>
+								<?php if(((empty($order->invoice_no))&&($order->status=="Delivered")) || ((empty($order->invoice_no))&&($order->status=="Dispatch"))){ ?>
 									<input type="button" name="generate" order_id="<?=$order->id ?>" value="Invoice" class="btn btn-success btn-xs generate_invoice" >
 								<?php } ?>
 							</td>

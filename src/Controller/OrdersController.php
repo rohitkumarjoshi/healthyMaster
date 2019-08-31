@@ -299,7 +299,7 @@ class OrdersController extends AppController
 		$this->viewBuilder()->layout(''); 
 		$gsts=$this->Orders->OrderDetails->find()
 		->where(['Orders.invoice_no !='=>' '])
-		->contain(['Orders'=>['CustomerAddresses'=>['States']],'Items'=>['GstFigures','ItemCategories'],'ItemVariations'=>['Units']])
+		->contain(['Orders'=>['Customers','CustomerAddresses'=>['States']],'Items'=>['GstFigures','ItemCategories'],'ItemVariations'=>['Units']])
 		->order(['OrderDetails.id'=>'DESC']);
 		$this->set(compact('gsts'));
 	}
@@ -309,7 +309,7 @@ class OrdersController extends AppController
 		$this->viewBuilder()->layout('index_layout'); 
 		$gsts=$this->Orders->OrderDetails->find()
 		->where(['Orders.invoice_no !='=>' ','OrderDetails.status !='=>'Cancel'])
-		->contain(['Orders'=>['CustomerAddresses'=>['States']],'Items'=>['GstFigures','ItemCategories'],'ItemVariations'=>['Units']])
+		->contain(['Orders'=>['Customers','CustomerAddresses'=>['States']],'Items'=>['GstFigures','ItemCategories'],'ItemVariations'=>['Units']])
 		->order(['OrderDetails.id'=>'DESC']);
 		if ($this->request->is('post')) {
             $datas = $this->request->getData();
@@ -394,16 +394,30 @@ class OrdersController extends AppController
 	}
 
 	public function getPrice(){
-        $item_variation_id=$this->request->getData('input'); 
+        $item_variation_id=$this->request->query('input'); 
+        $customer_id=$this->request->query('customer_id'); 
         //$item_variation_id=32; 
         $items=$this->Orders->OrderDetails->ItemVariations->find()->where(['ItemVariations.id '=>$item_variation_id])->first();
         $temp=[];
         $temp[]=$items->sales_rate;	
-		$maxQt=$this->currentStock($items->item_id,$item_variation_id);
+		$maxQt=$this->currentStockNew($items->item_id,$item_variation_id,$customer_id);
 		$temp[]=$maxQt;	
 		
 		//$temp1[]= implode(",",$temp); 
 		echo implode(",",$temp);
+        exit;  
+    }
+	
+	public function getPriceNeww(){
+        $item_variation_id=$this->request->getData('variation_id'); 
+        $customer_id=$this->request->getData('customer_id'); 
+        //$item_variation_id=32; 
+        $items=$this->Orders->OrderDetails->ItemVariations->find()->where(['ItemVariations.id '=>$item_variation_id])->first();
+        
+		$maxQt=$this->currentStockNew($items->item_id,$item_variation_id,$customer_id);
+		
+		//$temp1[]= implode(",",$temp); 
+		echo $maxQt;
         exit;  
     }
 	public function currentStockData($item_variation_id=null){
@@ -786,7 +800,7 @@ class OrdersController extends AppController
                             
                                 $msg = array
                                 (
-                                'message'     => 'Thank You, your order cancel successfully',
+                                'message'     => 'your order cancel successfully',
                                 'image'     => '',
                                 'button_text'    => 'Track Your Order',
                                 'link' => 'healthymaster://order?id='.$order_id,    
@@ -922,7 +936,7 @@ class OrdersController extends AppController
                             
                                 $msg = array
                                 (
-                                'message'     => 'Thank You, your order packed successfully',
+                                'message'     => 'your order packed successfully',
                                 'image'     => '',
                                 'button_text'    => 'Track Your Order',
                                 'link' => 'healthymaster://order?id='.$order_id,    
@@ -988,7 +1002,7 @@ class OrdersController extends AppController
                             
                                 $msg = array
                                 (
-                                'message'     => 'It is on the way your order has been dispatched',
+                                'message'     => 'It is on the way your order no. '.$packed->order_no.' has been dispatched',
                                 'image'     => '',
                                 'button_text'    => 'Track Your Order',
                                 'link' => 'healthymaster://order?id='.$order_id,    
@@ -1056,7 +1070,7 @@ class OrdersController extends AppController
                             
                                 $msg = array
                                 (
-                                'message'     => 'Wait is over.Your Order has been delivered.Hope you will enjoy our healthy range.See you soon for your next order',
+                                'message'     => 'Wait is over.Your Order no. '.$packed->order_no.' has been delivered.Hope you will enjoy our healthy range.See you soon for your next order',
                                 'image'     => '',
                                 'button_text'    => 'Track Your Order',
                                 'link' => 'healthymaster://order?id='.$order_id,    
@@ -2038,6 +2052,12 @@ class OrdersController extends AppController
 					$ledgers->debit = '0';
 					$ledgers->credit = ($order->grand_total+$order->amount_from_wallet);
 					$this->Orders->Ledgers->save($ledgers);
+				
+				$this->loadModel('Carts');
+				$queryy = $this->Carts->query();
+				$result = $queryy->delete()
+					->where(['customer_id' => $order->customer_id])
+					->execute(); 
 				
 				$this->Flash->success(__('The order has been saved.'));
 				if($order_type == 'Bulkorder'){
