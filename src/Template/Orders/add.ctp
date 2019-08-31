@@ -38,7 +38,7 @@ background-color: #fff;}
 						<input type="number" name="customer" class="form-control input-sm selectedAutoCompleted autocompleted customer_id cstmr chosen-select" valueType="item_name" id="mobile" autocomplete="off" required maxlength=10 minlength=10>
 						<input type="hidden" name="customer_id" id="customer_id" required>
 						
-						 <div class="suggesstion-box box"  autocomplete="off"></div>
+						 <div class="suggesstion-box box box1"  autocomplete="off"></div>
 					</div>
 					<a href="#" role="button" class="btn btn-xs green pull-left plus" style="margin-top: 26px;" >
 							 +</a>
@@ -241,6 +241,12 @@ background-color: #fff;}
 <?php echo $this->Html->script('/assets/global/plugins/jquery.min.js'); ?>
 <script>
 $(document).ready(function() {
+
+	// $('.box1').on('click',function()
+	// {
+	// 	$
+	// 	alert();
+	// });
 
 	$('#mobile').on('change',function()
 	{		
